@@ -1,17 +1,4 @@
 <style>
-[data-bs-theme=light] {
-    .table-striped > tbody > tr:nth-of-type(odd) > * {
-        --bs-table-bg-type: #f9f9f9;
-    }
-    .table-hover > tbody > tr:hover {
-        background-color: #f6f6f6;
-    }
-}
-
-.table {
-    --bs-table-bg: unset;
-}
-
 table tr th {
     text-align: center;
     vertical-align: middle;
@@ -34,7 +21,7 @@ table tr th {
                                 <th rowspan="2">No.</th>
                                 <th rowspan="2">Sumber Dana</th>
                                 <th rowspan="2">Jenis Dana</th>
-                                <th colspan="3">Jumlah Dana (Rp)</th>
+                                <th colspan="3">Dana (Rp)</th>
                                 <th rowspan="2">Jumlah (Rp)</th>
                             </tr>
                             <tr>

@@ -102,6 +102,24 @@ if (userSession('id_role') == 1) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Perolehan Dana'))) {
+    $routes->group("$slug_role/perolehan-dana", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PerolehanDana::main');
+    });
+    $routes->group('api/perolehan-dana', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->post('update/(:segment)', 'PerolehanDana::update/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Penggunaan Dana'))) {
+    $routes->group("$slug_role/penggunaan-dana", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PenggunaanDana::main');
+    });
+    $routes->group('api/penggunaan-dana', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->post('update/(:segment)', 'PenggunaanDana::update/$1');
+    });
+}
+
 /*--------------------------------------------------------------
   # Master Data
 --------------------------------------------------------------*/
@@ -144,17 +162,6 @@ if (in_array($id_role, roleAccessByTitle('Form Input'))) {
         $routes->post('update/(:segment)', 'FormInput::update/$1');
         $routes->post('delete/(:segment)', 'FormInput::delete/$1');
         $routes->get('export-excel', 'FormInput::exportExcel');
-    });
-}
-
-if (in_array($id_role, roleAccessByTitle('Perolehan Dana'))) {
-    $routes->group("$slug_role/perolehan-dana", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'PerolehanDana::main');
-        $routes->get('edit/(:segment)', 'PerolehanDana::edit/$1');
-    });
-    $routes->group('api/perolehan-dana', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'PerolehanDana::index');
-        $routes->post('update/(:segment)', 'PerolehanDana::update/$1');
     });
 }
 

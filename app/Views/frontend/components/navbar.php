@@ -3,13 +3,6 @@ $app_settings = model('AppSettings')->find(1);
 $logo_web = webFile('image', 'app_settings', $app_settings['logo'], $app_settings['updated_at']);
 $uri = service('uri');
 $uri->setSilent(true);
-
-$berita_ditemukan = false;
-$slug_berita = model('Berita')->select('slug')->findAll();
-$slug_berita = array_column($slug_berita, 'slug');
-if ($uri->getSegment(1) == 'berita' OR in_array($uri->getSegment(1), $slug_berita)) {
-    $berita_ditemukan = true;
-}
 ?>
 
 <style>
@@ -41,16 +34,6 @@ if ($uri->getSegment(1) == 'berita' OR in_array($uri->getSegment(1), $slug_berit
             <div class="navbar-nav w-100 pt-3 pb-2 py-md-0">
                 <a class="nav-link <?= ($uri->getSegment(1) == '') ? 'nav-active' : '' ?>" href="<?= base_url() ?>">Beranda</a>
                 <a class="nav-link <?= ($uri->getSegment(1) == 'galeri') ? 'nav-active' : '' ?>" href="<?= base_url() ?>galeri">Galeri</a>
-                <a class="nav-link <?= $berita_ditemukan ? 'nav-active' : '' ?>" href="<?= base_url() ?>berita">Berita</a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link <?= in_array($uri->getSegment(1), ['event', 'calendar']) ? 'nav-active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Activities <i class="fa-solid fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu border-0">
-                        <li><a class="dropdown-item text-nowrap <?= ($uri->getSegment(1) == 'event') ? 'nav-active' : '' ?>" href="<?= base_url() ?>event">Event</a></li>
-                        <li><a class="dropdown-item text-nowrap <?= ($uri->getSegment(1) == 'calendar') ? 'nav-active' : '' ?>" href="<?= base_url() ?>calendar">Calender</a></li>
-                    </ul>
-                </li>
                 <div class="ms-lg-auto mt-3 mt-lg-0">
                     <?php
                     if (userSession()) :

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 17, 2025 at 02:54 PM
+-- Generation Time: Aug 17, 2025 at 11:23 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -258,7 +258,40 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (108, 3, 2, 'Keuangan', 'keuangan', '::1', 'Success', '2025-08-17 12:56:14', '2025-08-17 12:56:14'),
 (109, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-17 12:59:12', '2025-08-17 12:59:12'),
 (110, 3, 2, 'Keuangan', 'keuangan', '::1', 'Success', '2025-08-17 13:20:27', '2025-08-17 13:20:27'),
-(111, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-17 20:44:08', '2025-08-17 20:44:08');
+(111, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-17 20:44:08', '2025-08-17 20:44:08'),
+(112, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-18 05:42:21', '2025-08-18 05:42:21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penggunaan_dana`
+--
+
+CREATE TABLE `penggunaan_dana` (
+  `id` bigint NOT NULL,
+  `grup` int NOT NULL,
+  `nama_jenis_dana` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ts_2` int NOT NULL,
+  `ts_1` int NOT NULL,
+  `ts_0` int NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `penggunaan_dana`
+--
+
+INSERT INTO `penggunaan_dana` (`id`, `grup`, `nama_jenis_dana`, `ts_2`, `ts_1`, `ts_0`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Dana Operasional Proses Pembelajaran', 1694905893, 1572978965, 1534232341, '2025-08-17 22:50:44', '2025-08-18 06:15:02'),
+(2, 1, 'Dana Penelitian', 54000000, 48000000, 48000000, '2025-08-17 22:50:44', '2025-08-17 22:50:44'),
+(3, 1, 'Dana Pengabdian Kepada Masyarakat', 22500000, 22500000, 25500000, '2025-08-17 22:50:44', '2025-08-18 06:08:56'),
+(4, 1, 'Investasi Prasarana', 369652324, 353895894, 333547493, '2025-08-17 22:50:44', '2025-08-18 06:10:28'),
+(5, 1, 'Investasi Sarana', 85942070, 40425600, 35424200, '2025-08-17 22:50:44', '2025-08-18 06:12:39'),
+(6, 1, 'Investasi SDM', 83385000, 106244000, 114887500, '2025-08-17 22:50:44', '2025-08-18 06:13:34'),
+(7, 1, 'Lain-lain', 0, 0, 0, '2025-08-17 22:50:44', '2025-08-18 06:13:47'),
+(8, 2, 'Dana Penelitian', 0, 0, 0, '2025-08-17 22:50:44', '2025-08-18 06:19:53'),
+(9, 2, 'Dana PKM', 0, 0, 0, '2025-08-17 22:50:44', '2025-08-18 06:20:37');
 
 -- --------------------------------------------------------
 
@@ -383,6 +416,12 @@ ALTER TABLE `log_login`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `penggunaan_dana`
+--
+ALTER TABLE `penggunaan_dana`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `perolehan_dana`
 --
 ALTER TABLE `perolehan_dana`
@@ -426,7 +465,13 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+
+--
+-- AUTO_INCREMENT for table `penggunaan_dana`
+--
+ALTER TABLE `penggunaan_dana`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `perolehan_dana`
