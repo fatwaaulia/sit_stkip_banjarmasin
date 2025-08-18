@@ -142,9 +142,9 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
 		[
-			'title'	=> 'Neraca Keuangan',
+			'title'	=> 'Neraca',
 			'icon'	=> 'fa-solid fa-money-check',
-			'url'	=> base_url() . userSession('slug_role') . '/neraca-keuangan',
+			'url'	=> base_url() . userSession('slug_role') . '/neraca',
 			'role'	=> [1, 2],
 			'type'	=> 'no-collapse',
 		],

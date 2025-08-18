@@ -120,6 +120,12 @@ if (in_array($id_role, roleAccessByTitle('Penggunaan Dana'))) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Neraca'))) {
+    $routes->group("$slug_role/neraca", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Neraca::main');
+    });
+}
+
 /*--------------------------------------------------------------
   # Master Data
 --------------------------------------------------------------*/

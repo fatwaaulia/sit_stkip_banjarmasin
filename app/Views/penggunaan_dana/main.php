@@ -108,10 +108,10 @@ table tr th {
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center"><?= dotsNumber($v2['ts_2']) ?></td>
-                                <td class="text-center"><?= dotsNumber($v2['ts_1']) ?></td>
-                                <td class="text-center"><?= dotsNumber($v2['ts_0']) ?></td>
-                                <td class="text-center"><?= dotsNumber($jumlah_ts_sebaris) ?></td>
+                                <td class="text-end"><?= dotsNumber($v2['ts_2']) ?></td>
+                                <td class="text-end"><?= dotsNumber($v2['ts_1']) ?></td>
+                                <td class="text-end"><?= dotsNumber($v2['ts_0']) ?></td>
+                                <td class="text-end"><?= dotsNumber($jumlah_ts_sebaris) ?></td>
                             </tr>
                             <?php endforeach; ?>
                             <?php
@@ -123,19 +123,19 @@ table tr th {
                             <tr>
                                 <td></td>
                                 <td class="fw-600 text-center">Jumlah</td>
-                                <td class="fw-600 text-center"><?= dotsNumber($jumlah_ts_2) ?></td>
-                                <td class="fw-600 text-center"><?= dotsNumber($jumlah_ts_1) ?></td>
-                                <td class="fw-600 text-center"><?= dotsNumber($jumlah_ts_0) ?></td>
-                                <td class="fw-600 text-center"><?= dotsNumber($jumlah_ts_sumber_dana) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber($jumlah_ts_2) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber($jumlah_ts_1) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber($jumlah_ts_0) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber($jumlah_ts_sumber_dana) ?></td>
                             </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <td></td>
                                 <td class="fw-600 text-center">Total</td>
-                                <td class="fw-600 text-center"><?= dotsNumber($total_jumlah_ts_2) ?></td>
-                                <td class="fw-600 text-center"><?= dotsNumber($total_jumlah_ts_1) ?></td>
-                                <td class="fw-600 text-center"><?= dotsNumber($total_jumlah_ts_0) ?></td>
-                                <td class="fw-600 text-center"><?= dotsNumber($total_jumlah_ts_sumber_dana) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber($total_jumlah_ts_2) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber($total_jumlah_ts_1) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber($total_jumlah_ts_0) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber($total_jumlah_ts_sumber_dana) ?></td>
                             </tr>
                         </tbody>
                     </table>
