@@ -15,7 +15,7 @@ table tr th {
         <div class="col-12">
             <div class="card p-3">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered">
+                    <table class="table table-striped table-hover table-bordered text-nowrap">
                         <thead class="bg-primary-subtle">
                             <tr>
                                 <th rowspan="2">No.</th>

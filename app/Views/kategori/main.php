@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover table-bordered" id="myTable">
+                <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: renderOpsi,
-                className: 'text-nowrap',
             },
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });

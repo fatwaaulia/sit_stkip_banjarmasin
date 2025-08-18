@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 17, 2025 at 11:23 PM
+-- Generation Time: Aug 18, 2025 at 09:15 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -259,7 +259,8 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (109, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-17 12:59:12', '2025-08-17 12:59:12'),
 (110, 3, 2, 'Keuangan', 'keuangan', '::1', 'Success', '2025-08-17 13:20:27', '2025-08-17 13:20:27'),
 (111, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-17 20:44:08', '2025-08-17 20:44:08'),
-(112, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-18 05:42:21', '2025-08-18 05:42:21');
+(112, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-18 05:42:21', '2025-08-18 05:42:21'),
+(113, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-18 13:09:06', '2025-08-18 13:09:06');
 
 -- --------------------------------------------------------
 
@@ -292,6 +293,31 @@ INSERT INTO `penggunaan_dana` (`id`, `grup`, `nama_jenis_dana`, `ts_2`, `ts_1`, 
 (7, 1, 'Lain-lain', 0, 0, 0, '2025-08-17 22:50:44', '2025-08-18 06:13:47'),
 (8, 2, 'Dana Penelitian', 0, 0, 0, '2025-08-17 22:50:44', '2025-08-18 06:19:53'),
 (9, 2, 'Dana PKM', 0, 0, 0, '2025-08-17 22:50:44', '2025-08-18 06:20:37');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penyusutan_inventaris`
+--
+
+CREATE TABLE `penyusutan_inventaris` (
+  `id` bigint NOT NULL,
+  `nama_barang` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `tanggal_beli` date NOT NULL,
+  `harga_beli` int NOT NULL,
+  `umur_ekonomis` int NOT NULL,
+  `nilai_residu` int NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `penyusutan_inventaris`
+--
+
+INSERT INTO `penyusutan_inventaris` (`id`, `nama_barang`, `tanggal_beli`, `harga_beli`, `umur_ekonomis`, `nilai_residu`, `created_at`, `updated_at`) VALUES
+(1, 'Komputer', '2024-02-13', 5000000, 3, 500000, '2025-08-18 13:57:06', '2025-08-18 15:49:15'),
+(2, 'Printer', '2023-06-01', 2000000, 4, 200000, '2025-08-18 15:51:44', '2025-08-18 15:51:44');
 
 -- --------------------------------------------------------
 
@@ -422,6 +448,12 @@ ALTER TABLE `penggunaan_dana`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `penyusutan_inventaris`
+--
+ALTER TABLE `penyusutan_inventaris`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `perolehan_dana`
 --
 ALTER TABLE `perolehan_dana`
@@ -465,13 +497,19 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `penggunaan_dana`
 --
 ALTER TABLE `penggunaan_dana`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `penyusutan_inventaris`
+--
+ALTER TABLE `penyusutan_inventaris`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `perolehan_dana`

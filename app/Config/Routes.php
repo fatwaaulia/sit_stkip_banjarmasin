@@ -126,6 +126,16 @@ if (in_array($id_role, roleAccessByTitle('Neraca'))) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Penyusutan Inventaris'))) {
+    $routes->get("$slug_role/penyusutan-inventaris", 'PenyusutanInventaris::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/penyusutan-inventaris', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PenyusutanInventaris::index');
+        $routes->post('create', 'PenyusutanInventaris::create');
+        $routes->post('update/(:segment)', 'PenyusutanInventaris::update/$1');
+        $routes->post('delete/(:segment)', 'PenyusutanInventaris::delete/$1');
+    });
+}
+
 /*--------------------------------------------------------------
   # Master Data
 --------------------------------------------------------------*/
