@@ -136,6 +136,54 @@ if (in_array($id_role, roleAccessByTitle('Penyusutan Inventaris'))) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Tahun Akademik'))) {
+    $routes->get("$slug_role/tahun-akademik", 'TahunAkademik::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/tahun-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'TahunAkademik::index');
+        $routes->post('create', 'TahunAkademik::create');
+        $routes->post('update/(:segment)', 'TahunAkademik::update/$1');
+        $routes->post('delete/(:segment)', 'TahunAkademik::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Program Studi'))) {
+    $routes->get("$slug_role/program-studi", 'ProgramStudi::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/program-studi', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'ProgramStudi::index');
+        $routes->post('create', 'ProgramStudi::create');
+        $routes->post('update/(:segment)', 'ProgramStudi::update/$1');
+        $routes->post('delete/(:segment)', 'ProgramStudi::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Dosen'))) {
+    $routes->group("$slug_role/dosen", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Dosen::main');
+        $routes->get('new', 'Dosen::new');
+        $routes->get('edit/(:segment)', 'Dosen::edit/$1');
+    });
+    $routes->group('api/dosen', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Dosen::index');
+        $routes->post('create', 'Dosen::create');
+        $routes->post('update/(:segment)', 'Dosen::update/$1');
+        $routes->post('delete/(:segment)', 'Dosen::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Mahasiswa'))) {
+    $routes->group("$slug_role/mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Mahasiswa::main');
+        $routes->get('new', 'Mahasiswa::new');
+        $routes->get('edit/(:segment)', 'Mahasiswa::edit/$1');
+    });
+    $routes->group('api/mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Mahasiswa::index');
+        $routes->post('create', 'Mahasiswa::create');
+        $routes->post('update/(:segment)', 'Mahasiswa::update/$1');
+        $routes->post('delete/(:segment)', 'Mahasiswa::delete/$1');
+    });
+}
+
 /*--------------------------------------------------------------
   # Master Data
 --------------------------------------------------------------*/
@@ -161,32 +209,5 @@ if (in_array($id_role, roleAccessByTitle('User Management'))) {
         $routes->post('update/(:segment)', 'Users::update/$1');
         $routes->post('delete/(:segment)', 'Users::delete/$1');
         $routes->post('foto/delete/(:segment)', 'Users::hapusFoto/$1');
-    });
-}
-
-if (in_array($id_role, roleAccessByTitle('Form Input'))) {
-    $routes->group("$slug_role/form-input", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'FormInput::main');
-        $routes->get('new', 'FormInput::new');
-        $routes->get('edit/(:segment)', 'FormInput::edit/$1');
-        $routes->get('unduh-pdf', 'FormInput::unduhPDF');
-    });
-    $routes->group('api/form-input', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'FormInput::index');
-        $routes->get('detail/(:segment)', 'FormInput::detail/$1');
-        $routes->post('create', 'FormInput::create');
-        $routes->post('update/(:segment)', 'FormInput::update/$1');
-        $routes->post('delete/(:segment)', 'FormInput::delete/$1');
-        $routes->get('export-excel', 'FormInput::exportExcel');
-    });
-}
-
-if (in_array($id_role, roleAccessByTitle('Kategori'))) {
-    $routes->get("$slug_role/kategori", 'Kategori::main', ['filter' => 'EnsureLogin']);
-    $routes->group('api/kategori', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Kategori::index');
-        $routes->post('create', 'Kategori::create');
-        $routes->post('update/(:segment)', 'Kategori::update/$1');
-        $routes->post('delete/(:segment)', 'Kategori::delete/$1');
     });
 }

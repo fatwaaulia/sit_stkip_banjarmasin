@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Kategori extends Model
+class TahunAkademik extends Model
 {
-    protected $table         = 'kategori';
+    protected $table         = 'tahun_akademik';
     protected $protectFields = false;
     protected $useTimestamps = true;
 }

@@ -31,16 +31,19 @@
                                     <div class="invalid-feedback" id="invalid_nama"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                    <select class="form-select" id="jenis_kelamin" name="jenis_kelamin">
-                                        <option value="">Pilih</option>
-                                        <?php
-                                        $jenis_kelamin = ['Laki-laki', 'Perempuan'];
-                                        foreach ($jenis_kelamin as $v) :
-                                        ?>
-                                        <option value="<?= $v ?>"><?= $v ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <label class="form-label">Jenis Kelamin</label>
+                                    <?php
+                                    $jenis_kelamin = ['Laki-laki', 'Perempuan'];
+                                    foreach ($jenis_kelamin as $v) :
+                                        $checked = ($v == $data['jenis_kelamin']) ? 'selected' : '';
+                                    ?>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="<?= $v ?>" name="jenis_kelamin" value="<?= $v ?>" <?= $checked ?>>
+                                        <label class="form-check-label" for="<?= $v ?>">
+                                            <?= $v ?>
+                                        </label>
+                                    </div>
+                                    <?php endforeach; ?>
                                     <div class="invalid-feedback" id="invalid_jenis_kelamin"></div>
                                 </div>
                                 <div class="mb-3">
@@ -93,7 +96,10 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3 float-end">Tambahkan</button>
+                        <div class="mt-3 float-end">
+                            <a href="<?= $base_route ?>" class="btn btn-secondary me-2">Kembali</a>
+                            <button type="submit" class="btn btn-primary">Tambahkan</button>
+                        </div>
                     </form>
                 </div>
             </div>

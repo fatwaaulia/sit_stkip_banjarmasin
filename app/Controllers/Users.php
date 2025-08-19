@@ -36,8 +36,9 @@ class Users extends BaseController
     public function new()
     {
         $data = [
-            'base_api' => $this->base_api,
-            'title'    => 'Add User',
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add User',
         ];
 
         $view['sidebar'] = view('dashboard/sidebar');
@@ -48,10 +49,11 @@ class Users extends BaseController
     public function edit($id = null)
     {
         $data = [
-            'base_api'  => $this->base_api,
-            'base_name' => $this->base_name,
-            'data'      => model($this->model_name)->find($id),
-            'title'     => 'Edit User',
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => model($this->model_name)->find($id),
+            'title'      => 'Edit User',
         ];
 
         $view['sidebar'] = view('dashboard/sidebar');

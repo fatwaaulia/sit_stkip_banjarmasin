@@ -1,8 +1,5 @@
 <style>
-table tr th {
-    text-align: center;
-    vertical-align: middle;
-}
+table tr th { text-align: center; }
 </style>
 
 <section class="container-fluid">

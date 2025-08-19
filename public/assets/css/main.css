@@ -305,6 +305,10 @@ input:focus,
 }
 
 .table { --bs-table-bg: unset; }
+.table tr th,
+.table tr td {
+    vertical-align: middle;
+}
 
 @media (min-width: 768px) {
     .w-md-25 { width: 25%!important; }

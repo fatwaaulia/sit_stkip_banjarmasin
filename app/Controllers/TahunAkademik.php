@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-class Kategori extends BaseController
+class TahunAkademik extends BaseController
 {
     protected $base_name;
     protected $model_name;
 
     public function __construct()
     {
-        $this->base_name   = 'kategori';
+        $this->base_name   = 'tahun_akademik';
         $this->model_name  = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->base_name)));
     }
 
@@ -58,6 +58,8 @@ class Kategori extends BaseController
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['periode_mulai'] = date('d-m-Y', strtotime($v['periode_mulai']));
+            $data[$key]['periode_selesai'] = date('d-m-Y', strtotime($v['periode_selesai']));
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime($v['created_at']));
         }
 
@@ -71,7 +73,10 @@ class Kategori extends BaseController
     public function create()
     {
         $rules = [
-            'nama' => "required|is_unique[$this->base_name.nama]",
+            'tahun_akademik'  => 'required',
+            'tipe'            => 'required',
+            'periode_mulai'   => 'required',
+            'periode_selesai' => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -85,7 +90,10 @@ class Kategori extends BaseController
 
         // Lolos Validasi
         $data = [
-            'nama' => $this->request->getVar('nama'),
+            'tahun_akademik'  => $this->request->getVar('tahun_akademik'),
+            'tipe'            => $this->request->getVar('tipe'),
+            'periode_mulai'   => $this->request->getVar('periode_mulai'),
+            'periode_selesai' => $this->request->getVar('periode_selesai'),
         ];
 
         model($this->model_name)->insert($data);
@@ -100,7 +108,10 @@ class Kategori extends BaseController
     public function update($id = null)
     {
         $rules = [
-            'nama' => "required|is_unique[$this->base_name.nama,id,$id]",
+            'tahun_akademik'  => 'required',
+            'tipe'            => 'required',
+            'periode_mulai'   => 'required',
+            'periode_selesai' => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -114,7 +125,10 @@ class Kategori extends BaseController
 
         // Lolos Validasi
         $data = [
-            'nama' => $this->request->getVar('nama'),
+            'tahun_akademik'  => $this->request->getVar('tahun_akademik'),
+            'tipe'            => $this->request->getVar('tipe'),
+            'periode_mulai'   => $this->request->getVar('periode_mulai'),
+            'periode_selesai' => $this->request->getVar('periode_selesai'),
         ];
 
         model($this->model_name)->update($id, $data);

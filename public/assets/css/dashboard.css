@@ -92,6 +92,8 @@
     img#eye_passconf {
         filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(180deg);
     }
+
+    .text-dark { color: var(--dark-theme-white-color)!important; }
 }
 
 /*--------------------------------------------------------------

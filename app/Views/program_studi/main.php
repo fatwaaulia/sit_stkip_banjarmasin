@@ -1,3 +1,7 @@
+<?php
+$contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
+?>
+
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/datatables/css/dataTables.dataTables.min.css">
 
@@ -28,9 +32,27 @@
                                     <form id="form">
                                         <div class="modal-body">
                                             <div class="mb-3">
+                                                <label for="jenjang" class="form-label">Jenjang</label>
+                                                <select class="form-select" id="jenjang" name="jenjang">
+                                                    <option value="">Pilih</option>
+                                                    <?php
+                                                    $jenjang = ['S1'];
+                                                    foreach ($jenjang as $v) :
+                                                    ?>
+                                                    <option value="<?= $v ?>"><?= $v ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <div class="invalid-feedback" id="invalid_jenjang"></div>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="nama" class="form-label">Nama</label>
                                                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama">
                                                 <div class="invalid-feedback" id="invalid_nama"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="singkatan" class="form-label">Singkatan</label>
+                                                <input type="text" class="form-control" id="singkatan" name="singkatan" placeholder="Masukkan singkatan">
+                                                <div class="invalid-feedback" id="invalid_singkatan"></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -54,7 +76,9 @@
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
+                            <th>Jenjang</th>
                             <th>Nama</th>
+                            <th>Singkatan</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -70,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ajax: '<?= $get_data ?>',
         processing: true,
         serverSide: true,
+        searching: false,
         order: [],
         initComplete: function (settings, json) {
             $('#myTable').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');
@@ -79,8 +104,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: 'nama',
+                name: '',
+                data: 'jenjang',
+            }, {
+                name: '',
                 data: 'nama',
+            }, {
+                name: '',
+                data: 'singkatan',
             }, {
                 name: '',
                 data: null,
@@ -91,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function renderOpsi(data) {
+    const jenjang = ['S1'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -106,9 +138,22 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label for="jenjang" class="form-label">jenjang</label>
+                            <select class="form-select" id="jenjang" name="jenjang">
+                                <option value="">Pilih</option>
+                                ${jenjang.map(item => `<option value="${item}" ${item == data.jenjang ? 'selected' : ''}>${item}</option>`).join('')}
+                            </select>
+                            <div class="invalid-feedback" id="invalid_jenjang"></div>
+                        </div>
+                        <div class="mb-3">
                             <label for="nama" class="form-label">Nama</label>
                             <input type="text" class="form-control" id="nama" name="nama" value="${data.nama}" placeholder="Masukkan nama">
                             <div class="invalid-feedback" id="invalid_nama"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="singkatan" class="form-label">Singkatan</label>
+                            <input type="text" class="form-control" id="singkatan" name="singkatan" value="${data.singkatan}" placeholder="Masukkan singkatan">
+                            <div class="invalid-feedback" id="invalid_singkatan"></div>
                         </div>
                     </div>
                     <div class="modal-footer">

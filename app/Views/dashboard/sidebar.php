@@ -7,6 +7,10 @@ $logo_web = webFile('image', 'app_settings', $app_settings['logo'], $app_setting
 	<div class="d-flex align-items-center justify-content-between">
 		<a href="<?= base_url(userSession('slug_role')) . '/dashboard' ?>" class="logo d-flex align-items-center">
 			<img src="<?= $logo_web ?>" alt="<?= $app_settings['nama_aplikasi'] ?>" title="<?= $app_settings['nama_aplikasi'] ?>">
+            <div class="text-dark ms-2 mt-3 d-none d-md-block">
+                <small>Sistem Informasi Terpadu</small>
+                <p class="fw-500 mt-1">STKIP ISM BANJARMASIN</p>
+            </div>
 		</a>
 		<i class="fa-solid fa-bars toggle-sidebar-btn"></i>
 	</div>

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class FormInput extends Model
+class ProgramStudi extends Model
 {
-    protected $table         = 'form_input';
+    protected $table         = 'program_studi';
     protected $protectFields = false;
     protected $useTimestamps = true;
 }
