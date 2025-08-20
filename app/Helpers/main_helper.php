@@ -107,6 +107,15 @@ function compressConvertImage($get_file, $upload_path, $filename)
     $image->save($upload_path . $filename, 60);
 }
 
+function lowCompressConvertImage($get_file, $upload_path, $filename)
+{
+    $image = service('image');
+    $image->withFile($get_file);
+    $image->convert(IMAGETYPE_JPEG);
+    $image->flatten(255, 255, 255);
+    $image->save($upload_path . $filename, 60);
+}
+
 /*--------------------------------------------------------------
   # Menu Sidebar
 --------------------------------------------------------------*/
@@ -121,11 +130,16 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
 		[
-			'title'	=> 'Laman Akreditas',
+			'title'	=> 'Laman Akreditasi',
 			'icon'	=> 'fa-solid fa-house',
 			'url'	=> '/',
 			'role'	=> [1, 2, 3],
 			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'KEUANGAN',
+			'role'	=> [1, 2],
+			'type'	=> 'heading',
 		],
 		[
 			'title'	=> 'Perolehan Dana',
@@ -153,6 +167,37 @@ function menuSidebar()
 			'icon'	=> 'fa-solid fa-money-check',
 			'url'	=> base_url() . userSession('slug_role') . '/penyusutan-inventaris',
 			'role'	=> [1, 2],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Tagihan Mahasiswa',
+			'icon'	=> 'fa-solid fa-tag',
+			'url'	=> base_url(userSession('slug_role')) . '/tagihan-mahasiswa',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'AKADEMIK',
+			'role'	=> [1, 3],
+			'type'	=> 'heading',
+		],
+		[
+			'title'	=> 'Kalender Akademik',
+			'icon'	=> 'fa-solid fa-calendar',
+			'url'	=> base_url() . userSession('slug_role') . '/kalender-akademik',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'KEMAHASISWAAN',
+			'role'	=> [1],
+			'type'	=> 'heading',
+		],
+        [
+			'title'	=> 'Mahasiswa Cuti / DO',
+			'icon'	=> 'fa-solid fa-toggle-off',
+			'url'	=> base_url() . userSession('slug_role') . '/status-mahasiswa',
+			'role'	=> [1],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -199,6 +244,13 @@ function menuSidebar()
 			'title'	=> 'Mahasiswa',
 			'icon'	=> 'fa-solid fa-address-card',
 			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
+		],
+		[
+			'title'	=> 'Tarif SPP',
+			'icon'	=> 'fa-solid fa-tag',
+			'url'	=> base_url(userSession('slug_role')) . '/tarif-spp',
 			'role'	=> [1, 3],
 			'type'	=> 'no-collapse',
 		],

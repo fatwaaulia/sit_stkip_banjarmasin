@@ -32,35 +32,14 @@ $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
                                     <form id="form">
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
-                                                <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik" placeholder="Contoh: <?= $contoh_tahun_akademik ?>" oninput="this.value=this.value.replace(/[^0-9/]/g,'')">
-                                                <div class="form-text">
-                                                    Pastikan penulisan benar "<?= $contoh_tahun_akademik ?>"
-                                                </div>
-                                                <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
+                                                <label for="nama" class="form-label">Nama</label>
+                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama">
+                                                <div class="invalid-feedback" id="invalid_nama"></div>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">Tipe</label>
-                                                <?php
-                                                $tipe = ['Ganjil', 'Genap'];
-                                                foreach ($tipe as $v) :
-                                                ?>
-                                                <div class="form-check">
-                                                    <input type="radio" class="form-check-input" id="<?= $v ?>" name="tipe" value="<?= $v ?>">
-                                                    <label class="form-check-label" for="<?= $v ?>"><?= $v ?></label>
-                                                </div>
-                                                <?php endforeach; ?>
-                                                <div class="invalid-feedback" id="invalid_tipe"></div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="periode_mulai" class="form-label">Periode Mulai</label>
-                                                <input type="date" class="form-control" id="periode_mulai" name="periode_mulai">
-                                                <div class="invalid-feedback" id="invalid_periode_mulai"></div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="periode_selesai" class="form-label">Periode Selesai</label>
-                                                <input type="date" class="form-control" id="periode_selesai" name="periode_selesai">
-                                                <div class="invalid-feedback" id="invalid_periode_selesai"></div>
+                                                <label for="biaya" class="form-label">Biaya</label>
+                                                <input type="text" inputmode="numeric" class="form-control" name="biaya" placeholder="Masukkan biaya" oninput="this.value = dotsNumber(this.value)">
+                                                <div class="invalid-feedback" id="invalid_biaya"></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -84,10 +63,8 @@ $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Tahun Akademik</th>
-                            <th>Tipe</th>
-                            <th>Periode Mulai</th>
-                            <th>Periode Selesai</th>
+                            <th>Nama</th>
+                            <th>Biaya</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -114,16 +91,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: 'no_urut',
             }, {
                 name: '',
-                data: 'tahun_akademik',
+                data: 'nama',
             }, {
                 name: '',
-                data: 'tipe',
-            }, {
-                name: '',
-                data: 'periode_mulai',
-            }, {
-                name: '',
-                data: 'periode_selesai',
+                data: 'biaya',
             }, {
                 name: '',
                 data: null,
@@ -134,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function renderOpsi(data) {
-    const tipe = ['Ganjil', 'Genap'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -150,32 +120,14 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
-                            <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik" value="${data.tahun_akademik}" placeholder="Contoh: <?= $contoh_tahun_akademik ?>" oninput="this.value=this.value.replace(/[^0-9/]/g,'')">
-                            <div class="form-text">
-                                Pastikan penulisan benar "<?= $contoh_tahun_akademik ?>"
-                            </div>
-                            <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
+                            <label for="nama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="nama" name="nama" value="${data.nama}" placeholder="Masukkan nama">
+                            <div class="invalid-feedback" id="invalid_nama"></div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Tipe</label>
-                            ${tipe.map(item => `
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="${data.id}_${item}" name="tipe" value="${item}" ${item == data.tipe ? 'checked' : ''}>
-                                <label class="form-check-label" for="${data.id}_${item}">${item}</label>
-                            </div>`)
-                            .join('')}
-                            <div class="invalid-feedback" id="invalid_tipe"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="periode_mulai" class="form-label">Periode Mulai</label>
-                            <input type="date" class="form-control" id="periode_mulai" name="periode_mulai" value="${(data.periode_mulai).split('-').reverse().join('-')}">
-                            <div class="invalid-feedback" id="invalid_periode_mulai"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="periode_selesai" class="form-label">Periode Selesai</label>
-                            <input type="date" class="form-control" id="periode_selesai" name="periode_selesai" value="${(data.periode_selesai).split('-').reverse().join('-')}">
-                            <div class="invalid-feedback" id="invalid_periode_selesai"></div>
+                            <label for="biaya" class="form-label">Biaya</label>
+                            <input type="text" inputmode="numeric" class="form-control" name="biaya" value="${dotsNumber(data.biaya)}" placeholder="Masukkan biaya" oninput="this.value = dotsNumber(this.value)">
+                            <div class="invalid-feedback" id="invalid_biaya"></div>
                         </div>
                     </div>
                     <div class="modal-footer">

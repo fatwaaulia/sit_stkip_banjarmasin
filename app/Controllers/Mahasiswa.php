@@ -116,9 +116,14 @@ class Mahasiswa extends BaseController
             'nomor_identitas' => 'required|is_unique[users.nomor_identitas]',
             'nama'            => 'required',
             'jenis_kelamin'   => 'required',
-            'program_studi'   => 'required',
             'email'           => 'permit_empty|valid_email',
             'no_hp'           => 'permit_empty|numeric',
+            'program_studi'   => 'required',
+            'tahun_akademik_diterima' => 'required',
+            'kelas'           => 'required',
+            'biaya_uts'       => 'required',
+            'biaya_uas'       => 'required',
+            'biaya_ta'        => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -133,6 +138,8 @@ class Mahasiswa extends BaseController
         // Lolos Validasi
         $role = model('Role')->find(5);
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+        $tahun_akademik_diterima = model('TahunAkademik')->find($this->request->getVar('tahun_akademik_diterima'));
+        $spp = model('TarifSpp')->find($this->request->getVar('spp'));
         $data = [
             'id_role'         => $role['id'],
             'nama_role'       => $role['nama'],
@@ -140,16 +147,27 @@ class Mahasiswa extends BaseController
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
             'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
             'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
             'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
             'alamat'          => $this->request->getVar('alamat'),
             'email'           => $this->request->getVar('email'),
             'no_hp'           => $this->request->getVar('no_hp'),
-            'status'          => 'Aktif',
+            'id_program_studi'        => $program_studi['id'],
+            'jenjang_program_studi'   => $program_studi['jenjang'],
+            'nama_program_studi'      => $program_studi['nama'],
+            'singkatan_program_studi' => $program_studi['singkatan'],
+            'id_tahun_akademik_diterima'     => $tahun_akademik_diterima['id'],
+            'tahun_akademik_diterima'        => $tahun_akademik_diterima['tahun_akademik'],
+            'tipe_tahun_akademik'            => $tahun_akademik_diterima['tipe'],
+            'periode_mulai_tahun_akademik'   => $tahun_akademik_diterima['periode_mulai'],
+            'periode_selesai_tahun_akademik' => $tahun_akademik_diterima['periode_selesai'],
+            'id_spp'    => $spp['id'],
+            'nama_spp'  => $spp['nama'],
+            'biaya_spp' => $spp['biaya'],
+            'biaya_uts' => $this->request->getVar('biaya_uts', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_uas' => $this->request->getVar('biaya_uas', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_ta'  => $this->request->getVar('biaya_ta', FILTER_SANITIZE_NUMBER_INT),
+            'status' => 'Aktif',
         ];
 
         model($this->model_name)->insert($data);
@@ -169,10 +187,13 @@ class Mahasiswa extends BaseController
             'nomor_identitas' => "required|is_unique[users.nomor_identitas,id,$id]",
             'nama'            => 'required',
             'jenis_kelamin'   => 'required',
-            'program_studi'   => 'required',
             'email'           => 'permit_empty|valid_email',
             'no_hp'           => 'permit_empty|numeric',
-            'status'          => 'required',
+            'kelas'           => 'required',
+            'spp'             => 'required',
+            'biaya_uts'       => 'required',
+            'biaya_uas'       => 'required',
+            'biaya_ta'        => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -185,21 +206,23 @@ class Mahasiswa extends BaseController
         }
 
         // Lolos Validasi
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+        $spp = model('TarifSpp')->find($this->request->getVar('spp'));
         $data = [
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
             'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
             'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
             'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
             'alamat'          => $this->request->getVar('alamat'),
             'email'           => $this->request->getVar('email'),
             'no_hp'           => $this->request->getVar('no_hp'),
-            'status'          => $this->request->getVar('status'),
+            'kelas'           => $this->request->getVar('kelas'),
+            'id_spp'    => $spp['id'],
+            'nama_spp'  => $spp['nama'],
+            'biaya_spp' => $spp['biaya'],
+            'biaya_uts' => $this->request->getVar('biaya_uts', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_uas' => $this->request->getVar('biaya_uas', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_ta'  => $this->request->getVar('biaya_ta', FILTER_SANITIZE_NUMBER_INT),
         ];
 
         model($this->model_name)->update($id, $data);

@@ -32,35 +32,22 @@ $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
                                     <form id="form">
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
-                                                <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik" placeholder="Contoh: <?= $contoh_tahun_akademik ?>" oninput="this.value=this.value.replace(/[^0-9/]/g,'')">
-                                                <div class="form-text">
-                                                    Pastikan penulisan benar "<?= $contoh_tahun_akademik ?>"
+                                                <div class="mb-3">
+                                                    <label for="judul" class="form-label">Judul</label>
+                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
+                                                    <div class="invalid-feedback" id="invalid_judul"></div>
                                                 </div>
-                                                <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Tipe</label>
-                                                <?php
-                                                $tipe = ['Ganjil', 'Genap'];
-                                                foreach ($tipe as $v) :
-                                                ?>
-                                                <div class="form-check">
-                                                    <input type="radio" class="form-check-input" id="<?= $v ?>" name="tipe" value="<?= $v ?>">
-                                                    <label class="form-check-label" for="<?= $v ?>"><?= $v ?></label>
+                                                <label for="gambar" class="form-label">Gambar</label>
+                                                <div class="col-12 col-md-6 position-relative">
+                                                    <img src="<?= webFile('image') ?>" class="w-100 cover-center" id="frame_gambar">
+                                                    <div class="position-absolute" style="bottom: 0px; right: 0px;">
+                                                        <label for="gambar" class="btn btn-secondary rounded-circle" style="padding: 8px;">
+                                                            <i class="fa-solid fa-camera fa-lg"></i>
+                                                        </label>
+                                                        <input type="file" class="form-control d-none" id="gambar" name="gambar" accept=".png,.jpg,.jpeg" onchange="dom('#frame_gambar').src = window.URL.createObjectURL(this.files[0]);">
+                                                    </div>
                                                 </div>
-                                                <?php endforeach; ?>
-                                                <div class="invalid-feedback" id="invalid_tipe"></div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="periode_mulai" class="form-label">Periode Mulai</label>
-                                                <input type="date" class="form-control" id="periode_mulai" name="periode_mulai">
-                                                <div class="invalid-feedback" id="invalid_periode_mulai"></div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="periode_selesai" class="form-label">Periode Selesai</label>
-                                                <input type="date" class="form-control" id="periode_selesai" name="periode_selesai">
-                                                <div class="invalid-feedback" id="invalid_periode_selesai"></div>
+                                                <div class="invalid-feedback" id="invalid_gambar"></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -84,10 +71,8 @@ $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Tahun Akademik</th>
-                            <th>Tipe</th>
-                            <th>Periode Mulai</th>
-                            <th>Periode Selesai</th>
+                            <th>Gambar</th>
+                            <th>Judul</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -108,22 +93,25 @@ document.addEventListener('DOMContentLoaded', function() {
         initComplete: function (settings, json) {
             $('#myTable').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');
         },
+        drawCallback: function () {
+            new LazyLoad({
+                elements_selector: '.lazy-shimmer',
+                callback_loaded: (el) => {
+                    el.classList.remove('lazy-shimmer');
+                }
+            });
+        },
         columns: [
             {
                 name: '',
                 data: 'no_urut',
             }, {
                 name: '',
-                data: 'tahun_akademik',
+                data: null,
+                render: data => `<img data-src="${data.gambar}" class="wh-40 cover-center lazy-shimmer">`,
             }, {
                 name: '',
-                data: 'tipe',
-            }, {
-                name: '',
-                data: 'periode_mulai',
-            }, {
-                name: '',
-                data: 'periode_selesai',
+                data: 'judul',
             }, {
                 name: '',
                 data: null,
@@ -134,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function renderOpsi(data) {
-    const tipe = ['Ganjil', 'Genap'];
+    const tipe = ['SPP', 'Addons'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -150,32 +138,22 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
-                            <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik" value="${data.tahun_akademik}" placeholder="Contoh: <?= $contoh_tahun_akademik ?>" oninput="this.value=this.value.replace(/[^0-9/]/g,'')">
-                            <div class="form-text">
-                                Pastikan penulisan benar "<?= $contoh_tahun_akademik ?>"
+                            <label for="judul" class="form-label">Judul</label>
+                            <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
+                            <div class="invalid-feedback" id="invalid_judul"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gambar" class="form-label">Gambar</label>
+                            <div class="col-12 col-md-6 position-relative">
+                                <img src="${data.gambar}" class="w-100 cover-center" id="frame_gambar_${data.id}">
+                                <div class="position-absolute" style="bottom: 0px; right: 0px;">
+                                    <label for="gambar_${data.id}" class="btn btn-secondary rounded-circle" style="padding: 8px;">
+                                        <i class="fa-solid fa-camera fa-lg"></i>
+                                    </label>
+                                    <input type="file" class="form-control d-none" id="gambar_${data.id}" name="gambar" accept=".png,.jpg,.jpeg" onchange="dom('#frame_gambar_${data.id}').src = window.URL.createObjectURL(this.files[0]);">
+                                </div>
                             </div>
-                            <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tipe</label>
-                            ${tipe.map(item => `
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="${data.id}_${item}" name="tipe" value="${item}" ${item == data.tipe ? 'checked' : ''}>
-                                <label class="form-check-label" for="${data.id}_${item}">${item}</label>
-                            </div>`)
-                            .join('')}
-                            <div class="invalid-feedback" id="invalid_tipe"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="periode_mulai" class="form-label">Periode Mulai</label>
-                            <input type="date" class="form-control" id="periode_mulai" name="periode_mulai" value="${(data.periode_mulai).split('-').reverse().join('-')}">
-                            <div class="invalid-feedback" id="invalid_periode_mulai"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="periode_selesai" class="form-label">Periode Selesai</label>
-                            <input type="date" class="form-control" id="periode_selesai" name="periode_selesai" value="${(data.periode_selesai).split('-').reverse().join('-')}">
-                            <div class="invalid-feedback" id="invalid_periode_selesai"></div>
+                            <div class="invalid-feedback" id="invalid_gambar"></div>
                         </div>
                     </div>
                     <div class="modal-footer">

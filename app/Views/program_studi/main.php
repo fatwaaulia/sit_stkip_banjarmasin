@@ -138,7 +138,7 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="jenjang" class="form-label">jenjang</label>
+                            <label for="jenjang" class="form-label">Jenjang</label>
                             <select class="form-select" id="jenjang" name="jenjang">
                                 <option value="">Pilih</option>
                                 ${jenjang.map(item => `<option value="${item}" ${item == data.jenjang ? 'selected' : ''}>${item}</option>`).join('')}

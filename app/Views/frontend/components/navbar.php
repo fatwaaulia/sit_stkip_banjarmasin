@@ -33,7 +33,7 @@ $uri->setSilent(true);
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav w-100 pt-3 pb-2 py-md-0">
                 <a class="nav-link <?= ($uri->getSegment(1) == '') ? 'nav-active' : '' ?>" href="<?= base_url() ?>">Beranda</a>
-                <a class="nav-link <?= ($uri->getSegment(1) == 'galeri') ? 'nav-active' : '' ?>" href="<?= base_url() ?>galeri">Galeri</a>
+                <a class="nav-link <?= ($uri->getSegment(1) == 'kalender-akademik') ? 'nav-active' : '' ?>" href="<?= base_url() ?>kalender-akademik">Kalender Akademik</a>
                 <div class="ms-lg-auto mt-3 mt-lg-0">
                     <?php
                     if (userSession()) :

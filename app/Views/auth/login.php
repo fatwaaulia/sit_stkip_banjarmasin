@@ -15,7 +15,7 @@ body { overflow: hidden; }
 					<div class="text-center">
                         <img src="<?= $logo_web ?>" alt="<?= $app_settings['nama_aplikasi'] ?>" class="wh-100">
 						<h3 class="mb-1 fw-600">Selamat Datang!</h3>
-						<p>SISTEM INFORMASI AKADEMIK STKIP ISM BANJARMASIN</p>
+						<p>VISIONER - STKIP ISM BANJARMASIN</p>
 					</div>
 					<hr>
 					<form id="form">

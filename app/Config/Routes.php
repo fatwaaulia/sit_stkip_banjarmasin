@@ -136,6 +136,67 @@ if (in_array($id_role, roleAccessByTitle('Penyusutan Inventaris'))) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Tagihan Mahasiswa'))) {
+    $routes->group("$slug_role/tagihan-mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'TagihanMahasiswa::main');
+        $routes->get('new', 'TagihanMahasiswa::new');
+    });
+    $routes->group('api/tagihan-mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'TagihanMahasiswa::index');
+        $routes->post('create', 'TagihanMahasiswa::create');
+        $routes->post('update/(:segment)', 'TagihanMahasiswa::update/$1');
+        $routes->post('delete/(:segment)', 'TagihanMahasiswa::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Kalender Akademik'))) {
+    $routes->get("$slug_role/kalender-akademik", 'KalenderAkademik::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/kalender-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'KalenderAkademik::index');
+        $routes->post('create', 'KalenderAkademik::create');
+        $routes->post('update/(:segment)', 'KalenderAkademik::update/$1');
+        $routes->post('delete/(:segment)', 'KalenderAkademik::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Mahasiswa Cuti / DO'))) {
+    $routes->get("$slug_role/status-mahasiswa", 'StatusMahasiswa::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/status-mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'StatusMahasiswa::index');
+        $routes->post('create', 'StatusMahasiswa::create');
+        $routes->post('update/(:segment)', 'StatusMahasiswa::update/$1');
+        $routes->post('delete/(:segment)', 'StatusMahasiswa::delete/$1');
+    });
+}
+
+/*--------------------------------------------------------------
+  # Master Data
+--------------------------------------------------------------*/
+if (in_array($id_role, roleAccessByTitle('Role'))) {
+    $routes->get("$slug_role/role", 'Role::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/role', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Role::index');
+        $routes->post('create', 'Role::create');
+        $routes->post('update/(:segment)', 'Role::update/$1');
+        $routes->post('delete/(:segment)', 'Role::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('User Management'))) {
+    $routes->group("$slug_role/users", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Users::main');
+        $routes->get('new', 'Users::new');
+        $routes->get('edit/(:segment)', 'Users::edit/$1');
+    });
+    $routes->group('api/users', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Users::index');
+        $routes->post('create', 'Users::create');
+        $routes->post('update/(:segment)', 'Users::update/$1');
+        $routes->post('delete/(:segment)', 'Users::delete/$1');
+        $routes->post('foto/delete/(:segment)', 'Users::hapusFoto/$1');
+    });
+}
+
 if (in_array($id_role, roleAccessByTitle('Tahun Akademik'))) {
     $routes->get("$slug_role/tahun-akademik", 'TahunAkademik::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/tahun-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {
@@ -184,30 +245,12 @@ if (in_array($id_role, roleAccessByTitle('Mahasiswa'))) {
     });
 }
 
-/*--------------------------------------------------------------
-  # Master Data
---------------------------------------------------------------*/
-if (in_array($id_role, roleAccessByTitle('Role'))) {
-    $routes->get("$slug_role/role", 'Role::main', ['filter' => 'EnsureLogin']);
-    $routes->group('api/role', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Role::index');
-        $routes->post('create', 'Role::create');
-        $routes->post('update/(:segment)', 'Role::update/$1');
-        $routes->post('delete/(:segment)', 'Role::delete/$1');
-    });
-}
-
-if (in_array($id_role, roleAccessByTitle('User Management'))) {
-    $routes->group("$slug_role/users", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Users::main');
-        $routes->get('new', 'Users::new');
-        $routes->get('edit/(:segment)', 'Users::edit/$1');
-    });
-    $routes->group('api/users', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Users::index');
-        $routes->post('create', 'Users::create');
-        $routes->post('update/(:segment)', 'Users::update/$1');
-        $routes->post('delete/(:segment)', 'Users::delete/$1');
-        $routes->post('foto/delete/(:segment)', 'Users::hapusFoto/$1');
+if (in_array($id_role, roleAccessByTitle('Tarif SPP'))) {
+    $routes->get("$slug_role/tarif-spp", 'TarifSpp::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/tarif-spp', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'TarifSpp::index');
+        $routes->post('create', 'TarifSpp::create');
+        $routes->post('update/(:segment)', 'TarifSpp::update/$1');
+        $routes->post('delete/(:segment)', 'TarifSpp::delete/$1');
     });
 }
