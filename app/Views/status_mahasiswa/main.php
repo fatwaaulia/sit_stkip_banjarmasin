@@ -200,6 +200,9 @@ function renderStatus(data) {
                                 <option value="">Pilih</option>
                                 ${tahun_akademik.map(item => `<option value="${item.id}" ${item == data.jenjang ? 'selected' : ''}>${item.tahun_akademik} - ${item.tipe}</option>`).join('')}
                             </select>
+                            <div class="form-text">
+                                Pilih tahun akademik akhir cuti, bukan saat aktif kembali.
+                            </div>
                             <div class="invalid-feedback" id="invalid_tahun_akademik_selesai_cuti"></div>
                         </div>
                     </div>

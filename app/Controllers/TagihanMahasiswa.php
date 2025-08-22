@@ -44,6 +44,24 @@ class TagihanMahasiswa extends BaseController
         return view('dashboard/header', $view);
     }
 
+    
+    public function edit($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
+
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => $find_data,
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/edit', $data);
+        return view('dashboard/header', $view);
+    }
+
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
@@ -97,15 +115,30 @@ class TagihanMahasiswa extends BaseController
             ]);
         }
 
+        $kategori = $this->request->getVar('kategori');
+        if ($kategori == 'PERORANGAN') {
+            $json_id_mahasiswa = $this->request->getVar('json_id_mahasiswa');
+
+            if (! $json_id_mahasiswa) {
+                return $this->response->setStatusCode(400)->setJSON([
+                    'status'  => 'error',
+                    'message' => 'Pastikan sudah centang mahasiswa',
+                ]);
+            }
+        }
+
         // Lolos Validasi
         $tahun_akademik = model('TahunAkademik')->find($this->request->getVar('tahun_akademik'));
         $data = [
+            'kategori'                       => $kategori,
             'jenis'                          => $this->request->getVar('jenis'),
+            'json_id_mahasiswa'              => $json_id_mahasiswa,
             'id_tahun_akademik'              => $tahun_akademik['id'],
             'tahun_akademik'                 => $tahun_akademik['tahun_akademik'],
             'tipe_tahun_akademik'            => $tahun_akademik['tipe'],
             'periode_mulai_tahun_akademik'   => $tahun_akademik['periode_mulai'],
             'periode_selesai_tahun_akademik' => $tahun_akademik['periode_selesai'],
+            'created_by' => userSession('id'),
         ];
 
         model($this->model_name)->insert($data);
@@ -119,26 +152,20 @@ class TagihanMahasiswa extends BaseController
 
     public function update($id = null)
     {
-        $rules = [
-            'jenis'         => 'required',
-            'tanggal_awal'  => 'required',
-            'tanggal_akhir' => 'required',
-        ];
-        if (! $this->validate($rules)) {
-            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
-
+        $kategori = $this->request->getVar('kategori');
+        if ($kategori == 'PERORANGAN') {
+            $json_id_mahasiswa = ($this->request->getVar('json_id_mahasiswa'));
+        } else {
             return $this->response->setStatusCode(400)->setJSON([
                 'status'  => 'error',
-                'message' => 'Data yang dimasukkan tidak valid!',
-                'errors'  => $errors,
+                'message' => 'Tidak dapat diproses',
             ]);
         }
 
         // Lolos Validasi
         $data = [
-            'jenis'         => $this->request->getVar('tanggal_awal'),
-            'tanggal_awal'  => $this->request->getVar('tanggal_awal'),
-            'tanggal_akhir' => $this->request->getVar('tanggal_akhir'),
+            'json_id_mahasiswa' => $json_id_mahasiswa,
+            'updated_by' => userSession('id'),
         ];
 
         model($this->model_name)->update($id, $data);

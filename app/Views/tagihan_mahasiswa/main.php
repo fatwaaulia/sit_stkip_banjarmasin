@@ -28,6 +28,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <form id="form_tagihan_maba">
+                                        <input type="hidden" name="kategori" value="MABA">
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label for="jenis_tagihan_maba" class="form-label">Jenis Tagihan Maba</label>
@@ -45,6 +46,7 @@
                                             <div class="mb-3">
                                                 <label for="tahun_akademik_maba" class="form-label">Tahun Akademik</label>
                                                 <select class="form-select" id="tahun_akademik_maba" name="tahun_akademik">
+                                                    <option value="">Pilih</option>
                                                     <?php
                                                     $tahun_akademik = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(5)->findAll();
                                                     foreach ($tahun_akademik as $v) :
@@ -54,10 +56,11 @@
                                                 </select>
                                                 <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
                                             </div>
+                                            <p class="mb-0">Tagihan akan diberikan kepada mahasiswa yang diterima/ mulai kuliah pada tahun akademik diatas.</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-primary float-end">Tambahkan</button>
+                                            <button type="submit" class="btn btn-primary float-end">Buat Tagihan</button>
                                         </div>
                                     </form>
                                     <script>
@@ -81,6 +84,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <form id="form_tagihan_semester">
+                                        <input type="hidden" name="kategori" value="SEMESTER">
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label for="jenis_tagihan_semester" class="form-label">Jenis Tagihan Semester</label>
@@ -98,6 +102,7 @@
                                             <div class="mb-3">
                                                 <label for="tahun_akademik_semester" class="form-label">Tahun Akademik</label>
                                                 <select class="form-select" id="tahun_akademik_semester" name="tahun_akademik">
+                                                    <option value="">Pilih</option>
                                                     <?php
                                                     $tahun_akademik = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(5)->findAll();
                                                     foreach ($tahun_akademik as $v) :
@@ -107,10 +112,11 @@
                                                 </select>
                                                 <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
                                             </div>
+                                            <p class="mb-0">Tagihan akan diberikan kepada semua mahasiswa Aktif.</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-primary float-end">Tambahkan</button>
+                                            <button type="submit" class="btn btn-primary float-end">Buat Tagihan</button>
                                         </div>
                                     </form>
                                     <script>
@@ -124,7 +130,7 @@
                             </div>
                         </div>
                         <a href="<?= $base_route ?>new" class="btn btn-primary">
-                            <i class="fa-solid fa-plus fa-sm"></i> Opsional
+                            <i class="fa-solid fa-plus fa-sm"></i> Perorangan
                         </a>
                     </div>
                 </div>
@@ -132,8 +138,10 @@
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
+                            <th>Kategori</th>
                             <th>Jenis</th>
                             <th>Tahun Akademik</th>
+                            <th>Created At</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -166,11 +174,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: 'no_urut',
             }, {
                 name: '',
+                data: null,
+                render: data => (data.kategori == 'PERORANGAN') ? `<a href="<?= $base_route ?>edit/${data.id}">${data.kategori}</a>` : data.kategori,
+            }, {
+                name: '',
                 data: 'jenis',
             }, {
                 name: '',
                 data: null,
                 render: data => `${data.tahun_akademik} ${data.tipe_tahun_akademik}`,
+            }, {
+                name: '',
+                data: 'created_at',
             }, {
                 name: '',
                 data: null,
@@ -182,14 +197,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function renderOpsi(data) {
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
-    let html = `
+
+    return `
     <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
         <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
     </a>`;
-
-    setTimeout(() => actionEdit(data.id), 0);
-
-    return html;
 }
 </script>
 

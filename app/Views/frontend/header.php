@@ -1,8 +1,7 @@
 <?php
-$app_settings = model('AppSettings')->find(1);
-$favicon      = isset($favicon) ? $favicon : webFile('image', 'app_settings', $app_settings['favicon'], $app_settings['updated_at']);
-$title        = isset($title) ? $title : $app_settings['nama_aplikasi'];
-$description  = isset($description) ? $description : $app_settings['deskripsi'];
+$favicon      = isset($favicon) ? $favicon : appSettings('favicon');
+$title        = isset($title) ? $title : appSettings('nama_aplikasi');
+$description  = isset($description) ? $description : appSettings('deskripsi');
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +15,7 @@ $description  = isset($description) ? $description : $app_settings['deskripsi'];
     <meta property="og:image:height" content="200">
     <meta property="og:title" content="<?= $title ?>">
     <meta property="og:description" content="<?= $description ?>">
-    <meta property="og:site_name" content="<?= $app_settings['nama_aplikasi'] ?>">
+    <meta property="og:site_name" content="<?= appSettings('nama_aplikasi') ?>">
     <meta property="og:url" content="<?= current_url() ?>">
     <meta name="description" content="<?= $description ?>">
     <link rel="shortcut icon" href="<?= $favicon ?>" type="image/x-icon">

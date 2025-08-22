@@ -77,7 +77,7 @@
                             </div>
                             <div class="col-xl-6">
                                 <div class="mb-2">
-                                    <span class="fw-600">Detail Kelas dan Biaya</span>
+                                    <span class="fw-600">Detail Kuliah dan Biaya</span>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Program Studi</label>
@@ -90,8 +90,18 @@
                                 <div class="row gx-3">
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Tingkat</label>
-                                            <input type="text" class="form-control" value="1 *statis" disabled>
+                                            <label for="semester" class="form-label">Semester</label>
+                                            <select class="form-select" id="semester" name="semester">
+                                                <option value="">Pilih</option>
+                                                <?php
+                                                $semester = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
+                                                foreach ($semester as $v) :
+                                                    $selected = ($v == $data['semester']) ? 'selected' : '';
+                                                ?>
+                                                <option value="<?= $v ?>" <?= $selected ?>><?= $v ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <div class="invalid-feedback" id="invalid_semester"></div>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -110,6 +120,25 @@
                                             <div class="invalid-feedback" id="invalid_kelas"></div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Status</label>
+                                    <input type="text" class="form-control" value="<?= $data['status'] ?>" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="biaya_almamater" class="form-label">Biaya Almamater</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_almamater" value="<?= dotsNumber($data['biaya_almamater']) ?>" placeholder="Masukkan biaya almamater" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_almamater"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="biaya_ktm" class="form-label">Biaya KTM</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_ktm" value="<?= dotsNumber($data['biaya_ktm']) ?>" placeholder="Masukkan biaya KTM" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_ktm"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="biaya_uang_gedung" class="form-label">Biaya Uang Gedung</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_uang_gedung" value="<?= dotsNumber($data['biaya_uang_gedung']) ?>" placeholder="Masukkan biaya uang gedung" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_uang_gedung"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="spp" class="form-label">SPP</label>
@@ -141,19 +170,51 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="biaya_ta" class="form-label">Biaya TA</label>
-                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_ta" value="<?= dotsNumber($data['biaya_ta']) ?>" placeholder="Masukkan biaya TA" oninput="this.value = dotsNumber(this.value)">
-                                    <div class="invalid-feedback" id="invalid_biaya_ta"></div>
+                                <div class="row gx-3">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="biaya_ldkm" class="form-label">Biaya LDKM</label>
+                                            <input type="text" inputmode="numeric" class="form-control" name="biaya_ldkm" value="<?= dotsNumber($data['biaya_ldkm']) ?>" placeholder="Masukkan biaya LDKM" oninput="this.value = dotsNumber(this.value)">
+                                            <div class="invalid-feedback" id="invalid_biaya_ldkm"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                         <div class="mb-3">
+                                            <label for="biaya_mbkm" class="form-label">Biaya MBKM</label>
+                                            <input type="text" inputmode="numeric" class="form-control" name="biaya_mbkm" value="<?= dotsNumber($data['biaya_mbkm']) ?>" placeholder="Masukkan biaya MBKM" oninput="this.value = dotsNumber(this.value)">
+                                            <div class="invalid-feedback" id="invalid_biaya_mbkm"></div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                    <input type="text" class="form-control" value="<?= $data['status'] ?>" disabled>
+                                    <label for="biaya_bimbingan_skripsi" class="form-label">Biaya Bimbingan Skripsi</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_bimbingan_skripsi" value="<?= dotsNumber($data['biaya_bimbingan_skripsi']) ?>" placeholder="Masukkan biaya bimbingan skripsi" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_bimbingan_skripsi"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="biaya_seminar_proposal" class="form-label">Biaya Seminar Proposal</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_seminar_proposal" value="<?= dotsNumber($data['biaya_seminar_proposal']) ?>" placeholder="Masukkan biaya seminar proposal" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_seminar_proposal"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="biaya_sidang_skripsi" class="form-label">Biaya Sidang Skripsi</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_sidang_skripsi" value="<?= dotsNumber($data['biaya_sidang_skripsi']) ?>" placeholder="Masukkan biaya sidang skripsi" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_sidang_skripsi"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="biaya_yudisium" class="form-label">Biaya Yudisium</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_yudisium" value="<?= dotsNumber($data['biaya_yudisium']) ?>" placeholder="Masukkan biaya yudisium" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_yudisium"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="biaya_wisuda" class="form-label">Biaya Wisuda</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_wisuda" value="<?= dotsNumber($data['biaya_wisuda']) ?>" placeholder="Masukkan biaya wisuda" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_wisuda"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="mt-3 float-end">
-                            <a href="<?= $base_route ?>" class="btn btn-secondary me-1">Kembali</a>
+                            <a href="<?= $base_route ?>" class="btn btn-secondary me-2">Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </div>
                     </form>
@@ -165,6 +226,7 @@
 
 <script>
 dselect(dom('#spp'), { search: true });
+dselect(dom('#semester'), { search: true });
 
 dom('#form').addEventListener('submit', function(event) {
     event.preventDefault();

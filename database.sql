@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 20, 2025 at 11:57 PM
+-- Generation Time: Aug 22, 2025 at 09:21 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -92,19 +92,6 @@ CREATE TABLE `log_login` (
 --
 
 INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `ip_address`, `status`, `created_at`, `updated_at`) VALUES
-(6, 0, 0, '', 'superadminasd', '::1', 'Failed', '2025-04-20 11:06:27', '2025-04-20 11:06:27'),
-(7, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-04-20 11:06:31', '2025-04-20 11:06:31'),
-(8, 0, 0, '', 'fatwaaulia@gmail.com', '::1', 'Failed', '2025-04-20 11:07:25', '2025-04-20 11:07:25'),
-(9, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-04-20 11:07:31', '2025-04-20 11:07:31'),
-(10, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-04-20 22:08:33', '2025-04-20 22:08:33'),
-(12, 2, 2, 'Admin', 'admin', '::1', 'Success', '2025-04-27 16:18:51', '2025-04-27 16:18:51'),
-(13, 0, 0, '', 'adminqqqq', '::1', 'Failed', '2025-04-27 16:27:40', '2025-04-27 16:27:40'),
-(14, 3, 3, 'Fatwa Aulia', 'fatwaaulia.fy@gmail.com', '::1', 'Success', '2025-04-27 16:29:37', '2025-04-27 16:29:37'),
-(15, 2, 2, 'Admin', 'admin', '::1', 'Success', '2025-04-29 19:49:27', '2025-04-29 19:49:27'),
-(16, 2, 2, 'Admin', 'admin', '::1', 'Success', '2025-05-01 05:45:54', '2025-05-01 05:45:54'),
-(17, 2, 2, 'Admin', 'admin', '::1', 'Success', '2025-05-01 06:47:27', '2025-05-01 06:47:27'),
-(18, 2, 2, 'Admin', 'admin', '::1', 'Success', '2025-05-03 06:00:59', '2025-05-03 06:00:59'),
-(19, 2, 2, 'Admin', 'admin', '::1', 'Success', '2025-05-05 09:05:37', '2025-05-05 09:05:37'),
 (20, 2, 2, 'Admin', 'admin', '::1', 'Success', '2025-05-21 13:26:52', '2025-05-21 13:26:52'),
 (21, 3, 3, 'Fatwa Aulia', 'fatwaaulia.fy@gmail.com', '::1', 'Success', '2025-05-21 13:28:07', '2025-05-21 13:28:07'),
 (22, 0, 0, '', 'dmin', '::1', 'Failed', '2025-05-22 12:38:16', '2025-05-22 12:38:16'),
@@ -217,7 +204,45 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (129, 0, 0, '', 'superadmin', '::1', 'Failed', '2025-08-20 16:40:48', '2025-08-20 16:40:48'),
 (130, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-20 16:40:53', '2025-08-20 16:40:53'),
 (131, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-20 19:39:16', '2025-08-20 19:39:16'),
-(132, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-21 05:49:35', '2025-08-21 05:49:35');
+(132, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-21 05:49:35', '2025-08-21 05:49:35'),
+(133, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-21 21:29:59', '2025-08-21 21:29:59'),
+(134, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-22 05:36:38', '2025-08-22 05:36:38'),
+(135, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-22 16:01:24', '2025-08-22 16:01:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pembayaran_mahasiswa`
+--
+
+CREATE TABLE `pembayaran_mahasiswa` (
+  `id` bigint NOT NULL,
+  `id_tagihan_mahasiswa` bigint NOT NULL,
+  `jenis_tagihan_mahasiswa` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_tahun_akademik` bigint NOT NULL,
+  `tahun_akademik` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipe_tahun_akademik` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_mahasiswa` bigint NOT NULL,
+  `nama_mahasiswa` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_mahasiswa` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi` bigint NOT NULL,
+  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `nominal` int NOT NULL,
+  `status` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `updated_by` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pembayaran_mahasiswa`
+--
+
+INSERT INTO `pembayaran_mahasiswa` (`id`, `id_tagihan_mahasiswa`, `jenis_tagihan_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `id_mahasiswa`, `nama_mahasiswa`, `nomor_identitas_mahasiswa`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `nominal`, `status`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(5, 3, 'MBKM', 1, '2025/2026', 'Ganjil', 5, 'Fatwa Aulia', '362055401093', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 50000, 'Lunas', '2025-08-22 16:21:16', '2025-08-22 16:21:16', '1', '');
 
 -- --------------------------------------------------------
 
@@ -398,15 +423,28 @@ CREATE TABLE `status_mahasiswa` (
 
 CREATE TABLE `tagihan_mahasiswa` (
   `id` bigint NOT NULL,
+  `kategori` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
   `jenis` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `id_tahun_akademik` int NOT NULL,
+  `json_id_mahasiswa` mediumtext COLLATE utf8mb4_general_ci NOT NULL,
+  `id_tahun_akademik` bigint NOT NULL,
   `tahun_akademik` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   `tipe_tahun_akademik` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
   `periode_mulai_tahun_akademik` date NOT NULL,
   `periode_selesai_tahun_akademik` date NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  `created_by` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `updated_by` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tagihan_mahasiswa`
+--
+
+INSERT INTO `tagihan_mahasiswa` (`id`, `kategori`, `jenis`, `json_id_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `periode_mulai_tahun_akademik`, `periode_selesai_tahun_akademik`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'MABA', 'ALMAMATER', '', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-21 12:36:22', '2025-08-21 12:36:22', '2', ''),
+(2, 'SEMESTER', 'SPP', '', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-22 06:51:08', '2025-08-22 06:51:08', '2', ''),
+(3, 'PERORANGAN', 'MBKM', '[\"6\",\"5\"]', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-22 10:49:27', '2025-08-22 16:16:19', '1', '1');
 
 -- --------------------------------------------------------
 
@@ -485,13 +523,23 @@ CREATE TABLE `users` (
   `tipe_tahun_akademik` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
   `periode_mulai_tahun_akademik` date DEFAULT NULL,
   `periode_selesai_tahun_akademik` date DEFAULT NULL,
+  `semester` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
   `kelas` varchar(1) COLLATE utf8mb4_general_ci NOT NULL,
+  `biaya_almamater` int NOT NULL,
+  `biaya_ktm` int NOT NULL,
+  `biaya_uang_gedung` int NOT NULL,
   `id_spp` bigint NOT NULL,
   `nama_spp` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `biaya_spp` int NOT NULL,
   `biaya_uts` int NOT NULL,
   `biaya_uas` int NOT NULL,
-  `biaya_ta` int NOT NULL,
+  `biaya_ldkm` int NOT NULL,
+  `biaya_mbkm` int NOT NULL,
+  `biaya_bimbingan_skripsi` int NOT NULL,
+  `biaya_seminar_proposal` int NOT NULL,
+  `biaya_sidang_skripsi` int NOT NULL,
+  `biaya_yudisium` int NOT NULL,
+  `biaya_wisuda` int NOT NULL,
   `status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   `token_reset_password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `token_reset_password_at` datetime DEFAULT NULL,
@@ -503,11 +551,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `username`, `email`, `password`, `foto`, `jenis_kelamin`, `alamat`, `no_hp`, `nomor_identitas`, `tempat_lahir`, `tanggal_lahir`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `id_tahun_akademik_diterima`, `tahun_akademik_diterima`, `tipe_tahun_akademik`, `periode_mulai_tahun_akademik`, `periode_selesai_tahun_akademik`, `kelas`, `id_spp`, `nama_spp`, `biaya_spp`, `biaya_uts`, `biaya_uas`, `biaya_ta`, `status`, `token_reset_password`, `token_reset_password_at`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Admin', 'admin', 'Admin', 'admin', '', '$2y$10$mVEvojJB5S6yx0DpBklmYOFSmvI6k8WqqKuAZxLu7w3dFGBXxXLqa', '1701744923_ef8be205f9a3eefa1576.jpg', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', 0, '', 0, 0, 0, 0, '', '', NULL, '2022-10-21 14:14:28', '2025-08-01 13:29:47'),
-(3, 2, 'Keuangan', 'keuangan', 'Keuangan', 'keuangan', '', '$2y$10$O/h9YibyABmarCDRvVzrfe23Y0qcIF5VHLFccOijKUtjTHYDS0MsC', '', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', 0, '', 0, 0, 0, 0, '', 'o8i2DhlfYzwQ6HOF1IGceJDxRv92LGVm', '2024-10-25 05:04:14', '2024-04-27 20:10:01', '2025-08-17 12:55:09'),
-(4, 3, 'Akademik', 'akademik', 'Akademik', 'akademik', '', '$2y$10$ImQAWNG6keTBgvSlIZXZeOoO3U.aH8GcqL1nCamgFHiaunM3dje5.', '', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', 0, '', 0, 0, 0, 0, '', NULL, NULL, '2025-08-18 16:37:32', '2025-08-18 16:37:32'),
-(5, 5, 'Mahasiswa', 'Mahasiswa', 'Fatwa Aulia', '', 'fatwaaulia.fy@gmail.com', '', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '362055401093', 'Banyuwangi', '2001-01-01', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', 'D', 1, 'SPP Tarif 1', 5000000, 250000, 500000, 0, 'Aktif', NULL, NULL, '2025-08-19 09:56:48', '2025-08-21 06:56:14');
+INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `username`, `email`, `password`, `foto`, `jenis_kelamin`, `alamat`, `no_hp`, `nomor_identitas`, `tempat_lahir`, `tanggal_lahir`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `id_tahun_akademik_diterima`, `tahun_akademik_diterima`, `tipe_tahun_akademik`, `periode_mulai_tahun_akademik`, `periode_selesai_tahun_akademik`, `semester`, `kelas`, `biaya_almamater`, `biaya_ktm`, `biaya_uang_gedung`, `id_spp`, `nama_spp`, `biaya_spp`, `biaya_uts`, `biaya_uas`, `biaya_ldkm`, `biaya_mbkm`, `biaya_bimbingan_skripsi`, `biaya_seminar_proposal`, `biaya_sidang_skripsi`, `biaya_yudisium`, `biaya_wisuda`, `status`, `token_reset_password`, `token_reset_password_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Admin', 'admin', 'Admin', 'admin', '', '$2y$10$mVEvojJB5S6yx0DpBklmYOFSmvI6k8WqqKuAZxLu7w3dFGBXxXLqa', '1701744923_ef8be205f9a3eefa1576.jpg', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', NULL, '2022-10-21 14:14:28', '2025-08-01 13:29:47'),
+(3, 2, 'Keuangan', 'keuangan', 'Keuangan', 'keuangan', '', '$2y$10$O/h9YibyABmarCDRvVzrfe23Y0qcIF5VHLFccOijKUtjTHYDS0MsC', '', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, '2024-04-27 20:10:01', '2025-08-17 12:55:09'),
+(4, 3, 'Akademik', 'akademik', 'Akademik', 'akademik', '', '$2y$10$ImQAWNG6keTBgvSlIZXZeOoO3U.aH8GcqL1nCamgFHiaunM3dje5.', '', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, '2025-08-18 16:37:32', '2025-08-18 16:37:32'),
+(5, 5, 'Mahasiswa', 'Mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '362055401093', 'Banyuwangi', '2001-01-01', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'D', 100000, 25000, 2500000, 1, 'SPP Tarif 1', 5000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-19 09:56:48', '2025-08-21 16:12:20'),
+(6, 5, 'Mahasiswa', 'mahasiswa', 'Putri Salsabila', '1234567890', 'salsabilla@gmail.com', '$2y$10$DyxkiMlw8hyFGKeKHTGNruqLcg67JQAhVn10os8OxpDegkPpujrDK', '', 'Perempuan', 'Jember', '082634793123', '1234567890', 'Jember', '2002-01-12', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'C', 50000, 100000, 900000, 2, 'SPP Tarif 2', 4000000, 150000, 200000, 50000, 75000, 50000, 50000, 100000, 150000, 200000, 'Aktif', NULL, NULL, '2025-08-22 10:37:04', '2025-08-22 10:37:04');
 
 --
 -- Indexes for dumped tables
@@ -529,6 +578,12 @@ ALTER TABLE `kalender_akademik`
 -- Indexes for table `log_login`
 --
 ALTER TABLE `log_login`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pembayaran_mahasiswa`
+--
+ALTER TABLE `pembayaran_mahasiswa`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -611,7 +666,13 @@ ALTER TABLE `kalender_akademik`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+
+--
+-- AUTO_INCREMENT for table `pembayaran_mahasiswa`
+--
+ALTER TABLE `pembayaran_mahasiswa`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `penggunaan_dana`
@@ -653,7 +714,7 @@ ALTER TABLE `status_mahasiswa`
 -- AUTO_INCREMENT for table `tagihan_mahasiswa`
 --
 ALTER TABLE `tagihan_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tahun_akademik`
@@ -671,7 +732,7 @@ ALTER TABLE `tarif_spp`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

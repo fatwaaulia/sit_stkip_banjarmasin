@@ -1,8 +1,3 @@
-<?php
-$app_settings = model('AppSettings')->find(1);
-$logo_web = webFile('image', 'app_settings', $app_settings['logo'], $app_settings['updated_at']);
-?>
-
 <style>
 footer a { color: white; }
 footer a:hover { color: white; }
@@ -14,7 +9,7 @@ footer a:hover { color: white; }
     <div class="container">
         <div class="row">
             <div class="col-lg-3 pb-4">
-                <img src="<?= $logo_web ?>" class="w-50 w-md-25 w-lg-50" alt="<?= $app_settings['nama_aplikasi'] ?>" title="<?= $app_settings['nama_aplikasi'] ?>">
+                <img src="<?= appSettings('logo') ?>" class="w-50 w-md-25 w-lg-50" alt="<?= appSettings('nama_aplikasi') ?>" title="<?= appSettings('nama_aplikasi') ?>">
             </div>
             <div class="col-lg-3 pb-3">
                 <h5 class="mb-3">Web App</h5>
@@ -42,8 +37,8 @@ footer a:hover { color: white; }
                 <table class="mb-2">
                     <tr>
                         <td>
-                            <?= $app_settings['nama_perusahaan'] ?> <br>
-                            <?= $app_settings['alamat'] ?>
+                            <?= appSettings('nama_perusahaan') ?> <br>
+                            <?= appSettings('alamat') ?>
                         </td>
                     </tr>
                 </table>

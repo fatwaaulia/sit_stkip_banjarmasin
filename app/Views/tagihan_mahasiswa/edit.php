@@ -24,36 +24,14 @@
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="mb-3">
-                                    <label for="jenis" class="form-label">Jenis Tagihan</label>
-                                    <select class="form-select" id="jenis" name="jenis">
-                                        <option value="">Pilih</option>
-                                        <?php
-                                        $jenis = [
-                                            'LDKM', 'MBKM',
-                                            'BIMBINGAN SKRIPSI', 'SEMINAR PROPOSAL', 'SIDANG SKRIPSI',
-                                            'YUDISIUM', 'WISUDA'
-                                        ];
-                                        foreach ($jenis as $v) :
-                                        ?>
-                                        <option value="<?= $v ?>"><?= $v ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <div class="invalid-feedback" id="invalid_jenis"></div>
+                                    <label class="form-label">Jenis Tagihan</label>
+                                    <input type="text" class="form-control" value="<?= $data['jenis'] ?>" disabled>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="mb-3">
-                                    <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
-                                    <select class="form-select" id="tahun_akademik" name="tahun_akademik">
-                                        <option value="">Pilih</option>
-                                        <?php
-                                        $tahun_akademik = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(5)->findAll();
-                                        foreach ($tahun_akademik as $v) :
-                                        ?>
-                                        <option value="<?= $v['id'] ?>"><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
+                                    <label class="form-label">Tahun Akdemik</label>
+                                    <input type="text" class="form-control" value="<?= $data['tahun_akademik'] ?> - <?= $data['tipe_tahun_akademik'] ?>" disabled>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +52,7 @@
                         </table>
                         <div class="mt-3 float-end">
                             <a href="<?= $base_route ?>" class="btn btn-secondary me-2">Kembali</a>
-                            <button type="submit" class="btn btn-primary">Buat Tagihan</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </div>
                     </form>
                 </div>
@@ -84,11 +62,12 @@
 </section>
 
 <script>
-dselect(dom('#jenis'), { search: true });
-dselect(dom('#tahun_akademik'), { search: true });
-
 document.addEventListener('DOMContentLoaded', () => {
+    <?php if (!empty($data['json_id_mahasiswa'])) : ?>
+    sessionStorage.setItem('checked_id', '<?= $data['json_id_mahasiswa'] ?>');
+    <?php else : ?>
     sessionStorage.removeItem('checked_id');
+    <?php endif; ?>
 });
 
 function itemChecked(el) {
@@ -127,7 +106,7 @@ dom('#form').addEventListener('submit', async function(event) {
         }
         form_data.append('json_id_mahasiswa', session_checked_id);
 
-        const response = await fetch('<?= $base_api ?>create', {
+        const response = await fetch('<?= $base_api ?>update/<?= $data['id'] ?>', {
             method: 'POST',
             body: form_data,
         });

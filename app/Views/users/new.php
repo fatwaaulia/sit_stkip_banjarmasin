@@ -35,10 +35,9 @@
                                     <?php
                                     $jenis_kelamin = ['Laki-laki', 'Perempuan'];
                                     foreach ($jenis_kelamin as $v) :
-                                        $checked = ($v == $data['jenis_kelamin']) ? 'selected' : '';
                                     ?>
                                     <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="<?= $v ?>" name="jenis_kelamin" value="<?= $v ?>" <?= $checked ?>>
+                                        <input type="radio" class="form-check-input" id="<?= $v ?>" name="jenis_kelamin" value="<?= $v ?>">
                                         <label class="form-check-label" for="<?= $v ?>">
                                             <?= $v ?>
                                         </label>

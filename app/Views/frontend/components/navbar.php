@@ -1,6 +1,4 @@
 <?php
-$app_settings = model('AppSettings')->find(1);
-$logo_web = webFile('image', 'app_settings', $app_settings['logo'], $app_settings['updated_at']);
 $uri = service('uri');
 $uri->setSilent(true);
 ?>
@@ -25,7 +23,7 @@ $uri->setSilent(true);
 <nav class="navbar navbar-expand-lg bg-light fixed-top" style="z-index: 100;">
     <div class="container">
         <a class="navbar-brand" href="<?= base_url() ?>">
-            <img src="<?= $logo_web ?>" style="height: 45px;" alt="<?= $app_settings['nama_aplikasi'] ?>">
+            <img src="<?= appSettings('logo') ?>" style="height: 45px;" alt="<?= appSettings('nama_aplikasi') ?>">
         </a>
         <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa-solid fa-bars"></i>

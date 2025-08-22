@@ -1,12 +1,7 @@
-<?php
-$app_settings = model('AppSettings')->find(1);
-$logo_web = webFile('image', 'app_settings', $app_settings['logo'], $app_settings['updated_at']);
-?>
-
 <header id="header" class="header fixed-top d-flex align-items-center">
 	<div class="d-flex align-items-center justify-content-between">
 		<a href="<?= base_url(userSession('slug_role')) . '/dashboard' ?>" class="logo d-flex align-items-center">
-			<img src="<?= $logo_web ?>" alt="<?= $app_settings['nama_aplikasi'] ?>" title="<?= $app_settings['nama_aplikasi'] ?>">
+			<img src="<?= appSettings('logo') ?>" alt="<?= appSettings('nama_aplikasi') ?>" title="<?= appSettings('nama_aplikasi') ?>">
             <div class="text-dark ms-2 mt-3 d-none d-md-block">
                 <small>VISIONER</small>
                 <p class="fw-500 mt-1">STKIP ISM BANJARMASIN</p>

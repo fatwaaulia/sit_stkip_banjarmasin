@@ -39,6 +39,20 @@ function userSession($field = null)
     return $user_session;
 }
 
+function appSettings($field = null)
+{
+    $app_settings = model('AppSettings')->find(1);
+
+    $app_settings['logo'] = webFile('image', 'app_settings', $app_settings['logo'], $app_settings['updated_at']);
+    $app_settings['favicon'] = webFile('image', 'app_settings', $app_settings['favicon'], $app_settings['updated_at']);
+
+    if ($field) {
+        $app_settings = $app_settings[$field];
+    }
+
+    return $app_settings;
+}
+
 function dataTablesSearch($columns, $search, $select, $base_query) {
     $searchable = array_filter($columns);
     if ($search && $searchable) {
@@ -173,6 +187,13 @@ function menuSidebar()
 			'title'	=> 'Tagihan Mahasiswa',
 			'icon'	=> 'fa-solid fa-tag',
 			'url'	=> base_url(userSession('slug_role')) . '/tagihan-mahasiswa',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Pembayaran Mahasiswa',
+			'icon'	=> 'fa-solid fa-rupiah-sign',
+			'url'	=> base_url(userSession('slug_role')) . '/pembayaran-mahasiswa',
 			'role'	=> [1, 3],
 			'type'	=> 'no-collapse',
 		],
