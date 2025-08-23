@@ -137,7 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: 'no_urut',
             }, {
                 name: 'nama_barang',
-                data: 'nama_barang',
+                data: null,
+                render: data => `<a href="<?= $base_route ?>detail/${data.id}">${data.nama_barang}</a>`,
             }, {
                 name: '',
                 data: 'tanggal_beli',

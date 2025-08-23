@@ -127,9 +127,13 @@ if (in_array($id_role, roleAccessByTitle('Neraca'))) {
 }
 
 if (in_array($id_role, roleAccessByTitle('Penyusutan Inventaris'))) {
-    $routes->get("$slug_role/penyusutan-inventaris", 'PenyusutanInventaris::main', ['filter' => 'EnsureLogin']);
+    $routes->group("$slug_role/penyusutan-inventaris", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PenyusutanInventaris::main');
+        $routes->get('detail/(:segment)', 'PenyusutanInventaris::detail/$1');
+    });
     $routes->group('api/penyusutan-inventaris', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PenyusutanInventaris::index');
+        $routes->get('detail/(:segment)', 'PenyusutanInventaris::indexDetail/$1');
         $routes->post('create', 'PenyusutanInventaris::create');
         $routes->post('update/(:segment)', 'PenyusutanInventaris::update/$1');
         $routes->post('delete/(:segment)', 'PenyusutanInventaris::delete/$1');
