@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 22, 2025 at 09:21 AM
+-- Generation Time: Aug 23, 2025 at 02:20 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -207,7 +207,8 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (132, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-21 05:49:35', '2025-08-21 05:49:35'),
 (133, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-21 21:29:59', '2025-08-21 21:29:59'),
 (134, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-22 05:36:38', '2025-08-22 05:36:38'),
-(135, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-22 16:01:24', '2025-08-22 16:01:24');
+(135, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-22 16:01:24', '2025-08-22 16:01:24'),
+(136, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-23 08:31:10', '2025-08-23 08:31:10');
 
 -- --------------------------------------------------------
 
@@ -555,7 +556,7 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `usernam
 (1, 1, 'Admin', 'admin', 'Admin', 'admin', '', '$2y$10$mVEvojJB5S6yx0DpBklmYOFSmvI6k8WqqKuAZxLu7w3dFGBXxXLqa', '1701744923_ef8be205f9a3eefa1576.jpg', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', NULL, '2022-10-21 14:14:28', '2025-08-01 13:29:47'),
 (3, 2, 'Keuangan', 'keuangan', 'Keuangan', 'keuangan', '', '$2y$10$O/h9YibyABmarCDRvVzrfe23Y0qcIF5VHLFccOijKUtjTHYDS0MsC', '', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, '2024-04-27 20:10:01', '2025-08-17 12:55:09'),
 (4, 3, 'Akademik', 'akademik', 'Akademik', 'akademik', '', '$2y$10$ImQAWNG6keTBgvSlIZXZeOoO3U.aH8GcqL1nCamgFHiaunM3dje5.', '', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, '2025-08-18 16:37:32', '2025-08-18 16:37:32'),
-(5, 5, 'Mahasiswa', 'Mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '362055401093', 'Banyuwangi', '2001-01-01', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'D', 100000, 25000, 2500000, 1, 'SPP Tarif 1', 5000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-19 09:56:48', '2025-08-21 16:12:20'),
+(5, 5, 'Mahasiswa', 'Mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '362055401093', 'Banyuwangi', '2001-01-01', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'D', 100000, 25000, 2500000, 1, 'SPP Tarif 1', 5000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-19 09:56:48', '2025-08-23 09:13:17'),
 (6, 5, 'Mahasiswa', 'mahasiswa', 'Putri Salsabila', '1234567890', 'salsabilla@gmail.com', '$2y$10$DyxkiMlw8hyFGKeKHTGNruqLcg67JQAhVn10os8OxpDegkPpujrDK', '', 'Perempuan', 'Jember', '082634793123', '1234567890', 'Jember', '2002-01-12', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'C', 50000, 100000, 900000, 2, 'SPP Tarif 2', 4000000, 150000, 200000, 50000, 75000, 50000, 50000, 100000, 150000, 200000, 'Aktif', NULL, NULL, '2025-08-22 10:37:04', '2025-08-22 10:37:04');
 
 --
@@ -666,7 +667,7 @@ ALTER TABLE `kalender_akademik`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `pembayaran_mahasiswa`
@@ -708,7 +709,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `status_mahasiswa`
 --
 ALTER TABLE `status_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tagihan_mahasiswa`

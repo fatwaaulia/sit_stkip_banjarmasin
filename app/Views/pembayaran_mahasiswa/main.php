@@ -48,19 +48,23 @@ if ($mahasiswa) {
                         <table class="table">
                             <tr>
                                 <td class="fw-500">Nama Mahasiswa</td>
-                                <td>: <?= $mahasiswa['nama'] ?></td>
+                                <td>: <?= $mahasiswa['nama'] ?> (<?= $mahasiswa['nomor_identitas'] ?>)</td>
                             </tr>
                             <tr>
                                 <td class="fw-500">Program Studi</td>
                                 <td>: <?= $mahasiswa['jenjang_program_studi'] ?> - <?= $mahasiswa['nama_program_studi'] ?></td>
                             </tr>
                             <tr>
+                                <td class="fw-500">Mulai Kuliah</td>
+                                <td>: <?= $mahasiswa['tahun_akademik_diterima'] ?> - <?= $mahasiswa['tipe_tahun_akademik'] ?></td>
+                            </tr>
+                            <tr>
                                 <td class="fw-500">Semester dan Kelas</td>
                                 <td>: <?= $mahasiswa['semester'] ?> - <?= $mahasiswa['kelas'] ?></td>
                             </tr>
                             <tr>
-                                <td class="fw-500">Mulai Kuliah</td>
-                                <td>: <?= $mahasiswa['tahun_akademik_diterima'] ?> - <?= $mahasiswa['tipe_tahun_akademik'] ?></td>
+                                <td class="fw-500">Status</td>
+                                <td>: <?= $mahasiswa['status'] ?></td>
                             </tr>
                         </table>
                         <?php else : ?>
@@ -81,7 +85,26 @@ if ($mahasiswa) {
                     </thead>
                     <tbody>
                         <?php
+                        $total_tagihan = 0;
                         foreach ($daftar_tagihan as $key => $v) :
+                            $status_mahasiswa = model('StatusMahasiswa')->where('id_mahasiswa', $mahasiswa['id'])->findAll();
+                            foreach ($status_mahasiswa as $v2) {
+                                if (in_array($v2['status'], ['Cuti', 'DO'])) {
+                                    if ($v['id_tahun_akademik'] >= $v2['id_tahun_akademik']) {
+                                        continue 2;
+                                    }
+                                }
+
+                                if ($v2['status'] == 'Aktif') {
+                                    if (
+                                        ($v['id_tahun_akademik'] >= $v2['id_tahun_akademik']) &&
+                                        ($v['id_tahun_akademik'] <= $v2['id_tahun_akademik_selesai_cuti'])
+                                    ) {
+                                        continue 2;
+                                    }
+                                }
+                            }
+
                             $biaya = 0;
                             if ($v['kategori'] == 'PERORANGAN') {
                                 if (! in_array($mahasiswa['id'], json_decode($v['json_id_mahasiswa']))) {
@@ -137,6 +160,8 @@ if ($mahasiswa) {
                                 $status = 'Belum Lunas';
                                 $class_status = 'badge text-bg-warning';
                             }
+
+                            $total_tagihan += $biaya;
                         ?>
                         <tr>
                             <td class="text-center"><?= $key+1 ?></td>
@@ -200,10 +225,15 @@ if ($mahasiswa) {
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="text-center">Total</td>
+                            <td colspan="2"></td>
+                            <td class="fw-600"><?= formatRupiah($total_tagihan) ?></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <?php if (! $daftar_tagihan) : ?>
-                <p class="text-center">Tidak ada tagihan</p>
-                <?php endif; ?>
             </div>
         </div>
     </div>
