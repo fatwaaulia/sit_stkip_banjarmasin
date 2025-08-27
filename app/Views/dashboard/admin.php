@@ -61,3 +61,8 @@
         </div>
     </div>
 </div>
+
+<script>
+console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+</script>

@@ -50,72 +50,6 @@ class PenyusutanInventaris extends BaseController
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
-    public function index()
-    {
-        $select     = ['*'];
-        $base_query = model($this->model_name)->select($select);
-        $limit      = (int)$this->request->getVar('length');
-        $offset     = (int)$this->request->getVar('start');
-        $records_total = $base_query->countAllResults(false);
-
-        $get_periode = $this->request->getVar('periode') ?? 'Tahunan';
-
-        // Datatables
-        $columns = array_column($this->request->getVar('columns') ?? [], 'name');
-        $search = $this->request->getVar('search')['value'] ?? null;
-        dataTablesSearch($columns, $search, $select, $base_query);
-
-        $order = $this->request->getVar('order')[0] ?? null;
-        if (isset($order['column'], $order['dir']) && !empty($columns[$order['column']])) {
-            $base_query->orderBy($columns[$order['column']], $order['dir'] === 'desc' ? 'desc' : 'asc');
-        }
-        // End | Datatables
-
-        $total_rows = $base_query->countAllResults(false);
-        $data       = $base_query->findAll($limit, $offset);
-
-        foreach ($data as $key => $v) {
-            $penyusutan_tahunan = ($v['harga_beli'] - $v['nilai_residu']) / $v['umur_ekonomis'];
-            $penyusutan_bulanan = $penyusutan_tahunan / 12;
-            
-            if ($get_periode == 'Tahunan') {
-                $tahun_berlalu = date('Y', time()) - date('Y', strtotime($v['tanggal_beli']));
-                $akumulasi_penyusutan = $penyusutan_tahunan * $tahun_berlalu;
-            } else {
-                $tahun_beli  = date('Y', strtotime($v['tanggal_beli']));
-                $bulan_beli  = date('m', strtotime($v['tanggal_beli']));
-                $tahun_sekarang = date('Y');
-                $bulan_sekarang = date('m');
-                $bulan_berlalu = (($tahun_sekarang - $tahun_beli) * 12) + ($bulan_sekarang - $bulan_beli);
-                $akumulasi_penyusutan = $penyusutan_bulanan * $bulan_berlalu;
-            }
-
-            $maks_penyusutan = $v['harga_beli'] - $v['nilai_residu'];
-            if ($akumulasi_penyusutan > $maks_penyusutan) {
-                $akumulasi_penyusutan = $maks_penyusutan;
-            }
-
-            $nilai_buku = $v['harga_beli'] - $akumulasi_penyusutan;
-
-            $data[$key]['no_urut'] = $offset + $key + 1;
-            $data[$key]['tanggal_beli'] = date('d-m-Y', strtotime($v['tanggal_beli']));
-            $data[$key]['harga_beli'] = formatRupiah($v['harga_beli']);
-            $data[$key]['umur_ekonomis'] = $v['umur_ekonomis'] . ' Tahun';
-            $data[$key]['nilai_residu'] = formatRupiah($v['nilai_residu']);
-            $data[$key]['penyusutan_tahunan'] = formatRupiah($penyusutan_tahunan);
-            $data[$key]['penyusutan_bulanan'] = formatRupiah($penyusutan_bulanan);
-            $data[$key]['akumulasi_penyusutan'] = formatRupiah($akumulasi_penyusutan);
-            $data[$key]['nilai_buku'] = formatRupiah($nilai_buku);
-            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime($v['created_at']));
-        }
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'recordsTotal'    => $records_total,
-            'recordsFiltered' => $total_rows,
-            'data'            => $data,
-        ]);
-    }
-
     public function indexDetail($id = null)
     {
         $find_data = model($this->model_name)->find($id);
@@ -154,11 +88,12 @@ class PenyusutanInventaris extends BaseController
     public function create()
     {
         $rules = [
-            'nama_barang'   => 'required',
-            'tanggal_beli'  => 'required',
-            'harga_beli'    => 'required',
-            'umur_ekonomis' => 'required',
-            'nilai_residu'  => 'required',
+            'kategori'        => 'required',
+            'nama_barang'     => 'required',
+            'unit'            => 'required',
+            'tahun_perolehan' => 'required',
+            'umur_ekonomis'   => 'required',
+            'harga_perolehan' => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -171,12 +106,15 @@ class PenyusutanInventaris extends BaseController
         }
 
         // Lolos Validasi
+        $kategori = model('KategoriPenyusutanInventaris')->find($this->request->getVar('kategori'));
         $data = [
-            'nama_barang'   => $this->request->getVar('nama_barang'),
-            'tanggal_beli'  => $this->request->getVar('tanggal_beli'),
-            'harga_beli'    => $this->request->getVar('harga_beli', FILTER_SANITIZE_NUMBER_INT),
-            'umur_ekonomis' => $this->request->getVar('umur_ekonomis'),
-            'nilai_residu'  => $this->request->getVar('nilai_residu', FILTER_SANITIZE_NUMBER_INT),
+            'id_kategori'     => $kategori['id'],
+            'nama_kategori'   => $kategori['nama'],
+            'nama_barang'     => $this->request->getVar('nama_barang'),
+            'unit'            => $this->request->getVar('unit'),
+            'tahun_perolehan' => $this->request->getVar('tahun_perolehan'),
+            'umur_ekonomis'   => $this->request->getVar('umur_ekonomis'),
+            'harga_perolehan' => $this->request->getVar('harga_perolehan', FILTER_SANITIZE_NUMBER_INT),
         ];
 
         model($this->model_name)->insert($data);
@@ -191,11 +129,12 @@ class PenyusutanInventaris extends BaseController
     public function update($id = null)
     {
         $rules = [
-            'nama_barang'   => 'required',
-            'tanggal_beli'  => 'required',
-            'harga_beli'    => 'required',
-            'umur_ekonomis' => 'required',
-            'nilai_residu'  => 'required',
+            'kategori'        => 'required',
+            'nama_barang'     => 'required',
+            'unit'            => 'required',
+            'tahun_perolehan' => 'required',
+            'umur_ekonomis'   => 'required',
+            'harga_perolehan' => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -208,12 +147,15 @@ class PenyusutanInventaris extends BaseController
         }
 
         // Lolos Validasi
+        $kategori = model('KategoriPenyusutanInventaris')->find($this->request->getVar('kategori'));
         $data = [
-            'nama_barang'   => $this->request->getVar('nama_barang'),
-            'tanggal_beli'  => $this->request->getVar('tanggal_beli'),
-            'harga_beli'    => $this->request->getVar('harga_beli', FILTER_SANITIZE_NUMBER_INT),
-            'umur_ekonomis' => $this->request->getVar('umur_ekonomis'),
-            'nilai_residu'  => $this->request->getVar('nilai_residu', FILTER_SANITIZE_NUMBER_INT),
+            'id_kategori'     => $kategori['id'],
+            'nama_kategori'   => $kategori['nama'],
+            'nama_barang'     => $this->request->getVar('nama_barang'),
+            'unit'            => $this->request->getVar('unit'),
+            'tahun_perolehan' => $this->request->getVar('tahun_perolehan'),
+            'umur_ekonomis'   => $this->request->getVar('umur_ekonomis'),
+            'harga_perolehan' => $this->request->getVar('harga_perolehan', FILTER_SANITIZE_NUMBER_INT),
         ];
 
         model($this->model_name)->update($id, $data);

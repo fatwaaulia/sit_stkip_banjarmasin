@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 23, 2025 at 02:20 AM
+-- Generation Time: Aug 27, 2025 at 01:29 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -68,6 +68,30 @@ CREATE TABLE `kalender_akademik` (
 
 INSERT INTO `kalender_akademik` (`id`, `judul`, `gambar`, `created_at`, `updated_at`) VALUES
 (1, 'Kalender Akademik Semester Ganjil Tahun 2025-2026', '1755644878_7bfb72fc1b9ffc4f3898.jpg', '2025-08-20 06:07:59', '2025-08-20 06:21:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kategori_penyusutan_inventaris`
+--
+
+CREATE TABLE `kategori_penyusutan_inventaris` (
+  `id` bigint NOT NULL,
+  `nama` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kategori_penyusutan_inventaris`
+--
+
+INSERT INTO `kategori_penyusutan_inventaris` (`id`, `nama`, `created_at`, `updated_at`) VALUES
+(1, 'Tanah', '2025-08-27 00:45:46', '2025-08-27 00:45:46'),
+(2, 'Bangunan', '2025-08-27 00:45:46', '2025-08-27 00:45:46'),
+(3, 'Inventaris Kantor', '2025-08-27 00:45:46', '2025-08-27 00:45:46'),
+(4, 'Perpustakaan', '2025-08-27 00:45:46', '2025-08-27 00:45:46'),
+(5, 'Laboratorium', '2025-08-27 00:45:46', '2025-08-27 00:45:46');
 
 -- --------------------------------------------------------
 
@@ -208,7 +232,11 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (133, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-21 21:29:59', '2025-08-21 21:29:59'),
 (134, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-22 05:36:38', '2025-08-22 05:36:38'),
 (135, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-22 16:01:24', '2025-08-22 16:01:24'),
-(136, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-23 08:31:10', '2025-08-23 08:31:10');
+(136, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-23 08:31:10', '2025-08-23 08:31:10'),
+(137, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-23 12:04:31', '2025-08-23 12:04:31'),
+(138, 0, 0, '', 'superadmin', '::1', 'Failed', '2025-08-24 05:56:30', '2025-08-24 05:56:30'),
+(139, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-24 05:56:37', '2025-08-24 05:56:37'),
+(140, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-27 05:20:39', '2025-08-27 05:20:39');
 
 -- --------------------------------------------------------
 
@@ -285,11 +313,13 @@ INSERT INTO `penggunaan_dana` (`id`, `grup`, `nama_jenis_dana`, `ts_2`, `ts_1`, 
 
 CREATE TABLE `penyusutan_inventaris` (
   `id` bigint NOT NULL,
+  `id_kategori` bigint NOT NULL,
+  `nama_kategori` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nama_barang` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `tanggal_beli` date NOT NULL,
-  `harga_beli` int NOT NULL,
+  `unit` int NOT NULL,
+  `tahun_perolehan` year NOT NULL,
   `umur_ekonomis` int NOT NULL,
-  `nilai_residu` int NOT NULL,
+  `harga_perolehan` bigint NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -298,9 +328,19 @@ CREATE TABLE `penyusutan_inventaris` (
 -- Dumping data for table `penyusutan_inventaris`
 --
 
-INSERT INTO `penyusutan_inventaris` (`id`, `nama_barang`, `tanggal_beli`, `harga_beli`, `umur_ekonomis`, `nilai_residu`, `created_at`, `updated_at`) VALUES
-(1, 'Komputer', '2024-02-13', 5000000, 3, 500000, '2025-08-18 13:57:06', '2025-08-18 15:49:15'),
-(2, 'Printer', '2023-06-01', 2000000, 4, 200000, '2025-08-18 15:51:44', '2025-08-18 15:51:44');
+INSERT INTO `penyusutan_inventaris` (`id`, `id_kategori`, `nama_kategori`, `nama_barang`, `unit`, `tahun_perolehan`, `umur_ekonomis`, `harga_perolehan`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Bangunan', 'Bangunan STIKIP', 1, '2011', 30, 7700000000, '2025-08-27 06:16:31', '2025-08-27 07:53:19'),
+(3, 1, 'Tanah', 'Sertifikat HGB No.10 L=1.580 m²', 1, '2008', 0, 309680000, '2025-08-27 07:37:57', '2025-08-27 07:54:31'),
+(4, 1, 'Tanah', 'Sertifikat HGB No.11 L= 4.244 m²', 1, '2008', 0, 831824000, '2025-08-27 07:39:16', '2025-08-27 07:54:41'),
+(5, 2, 'Bangunan', 'Rumah Di Malkontemon', 1, '2012', 30, 518100000, '2025-08-27 07:55:38', '2025-08-27 07:55:38'),
+(6, 2, 'Bangunan', 'Pagar Malkontemon II', 1, '2012', 10, 210000000, '2025-08-27 07:56:08', '2025-08-27 07:56:08'),
+(7, 2, 'Bangunan', 'Paving Blok dan Taman Halaman', 1, '2013', 10, 200000000, '2025-08-27 07:56:53', '2025-08-27 07:56:53'),
+(8, 2, 'Bangunan', 'Pigura STKIP Islam SM', 1, '2017', 10, 26040000, '2025-08-27 07:57:16', '2025-08-27 07:57:16'),
+(9, 3, 'Inventaris Kantor', 'Komputer', 1, '2011', 4, 4495000, '2025-08-27 07:58:47', '2025-08-27 07:58:47'),
+(10, 3, 'Inventaris Kantor', 'UPS ICA', 1, '2011', 4, 450000, '2025-08-27 07:59:31', '2025-08-27 07:59:31'),
+(11, 3, 'Inventaris Kantor', 'Meja Kerja Besar', 1, '2011', 5, 450000, '2025-08-27 08:26:36', '2025-08-27 08:26:36'),
+(12, 3, 'Inventaris Kantor', 'Meja Kerja Kecil', 1, '2011', 5, 300000, '2025-08-27 08:26:58', '2025-08-27 08:26:58'),
+(13, 3, 'Inventaris Kantor', 'Kursi Lipat', 2, '2011', 4, 400000, '2025-08-27 08:27:34', '2025-08-27 08:27:34');
 
 -- --------------------------------------------------------
 
@@ -576,6 +616,12 @@ ALTER TABLE `kalender_akademik`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `kategori_penyusutan_inventaris`
+--
+ALTER TABLE `kategori_penyusutan_inventaris`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `log_login`
 --
 ALTER TABLE `log_login`
@@ -664,10 +710,16 @@ ALTER TABLE `kalender_akademik`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `kategori_penyusutan_inventaris`
+--
+ALTER TABLE `kategori_penyusutan_inventaris`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `pembayaran_mahasiswa`
@@ -685,7 +737,7 @@ ALTER TABLE `penggunaan_dana`
 -- AUTO_INCREMENT for table `penyusutan_inventaris`
 --
 ALTER TABLE `penyusutan_inventaris`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `perolehan_dana`

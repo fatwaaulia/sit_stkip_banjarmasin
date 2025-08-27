@@ -67,8 +67,9 @@ if ($mahasiswa) {
                                 <td>: <?= $mahasiswa['status'] ?></td>
                             </tr>
                         </table>
-                        <?php else : ?>
+                        <?php else : if ($get_nim != '') : ?>
                         <span class="fw-500 text-danger">Mahasiswa tidak ditemukan!</span>
+                        <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </div>
