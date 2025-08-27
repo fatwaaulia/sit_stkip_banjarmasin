@@ -111,42 +111,9 @@ if ($mahasiswa) {
                                 if (! in_array($mahasiswa['id'], json_decode($v['json_id_mahasiswa']))) {
                                     continue;
                                 }
-
-                                // Tagihan Perorangan
-                                if ($v['jenis'] == 'LDKM') {
-                                    $biaya = $mahasiswa['biaya_ldkm'];
-                                } elseif ($v['jenis'] == 'MBKM') {
-                                    $biaya = $mahasiswa['biaya_mbkm'];
-                                } elseif ($v['jenis'] == 'BIMBINGAN SKRIPSI') {
-                                    $biaya = $mahasiswa['biaya_bimbingan_skripsi'];
-                                } elseif ($v['jenis'] == 'SEMINAR PROPOSAL') {
-                                    $biaya = $mahasiswa['biaya_seminar_proposal'];
-                                } elseif ($v['jenis'] == 'SIDANG SKRIPSI') {
-                                    $biaya = $mahasiswa['biaya_sidang_skripsi'];
-                                } elseif ($v['jenis'] == 'YUDISIUM') {
-                                    $biaya = $mahasiswa['biaya_yudisium'];
-                                } elseif ($v['jenis'] == 'WISUDA') {
-                                    $biaya = $mahasiswa['biaya_wisuda'];
-                                }
                             }
 
-                            // Tagihan Maba
-                            if ($v['jenis'] == 'ALMAMATER') {
-                                $biaya = $mahasiswa['biaya_almamater'];
-                            } elseif ($v['jenis'] == 'KTM') {
-                                $biaya = $mahasiswa['biaya_ktm'];
-                            } elseif ($v['jenis'] == 'UANG GEDUNG') {
-                                $biaya = $mahasiswa['biaya_uang_gedung'];
-                            }
-
-                            // Tagihan Semester
-                            if ($v['jenis'] == 'SPP') {
-                                $biaya = $mahasiswa['biaya_spp'];
-                            } elseif ($v['jenis'] == 'UTS') {
-                                $biaya = $mahasiswa['biaya_uts'];
-                            } elseif ($v['jenis'] == 'UAS') {
-                                $biaya = $mahasiswa['biaya_uas'];
-                            }
+                            $biaya = biayaKuliahMahasiswa($mahasiswa['id'], $v['jenis']);
 
                             $pembayaran_mahasiswa = model('PembayaranMahasiswa')
                             ->where([

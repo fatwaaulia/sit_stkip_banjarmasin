@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
-                render: data => `${data.tahun_akademik} ${data.tipe_tahun_akademik}`,
+                render: data => `<a href="<?= base_url(userSession('slug_role')) ?>/belum-bayar?tagihan_mahasiswa=${data.id}">${data.tahun_akademik} - ${data.tipe_tahun_akademik}</a>`,
             }, {
                 name: '',
                 data: 'created_at',

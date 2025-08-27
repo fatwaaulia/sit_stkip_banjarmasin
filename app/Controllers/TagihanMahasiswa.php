@@ -116,6 +116,7 @@ class TagihanMahasiswa extends BaseController
         }
 
         $kategori = $this->request->getVar('kategori');
+        $json_id_mahasiswa = '';
         if ($kategori == 'PERORANGAN') {
             $json_id_mahasiswa = $this->request->getVar('json_id_mahasiswa');
 

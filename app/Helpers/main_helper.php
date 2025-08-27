@@ -198,6 +198,13 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
+			'title'	=> 'Belum Bayar',
+			'icon'	=> 'fa-solid fa-hourglass-half',
+			'url'	=> base_url(userSession('slug_role')) . '/belum-bayar',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
+		],
+        [
 			'title'	=> 'AKADEMIK',
 			'role'	=> [1, 3],
 			'type'	=> 'heading',
@@ -339,4 +346,50 @@ function roleAccessByTitle($title) {
 		}
     }
     return [];
+}
+
+/*--------------------------------------------------------------
+  # Sistem
+--------------------------------------------------------------*/
+function biayaKuliahMahasiswa($id_mahasiswa, $jenis_tagihan)
+{
+    $mahasiswa = model('Users')->find($id_mahasiswa);
+
+    $biaya = 0;
+    // Tagihan Perorangan
+    if ($jenis_tagihan == 'LDKM') {
+        $biaya = $mahasiswa['biaya_ldkm'];
+    } elseif ($jenis_tagihan == 'MBKM') {
+        $biaya = $mahasiswa['biaya_mbkm'];
+    } elseif ($jenis_tagihan == 'BIMBINGAN SKRIPSI') {
+        $biaya = $mahasiswa['biaya_bimbingan_skripsi'];
+    } elseif ($jenis_tagihan == 'SEMINAR PROPOSAL') {
+        $biaya = $mahasiswa['biaya_seminar_proposal'];
+    } elseif ($jenis_tagihan == 'SIDANG SKRIPSI') {
+        $biaya = $mahasiswa['biaya_sidang_skripsi'];
+    } elseif ($jenis_tagihan == 'YUDISIUM') {
+        $biaya = $mahasiswa['biaya_yudisium'];
+    } elseif ($jenis_tagihan == 'WISUDA') {
+        $biaya = $mahasiswa['biaya_wisuda'];
+    }
+
+    // Tagihan Maba
+    if ($jenis_tagihan == 'ALMAMATER') {
+        $biaya = $mahasiswa['biaya_almamater'];
+    } elseif ($jenis_tagihan == 'KTM') {
+        $biaya = $mahasiswa['biaya_ktm'];
+    } elseif ($jenis_tagihan == 'UANG GEDUNG') {
+        $biaya = $mahasiswa['biaya_uang_gedung'];
+    }
+
+    // Tagihan Semester
+    if ($jenis_tagihan == 'SPP') {
+        $biaya = $mahasiswa['biaya_spp'];
+    } elseif ($jenis_tagihan == 'UTS') {
+        $biaya = $mahasiswa['biaya_uts'];
+    } elseif ($jenis_tagihan == 'UAS') {
+        $biaya = $mahasiswa['biaya_uas'];
+    }
+
+    return $biaya;
 }

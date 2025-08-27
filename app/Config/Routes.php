@@ -161,6 +161,12 @@ if (in_array($id_role, roleAccessByTitle('Pembayaran Mahasiswa'))) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Belum Bayar'))) {
+    $routes->group("$slug_role/belum-bayar", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'BelumBayar::main');
+    });
+}
+
 if (in_array($id_role, roleAccessByTitle('Kalender Akademik'))) {
     $routes->get("$slug_role/kalender-akademik", 'KalenderAkademik::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/kalender-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {
