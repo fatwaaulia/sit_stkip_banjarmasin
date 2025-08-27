@@ -287,23 +287,6 @@ input:focus,
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 16 16'%3e%3cpath fill-rule='evenodd' d='M1.292 4.342a.5.5 0 0 1 .682-.032L8 10.293l6.026-5.98a.5.5 0 1 1 .704.71l-6.5 6.46a.5.5 0 0 1-.704 0l-6.5-6.46a.5.5 0 0 1-.034-.682z'/%3e%3c/svg%3e");
 }
 
-[data-bs-theme=light] {
-    .table-striped > tbody > tr:nth-of-type(odd) > * {
-        --bs-table-bg-type: #f9f9f9;
-    }
-    .table-hover > tbody > tr:hover {
-       --bs-table-hover-bg: #f6f6f6;
-    }
-}
-[data-bs-theme=dark] {
-    .table-striped > tbody > tr:nth-of-type(odd) > * {
-        --bs-table-bg-type: var(--dark-theme-bg-color)!important;
-    }
-    .table-hover > tbody > tr:hover {
-       --bs-table-hover-bg: var(--dark-theme-bg-color)!important;
-    }
-}
-
 .table { --bs-table-bg: unset; }
 .table tr th,
 .table tr td {

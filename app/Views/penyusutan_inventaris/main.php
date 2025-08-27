@@ -1,5 +1,5 @@
 <?php
-$get_tahun_laporan = $_GET['tahun_laporan'] ?? date('Y');
+$get_tahun_laporan = $_GET['tahun_laporan'] ?: date('Y');
 $kategori = model('KategoriPenyusutanInventaris')->findAll();
 ?>
 
@@ -108,7 +108,6 @@ table tr th { text-align: center; }
                         <thead class="bg-primary-subtle">
                             <tr>
                                 <th>No.</th>
-                                <th>Kategori</th>
                                 <th>Nama Barang</th>
                                 <th>Unit</th>
                                 <th>Tahun <br> Perolehan</th>
@@ -130,42 +129,48 @@ table tr th { text-align: center; }
                             $grand_total_akumulasi_penyusutan_tahun_laporan = 0;
                             $grand_total_nilai_buku = 0;
                             foreach ($kategori as $v_0) :
-                                $penyusutan_inventaris = model('PenyusutanInventaris')->where('id_kategori', $v_0['id'])->findAll();
+                            ?>
+                            <tr class="bg-warning-subtle">
+                                <td class="text-center fw-500">#</td>
+                                <td class="text-center fw-500"><?= $v_0['nama'] ?></td>
+                                <td colspan="10"></td>
+                            </tr>
+                            <?php
+                            $penyusutan_inventaris = model('PenyusutanInventaris')->where('id_kategori', $v_0['id'])->findAll();
 
-                                $sub_total_harga_perolehan = 0;
-                                $sub_total_akumulasi_penyusutan_tahun_lalu = 0;
-                                $sub_total_beban_penyusutan_tahun_laporan = 0;
-                                $sub_total_akumulasi_penyusutan_tahun_laporan = 0;
-                                $sub_total_nilai_buku = 0;
-                                foreach ($penyusutan_inventaris as $key => $v) :
-                                    if ($v['umur_ekonomis'] > 0) {
-                                        $persentase_penyusutan = round(100 / $v['umur_ekonomis'], 2) . '%';
-        
-                                        $tahun_laporan = $get_tahun_laporan;
-                                        $umur_berjalan = $tahun_laporan - $v['tahun_perolehan'] + 1;
-        
-                                        $akumulasi_penyusutan_tahun_lalu = min($v['harga_perolehan'], ($tahun_laporan - $v['tahun_perolehan']) * ($v['harga_perolehan'] / $v['umur_ekonomis']));
-                                        $beban_penyusutan_tahun_laporan = ($umur_berjalan > $v['umur_ekonomis']) ? 0 : ($v['harga_perolehan'] / $v['umur_ekonomis']);
-                                        $akumulasi_penyusutan_tahun_laporan = min($v['harga_perolehan'], $umur_berjalan * ($v['harga_perolehan'] / $v['umur_ekonomis']));
-                                        $nilai_buku = $v['harga_perolehan'] - $akumulasi_penyusutan_tahun_laporan;
-                                    } else {
-                                        $persentase_penyusutan = $v['umur_ekonomis'] . '%';
-        
-                                        $akumulasi_penyusutan_tahun_lalu = 0;
-                                        $beban_penyusutan_tahun_laporan = 0;
-                                        $akumulasi_penyusutan_tahun_laporan = 0;
-                                        $nilai_buku = 0;
-                                    }
+                            $sub_total_harga_perolehan = 0;
+                            $sub_total_akumulasi_penyusutan_tahun_lalu = 0;
+                            $sub_total_beban_penyusutan_tahun_laporan = 0;
+                            $sub_total_akumulasi_penyusutan_tahun_laporan = 0;
+                            $sub_total_nilai_buku = 0;
+                            foreach ($penyusutan_inventaris as $key => $v) :
+                                if ($v['umur_ekonomis'] > 0) {
+                                    $persentase_penyusutan = round(100 / $v['umur_ekonomis'], 1) . '%';
+    
+                                    $tahun_laporan = $get_tahun_laporan;
+                                    $umur_berjalan = $tahun_laporan - $v['tahun_perolehan'] + 1;
+    
+                                    $akumulasi_penyusutan_tahun_lalu = min($v['harga_perolehan'], ($tahun_laporan - $v['tahun_perolehan']) * ($v['harga_perolehan'] / $v['umur_ekonomis']));
+                                    $beban_penyusutan_tahun_laporan = ($umur_berjalan > $v['umur_ekonomis']) ? 0 : ($v['harga_perolehan'] / $v['umur_ekonomis']);
+                                    $akumulasi_penyusutan_tahun_laporan = min($v['harga_perolehan'], $umur_berjalan * ($v['harga_perolehan'] / $v['umur_ekonomis']));
+                                    $nilai_buku = $v['harga_perolehan'] - $akumulasi_penyusutan_tahun_laporan;
+                                } else {
+                                    $persentase_penyusutan = $v['umur_ekonomis'] . '%';
+    
+                                    $akumulasi_penyusutan_tahun_lalu = 0;
+                                    $beban_penyusutan_tahun_laporan = 0;
+                                    $akumulasi_penyusutan_tahun_laporan = 0;
+                                    $nilai_buku = $v['harga_perolehan'];
+                                }
 
-                                    $sub_total_harga_perolehan += $v['harga_perolehan'];
-                                    $sub_total_akumulasi_penyusutan_tahun_lalu += $akumulasi_penyusutan_tahun_lalu;
-                                    $sub_total_beban_penyusutan_tahun_laporan += $beban_penyusutan_tahun_laporan;
-                                    $sub_total_akumulasi_penyusutan_tahun_laporan += $akumulasi_penyusutan_tahun_laporan;
-                                    $sub_total_nilai_buku += $nilai_buku;
+                                $sub_total_harga_perolehan += $v['harga_perolehan'];
+                                $sub_total_akumulasi_penyusutan_tahun_lalu += $akumulasi_penyusutan_tahun_lalu;
+                                $sub_total_beban_penyusutan_tahun_laporan += $beban_penyusutan_tahun_laporan;
+                                $sub_total_akumulasi_penyusutan_tahun_laporan += $akumulasi_penyusutan_tahun_laporan;
+                                $sub_total_nilai_buku += $nilai_buku;
                             ?>
                             <tr>
                                 <td class="text-center"><?= $key+1 ?></td>
-                                <td><?= $v['nama_kategori'] ?></td>
                                 <td><?= $v['nama_barang'] ?></td>
                                 <td class="text-center"><?= $v['unit'] ?></td>
                                 <td class="text-center"><?= $v['tahun_perolehan'] ?></td>
@@ -260,7 +265,6 @@ table tr th { text-align: center; }
                             ?>
                             <tr>
                                 <td></td>
-                                <td></td>
                                 <td class="text-center fw-600">Sub Total</td>
                                 <td colspan="5" class="text-end fw-600"><?= formatRupiah($sub_total_harga_perolehan) ?></td>
                                 <td class="text-end fw-600"><?= formatRupiah($sub_total_akumulasi_penyusutan_tahun_lalu) ?></td>
@@ -271,7 +275,6 @@ table tr th { text-align: center; }
                             </tr>
                             <?php endforeach; ?>
                             <tr>
-                                <td></td>
                                 <td></td>
                                 <td class="text-center fw-600">Grand Total</td>
                                 <td colspan="5" class="text-end fw-600"><?= formatRupiah($grand_total_harga_perolehan) ?></td>
@@ -288,3 +291,26 @@ table tr th { text-align: center; }
         </div>
     </div>
 </section>
+
+<style>
+.btn-scroll,
+.btn-scroll:focus {
+    position: fixed;
+    bottom: 2%;
+    right: 2%;
+    transition: .3s;
+}
+.btn-scroll-to-bottom:hover,
+.btn-scroll-to-top:hover {
+    bottom: 3%;
+}
+</style>
+
+<div class="btn-scroll">
+    <button class="btn btn-primary btn-scroll-to-top me-1" style="z-index:999;" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <button class="btn btn-primary btn-scroll-to-bottom" style="z-index:999;" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">
+        <i class="fa-solid fa-arrow-down"></i>
+    </button>
+</div>
