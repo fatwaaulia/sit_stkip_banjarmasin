@@ -1,5 +1,5 @@
 <?php
-$get_tahun_laporan = $_GET['tahun_laporan'] ?: date('Y');
+$get_tahun_laporan = ($_GET['tahun_laporan'] ?? '') ?: date('Y');
 $kategori = model('KategoriPenyusutanInventaris')->findAll();
 ?>
 
@@ -144,19 +144,21 @@ table tr th { text-align: center; }
                             $sub_total_akumulasi_penyusutan_tahun_laporan = 0;
                             $sub_total_nilai_buku = 0;
                             foreach ($penyusutan_inventaris as $key => $v) :
+                                $tahun_laporan = $get_tahun_laporan;
+                                $umur_berjalan = $tahun_laporan - $v['tahun_perolehan'] + 1;
+
+                                if ($v['tahun_perolehan'] > $tahun_laporan) continue;
+
                                 if ($v['umur_ekonomis'] > 0) {
                                     $persentase_penyusutan = round(100 / $v['umur_ekonomis'], 1) . '%';
-    
-                                    $tahun_laporan = $get_tahun_laporan;
-                                    $umur_berjalan = $tahun_laporan - $v['tahun_perolehan'] + 1;
-    
+
                                     $akumulasi_penyusutan_tahun_lalu = min($v['harga_perolehan'], ($tahun_laporan - $v['tahun_perolehan']) * ($v['harga_perolehan'] / $v['umur_ekonomis']));
                                     $beban_penyusutan_tahun_laporan = ($umur_berjalan > $v['umur_ekonomis']) ? 0 : ($v['harga_perolehan'] / $v['umur_ekonomis']);
                                     $akumulasi_penyusutan_tahun_laporan = min($v['harga_perolehan'], $umur_berjalan * ($v['harga_perolehan'] / $v['umur_ekonomis']));
                                     $nilai_buku = $v['harga_perolehan'] - $akumulasi_penyusutan_tahun_laporan;
                                 } else {
                                     $persentase_penyusutan = $v['umur_ekonomis'] . '%';
-    
+
                                     $akumulasi_penyusutan_tahun_lalu = 0;
                                     $beban_penyusutan_tahun_laporan = 0;
                                     $akumulasi_penyusutan_tahun_laporan = 0;
@@ -176,11 +178,11 @@ table tr th { text-align: center; }
                                 <td class="text-center"><?= $v['tahun_perolehan'] ?></td>
                                 <td class="text-center"><?= $v['umur_ekonomis'] ?></td>
                                 <td class="text-center"><?= $persentase_penyusutan ?></td>
-                                <td class="text-end"><?= formatRupiah($v['harga_perolehan']) ?></td>
-                                <td class="text-end"><?= formatRupiah($akumulasi_penyusutan_tahun_lalu) ?></td>
-                                <td class="text-end"><?= formatRupiah($beban_penyusutan_tahun_laporan) ?></td>
-                                <td class="text-end"><?= formatRupiah($akumulasi_penyusutan_tahun_laporan) ?></td>
-                                <td class="text-end"><?= formatRupiah($nilai_buku) ?></td>
+                                <td class="text-end"><?= dotsNumber($v['harga_perolehan']) ?></td>
+                                <td class="text-end"><?= dotsNumber($akumulasi_penyusutan_tahun_lalu) ?></td>
+                                <td class="text-end"><?= dotsNumber($beban_penyusutan_tahun_laporan) ?></td>
+                                <td class="text-end"><?= dotsNumber($akumulasi_penyusutan_tahun_laporan) ?></td>
+                                <td class="text-end"><?= dotsNumber($nilai_buku) ?></td>
                                 <td>
                                     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit_<?= $v['id'] ?>">
                                         <i class="fa-regular fa-pen-to-square fa-lg"></i>
@@ -266,22 +268,22 @@ table tr th { text-align: center; }
                             <tr>
                                 <td></td>
                                 <td class="text-center fw-600">Sub Total</td>
-                                <td colspan="5" class="text-end fw-600"><?= formatRupiah($sub_total_harga_perolehan) ?></td>
-                                <td class="text-end fw-600"><?= formatRupiah($sub_total_akumulasi_penyusutan_tahun_lalu) ?></td>
-                                <td class="text-end fw-600"><?= formatRupiah($sub_total_beban_penyusutan_tahun_laporan) ?></td>
-                                <td class="text-end fw-600"><?= formatRupiah($sub_total_akumulasi_penyusutan_tahun_laporan) ?></td>
-                                <td class="text-end fw-600"><?= formatRupiah($sub_total_nilai_buku) ?></td>
+                                <td colspan="5" class="text-end fw-600"><?= dotsNumber($sub_total_harga_perolehan) ?></td>
+                                <td class="text-end fw-600"><?= dotsNumber($sub_total_akumulasi_penyusutan_tahun_lalu) ?></td>
+                                <td class="text-end fw-600"><?= dotsNumber($sub_total_beban_penyusutan_tahun_laporan) ?></td>
+                                <td class="text-end fw-600"><?= dotsNumber($sub_total_akumulasi_penyusutan_tahun_laporan) ?></td>
+                                <td class="text-end fw-600"><?= dotsNumber($sub_total_nilai_buku) ?></td>
                                 <td></td>
                             </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <td></td>
                                 <td class="text-center fw-600">Grand Total</td>
-                                <td colspan="5" class="text-end fw-600"><?= formatRupiah($grand_total_harga_perolehan) ?></td>
-                                <td class="text-end fw-600"><?= formatRupiah($grand_total_akumulasi_penyusutan_tahun_lalu) ?></td>
-                                <td class="text-end fw-600"><?= formatRupiah($grand_total_beban_penyusutan_tahun_laporan) ?></td>
-                                <td class="text-end fw-600"><?= formatRupiah($grand_total_akumulasi_penyusutan_tahun_laporan) ?></td>
-                                <td class="text-end fw-600"><?= formatRupiah($grand_total_nilai_buku) ?></td>
+                                <td colspan="5" class="text-end fw-600"><?= dotsNumber($grand_total_harga_perolehan) ?></td>
+                                <td class="text-end fw-600"><?= dotsNumber($grand_total_akumulasi_penyusutan_tahun_lalu) ?></td>
+                                <td class="text-end fw-600"><?= dotsNumber($grand_total_beban_penyusutan_tahun_laporan) ?></td>
+                                <td class="text-end fw-600"><?= dotsNumber($grand_total_akumulasi_penyusutan_tahun_laporan) ?></td>
+                                <td class="text-end fw-600"><?= dotsNumber($grand_total_nilai_buku) ?></td>
                                 <td></td>
                             </tr>
                         </tbody>

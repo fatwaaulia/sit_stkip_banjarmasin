@@ -20,7 +20,7 @@
 
 body { overflow-y: scroll!important; }
 
-html { font-size: 15px; }
+html { font-size: 14px; }
 h1 { font-size: calc(2.5rem - 1px); }
 h2 { font-size: calc(2rem - 1px); }
 h3 { font-size: calc(1.75rem - 1px); }
@@ -34,6 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 
 body, h1, h2, h3, h4, h5, h6, p, span, a, div, button, label {
     font-family: 'Poppins', sans-serif!important;
+    letter-spacing: 0.3px;
 }
 
 input:not([type="radio"]):not([type="checkbox"]),

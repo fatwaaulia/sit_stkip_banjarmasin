@@ -31,60 +31,9 @@ class PenyusutanInventaris extends BaseController
         return view('dashboard/header', $view);
     }
 
-    public function detail($id = null)
-    {
-        $query = $_SERVER['QUERY_STRING'] ? ('?' . $_SERVER['QUERY_STRING']) : '';
-        $data = [
-            'get_data'   => $this->base_api . 'detail/' . $id . $query,
-            'base_route' => $this->base_route,
-            'base_api'   => $this->base_api,
-            'data'       => model($this->model_name)->find($id),
-            'title'      => 'Detail ' . ucwords(str_replace('_', ' ', $this->base_name)),
-        ];
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view($this->base_name . '/detail', $data);
-        return view('dashboard/header', $view);
-    }
-
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
-    public function indexDetail($id = null)
-    {
-        $find_data = model($this->model_name)->find($id);
-
-        $harga_beli = $find_data['harga_beli'];
-        $umur = $find_data['umur_ekonomis'];
-        $residu = $find_data['nilai_residu'];
-
-        $penyusutan_tahunan = ($harga_beli - $residu) / $umur;
-
-        $akumulasi_penyusutan = 0;
-        $penyusutan = [];
-
-        for ($tahun = 1; $tahun <= $umur; $tahun++) {
-            $akumulasi_penyusutan += $penyusutan_tahunan;
-            $nilai_buku = $harga_beli - $akumulasi_penyusutan;
-
-            $penyusutan[] = [
-                'tahun'                => $tahun,
-                'penyusutan_tahunan'   => formatRupiah($penyusutan_tahunan),
-                'akumulasi_penyusutan' => formatRupiah($akumulasi_penyusutan),
-                'nilai_buku'           => formatRupiah($nilai_buku),
-            ];
-        }
-
-        $data = $penyusutan;
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'recordsTotal'    => count($data),
-            'recordsFiltered' => count($data),
-            'data'            => $data,
-            'nama_barang'     => $find_data['nama_barang'],
-        ]);
-    }
-
     public function create()
     {
         $rules = [
