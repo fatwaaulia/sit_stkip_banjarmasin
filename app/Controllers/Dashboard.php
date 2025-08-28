@@ -13,12 +13,12 @@ class Dashboard extends BaseController
         return view('dashboard/header', $view);
     }
 
-    public function started()
+    public function mahasiswa()
     {
         $data['title'] = 'Dashboard';
 
         $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/started', $data);
+        $view['content'] = view('dashboard/mahasiswa', $data);
         return view('dashboard/header', $view);
     }
 }

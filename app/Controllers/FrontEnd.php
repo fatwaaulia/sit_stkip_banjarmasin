@@ -32,4 +32,20 @@ class FrontEnd extends BaseController
         $view['footer'] = view('frontend/components/footer');
         return view('frontend/header', $view);
     }
+
+    public function kalenderAkademik()
+    {
+        $data['title'] = $this->app_settings['nama_aplikasi'];
+
+        $data = [
+            'kalender_akademik' => model('KalenderAkademik')->orderBy('id DESC')->limit(6)->findAll(),
+            'kalender_akademik_terbaru' => model('KalenderAkademik')->orderBy('id DESC')->first(),
+            'title' => 'Kalender Akademik',
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/kalender_akademik', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
 }

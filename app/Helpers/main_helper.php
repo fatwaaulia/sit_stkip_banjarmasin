@@ -140,7 +140,7 @@ function menuSidebar()
 			'title'	=> 'Dashboard',
 			'icon'	=> 'fa-solid fa-chart-line',
 			'url'	=> base_url(userSession('slug_role')) . '/dashboard',
-			'role'	=> [1, 2, 3],
+			'role'	=> [1, 2, 3, 5],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -194,7 +194,7 @@ function menuSidebar()
 			'title'	=> 'Pembayaran Mahasiswa',
 			'icon'	=> 'fa-solid fa-rupiah-sign',
 			'url'	=> base_url(userSession('slug_role')) . '/pembayaran-mahasiswa',
-			'role'	=> [1, 3],
+			'role'	=> [1, 3, 5],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -284,7 +284,7 @@ function menuSidebar()
 		],
 		[
 			'title'	=> 'AKUN',
-			'role'	=> [1, 2, 3],
+			'role'	=> [1, 2, 3, 5],
 			'type'	=> 'heading',
 		],
         [
@@ -328,7 +328,7 @@ function menuSidebar()
 			'title'	=> 'Keluar',
 			'icon'	=> 'fa-solid fa-arrow-right-from-bracket',
 			'url'	=> base_url('logout'),
-			'role'	=> [1, 2, 3],
+			'role'	=> [1, 2, 3, 5],
 			'type'	=> 'no-collapse',
 		],
 	];

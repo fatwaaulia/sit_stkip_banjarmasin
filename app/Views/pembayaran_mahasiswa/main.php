@@ -1,5 +1,11 @@
 <?php
-$get_nim = $_GET['nim'] ?? '';
+if (in_array(userSession('id_role'), [1, 2])) {
+    $get_nim = $_GET['nim'] ?? '';
+    $is_access = true;
+} else {
+    $get_nim = userSession('nomor_identitas');
+    $is_access = false;
+}
 
 $mahasiswa = model('Users')
 ->where([
@@ -30,6 +36,7 @@ if ($mahasiswa) {
             <div class="card p-3">
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-md-6 col-lg-5 col-xl-4">
+                        <?php if ($is_access) : ?>
                         <form action="" method="get">
                             <div class="d-flex align-items-end gap-2 w-100">
                                 <div class="flex-grow-1">
@@ -42,6 +49,7 @@ if ($mahasiswa) {
                                 </button>
                             </div>
                         </form>
+                        <?php endif; ?>
                     </div>
                     <div class="col-12 col-md-6 col-lg-7 col-xl-8">
                         <?php if ($mahasiswa) : ?>
@@ -140,7 +148,7 @@ if ($mahasiswa) {
                                 <span class="<?= $class_status ?> me-2">
                                     <?= $status ?>
                                 </span>
-                                <?php if ($status == 'Belum Lunas') : ?>
+                                <?php if ($status == 'Belum Lunas' && ($is_access)) : ?>
                                 <a class="fw-500" data-bs-toggle="modal" data-bs-target="#setujui_<?= $key ?>">
                                     Setujui?
                                 </a>
@@ -193,6 +201,7 @@ if ($mahasiswa) {
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
+                    <?php if ($is_access) : ?>
                     <tfoot>
                         <tr>
                             <td class="text-center">Total</td>
@@ -201,6 +210,7 @@ if ($mahasiswa) {
                             <td></td>
                         </tr>
                     </tfoot>
+                    <?php endif; ?>
                 </table>
             </div>
         </div>

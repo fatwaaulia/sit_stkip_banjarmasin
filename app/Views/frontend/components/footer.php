@@ -5,7 +5,7 @@ footer a:hover { color: white; }
 .text-slider-left:hover { padding-left: 5px; }
 </style>
 
-<footer class="container-fluid px-0 text-white pt-5 pb-3 bg-dark">
+<footer class="container-fluid px-0 text-white pt-5 pb-3 bg-dark mt-5">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 pb-4">
@@ -47,7 +47,7 @@ footer a:hover { color: white; }
         <hr style="opacity: .25;">
         <div class="row">
             <div class="col-12 py-1">
-                <span>Copyright © <?= date('Y') ?> | Web App</span>
+                <span>Copyright © <?= date('Y') ?> | <a href="https://humasoftstudio.com?source=stkipis.ac.id">Humasoft Studio Teknologi</a></span>
             </div>
         </div>
     </div>

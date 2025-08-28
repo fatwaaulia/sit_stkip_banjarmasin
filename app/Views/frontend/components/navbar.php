@@ -22,16 +22,29 @@ $uri->setSilent(true);
 </style>
 <nav class="navbar navbar-expand-lg bg-light fixed-top" style="z-index: 100;">
     <div class="container">
-        <a class="navbar-brand" href="<?= base_url() ?>">
+        <a class="navbar-brand d-flex" href="<?= base_url() ?>">
             <img src="<?= appSettings('logo') ?>" style="height: 45px;" alt="<?= appSettings('nama_aplikasi') ?>">
+            <div class="ms-3" style="font-size: 14px;">
+                <small>VISIONER</small> <br>
+                <span class="fw-500">STKIP Islam Sabilal Muhtadin</span>
+            </div>
         </a>
         <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa-solid fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav w-100 pt-3 pb-2 py-md-0">
-                <a class="nav-link <?= ($uri->getSegment(1) == '') ? 'nav-active' : '' ?>" href="<?= base_url() ?>">Beranda</a>
-                <a class="nav-link <?= ($uri->getSegment(1) == 'kalender-akademik') ? 'nav-active' : '' ?>" href="<?= base_url() ?>kalender-akademik">Kalender Akademik</a>
+                <a class="nav-link <?= ($uri->getSegment(1) == '') ? 'nav-active' : '' ?>" href="<?= base_url() ?>">LAMAN AKREDITASI</a>
+                <a class="nav-link <?= ($uri->getSegment(1) == 'kalender-akademik') ? 'nav-active' : '' ?>" href="<?= base_url() ?>kalender-akademik">KALENDER AKADEMIK</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link <?= in_array($uri->getSegment(1), ['perolehan-dana', 'penggunaan-dana']) ? 'nav-active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    KEUANGAN <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu border-0">
+                        <li><a class="dropdown-item text-nowrap <?= ($uri->getSegment(1) == 'perolehan-dana') ? 'nav-active' : '' ?>" href="<?= base_url() ?>perolehan-dana">Perolehan Dana</a></li>
+                        <li><a class="dropdown-item text-nowrap <?= ($uri->getSegment(1) == 'penggunaan-dana') ? 'nav-active' : '' ?>" href="<?= base_url() ?>penggunaan-dana">Penggunaan Dana</a></li>
+                    </ul>
+                </li>
                 <div class="ms-lg-auto mt-3 mt-lg-0">
                     <?php
                     if (userSession()) :
@@ -43,7 +56,6 @@ $uri->setSilent(true);
                     <?php else : ?>
                     <div class="d-flex justify-content-start">
                         <a href="<?= base_url('login') ?>" class="btn btn-primary me-2">Login</a>
-                        <a href="<?= base_url('register') ?>" class="btn btn-primary">Register</a>
                     </div>
                     <?php endif; ?>
                 </div>

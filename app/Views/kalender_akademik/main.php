@@ -1,7 +1,3 @@
-<?php
-$contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
-?>
-
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/datatables/css/dataTables.dataTables.min.css">
 

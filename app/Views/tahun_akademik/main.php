@@ -1,5 +1,13 @@
 <?php
 $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
+
+$tahun_akademik_aktif = model('TahunAkademik')->orderBy('periode_selesai DESC')->first();
+
+if ($tahun_akademik_aktif) {
+    $tahun_akademik_aktif = $tahun_akademik_aktif['tahun_akademik'] . ' - ' . $tahun_akademik_aktif['tipe'];
+} else {
+    $tahun_akademik_aktif = 'Libur';
+}
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -13,10 +21,17 @@ $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
     </div>
     <div class="row">
         <div class="col-12">
+            <div class="alert alert-primary">
+                Tahun akademik sekarang dipilih berdasarkan yang terakhir dibuat.
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <div class="card p-3">
                 <div class="row g-3 mb-3">
-                    <div class="col-12 col-md-6 col-lg-5 col-xl-4">
-                        <!--  -->
+                    <div class="col-12 col-md-6 col-lg-5 col-xl-4 fw-600">
+                        Tahun Akademik Sekarang : <?= $tahun_akademik_aktif ?>
                     </div>
                     <div class="col-12 col-md-6 col-lg-7 col-xl-8 d-flex justify-content-end align-items-end">
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">

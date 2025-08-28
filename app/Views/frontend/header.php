@@ -35,7 +35,7 @@ $description  = isset($description) ? $description : appSettings('deskripsi');
     <!-- My Style -->
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/main.css?v=1.0">
     <style>
-    section { padding: 50px; }
+    section { padding: 35px; }
 
     html, body {
         height: 100%;
@@ -63,7 +63,7 @@ $description  = isset($description) ? $description : appSettings('deskripsi');
     </script>
 </head>
 
-<body>
+<body style="padding-top: 67.75px;">
     <div id="loading"></div>
     <div id="preloader"></div>
     <script>

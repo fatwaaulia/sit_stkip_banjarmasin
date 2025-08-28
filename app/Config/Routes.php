@@ -25,6 +25,7 @@ $routes->set404Override(
   # Front-End
 --------------------------------------------------------------*/
 $routes->get('/', 'FrontEnd::beranda');
+$routes->get('kalender-akademik', 'FrontEnd::kalenderAkademik');
 
 $uri = service('uri');
 
@@ -53,21 +54,14 @@ $routes->get('email-layout', 'AppSettings::emailLayout');
 $id_role   = userSession('id_role');
 $slug_role = userSession('slug_role');
 
-if (in_array($id_role, [1, 2])) {
+if (userSession()) {
     $routes->get("$slug_role/dashboard", "Dashboard::$slug_role", ['filter' => 'EnsureLogin']);
+}
+
+if (in_array($id_role, [1])) {
     $routes->get("$slug_role/profile", "Profile::profilev1", ['filter' => 'EnsureLogin']);
     $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->post('update', 'Profile::updateProfilev1');
-        $routes->post('update/password', 'Profile::updatePassword');
-        $routes->post('delete/photo', 'Profile::deletePhoto');
-    });
-}
-
-if ($id_role == 3) {
-    $routes->get("$slug_role/dashboard", "Dashboard::$slug_role", ['filter' => 'EnsureLogin']);
-    $routes->get("$slug_role/profile", "Profile::profilev2", ['filter' => 'EnsureLogin']);
-    $routes->group('api/profile', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->post('update', 'Profile::updateProfilev2');
         $routes->post('update/password', 'Profile::updatePassword');
         $routes->post('delete/photo', 'Profile::deletePhoto');
     });
