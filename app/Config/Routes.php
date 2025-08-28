@@ -155,9 +155,9 @@ if (in_array($id_role, roleAccessByTitle('Pembayaran Mahasiswa'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Belum Bayar'))) {
-    $routes->group("$slug_role/belum-bayar", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'BelumBayar::main');
+if (in_array($id_role, roleAccessByTitle('Status Bayar'))) {
+    $routes->group("$slug_role/status-bayar", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'StatusBayar::main');
     });
 }
 

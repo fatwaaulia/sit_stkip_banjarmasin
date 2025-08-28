@@ -198,9 +198,9 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'Belum Bayar',
+			'title'	=> 'Status Bayar',
 			'icon'	=> 'fa-solid fa-hourglass-half',
-			'url'	=> base_url(userSession('slug_role')) . '/belum-bayar',
+			'url'	=> base_url(userSession('slug_role')) . '/status-bayar',
 			'role'	=> [1, 3],
 			'type'	=> 'no-collapse',
 		],

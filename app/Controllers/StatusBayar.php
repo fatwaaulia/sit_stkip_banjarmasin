@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-class BelumBayar extends BaseController
+class StatusBayar extends BaseController
 {
     protected $base_name;
     protected $model_name;
 
     public function __construct()
     {
-        $this->base_name   = 'belum_bayar';
+        $this->base_name   = 'status_bayar';
         $this->model_name  = 'PembayaranMahasiswa';
     }
 
