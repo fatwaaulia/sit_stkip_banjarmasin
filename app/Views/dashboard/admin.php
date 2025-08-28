@@ -26,8 +26,3 @@ table tr td { padding: 6px; }
         </div>
     </div>
 </div>
-
-<script>
-console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
-
-</script>

@@ -57,6 +57,15 @@ dom('#eye_password').addEventListener('click', () => {
 });
 
 sessionStorage.removeItem("sidebarScrollPosition");
+
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+if (timezone != '<?= session('timezone') ?>') {
+    fetch(`<?= base_url() ?>session/set/timezone`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ timezone: 'Asia/Makassar' })
+    });
+}
 </script>
 
 <script>

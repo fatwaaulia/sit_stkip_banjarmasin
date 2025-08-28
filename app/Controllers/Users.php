@@ -98,7 +98,7 @@ class Users extends BaseController
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['foto'] = webFile('image_user', $this->base_name, $v['foto'], $v['updated_at']);
             $data[$key]['password'] = '-';
-            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime($v['created_at']));
+            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
         }
 
         return $this->response->setStatusCode(200)->setJSON([

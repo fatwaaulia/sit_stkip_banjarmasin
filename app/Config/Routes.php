@@ -27,7 +27,9 @@ $routes->set404Override(
 $routes->get('/', 'FrontEnd::beranda');
 $routes->get('kalender-akademik', 'FrontEnd::kalenderAkademik');
 
-$uri = service('uri');
+$routes->post('session/set/timezone', function() {
+    session()->set('timezone', 'Asia/Makassar');
+});
 
 /*--------------------------------------------------------------
   # Autentikasi

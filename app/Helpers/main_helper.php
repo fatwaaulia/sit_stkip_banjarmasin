@@ -15,12 +15,6 @@ function decode($string)
     return openssl_decrypt(base64_decode($string), 'aes-256-ecb', $key, 0);
 }
 
-function dateFormatter($tanggal, $format)
-{   
-    $date = Time::parse($tanggal, 'Asia/Jakarta', 'id_ID');
-    return $date->toLocalizedString($format); // cccc, d MMMM yyyy HH:mm:ss
-}
-
 function userSession($field = null)
 {
     if (! session()->isLogin) return '';
@@ -73,14 +67,32 @@ function dataTablesSearch($columns, $search, $select, $base_query) {
     }
 }
 
-function dotsNumber($angka) {
+function dotsNumber($angka)
+{
     return number_format($angka, 0, ',', '.');
 }
 
-function formatRupiah($angka) {
+function formatRupiah($angka)
+{
     $angka = (int)$angka;
     $abs = number_format(abs($angka), 0, ',', '.');
     return ($angka < 0 ? '-Rp' : 'Rp') . $abs;
+}
+
+/*--------------------------------------------------------------
+  # Time Management
+--------------------------------------------------------------*/
+function userLocalTime($datetime) {
+    $date = new DateTime($datetime, new DateTimeZone('Asia/Jakarta'));
+    $timezone = session('timezone') ?? 'Asia/Jakarta';
+    $date->setTimezone(new DateTimeZone($timezone));
+    return $date->format('Y-m-d H:i:s');
+}
+
+function dateFormatter($tanggal, $format)
+{
+    $date = Time::parse($tanggal, 'Asia/Jakarta', 'id_ID');
+    return $date->toLocalizedString($format); // cccc, d MMMM yyyy HH:mm:ss
 }
 
 /*--------------------------------------------------------------
@@ -187,21 +199,33 @@ function menuSidebar()
 			'title'	=> 'Tagihan Mahasiswa',
 			'icon'	=> 'fa-solid fa-tag',
 			'url'	=> base_url(userSession('slug_role')) . '/tagihan-mahasiswa',
-			'role'	=> [1, 3],
+			'role'	=> [1, 2],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Pembayaran Mahasiswa',
 			'icon'	=> 'fa-solid fa-rupiah-sign',
 			'url'	=> base_url(userSession('slug_role')) . '/pembayaran-mahasiswa',
-			'role'	=> [1, 3, 5],
+			'role'	=> [1, 2, 5],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Status Bayar',
 			'icon'	=> 'fa-solid fa-hourglass-half',
 			'url'	=> base_url(userSession('slug_role')) . '/status-bayar',
-			'role'	=> [1, 3],
+			'role'	=> [1, 2],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'PIMPINAN',
+			'role'	=> [1],
+			'type'	=> 'heading',
+		],
+		[
+			'title'	=> 'Program Kerja',
+			'icon'	=> 'fa-solid fa-calendar',
+			'url'	=> base_url() . userSession('slug_role') . '/program-kerja',
+			'role'	=> [1],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -213,6 +237,20 @@ function menuSidebar()
 			'title'	=> 'Kalender Akademik',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/kalender-akademik',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
+		],
+		[
+			'title'	=> 'Jadwal Kuliah', // Link SK
+			'icon'	=> 'fa-solid fa-calendar',
+			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kuliah',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
+		],
+		[
+			'title'	=> 'Jadwal Kegiatan', // Link SK
+			'icon'	=> 'fa-solid fa-calendar',
+			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kegiatan',
 			'role'	=> [1, 3],
 			'type'	=> 'no-collapse',
 		],
