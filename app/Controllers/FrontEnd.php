@@ -35,8 +35,6 @@ class FrontEnd extends BaseController
 
     public function kalenderAkademik()
     {
-        $data['title'] = $this->app_settings['nama_aplikasi'];
-
         $data = [
             'kalender_akademik' => model('KalenderAkademik')->orderBy('id DESC')->limit(6)->findAll(),
             'kalender_akademik_terbaru' => model('KalenderAkademik')->orderBy('id DESC')->first(),
@@ -45,6 +43,34 @@ class FrontEnd extends BaseController
 
         $view['navbar'] = view('frontend/components/navbar');
         $view['content'] = view('frontend/kalender_akademik', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
+
+    public function jadwalKuliah()
+    {
+        $query = $_SERVER['QUERY_STRING'] ? ('?' . $_SERVER['QUERY_STRING']) : '';
+        $data = [
+            'get_data' => base_url('api/jadwal-kuliah') . $query,
+            'title'    => 'Jadwal Kuliah',
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/jadwal_kuliah', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
+
+    public function jadwalKegiatan()
+    {
+        $query = $_SERVER['QUERY_STRING'] ? ('?' . $_SERVER['QUERY_STRING']) : '';
+        $data = [
+            'get_data' => base_url('api/jadwal-kegiatan') . $query,
+            'title'    => 'Jadwal Kegiatan',
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/jadwal_kegiatan', $data);
         $view['footer'] = view('frontend/components/footer');
         return view('frontend/header', $view);
     }

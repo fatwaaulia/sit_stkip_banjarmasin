@@ -316,6 +316,81 @@ input:focus,
 }
 
 /*--------------------------------------------------------------
+  # Datatables
+--------------------------------------------------------------*/
+#dt-length-0 { margin-right: 8px; }
+#dt-search-0 { margin-left: 8px; }
+
+#myTable_wrapper > .dt-layout-row:first-child {
+    margin-top: 0px!important;
+}
+
+table.dataTable,
+table.dataTable th,
+table.dataTable td {
+    border: 1px solid #ddd!important;
+}
+
+.dt-layout-full { overflow: hidden; }
+
+.dt-input {
+    border-radius: var(--border-radius)!important;
+    transition: .2s;
+}
+
+.dt-input:focus {
+    border-color: var(--main-color)!important;
+    box-shadow: var(--box-shadow-form-input)!important;
+}
+
+.dt-container input:focus,
+.dt-container select:focus {
+    border-color: var(--main-color);
+    box-shadow: var(--box-shadow-form-input);
+    outline: 0;
+}
+
+div.dt-container div.dt-layout-row { margin-bottom: 0!important; }
+
+table.dataTable th.dt-type-numeric,
+table.dataTable th.dt-type-date,
+table.dataTable td.dt-type-numeric,
+table.dataTable td.dt-type-date {
+    text-align: center!important;
+}
+
+.dt-paging-button { min-width: 40px!important; }
+
+div.dt-processing > div:last-child > div {
+    background-color: var(--main-color)!important;
+}
+
+[data-bs-theme=dark] {
+    .dt-input {
+        background-color: var(--dark-theme-dark-color)!important;
+    }
+
+    .dt-container .dt-layout-row { margin-bottom: 0!important; }
+
+    .dt-container .dt-paging .dt-paging-button.disabled.first,
+    .dt-container .dt-paging .dt-paging-button.disabled.previous,
+    .dt-container .dt-paging .dt-paging-button.disabled.next,
+    .dt-container .dt-paging .dt-paging-button.disabled.last {
+        color: var(--gray-color)!important;
+    }
+
+    .dt-paging-button:hover {
+        border: 1px solid rgb(89, 91, 94)!important;
+        background: rgba(255, 255, 255, 0.08)!important;
+    }
+
+    .dt-paging-button.current {
+        border: 1px solid rgb(89, 91, 94)!important;
+        background: rgba(255, 255, 255, 0.15)!important;
+    }
+}
+
+/*--------------------------------------------------------------
   # Dselect
 --------------------------------------------------------------*/
 .form-select + .dselect-wrapper .form-select {

@@ -36,7 +36,7 @@ $uri->setSilent(true);
             <div class="navbar-nav w-100 pt-3 pb-2 py-md-0">
                 <a class="nav-link <?= ($uri->getSegment(1) == '') ? 'nav-active' : '' ?>" href="<?= base_url() ?>">LAMAN AKREDITASI</a>
                 <li class="nav-item dropdown">
-                    <a class="nav-link <?= in_array($uri->getSegment(1), ['perolehan-dana', 'penggunaan-dana']) ? 'nav-active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link <?= in_array($uri->getSegment(1), ['kalender-akademik', 'jadwal-kuliah', 'jadwal-kegiatan']) ? 'nav-active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     AKADEMIK <i class="fa-solid fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu border-0">

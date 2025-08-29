@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12">
             <h4><?= $kalender_akademik_terbaru['judul'] ?></h4>
-            <p>Diterbitkan oleh Akademik pada <?= dateFormatter($kalender_akademik_terbaru['created_at'], 'd MMMM yyyy') ?></p>
+            <p class="mb-0">Diterbitkan oleh Akademik pada <?= dateFormatter($kalender_akademik_terbaru['created_at'], 'd MMMM yyyy') ?></p>
         </div>
     </div>
 </section>

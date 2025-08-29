@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ajax: '<?= $get_data ?>',
         processing: true,
         serverSide: true,
-        searching: false,
         order: [],
         initComplete: function (settings, json) {
             $('#myTable').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');

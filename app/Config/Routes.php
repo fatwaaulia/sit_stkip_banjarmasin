@@ -26,6 +26,8 @@ $routes->set404Override(
 --------------------------------------------------------------*/
 $routes->get('/', 'FrontEnd::beranda');
 $routes->get('kalender-akademik', 'FrontEnd::kalenderAkademik');
+$routes->get('jadwal-kuliah', 'FrontEnd::jadwalKuliah');
+$routes->get('jadwal-kegiatan', 'FrontEnd::jadwalKegiatan');
 
 $routes->post('session/set/timezone', function() {
     $timezone = service('request')->getVar('timezone');

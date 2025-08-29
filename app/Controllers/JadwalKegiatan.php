@@ -42,7 +42,15 @@ class JadwalKegiatan extends BaseController
         $base_query = model($this->model_name)->select($select);
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
-        $records_total = $base_query->countAllResults(false);
+        $records_total   = $base_query->countAllResults(false);
+        $array_query_key = ['kategori'];
+
+        if (array_intersect(array_keys($_GET), $array_query_key)) {
+            $get_kategori = $this->request->getVar('kategori');
+            if ($get_kategori) {
+                $base_query->where('kategori', $get_kategori);
+            }
+        }
 
         // Datatables
         $columns = array_column($this->request->getVar('columns') ?? [], 'name');
@@ -52,6 +60,8 @@ class JadwalKegiatan extends BaseController
         $order = $this->request->getVar('order')[0] ?? null;
         if (isset($order['column'], $order['dir']) && !empty($columns[$order['column']])) {
             $base_query->orderBy($columns[$order['column']], $order['dir'] === 'desc' ? 'desc' : 'asc');
+        } else {
+            $base_query->orderBy('id DESC');
         }
         // End | Datatables
 
