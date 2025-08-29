@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 27, 2025 at 05:40 AM
+-- Generation Time: Aug 29, 2025 at 01:26 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -51,6 +51,49 @@ INSERT INTO `app_settings` (`id`, `nama_aplikasi`, `nama_perusahaan`, `deskripsi
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jadwal_kegiatan`
+--
+
+CREATE TABLE `jadwal_kegiatan` (
+  `id` bigint NOT NULL,
+  `kategori` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jadwal_kegiatan`
+--
+
+INSERT INTO `jadwal_kegiatan` (`id`, `kategori`, `judul`, `tautan`, `created_at`, `updated_at`) VALUES
+(1, 'MBKM', 'Jadwal MBKM 2024 - 2025 Ganjil', 'https://www.researchgate.net/profile/Aceng-Wahid/publication/346397070_Analisis_Metode_Waterfall_Untuk_Pengembangan_Sistem_Informasi/links/5fbfa91092851c933f5d76b6/Analisis-Metode-Waterfall-Untuk-Pengembangan-Sistem-Informasi.pdf', '2025-08-29 08:22:46', '2025-08-29 08:25:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jadwal_kuliah`
+--
+
+CREATE TABLE `jadwal_kuliah` (
+  `id` bigint NOT NULL,
+  `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jadwal_kuliah`
+--
+
+INSERT INTO `jadwal_kuliah` (`id`, `judul`, `tautan`, `created_at`, `updated_at`) VALUES
+(1, 'S1 - PBI | 2024-2025 Ganjil', 'https://drive.google.com/drive/?lfhs=2', '2025-08-29 07:46:30', '2025-08-29 07:48:29');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `kalender_akademik`
 --
 
@@ -67,7 +110,9 @@ CREATE TABLE `kalender_akademik` (
 --
 
 INSERT INTO `kalender_akademik` (`id`, `judul`, `gambar`, `created_at`, `updated_at`) VALUES
-(1, 'Kalender Akademik Semester Ganjil Tahun 2025-2026', '1755644878_7bfb72fc1b9ffc4f3898.jpg', '2025-08-20 06:07:59', '2025-08-20 06:21:05');
+(1, 'Kalender Akademik Semester Ganjil Tahun 2024-2025', '1755644878_7bfb72fc1b9ffc4f3898.jpg', '2025-08-20 06:07:59', '2025-08-28 21:03:39'),
+(2, 'Kalender Akademik Semester Genap Tahun 2024-2025', '1756389871_cbc7eff0e07706e086a1.jpg', '2025-08-28 21:04:31', '2025-08-28 21:04:31'),
+(3, 'Kalender Akademik Semester Ganjil Tahun 2025-2026', '1756389903_9a346bfa740dbd83da8f.jpg', '2025-08-28 21:05:03', '2025-08-28 21:05:03');
 
 -- --------------------------------------------------------
 
@@ -237,7 +282,23 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (138, 0, 0, '', 'superadmin', '::1', 'Failed', '2025-08-24 05:56:30', '2025-08-24 05:56:30'),
 (139, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-24 05:56:37', '2025-08-24 05:56:37'),
 (140, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-27 05:20:39', '2025-08-27 05:20:39'),
-(141, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-27 10:57:40', '2025-08-27 10:57:40');
+(141, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-27 10:57:40', '2025-08-27 10:57:40'),
+(142, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-28 16:19:08', '2025-08-28 16:19:08'),
+(143, 5, 5, 'Fatwa Aulia', '362055401093', '::1', 'Success', '2025-08-28 16:52:11', '2025-08-28 16:52:11'),
+(144, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-28 17:18:29', '2025-08-28 17:18:29'),
+(145, 5, 5, 'Fatwa Aulia', '362055401093', '::1', 'Success', '2025-08-28 17:18:45', '2025-08-28 17:18:45'),
+(146, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-28 17:47:20', '2025-08-28 17:47:20'),
+(147, 5, 5, 'Fatwa Aulia', '362055401093', '::1', 'Success', '2025-08-28 17:48:05', '2025-08-28 17:48:05'),
+(148, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-28 18:05:15', '2025-08-28 18:05:15'),
+(149, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-28 18:30:28', '2025-08-28 18:30:28'),
+(150, 5, 5, 'Fatwa Aulia', '362055401093', '::1', 'Success', '2025-08-28 18:30:41', '2025-08-28 18:30:41'),
+(151, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-28 18:33:16', '2025-08-28 18:33:16'),
+(152, 5, 5, 'Fatwa Aulia', '362055401093', '::1', 'Success', '2025-08-28 20:32:28', '2025-08-28 20:32:28'),
+(153, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-28 20:43:18', '2025-08-28 20:43:18'),
+(154, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-29 05:34:05', '2025-08-29 05:34:05'),
+(155, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-29 07:11:49', '2025-08-29 07:11:49'),
+(156, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-29 07:15:19', '2025-08-29 07:15:19'),
+(157, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-29 07:19:33', '2025-08-29 07:19:33');
 
 -- --------------------------------------------------------
 
@@ -272,7 +333,7 @@ CREATE TABLE `pembayaran_mahasiswa` (
 --
 
 INSERT INTO `pembayaran_mahasiswa` (`id`, `id_tagihan_mahasiswa`, `jenis_tagihan_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `id_mahasiswa`, `nama_mahasiswa`, `nomor_identitas_mahasiswa`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `nominal`, `status`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(5, 3, 'MBKM', 1, '2025/2026', 'Ganjil', 5, 'Fatwa Aulia', '362055401093', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 50000, 'Lunas', '2025-08-22 16:21:16', '2025-08-22 16:21:16', '1', '');
+(5, 3, 'MBKM', 3, '2025/2026', 'Ganjil', 5, 'Fatwa Aulia', '362055401093', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 50000, 'Lunas', '2025-08-22 16:21:16', '2025-08-22 16:21:16', '1', '');
 
 -- --------------------------------------------------------
 
@@ -579,9 +640,10 @@ CREATE TABLE `tagihan_mahasiswa` (
 --
 
 INSERT INTO `tagihan_mahasiswa` (`id`, `kategori`, `jenis`, `json_id_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `periode_mulai_tahun_akademik`, `periode_selesai_tahun_akademik`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'MABA', 'ALMAMATER', '', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-21 12:36:22', '2025-08-21 12:36:22', '2', ''),
-(2, 'SEMESTER', 'SPP', '', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-22 06:51:08', '2025-08-22 06:51:08', '2', ''),
-(3, 'PERORANGAN', 'MBKM', '[\"6\",\"5\"]', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-22 10:49:27', '2025-08-22 16:16:19', '1', '1');
+(1, 'MABA', 'ALMAMATER', '', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-21 12:36:22', '2025-08-21 12:36:22', '2', ''),
+(2, 'SEMESTER', 'SPP', '', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-22 06:51:08', '2025-08-22 06:51:08', '2', ''),
+(3, 'PERORANGAN', 'MBKM', '[\"6\",\"5\"]', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-22 10:49:27', '2025-08-22 16:16:19', '1', '1'),
+(4, 'SEMESTER', 'UAS', '', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-27 16:17:03', '2025-08-27 16:17:03', '1', '');
 
 -- --------------------------------------------------------
 
@@ -604,8 +666,9 @@ CREATE TABLE `tahun_akademik` (
 --
 
 INSERT INTO `tahun_akademik` (`id`, `tahun_akademik`, `tipe`, `periode_mulai`, `periode_selesai`, `created_at`, `updated_at`) VALUES
-(1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '2025-08-18 21:16:55', '2025-08-18 21:23:45'),
-(2, '2025/2026', 'Genap', '2026-03-08', '2026-07-05', '2025-08-18 21:24:36', '2025-08-18 21:24:48');
+(1, '2024/2025', 'Ganjil', '2024-09-08', '2025-01-17', '2025-08-18 21:24:36', '2025-08-28 18:36:57'),
+(2, '2024/2025', 'Genap', '2025-03-05', '2025-06-16', '2025-08-28 18:37:41', '2025-08-28 18:37:41'),
+(3, '2025/2026', 'Ganjil', '2025-08-25', '2026-01-15', '2025-08-18 21:16:55', '2025-08-28 18:19:38');
 
 -- --------------------------------------------------------
 
@@ -627,7 +690,9 @@ CREATE TABLE `tarif_spp` (
 
 INSERT INTO `tarif_spp` (`id`, `nama`, `biaya`, `created_at`, `updated_at`) VALUES
 (1, 'SPP Tarif 1', 5000000, '2025-08-19 14:10:03', '2025-08-19 14:21:17'),
-(2, 'SPP Tarif 2', 4000000, '2025-08-19 14:18:58', '2025-08-19 14:21:25');
+(2, 'SPP Tarif 2', 4000000, '2025-08-19 14:18:58', '2025-08-19 14:21:25'),
+(3, 'SPP Tarif 3', 2500000, '2025-08-27 16:58:40', '2025-08-27 16:58:40'),
+(4, 'SPP Tarif 4', 1000000, '2025-08-27 16:58:59', '2025-08-27 16:58:59');
 
 -- --------------------------------------------------------
 
@@ -692,8 +757,10 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `usernam
 (1, 1, 'Admin', 'admin', 'Admin', 'admin', '', '$2y$10$mVEvojJB5S6yx0DpBklmYOFSmvI6k8WqqKuAZxLu7w3dFGBXxXLqa', '1701744923_ef8be205f9a3eefa1576.jpg', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', NULL, '2022-10-21 14:14:28', '2025-08-01 13:29:47'),
 (3, 2, 'Keuangan', 'keuangan', 'Keuangan', 'keuangan', '', '$2y$10$O/h9YibyABmarCDRvVzrfe23Y0qcIF5VHLFccOijKUtjTHYDS0MsC', '', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, '2024-04-27 20:10:01', '2025-08-17 12:55:09'),
 (4, 3, 'Akademik', 'akademik', 'Akademik', 'akademik', '', '$2y$10$ImQAWNG6keTBgvSlIZXZeOoO3U.aH8GcqL1nCamgFHiaunM3dje5.', '', 'Laki-laki', '', '', '', '', NULL, 0, '', '', '', 0, '', '', NULL, NULL, '', '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, '2025-08-18 16:37:32', '2025-08-18 16:37:32'),
-(5, 5, 'Mahasiswa', 'Mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '362055401093', 'Banyuwangi', '2001-01-01', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'D', 100000, 25000, 2500000, 1, 'SPP Tarif 1', 5000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-19 09:56:48', '2025-08-23 09:13:17'),
-(6, 5, 'Mahasiswa', 'mahasiswa', 'Putri Salsabila', '1234567890', 'salsabilla@gmail.com', '$2y$10$DyxkiMlw8hyFGKeKHTGNruqLcg67JQAhVn10os8OxpDegkPpujrDK', '', 'Perempuan', 'Jember', '082634793123', '1234567890', 'Jember', '2002-01-12', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 1, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'C', 50000, 100000, 900000, 2, 'SPP Tarif 2', 4000000, 150000, 200000, 50000, 75000, 50000, 50000, 100000, 150000, 200000, 'Aktif', NULL, NULL, '2025-08-22 10:37:04', '2025-08-22 10:37:04');
+(5, 5, 'Mahasiswa', 'mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '362055401093', 'Banyuwangi', '2001-01-05', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'D', 100000, 25000, 2500000, 3, 'SPP Tarif 3', 2500000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-19 09:56:48', '2025-08-28 17:47:48'),
+(6, 5, 'Mahasiswa', 'mahasiswa', 'Putri Salsabila', '1234567890', 'salsabilla@gmail.com', '$2y$10$DyxkiMlw8hyFGKeKHTGNruqLcg67JQAhVn10os8OxpDegkPpujrDK', '', 'Perempuan', 'Jember', '082634793123', '1234567890', 'Jember', '2002-01-12', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'C', 50000, 100000, 900000, 2, 'SPP Tarif 2', 4000000, 150000, 200000, 50000, 75000, 50000, 50000, 100000, 150000, 200000, 'Aktif', NULL, NULL, '2025-08-22 10:37:04', '2025-08-22 10:37:04'),
+(7, 5, 'Mahasiswa', 'mahasiswa', 'Sekar Wulandari', '1234567891', '', '$2y$10$RmQ0EQAIEh79XD75kUC0wOm.tX8W5pwS36PLBvIhNYdzKxpUUJCzy', '', 'Perempuan', 'Jl. Soedirman B2', '', '1234567891', 'Surabaya', '2002-02-12', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'C', 100000, 25000, 2500000, 4, 'SPP Tarif 4', 1000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-27 16:19:12', '2025-08-27 16:59:43'),
+(8, 5, 'Mahasiswa', 'mahasiswa', 'Abdul Abidin', '1234567892', '', '$2y$10$3Av1MRgbGn6n9VHQs3S.heKs/ZIF6F.QjdGgi4YecCJQQNQkMVYU2', '', 'Laki-laki', '', '', '1234567892', 'Malang', '2000-12-24', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-15', '1', 'C', 100000, 25000, 2500000, 1, 'SPP Tarif 1', 5000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-27 16:55:49', '2025-08-27 16:55:49');
 
 --
 -- Indexes for dumped tables
@@ -703,6 +770,18 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `usernam
 -- Indexes for table `app_settings`
 --
 ALTER TABLE `app_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `jadwal_kegiatan`
+--
+ALTER TABLE `jadwal_kegiatan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `jadwal_kuliah`
+--
+ALTER TABLE `jadwal_kuliah`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -800,10 +879,22 @@ ALTER TABLE `app_settings`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `jadwal_kegiatan`
+--
+ALTER TABLE `jadwal_kegiatan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `jadwal_kuliah`
+--
+ALTER TABLE `jadwal_kuliah`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `kalender_akademik`
 --
 ALTER TABLE `kalender_akademik`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kategori_penyusutan_inventaris`
@@ -815,7 +906,7 @@ ALTER TABLE `kategori_penyusutan_inventaris`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
 -- AUTO_INCREMENT for table `pembayaran_mahasiswa`
@@ -857,31 +948,31 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `status_mahasiswa`
 --
 ALTER TABLE `status_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tagihan_mahasiswa`
 --
 ALTER TABLE `tagihan_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tahun_akademik`
 --
 ALTER TABLE `tahun_akademik`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tarif_spp`
 --
 ALTER TABLE `tarif_spp`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

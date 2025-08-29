@@ -28,7 +28,8 @@ $routes->get('/', 'FrontEnd::beranda');
 $routes->get('kalender-akademik', 'FrontEnd::kalenderAkademik');
 
 $routes->post('session/set/timezone', function() {
-    session()->set('timezone', 'Asia/Makassar');
+    $timezone = service('request')->getVar('timezone');
+    session()->set('timezone', $timezone);
 });
 
 /*--------------------------------------------------------------
@@ -170,6 +171,26 @@ if (in_array($id_role, roleAccessByTitle('Kalender Akademik'))) {
         $routes->post('create', 'KalenderAkademik::create');
         $routes->post('update/(:segment)', 'KalenderAkademik::update/$1');
         $routes->post('delete/(:segment)', 'KalenderAkademik::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Jadwal Kuliah'))) {
+    $routes->get("$slug_role/jadwal-kuliah", 'JadwalKuliah::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/jadwal-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'JadwalKuliah::index');
+        $routes->post('create', 'JadwalKuliah::create');
+        $routes->post('update/(:segment)', 'JadwalKuliah::update/$1');
+        $routes->post('delete/(:segment)', 'JadwalKuliah::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Jadwal Kegiatan'))) {
+    $routes->get("$slug_role/jadwal-kegiatan", 'JadwalKegiatan::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/jadwal-kegiatan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'JadwalKegiatan::index');
+        $routes->post('create', 'JadwalKegiatan::create');
+        $routes->post('update/(:segment)', 'JadwalKegiatan::update/$1');
+        $routes->post('delete/(:segment)', 'JadwalKegiatan::delete/$1');
     });
 }
 

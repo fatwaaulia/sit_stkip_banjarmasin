@@ -63,7 +63,7 @@ if (timezone != '<?= session('timezone') ?>') {
     fetch(`<?= base_url() ?>session/set/timezone`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ timezone: 'Asia/Makassar' })
+        body: JSON.stringify({ timezone: timezone })
     });
 }
 </script>
