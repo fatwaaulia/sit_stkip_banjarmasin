@@ -34,7 +34,6 @@ $uri->setSilent(true);
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav w-100 pt-3 pb-2 py-md-0">
-                <a class="nav-link <?= ($uri->getSegment(1) == '') ? 'nav-active' : '' ?>" href="<?= base_url() ?>">LAMAN AKREDITASI</a>
                 <li class="nav-item dropdown">
                     <a class="nav-link <?= in_array($uri->getSegment(1), ['kalender-akademik', 'jadwal-kuliah', 'jadwal-kegiatan']) ? 'nav-active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     AKADEMIK <i class="fa-solid fa-angle-down"></i>
@@ -54,20 +53,6 @@ $uri->setSilent(true);
                         <li><a class="dropdown-item text-nowrap <?= ($uri->getSegment(1) == 'penggunaan-dana') ? 'nav-active' : '' ?>" href="<?= base_url() ?>penggunaan-dana">Penggunaan Dana</a></li>
                     </ul>
                 </li>
-                <div class="ms-lg-auto mt-3 mt-lg-0">
-                    <?php
-                    if (userSession()) :
-                        $foto = webFile('image_user', 'users', userSession('foto'), userSession('updated_at'));
-                    ?>
-                    <a href="<?= base_url('login') ?>">
-                        <img src="<?= $foto ?>" alt="<?= userSession('nama') ?>" title="<?= userSession('nama') ?>" class="rounded-circle wh-40 cover-center">
-                    </a>
-                    <?php else : ?>
-                    <div class="d-flex justify-content-start">
-                        <a href="<?= base_url('login') ?>" class="btn btn-primary me-2">Login</a>
-                    </div>
-                    <?php endif; ?>
-                </div>
             </div>
         </div>
     </div>

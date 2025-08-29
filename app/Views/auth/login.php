@@ -5,43 +5,55 @@ $logo_web = webFile('image', 'app_settings', $app_settings['logo'], $app_setting
 
 <style>
 body { overflow: hidden; }
+
+.header {
+    background-image: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .4)), url(<?= base_url('assets/img/gedung_stkipism.jpg') ?>);
+    height: 100vh;
+}
 </style>
 
-<section class="container">
-	<div class="row justify-content-center align-items-center vh-100">
-		<div class="col-xl-4 col-lg-4 col-md-6 col-12">
-			<div class="card my-4 pt-3 pb-1">
-				<div class="card-body">
-					<div class="text-center">
-                        <img src="<?= $logo_web ?>" alt="<?= $app_settings['nama_aplikasi'] ?>" class="wh-100">
-						<h3 class="mb-1 fw-600">Selamat Datang!</h3>
-						<p>VISIONER - STKIP ISM BANJARMASIN</p>
-					</div>
-					<hr>
-					<form id="form">
-						<div class="mb-3">
-                            <input type="text" class="form-control" id="username" name="username" placeholder="username">
-                            <div class="invalid-feedback" id="invalid_username"></div>
+<section class="container-fluid header cover-center px-0">
+    <div class="container">
+        <div class="row justify-content-center align-items-center vh-100">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-12">
+                <div class="card my-4 pt-3 pb-1" style="background-color: rgba(255, 255, 255, 0.6);">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <a href="<?= base_url() ?>kalender-akademik">
+                                <img src="<?= $logo_web ?>" alt="<?= $app_settings['nama_aplikasi'] ?>" class="wh-100">
+                            </a>
+                            <h3 class="mb-1 fw-600">Selamat Datang!</h3>
+                            <p class="fw-500">VISIONER - STKIP ISM BANJARMASIN</p>
                         </div>
-					    <div class="mb-3">
-							<div class="d-flex justify-content-between">
-								<label class="form-label" for="password">Password</label>
-								<a href="<?= base_url('password/forgot') ?>">
-									<small>Lupa Password?</small>
-								</a>
-							</div>
-							<div class="position-relative">
-								<input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off">
-								<div class="invalid-feedback" id="invalid_password"></div>
-								<img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_password">
-							</div>
-						</div>
-						<button type="submit" class="btn btn-primary w-100">Masuk</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+                        <hr>
+                        <form id="form">
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="username">
+                                <div class="invalid-feedback" id="invalid_username"></div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <label class="form-label" for="password">Password</label>
+                                    <!-- <a href="<?= base_url('password/forgot') ?>">
+                                        <small>Lupa Password?</small>
+                                    </a> -->
+                                </div>
+                                <div class="position-relative">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off">
+                                    <div class="invalid-feedback" id="invalid_password"></div>
+                                    <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_password">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Masuk</button>
+                        </form>
+                        <hr>
+                        <div class="text-center fw-500">© <?= date('Y') ?> | <a href="https://humasoftstudio.com?source=stkipis.ac.id" target="_blank">Humasoft Studio Teknologi</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <script>

@@ -24,10 +24,15 @@ $routes->set404Override(
 /*--------------------------------------------------------------
   # Front-End
 --------------------------------------------------------------*/
-$routes->get('/', 'FrontEnd::beranda');
+$routes->get('/', 'Auth::login');
+// $routes->get('akreditasi', 'FrontEnd::beranda');
+
 $routes->get('kalender-akademik', 'FrontEnd::kalenderAkademik');
 $routes->get('jadwal-kuliah', 'FrontEnd::jadwalKuliah');
 $routes->get('jadwal-kegiatan', 'FrontEnd::jadwalKegiatan');
+
+$routes->get('perolehan-dana', 'FrontEnd::perolehanDana');
+$routes->get('penggunaan-dana', 'FrontEnd::penggunaanDana');
 
 $routes->post('session/set/timezone', function() {
     $timezone = service('request')->getVar('timezone');
@@ -166,6 +171,35 @@ if (in_array($id_role, roleAccessByTitle('Status Bayar'))) {
     });
 }
 
+
+if (in_array($id_role, roleAccessByTitle('Keluar Masuk Uang'))) {
+    $routes->group("$slug_role/keuangan", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Keuangan::main');
+        $routes->get('new/uang-masuk', 'Keuangan::newUangMasuk/$1');
+        $routes->get('new/uang-keluar', 'Keuangan::newUangKeluar/$1');
+        $routes->get('edit/uang-masuk/(:segment)', 'Keuangan::editUangMasuk/$1');
+        $routes->get('edit/uang-keluar/(:segment)', 'Keuangan::editUangKeluar/$1');
+    });
+    $routes->group('api/keuangan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Keuangan::index');
+        $routes->post('create', 'Keuangan::create');
+        $routes->post('update/(:segment)', 'Keuangan::update/$1');
+        $routes->post('delete/(:segment)', 'Keuangan::delete/$1');
+        $routes->get('export-excel', 'Keuangan::exportExcel');
+        $routes->get('grafik', 'Keuangan::grafikKeuangan');
+        $routes->get('sumber-pemasukan-terbesar/grafik', 'Keuangan::grafikSumberPemasukanTerbesar');
+        $routes->get('sumber-pengeluaran-terbesar/grafik', 'Keuangan::grafikSumberPengeluaranTerbesar');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Laporan Kas'))) {
+    $routes->get("$slug_role/laporan-kas", 'Keuangan::laporanKas', ['filter' => 'EnsureLogin']);
+    $routes->group('api/laporan-kas', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Keuangan::indexLaporanKas');
+        $routes->get('export-excel', 'Keuangan::exportExcelLaporanKas');
+    });
+}
+
 if (in_array($id_role, roleAccessByTitle('Kalender Akademik'))) {
     $routes->get("$slug_role/kalender-akademik", 'KalenderAkademik::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/kalender-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {
@@ -179,22 +213,22 @@ if (in_array($id_role, roleAccessByTitle('Kalender Akademik'))) {
 if (in_array($id_role, roleAccessByTitle('Jadwal Kuliah'))) {
     $routes->get("$slug_role/jadwal-kuliah", 'JadwalKuliah::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/jadwal-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'JadwalKuliah::index');
         $routes->post('create', 'JadwalKuliah::create');
         $routes->post('update/(:segment)', 'JadwalKuliah::update/$1');
         $routes->post('delete/(:segment)', 'JadwalKuliah::delete/$1');
     });
 }
+$routes->get('api/jadwal-kuliah', 'JadwalKuliah::index');
 
 if (in_array($id_role, roleAccessByTitle('Jadwal Kegiatan'))) {
     $routes->get("$slug_role/jadwal-kegiatan", 'JadwalKegiatan::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/jadwal-kegiatan', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'JadwalKegiatan::index');
         $routes->post('create', 'JadwalKegiatan::create');
         $routes->post('update/(:segment)', 'JadwalKegiatan::update/$1');
         $routes->post('delete/(:segment)', 'JadwalKegiatan::delete/$1');
     });
 }
+$routes->get('api/jadwal-kegiatan', 'JadwalKegiatan::index');
 
 if (in_array($id_role, roleAccessByTitle('Mahasiswa Cuti / DO'))) {
     $routes->get("$slug_role/status-mahasiswa", 'StatusMahasiswa::main', ['filter' => 'EnsureLogin']);
@@ -290,5 +324,15 @@ if (in_array($id_role, roleAccessByTitle('Tarif SPP'))) {
         $routes->post('create', 'TarifSpp::create');
         $routes->post('update/(:segment)', 'TarifSpp::update/$1');
         $routes->post('delete/(:segment)', 'TarifSpp::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Master Dana'))) {
+    $routes->get("$slug_role/master-dana", 'MasterDana::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/master-dana', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'MasterDana::index');
+        $routes->post('create', 'MasterDana::create');
+        $routes->post('update/(:segment)', 'MasterDana::update/$1');
+        $routes->post('delete/(:segment)', 'MasterDana::delete/$1');
     });
 }

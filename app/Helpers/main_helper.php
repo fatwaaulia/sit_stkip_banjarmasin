@@ -158,7 +158,7 @@ function menuSidebar()
 		[
 			'title'	=> 'Laman Akreditasi',
 			'icon'	=> 'fa-solid fa-house',
-			'url'	=> '/',
+			'url'	=> base_url('kalender-akademik'),
 			'role'	=> [1, 2, 3],
 			'type'	=> 'no-collapse',
 		],
@@ -217,6 +217,20 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
+			'title'	=> 'Keluar Masuk Uang',
+			'icon'	=> 'fa-solid fa-arrow-down-up-across-line',
+			'url'	=> base_url(userSession('slug_role')) . '/keuangan',
+			'role'	=> [1, 2],
+			'type'	=> 'no-collapse',
+		],
+		[
+			'title'	=> 'Laporan Kas',
+			'icon'	=> 'fa-solid fa-wallet',
+			'url'	=> base_url(userSession('slug_role')) . '/laporan-kas',
+			'role'	=> [1, 2],
+			'type'	=> 'no-collapse',
+		],
+        [
 			'title'	=> 'PIMPINAN',
 			'role'	=> [1],
 			'type'	=> 'heading',
@@ -241,14 +255,14 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
 		[
-			'title'	=> 'Jadwal Kuliah', // Link SK
+			'title'	=> 'Jadwal Kuliah',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kuliah',
 			'role'	=> [1, 3],
 			'type'	=> 'no-collapse',
 		],
 		[
-			'title'	=> 'Jadwal Kegiatan', // Link SK
+			'title'	=> 'Jadwal Kegiatan',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kegiatan',
 			'role'	=> [1, 3],
@@ -268,7 +282,7 @@ function menuSidebar()
 		],
 		[
 			'title'	=> 'MASTER DATA',
-			'role'	=> [1, 3],
+			'role'	=> [1, 2, 3],
 			'type'	=> 'heading',
 		],
 		[
@@ -317,7 +331,14 @@ function menuSidebar()
 			'title'	=> 'Tarif SPP',
 			'icon'	=> 'fa-solid fa-tag',
 			'url'	=> base_url(userSession('slug_role')) . '/tarif-spp',
-			'role'	=> [1, 3],
+			'role'	=> [1, 2],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Master Dana',
+			'icon'	=> 'fa-solid fa-sack-dollar',
+			'url'	=> base_url(userSession('slug_role')) . '/master-dana',
+			'role'	=> [1, 2],
 			'type'	=> 'no-collapse',
 		],
 		[
