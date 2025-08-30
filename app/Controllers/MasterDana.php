@@ -37,7 +37,7 @@ class MasterDana extends BaseController
     public function index()
     {
         $select     = ['*'];
-        $base_query = model($this->model_name)->select($select)->where('id_pengguna', userSession('id'));
+        $base_query = model($this->model_name)->select($select);
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -85,10 +85,13 @@ class MasterDana extends BaseController
         }
 
         // Lolos Validasi
+        $kategori_dana_masuk = model('KategoriDanaMasuk')->find($this->request->getVar('kategori_dana_masuk'));
         $data = [
-            'id_pengguna' => userSession('id'),
             'jenis' => $this->request->getVar('jenis'),
+            'id_kategori_dana_masuk' => $kategori_dana_masuk['id'] ?? 0,
+            'nama_kategori_dana_masuk' => $kategori_dana_masuk['nama'] ?? '',
             'nama'  => $this->request->getVar('nama'),
+            'created_by' => userSession('id'),
         ];
         model($this->model_name)->insert($data);
 
@@ -119,6 +122,7 @@ class MasterDana extends BaseController
         $data = [
             'jenis' => $this->request->getVar('jenis'),
             'nama'  => $this->request->getVar('nama'),
+            'updated_by' => userSession('id'),
         ];
         model($this->model_name)->update($id, $data);
 

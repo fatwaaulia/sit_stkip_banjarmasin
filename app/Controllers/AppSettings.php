@@ -47,6 +47,12 @@ class AppSettings extends BaseController
             'maps'            => 'permit_empty|valid_url_strict',
             'logo'            => 'max_size[logo,1024]|ext_in[logo,png,jpg,jpeg]|mime_in[logo,image/png,image/jpeg]|is_image[logo]',
             'favicon'         => 'max_size[favicon,1024]|ext_in[favicon,png,jpg,jpeg]|mime_in[favicon,image/png,image/jpeg]|is_image[favicon]',
+            'ts_2_tanggal_awal'  => 'required',
+            'ts_2_tanggal_akhir' => 'required',
+            'ts_1_tanggal_awal'  => 'required',
+            'ts_1_tanggal_akhir' => 'required',
+            'ts_tanggal_awal'    => 'required',
+            'ts_tanggal_akhir'   => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -83,6 +89,12 @@ class AppSettings extends BaseController
             'logo'            => $logo_name,
             'favicon'         => $favicon_name,
             'alamat'          => $this->request->getVar('alamat'),
+            'ts_2_tanggal_awal'  => $this->request->getVar('ts_2_tanggal_awal'),
+            'ts_2_tanggal_akhir' => $this->request->getVar('ts_2_tanggal_akhir'),
+            'ts_1_tanggal_awal'  => $this->request->getVar('ts_1_tanggal_awal'),
+            'ts_1_tanggal_akhir' => $this->request->getVar('ts_1_tanggal_akhir'),
+            'ts_tanggal_awal'  => $this->request->getVar('ts_tanggal_awal'),
+            'ts_tanggal_akhir' => $this->request->getVar('ts_tanggal_akhir'),
         ];
 
         model($this->model_name)->update($id, $data);

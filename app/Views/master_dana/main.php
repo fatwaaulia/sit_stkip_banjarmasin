@@ -41,6 +41,22 @@
                                                 <div class="invalid-feedback" id="invalid_jenis"></div>
                                             </div>
                                             <div class="mb-3">
+                                                <label for="kategori_dana_masuk" class="form-label">Kategori Masuk</label>
+                                                <select class="form-select" id="kategori_dana_masuk" name="kategori_dana_masuk">
+                                                    <option value="">Pilih</option>
+                                                    <?php
+                                                    $kategori_dana_masuk = model('KategoriDanaMasuk')->findAll();
+                                                    foreach ($kategori_dana_masuk as $v) :
+                                                    ?>
+                                                    <option value="<?= $v['id'] ?>"><?= $v['nama'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <div class="form-text">
+                                                    Kosongi jika jenis Keluar
+                                                </div>
+                                                <div class="invalid-feedback" id="invalid_kategori_dana_masuk"></div>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="nama" class="form-label">Nama</label>
                                                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama">
                                                 <div class="invalid-feedback" id="invalid_nama"></div>
@@ -68,6 +84,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Jenis</th>
+                            <th>Kategori Masuk</th>
                             <th>Nama</th>
                             <th>Opsi</th>
                         </tr>
@@ -95,6 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: 'jenis',
                 data: 'jenis',
+            }, {
+                name: '',
+                data: 'nama_kategori_dana_masuk',
             }, {
                 name: 'nama',
                 data: 'nama',

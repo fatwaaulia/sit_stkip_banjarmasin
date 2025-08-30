@@ -111,7 +111,7 @@ class Keuangan extends BaseController
     public function index()
     {
         $select     = ['*'];
-        $base_query = model($this->model_name)->select($select)->where('id_pengguna', userSession('id'));
+        $base_query = model($this->model_name)->select($select);
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -158,11 +158,14 @@ class Keuangan extends BaseController
         $data       = $base_query->findAll($limit, $offset);
 
         $total_nominal = 0;
+        $created_by = model('Users')->select(['id', 'nama'])->findAll();
+        $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $total_nominal += $v['nominal'];
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['nominal'] = formatRupiah($v['nominal']);
-            $data[$key]['tanggal'] = date('d-m-Y H:i', strtotime($v['tanggal']));
+            $data[$key]['tanggal'] = date('d-m-Y H:i', strtotime(userLocalTime($v['tanggal'])));
+            $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -184,7 +187,7 @@ class Keuangan extends BaseController
             'jenis'       => 'required',
             'sumber_dana' => 'required',
             'nominal'     => 'required',
-            'catatan'     => 'max_length[50]',
+            'catatan'     => 'max_length[255]',
             'tanggal'     => 'required',
         ];
         if (! $this->validate($rules)) {
@@ -207,13 +210,15 @@ class Keuangan extends BaseController
         $sumber_dana = model('MasterDana')->find($id_sumber_dana);
 
         $data = [
-            'id_pengguna'      => userSession('id'),
             'jenis'            => $jenis,
             'nominal'          => $nominal,
+            'id_kategori_dana_masuk'   => $sumber_dana['id_kategori_dana_masuk'],
+            'nama_kategori_dana_masuk' => $sumber_dana['nama_kategori_dana_masuk'],
             'id_sumber_dana'   => $sumber_dana['id'],
             'nama_sumber_dana' => $sumber_dana['nama'],
             'catatan'          => $this->request->getVar('catatan'),
             'tanggal'          => $this->request->getVar('tanggal'),
+            'created_by'      => userSession('id'),
         ];
 
         model($this->model_name)->insert($data);
@@ -230,9 +235,8 @@ class Keuangan extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
-            'sumber_dana' => 'required',
             'nominal'     => 'required',
-            'catatan'     => 'max_length[50]',
+            'catatan'     => 'max_length[255]',
             'tanggal'     => 'required',
         ];
         if (! $this->validate($rules)) {
@@ -251,19 +255,32 @@ class Keuangan extends BaseController
         if ($jenis == 'Keluar') {
             $nominal = 0 - abs($nominal);
         }
-        $id_sumber_dana = $this->request->getVar('sumber_dana');
-        $sumber_dana = model('MasterDana')->find($id_sumber_dana);
 
         $data = [
-            'id_pengguna'      => userSession('id'),
-            'nominal'          => $nominal,
-            'id_sumber_dana'   => $sumber_dana['id'],
-            'nama_sumber_dana' => $sumber_dana['nama'],
-            'catatan'          => $this->request->getVar('catatan'),
-            'tanggal'          => $this->request->getVar('tanggal'),
+            'nominal'    => $nominal,
+            'catatan'    => $this->request->getVar('catatan'),
+            'tanggal'    => $this->request->getVar('tanggal'),
+            'updated_by' => userSession('id'),
         ];
-
         model($this->model_name)->update($id, $data);
+
+        $data_log_keuangan = [
+            'id_keuangan'              => $find_data['id'],
+            'jenis_keuangan'           => $find_data['jenis'],
+            'id_kategori_dana_masuk'   => $find_data['id_kategori_dana_masuk'],
+            'nama_kategori_dana_masuk' => $find_data['nama_kategori_dana_masuk'],
+            'id_sumber_dana'   => $find_data['id_sumber_dana'],
+            'nama_sumber_dana' => $find_data['nama_sumber_dana'],
+            'nominal_sebelum'  => $find_data['nominal'],
+            'nominal_setelah'  => $nominal,
+            'catatan_sebelum'  => $find_data['catatan'],
+            'catatan_setelah'  => $this->request->getVar('catatan'),
+            'tanggal_sebelum'  => $find_data['tanggal'],
+            'tanggal_setelah'  => $this->request->getVar('tanggal'),
+            'created_by' => userSession('id'),
+            'updated_by' => userSession('id'),
+        ];
+        model('LogKeuangan')->insert($data_log_keuangan);
 
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
@@ -286,14 +303,12 @@ class Keuangan extends BaseController
     {
         $base_query_pemasukan = model($this->model_name)
         ->select("DATE_FORMAT(tanggal, '%Y-%m') as periode, SUM(nominal) as pemasukan")
-        ->where('id_pengguna', userSession('id'))
         ->where('jenis', 'Masuk')
         ->groupBy('periode')
         ->orderBy('periode ASC');
 
         $base_query_pengeluaran = model($this->model_name, false)
         ->select("DATE_FORMAT(tanggal, '%Y-%m') as periode, SUM(nominal) as pengeluaran")
-        ->where('id_pengguna', userSession('id'))
         ->where('jenis', 'Keluar')
         ->groupBy('periode')
         ->orderBy('periode ASC');
@@ -370,7 +385,6 @@ class Keuangan extends BaseController
             $berapa_hari_terakhir = 6;
             $result_harian = model($this->model_name)
             ->select("DATE(tanggal) as tanggal, SUM(nominal) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', date('Y-m-d', strtotime("-$berapa_hari_terakhir days")))
             ->groupBy('tanggal')
             ->orderBy('tanggal', 'ASC')
@@ -378,7 +392,6 @@ class Keuangan extends BaseController
 
             $pemasukan = model($this->model_name)
             ->select("DATE(tanggal) as tanggal, SUM(ABS(nominal)) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', date('Y-m-d', strtotime("-$berapa_hari_terakhir days")))
             ->where('jenis', 'Masuk')
             ->groupBy('tanggal')
@@ -387,7 +400,6 @@ class Keuangan extends BaseController
 
             $pengeluaran = model($this->model_name)
             ->select("DATE(tanggal) as tanggal, SUM(ABS(nominal)) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', date('Y-m-d', strtotime("-$berapa_hari_terakhir days")))
             ->where('jenis', 'Keluar')
             ->groupBy('tanggal')
@@ -417,7 +429,6 @@ class Keuangan extends BaseController
 
             $result_mingguan = model($this->model_name)
             ->select("YEARWEEK(tanggal, 1) as minggu_ke, SUM(nominal) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', $start_date)
             ->groupBy('minggu_ke')
             ->orderBy('minggu_ke ASC')
@@ -425,7 +436,6 @@ class Keuangan extends BaseController
 
             $pemasukan = model($this->model_name)
             ->select("YEARWEEK(tanggal, 1) as minggu_ke, SUM(ABS(nominal)) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', $start_date)
             ->where('jenis', 'Masuk')
             ->groupBy('minggu_ke')
@@ -434,7 +444,6 @@ class Keuangan extends BaseController
 
             $pengeluaran = model($this->model_name)
             ->select("YEARWEEK(tanggal, 1) as minggu_ke, SUM(ABS(nominal)) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', $start_date)
             ->where('jenis', 'Keluar')
             ->groupBy('minggu_ke')
@@ -467,7 +476,6 @@ class Keuangan extends BaseController
 
             $result_bulanan = model($this->model_name)
             ->select("DATE_FORMAT(tanggal, '%Y-%m') as bulan_ke, SUM(nominal) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', $start_date)
             ->groupBy('bulan_ke')
             ->orderBy('bulan_ke ASC')
@@ -475,7 +483,6 @@ class Keuangan extends BaseController
 
             $pemasukan = model($this->model_name)
             ->select("DATE_FORMAT(tanggal, '%Y-%m') as bulan_ke, SUM(ABS(nominal)) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', $start_date)
             ->where('jenis', 'Masuk')
             ->groupBy('bulan_ke')
@@ -484,7 +491,6 @@ class Keuangan extends BaseController
 
             $pengeluaran = model($this->model_name)
             ->select("DATE_FORMAT(tanggal, '%Y-%m') as bulan_ke, SUM(ABS(nominal)) as total_nominal")
-            ->where('id_pengguna', userSession('id'))
             ->where('tanggal >=', $start_date)
             ->where('jenis', 'Keluar')
             ->groupBy('bulan_ke')
@@ -520,7 +526,6 @@ class Keuangan extends BaseController
         $periode = $this->request->getVar('periode');
         $base_query = model($this->model_name)
         ->select('id_sumber_dana, COUNT(*) AS total, SUM(nominal) as total_nominal, MAX(nama_sumber_dana) AS nama_sumber_dana')
-        ->where('id_pengguna', userSession('id'))
         ->where('jenis', 'Masuk');
 
         if ($periode == 'hari ini') {
@@ -563,7 +568,6 @@ class Keuangan extends BaseController
         $periode = $this->request->getVar('periode');
         $base_query = model($this->model_name)
         ->select('id_sumber_dana, COUNT(*) AS total, SUM(ABS(nominal)) as total_nominal, MAX(nama_sumber_dana) AS nama_sumber_dana')
-        ->where('id_pengguna', userSession('id'))
         ->where('jenis', 'Keluar');
 
         if ($periode == 'hari ini') {

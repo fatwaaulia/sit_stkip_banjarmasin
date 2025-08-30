@@ -2,9 +2,9 @@
 	<div class="d-flex align-items-center justify-content-between">
 		<a href="<?= base_url(userSession('slug_role')) . '/dashboard' ?>" class="logo d-flex align-items-center">
 			<img src="<?= appSettings('logo') ?>" alt="<?= appSettings('nama_aplikasi') ?>" title="<?= appSettings('nama_aplikasi') ?>">
-            <div class="text-dark ms-2 mt-3 d-none d-md-block">
-                <small>VISIONER</small>
-                <p class="fw-500 mt-1">STKIP ISM BANJARMASIN</p>
+            <div class="text-dark ms-2 d-none d-md-block">
+                <p class="fw-500 mb-0">STKIP ISM BANJARMASIN</p>
+                <small>KAMPUS VISIONER</small>
             </div>
 		</a>
 		<i class="fa-solid fa-bars toggle-sidebar-btn"></i>

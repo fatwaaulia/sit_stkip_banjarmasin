@@ -74,6 +74,57 @@
                                         <div class="invalid-feedback" id="invalid_favicon"></div>
                                     </div>
                                 </div>
+                                <div class="mb-2">
+                                    <span class="fw-600">Konfigurasi TS</span>
+                                </div>
+                                <div class="row gx-2">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="ts_2_tanggal_awal" class="form-label">TS 2 Tanggal Awal</label>
+                                            <input type="date" class="form-control" id="ts_2_tanggal_awal" name="ts_2_tanggal_awal" value="<?= $data['ts_2_tanggal_awal'] ?>">
+                                            <div class="invalid-feedback" id="invalid_ts_2_tanggal_awal"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="ts_2_tanggal_akhir" class="form-label">TS 2 Tanggal Akhir</label>
+                                            <input type="date" class="form-control" id="ts_2_tanggal_akhir" name="ts_2_tanggal_akhir" value="<?= $data['ts_2_tanggal_akhir'] ?>">
+                                            <div class="invalid-feedback" id="invalid_ts_2_tanggal_akhir"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gx-2">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="ts_1_tanggal_awal" class="form-label">TS 2 Tanggal Awal</label>
+                                            <input type="date" class="form-control" id="ts_1_tanggal_awal" name="ts_1_tanggal_awal" value="<?= $data['ts_1_tanggal_awal'] ?>">
+                                            <div class="invalid-feedback" id="invalid_ts_1_tanggal_awal"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="ts_1_tanggal_akhir" class="form-label">TS 1 Tanggal Akhir</label>
+                                            <input type="date" class="form-control" id="ts_1_tanggal_akhir" name="ts_1_tanggal_akhir" value="<?= $data['ts_1_tanggal_akhir'] ?>">
+                                            <div class="invalid-feedback" id="invalid_ts_1_tanggal_akhir"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row gx-2">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="ts_tanggal_awal" class="form-label">TS Tanggal Awal</label>
+                                            <input type="date" class="form-control" id="ts_tanggal_awal" name="ts_tanggal_awal" value="<?= $data['ts_tanggal_awal'] ?>">
+                                            <div class="invalid-feedback" id="invalid_ts_tanggal_awal"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="ts_tanggal_akhir" class="form-label">TS Tanggal Akhir</label>
+                                            <input type="date" class="form-control" id="ts_tanggal_akhir" name="ts_tanggal_akhir" value="<?= $data['ts_tanggal_akhir'] ?>">
+                                            <div class="invalid-feedback" id="invalid_ts_tanggal_akhir"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3 float-end">Simpan Perubahan</button>

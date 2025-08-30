@@ -2,6 +2,10 @@
 
 namespace App\Controllers;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+
 class PenggunaanDana extends BaseController
 {
     protected $base_name;
@@ -31,39 +35,154 @@ class PenggunaanDana extends BaseController
         return view('dashboard/header', $view);
     }
 
+    
     /*--------------------------------------------------------------
-    # API
+    # Export Excel
     --------------------------------------------------------------*/
-    public function update($id = null)
+    public function exportExcel()
     {
-        $rules = [
-            'ts_2' => 'required',
-            'ts_1' => 'required',
-            'ts_0' => 'required',
-        ];
-        if (! $this->validate($rules)) {
-            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => 'error',
-                'message' => 'Data yang dimasukkan tidak valid!',
-                'errors'  => $errors,
-            ]);
-        }
 
-        // Lolos Validasi
-        $data = [
-            'ts_2' => $this->request->getVar('ts_2', FILTER_SANITIZE_NUMBER_INT),
-            'ts_1' => $this->request->getVar('ts_1', FILTER_SANITIZE_NUMBER_INT),
-            'ts_0' => $this->request->getVar('ts_0', FILTER_SANITIZE_NUMBER_INT),
-        ];
+// ========== HEADER ==========
+$sheet->setCellValue('A1', 'No.');
+$sheet->setCellValue('B1', 'Jenis Penggunaan');
+$sheet->setCellValue('C1', 'Dana (Rp)');
+$sheet->setCellValue('F1', 'Jumlah (Rp)');
 
-        model($this->model_name)->update($id, $data);
+$sheet->setCellValue('C2', 'TS-2');
+$sheet->setCellValue('D2', 'TS-1');
+$sheet->setCellValue('E2', 'TS');
 
-        return $this->response->setStatusCode(200)->setJSON([
-            'status'  => 'success',
-            'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
-        ]);
+// merge sesuai struktur HTML
+$sheet->mergeCells('A1:A2');
+$sheet->mergeCells('B1:B2');
+$sheet->mergeCells('C1:E1');
+$sheet->mergeCells('F1:F2');
+
+// style header center + bold
+$sheet->getStyle('A1:F2')->getAlignment()
+    ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+    ->setVertical(Alignment::VERTICAL_CENTER);
+$sheet->getStyle('A1:F2')->getFont()->setBold(true);
+
+// ========== ISI DATA ==========
+$data_row = 3;
+$total_jumlah_ts_2 = 0;
+$total_jumlah_ts_1 = 0;
+$total_jumlah_ts_0 = 0;
+$total_jumlah_ts_sumber_dana = 0;
+
+$master_dana = model('MasterDana')->where('jenis', 'Keluar')->findAll();
+$total_data = count($master_dana);
+
+$jumlah_ts_2 = 0;
+$jumlah_ts_1 = 0;
+$jumlah_ts_0 = 0;
+$jumlah_ts_sumber_dana = 0;
+
+foreach ($master_dana as $key => $v2) {
+    $ts_2 = (int)model('Keuangan')
+        ->selectSum('nominal')
+        ->where([
+            'id_sumber_dana' => $v2['id'],
+            'created_at >=' => appSettings('ts_2_tanggal_awal'),
+            'created_at <=' => appSettings('ts_2_tanggal_akhir'),
+        ])
+        ->first()['nominal'];
+
+    $ts_1 = (int)model('Keuangan')
+        ->selectSum('nominal')
+        ->where([
+            'id_sumber_dana' => $v2['id'],
+            'created_at >=' => appSettings('ts_1_tanggal_awal'),
+            'created_at <=' => appSettings('ts_1_tanggal_akhir'),
+        ])
+        ->first()['nominal'];
+
+    $ts_0 = (int)model('Keuangan')
+        ->selectSum('nominal')
+        ->where([
+            'id_sumber_dana' => $v2['id'],
+            'created_at >=' => appSettings('ts_tanggal_awal'),
+            'created_at <=' => appSettings('ts_tanggal_akhir'),
+        ])
+        ->first()['nominal'];
+
+    $jumlah_ts_sebaris = $ts_2 + $ts_1 + $ts_0;
+    $jumlah_ts_2 += $ts_2;
+    $jumlah_ts_1 += $ts_1;
+    $jumlah_ts_0 += $ts_0;
+    $jumlah_ts_sumber_dana += $jumlah_ts_sebaris;
+
+    // isi baris data
+    $sheet->setCellValue("A{$data_row}", $key+1);
+    $sheet->setCellValue("B{$data_row}", $v2['nama']);
+    $sheet->setCellValue("C{$data_row}", dotsNumber($ts_2));
+    $sheet->setCellValue("D{$data_row}", dotsNumber($ts_1));
+    $sheet->setCellValue("E{$data_row}", dotsNumber($ts_0));
+    $sheet->setCellValue("F{$data_row}", dotsNumber($jumlah_ts_sebaris));
+
+    // rata kanan untuk angka
+    $sheet->getStyle("C{$data_row}:F{$data_row}")
+          ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+
+    $data_row++;
+}
+
+$total_jumlah_ts_2 += $jumlah_ts_2;
+$total_jumlah_ts_1 += $jumlah_ts_1;
+$total_jumlah_ts_0 += $jumlah_ts_0;
+$total_jumlah_ts_sumber_dana += $jumlah_ts_sumber_dana;
+
+// ========== JUMLAH ==========
+$sheet->setCellValue("B{$data_row}", 'Jumlah');
+$sheet->setCellValue("C{$data_row}", dotsNumber($jumlah_ts_2));
+$sheet->setCellValue("D{$data_row}", dotsNumber($jumlah_ts_1));
+$sheet->setCellValue("E{$data_row}", dotsNumber($jumlah_ts_0));
+$sheet->setCellValue("F{$data_row}", dotsNumber($jumlah_ts_sumber_dana));
+
+// merge + center untuk teks "Jumlah"
+$sheet->mergeCells("B{$data_row}:B{$data_row}");
+$sheet->getStyle("B{$data_row}")->getAlignment()
+      ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+      ->setVertical(Alignment::VERTICAL_CENTER);
+$sheet->getStyle("B{$data_row}")->getFont()->setBold(true);
+
+$sheet->getStyle("C{$data_row}:F{$data_row}")
+      ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+$sheet->getStyle("B{$data_row}:F{$data_row}")->getFont()->setBold(true);
+
+$data_row++;
+
+// ========== TOTAL ==========
+$sheet->setCellValue("B{$data_row}", 'Total');
+$sheet->setCellValue("C{$data_row}", dotsNumber($total_jumlah_ts_2));
+$sheet->setCellValue("D{$data_row}", dotsNumber($total_jumlah_ts_1));
+$sheet->setCellValue("E{$data_row}", dotsNumber($total_jumlah_ts_0));
+$sheet->setCellValue("F{$data_row}", dotsNumber($total_jumlah_ts_sumber_dana));
+
+// style
+$sheet->getStyle("B{$data_row}")->getAlignment()
+      ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+      ->setVertical(Alignment::VERTICAL_CENTER);
+$sheet->getStyle("B{$data_row}:F{$data_row}")->getFont()->setBold(true);
+$sheet->getStyle("C{$data_row}:F{$data_row}")
+      ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+
+        
+        // Lebar Kolom Sesuai Isinya
+        foreach (range('A', $sheet->getHighestColumn()) as $col) $sheet->getColumnDimension($col)->setAutoSize(true);
+
+        $filename = 'penggunaan_dana.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 }

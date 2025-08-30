@@ -156,16 +156,30 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
 		[
-			'title'	=> 'Laman Akreditasi',
+			'title'	=> 'Beranda',
 			'icon'	=> 'fa-solid fa-house',
 			'url'	=> base_url('kalender-akademik'),
-			'role'	=> [1, 2, 3],
+			'role'	=> [1, 2, 3, 4, 5],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'KEUANGAN',
 			'role'	=> [1, 2],
 			'type'	=> 'heading',
+		],
+        [
+			'title'	=> 'Keluar Masuk Uang',
+			'icon'	=> 'fa-solid fa-arrow-down-up-across-line',
+			'url'	=> base_url(userSession('slug_role')) . '/keuangan',
+			'role'	=> [1, 2],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Log Keuangan',
+			'icon'	=> 'fa-solid fa-arrows-to-eye',
+			'url'	=> base_url(userSession('slug_role')) . '/log-keuangan',
+			'role'	=> [1],
+			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Perolehan Dana',
@@ -213,20 +227,6 @@ function menuSidebar()
 			'title'	=> 'Status Bayar',
 			'icon'	=> 'fa-solid fa-hourglass-half',
 			'url'	=> base_url(userSession('slug_role')) . '/status-bayar',
-			'role'	=> [1, 2],
-			'type'	=> 'no-collapse',
-		],
-        [
-			'title'	=> 'Keluar Masuk Uang',
-			'icon'	=> 'fa-solid fa-arrow-down-up-across-line',
-			'url'	=> base_url(userSession('slug_role')) . '/keuangan',
-			'role'	=> [1, 2],
-			'type'	=> 'no-collapse',
-		],
-		[
-			'title'	=> 'Laporan Kas',
-			'icon'	=> 'fa-solid fa-wallet',
-			'url'	=> base_url(userSession('slug_role')) . '/laporan-kas',
 			'role'	=> [1, 2],
 			'type'	=> 'no-collapse',
 		],
@@ -338,7 +338,7 @@ function menuSidebar()
 			'title'	=> 'Master Dana',
 			'icon'	=> 'fa-solid fa-sack-dollar',
 			'url'	=> base_url(userSession('slug_role')) . '/master-dana',
-			'role'	=> [1, 2],
+			'role'	=> [2],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -352,22 +352,6 @@ function menuSidebar()
 			'url'	=> base_url(userSession('slug_role')) . '/app-settings',
 			'role'	=> [1],
 			'type'	=> 'no-collapse',
-		],
-		[
-			'title'	=> 'Maintenance',
-			'icon'	=> 'fa-solid fa-screwdriver-wrench',
-			'role'	=> [1],
-			'type'	=> 'collapse',
-			'collapse' => [
-				[
-					'title'	=> 'Email',
-					'url'	=> base_url(userSession('slug_role')) . '/maintenance/email',
-				],
-				[
-					'title'	=> 'Notifikasi',
-					'url'	=> base_url(userSession('slug_role')) . '/maintenance/notifikasi',
-				],
-			],
 		],
         [
 			'title'	=> 'Log Login',

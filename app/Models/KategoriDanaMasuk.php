@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PenggunaanDana extends Model
+class KategoriDanaMasuk extends Model
 {
-    protected $table         = 'penggunaan_dana';
+    protected $table         = 'kategori_dana_masuk';
     protected $protectFields = false;
     protected $useTimestamps = true;
 }

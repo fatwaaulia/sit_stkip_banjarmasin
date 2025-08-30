@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
-<script src="<?= base_url() ?>assets/modules/dselect/dselect.min.js"></script>
-
 <section class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -17,21 +14,8 @@
                             <input type="text" class="form-control" value="Keluar" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="sumber_dana" class="form-label">Sumber Dana</label>
-                            <select class="form-select" id="sumber_dana" name="sumber_dana">
-                                <option value="">Pilih</option>
-                                <?php
-                                $sumber_dana = model('MasterDana')
-                                ->where('id_pengguna', userSession('id'))
-                                ->where('jenis', 'Keluar')
-                                ->findAll();
-                                foreach ($sumber_dana as $v) :
-                                    $selected = ($v['id'] == $data['id_sumber_dana']) ? 'selected' : '';
-                                ?>
-                                <option value="<?= $v['id'] ?>" <?= $selected ?>><?= $v['nama'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div class="invalid-feedback" id="invalid_sumber_dana"></div>
+                            <label class="form-label">Sumber Dana</label>
+                            <input type="text" class="form-control" value="<?= $data['nama_sumber_dana'] ?>" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="nominal" class="form-label">Nominal</label>
@@ -60,8 +44,6 @@
 </section>
 
 <script>
-dselect(dom('#sumber_dana'), { search: true });
-
 dom('#form').addEventListener('submit', function(event) {
     event.preventDefault();
     const endpoint = '<?= $base_api ?>update/<?= $data['id'] ?>';

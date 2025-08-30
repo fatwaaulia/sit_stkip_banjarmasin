@@ -11,6 +11,38 @@ table tr th { text-align: center; }
     <div class="row">
         <div class="col-12">
             <div class="card p-3">
+                <div class="row mb-3">
+                    <div class="col-12 col-md-6">
+                        <table>
+                            <tr class="fw-500">
+                                <td>TS 2</td>
+                                <td>:
+                                    <?= date('d-m-Y', strtotime(appSettings('ts_2_tanggal_awal'))) ?> s/d
+                                    <?= date('d-m-Y', strtotime(appSettings('ts_2_tanggal_akhir'))) ?>
+                                </td>
+                            </tr>
+                            <tr class="fw-500">
+                                <td>TS 1</td>
+                                <td>:
+                                    <?= date('d-m-Y', strtotime(appSettings('ts_1_tanggal_awal'))) ?> s/d
+                                    <?= date('d-m-Y', strtotime(appSettings('ts_1_tanggal_akhir'))) ?>
+                                </td>
+                            </tr>
+                            <tr class="fw-500">
+                                <td>TS</td>
+                                <td>:
+                                    <?= date('d-m-Y', strtotime(appSettings('ts_tanggal_awal'))) ?> s/d
+                                    <?= date('d-m-Y', strtotime(appSettings('ts_tanggal_akhir'))) ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <a href="<?= base_url() ?>api/perolehan-dana/export-excel" class="btn btn-outline-success">
+                            <i class="fa-solid fa-arrow-up fa-sm"></i> Export Excel
+                        </a>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-bordered text-nowrap">
                         <thead class="bg-primary-subtle">
@@ -29,115 +61,68 @@ table tr th { text-align: center; }
                         </thead>
                         <tbody>
                             <?php
-                            $sumber_dana = [
-                                [
-                                    'no'   => 1,
-                                    'nama' => 'Mahasiswa',
-                                ],
-                                [
-                                    'no'   => 2,
-                                    'nama' => 'Kementerian/ Yayasan',
-                                ],
-                                [
-                                    'no'   => 3,
-                                    'nama' => 'PT Sendiri',
-                                ],
-                                [
-                                    'no'   => 4,
-                                    'nama' => 'Sumber Lain (Dalam dan Luar Negeri)',
-                                ],
-                                [
-                                    'no'   => 5,
-                                    'nama' => 'Dana Penelitian dan PKM',
-                                ],
-                            ];
+                            $kategori_dana_masuk = model('KategoriDanaMasuk')->findAll();
 
                             $total_jumlah_ts_2 = 0;
                             $total_jumlah_ts_1 = 0;
                             $total_jumlah_ts_0 = 0;
                             $total_jumlah_ts_sumber_dana = 0;
 
-                            foreach ($sumber_dana as $v) :
-                                if (! in_array($v['no'], [1, 2, 3, 4])) continue;
-                                $perolehan_dana = model('PerolehanDana')->where('no_sumber_dana', $v['no'])->findAll();
-                                $total_data = count($perolehan_dana);
+                            foreach ($kategori_dana_masuk as $v) :
+                                if (! in_array($v['id'], [1, 2, 3, 4])) continue;
+                                $master_dana = model('MasterDana')->where('id_kategori_dana_masuk', $v['id'])->findAll();
+                                $total_data = count($master_dana);
                                 $jumlah_ts_2 = 0;
                                 $jumlah_ts_1 = 0;
                                 $jumlah_ts_0 = 0;
                                 $jumlah_ts_sumber_dana = 0;
-                                foreach ($perolehan_dana as $key => $v2) :
-                                    $jumlah_ts_sebaris = $v2['ts_2'] + $v2['ts_1'] + $v2['ts_0'];
-                                    $jumlah_ts_2 += $v2['ts_2'];
-                                    $jumlah_ts_1 += $v2['ts_1'];
-                                    $jumlah_ts_0 += $v2['ts_0'];
+                                foreach ($master_dana as $key2 => $v2) :
+                                    $ts_2 = (int)model('Keuangan')
+                                    ->selectSum('nominal')
+                                    ->where([
+                                        'id_sumber_dana' => $v2['id'],
+                                        'created_at >=' => appSettings('ts_2_tanggal_awal'),
+                                        'created_at <=' => appSettings('ts_2_tanggal_akhir'),
+                                    ])
+                                    ->first()['nominal'];
+
+                                    $ts_1 = (int)model('Keuangan')
+                                    ->selectSum('nominal')
+                                    ->where([
+                                        'id_sumber_dana' => $v2['id'],
+                                        'created_at >=' => appSettings('ts_1_tanggal_awal'),
+                                        'created_at <=' => appSettings('ts_1_tanggal_akhir'),
+                                    ])
+                                    ->first()['nominal'];
+
+                                    $ts_0 = (int)model('Keuangan')
+                                    ->selectSum('nominal')
+                                    ->where([
+                                        'id_sumber_dana' => $v2['id'],
+                                        'created_at >=' => appSettings('ts_tanggal_awal'),
+                                        'created_at <=' => appSettings('ts_tanggal_akhir'),
+                                    ])
+                                    ->first()['nominal'];
+
+                                    $jumlah_ts_sebaris = $ts_2 + $ts_1 + $ts_0;
+                                    $jumlah_ts_2 += $ts_2;
+                                    $jumlah_ts_1 += $ts_1;
+                                    $jumlah_ts_0 += $ts_0;
                                     $jumlah_ts_sumber_dana += $jumlah_ts_sebaris;
                             ?>
                             <tr>
-                                <?php if ($key == 0) : ?>
-                                <td rowspan="<?= $total_data ?>" class="text-center align-middle"><?= $v2['no_sumber_dana'] ?></td>
-                                <td rowspan="<?= $total_data ?>" class="text-wrap text-center align-middle"><?= $v2['nama_sumber_dana'] ?></td>
+                                <?php if ($key2 == 0) : ?>
+                                <td rowspan="<?= $total_data ?>" class="text-center align-middle"><?= $v2['id_kategori_dana_masuk'] ?></td>
+                                <td rowspan="<?= $total_data ?>" class="text-wrap text-center align-middle"><?= $v2['nama_kategori_dana_masuk'] ?></td>
                                 <?php endif; ?>
                                 <td>
                                     <div class="d-flex justify-content-between">
-                                        <span class="text-wrap"><?= $v2['nama_jenis_dana'] ?></span>
-                                        <a class="me-0" title="Edit" data-bs-toggle="modal" data-bs-target="#edit_<?= $v2['id'] ?>">
-                                            <i class="fa-regular fa-pen-to-square fa-lg"></i>
-                                        </a>
-                                    </div>
-                                    <div class="modal fade" id="edit_<?= $v2['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5">Edit <?= isset($title) ? $title : '' ?></h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <form id="form_<?= $v2['id'] ?>">
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Sumber Dana</label>
-                                                            <input type="text" class="form-control" value="<?= $v2['nama_sumber_dana'] ?>" disabled>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Jenis Dana</label>
-                                                            <input type="text" class="form-control" value="<?= $v2['nama_jenis_dana'] ?>" disabled>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">TS-2</label>
-                                                            <input type="text" inputmode="numeric" class="form-control" name="ts_2" value="<?= dotsNumber($v2['ts_2']) ?>" placeholder="0" oninput="this.value = dotsNumber(this.value)">
-                                                            <div class="invalid-feedback" id="invalid_ts_2"></div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">TS-1</label>
-                                                            <input type="text" inputmode="numeric" class="form-control" name="ts_1" value="<?= dotsNumber($v2['ts_1']) ?>" placeholder="0" oninput="this.value = dotsNumber(this.value)">
-                                                            <div class="invalid-feedback" id="invalid_ts_1"></div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">TS</label>
-                                                            <input type="text" inputmode="numeric" class="form-control" name="ts_0" value="<?= dotsNumber($v2['ts_0']) ?>" placeholder="0" oninput="this.value = dotsNumber(this.value)">
-                                                            <div class="invalid-feedback" id="invalid_ts_0"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary float-end">Simpan Perubahan</button>
-                                                    </div>
-                                                </form>
-                                                <script>
-                                                document.addEventListener('DOMContentLoaded', function() {
-                                                    dom('#form_<?= $v2['id'] ?>').addEventListener('submit', function(event) {
-                                                        event.preventDefault();
-                                                        const endpoint = '<?= $base_api ?>update/<?= $v2['id'] ?>';
-                                                        submitData(dom('#form_<?= $v2['id'] ?>'), endpoint);
-                                                    });
-                                                });
-                                                </script>
-                                            </div>
-                                        </div>
+                                        <span class="text-wrap"><?= $v2['nama'] ?></span>
                                     </div>
                                 </td>
-                                <td class="text-end"><?= dotsNumber($v2['ts_2']) ?></td>
-                                <td class="text-end"><?= dotsNumber($v2['ts_1']) ?></td>
-                                <td class="text-end"><?= dotsNumber($v2['ts_0']) ?></td>
+                                <td class="text-end"><?= dotsNumber($ts_2) ?></td>
+                                <td class="text-end"><?= dotsNumber($ts_1) ?></td>
+                                <td class="text-end"><?= dotsNumber($ts_0) ?></td>
                                 <td class="text-end"><?= dotsNumber($jumlah_ts_sebaris) ?></td>
                             </tr>
                             <?php endforeach; ?>
@@ -166,87 +151,34 @@ table tr th { text-align: center; }
                             </tr>
 
                             <?php
-                            foreach ($sumber_dana as $v) :
-                                if ($v['no'] != 5) continue;
-                                $perolehan_dana = model('PerolehanDana')->where('no_sumber_dana', $v['no'])->findAll();
-                                $total_data = count($perolehan_dana);
+                            foreach ($kategori_dana_masuk as $v) :
+                                if ($v['id'] != 5) continue;
+                                $master_dana = model('MasterDana')->where('id_kategori_dana_masuk', $v['id'])->findAll();
+                                $total_data = count($master_dana);
                                 $jumlah_ts_2 = 0;
                                 $jumlah_ts_1 = 0;
                                 $jumlah_ts_0 = 0;
                                 $jumlah_ts_sumber_dana = 0;
-                                foreach ($perolehan_dana as $key => $v2) :
-                                    $jumlah_ts_sebaris = $v2['ts_2'] + $v2['ts_1'] + $v2['ts_0'];
-                                    $jumlah_ts_2 += $v2['ts_2'];
-                                    $jumlah_ts_1 += $v2['ts_1'];
-                                    $jumlah_ts_0 += $v2['ts_0'];
+                                foreach ($master_dana as $key2 => $v2) :
+                                    $jumlah_ts_sebaris = $ts_2 + $ts_1 + $ts_0;
+                                    $jumlah_ts_2 += $ts_2;
+                                    $jumlah_ts_1 += $ts_1;
+                                    $jumlah_ts_0 += $ts_0;
                                     $jumlah_ts_sumber_dana += $jumlah_ts_sebaris;
                             ?>
                             <tr>
-                                <?php if ($key == 0) : ?>
-                                <td rowspan="<?= $total_data ?>" class="text-center align-middle"><?= $v2['no_sumber_dana'] ?></td>
-                                <td rowspan="<?= $total_data ?>" class="text-wrap text-center align-middle"><?= $v2['nama_sumber_dana'] ?></td>
+                                <?php if ($key2 == 0) : ?>
+                                <td rowspan="<?= $total_data ?>" class="text-center align-middle"><?= $v2['id_kategori_dana_masuk'] ?></td>
+                                <td rowspan="<?= $total_data ?>" class="text-wrap text-center align-middle"><?= $v2['nama_kategori_dana_masuk'] ?></td>
                                 <?php endif; ?>
                                 <td>
                                     <div class="d-flex justify-content-between">
-                                        <span class="text-wrap"><?= $v2['nama_jenis_dana'] ?></span>
-                                        <a class="me-0" title="Edit" data-bs-toggle="modal" data-bs-target="#edit_<?= $v2['id'] ?>">
-                                            <i class="fa-regular fa-pen-to-square fa-lg"></i>
-                                        </a>
-                                    </div>
-                                    <div class="modal fade" id="edit_<?= $v2['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5">Edit <?= isset($title) ? $title : '' ?></h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <form id="form_<?= $v2['id'] ?>">
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Sumber Dana</label>
-                                                            <input type="text" class="form-control" value="<?= $v2['nama_sumber_dana'] ?>" disabled>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Jenis Dana</label>
-                                                            <input type="text" class="form-control" value="<?= $v2['nama_jenis_dana'] ?>" disabled>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">TS-2</label>
-                                                            <input type="text" inputmode="numeric" class="form-control" name="ts_2" value="<?= dotsNumber($v2['ts_2']) ?>" placeholder="0" oninput="this.value = dotsNumber(this.value)">
-                                                            <div class="invalid-feedback" id="invalid_ts_2"></div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">TS-1</label>
-                                                            <input type="text" inputmode="numeric" class="form-control" name="ts_1" value="<?= dotsNumber($v2['ts_1']) ?>" placeholder="0" oninput="this.value = dotsNumber(this.value)">
-                                                            <div class="invalid-feedback" id="invalid_ts_1"></div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">TS</label>
-                                                            <input type="text" inputmode="numeric" class="form-control" name="ts_0" value="<?= dotsNumber($v2['ts_0']) ?>" placeholder="0" oninput="this.value = dotsNumber(this.value)">
-                                                            <div class="invalid-feedback" id="invalid_ts_0"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary float-end">Simpan Perubahan</button>
-                                                    </div>
-                                                </form>
-                                                <script>
-                                                document.addEventListener('DOMContentLoaded', function() {
-                                                    dom('#form_<?= $v2['id'] ?>').addEventListener('submit', function(event) {
-                                                        event.preventDefault();
-                                                        const endpoint = '<?= $base_api ?>update/<?= $v2['id'] ?>';
-                                                        submitData(dom('#form_<?= $v2['id'] ?>'), endpoint);
-                                                    });
-                                                });
-                                                </script>
-                                            </div>
-                                        </div>
+                                        <span class="text-wrap"><?= $v2['nama'] ?></span>
                                     </div>
                                 </td>
-                                <td class="text-end"><?= dotsNumber($v2['ts_2']) ?></td>
-                                <td class="text-end"><?= dotsNumber($v2['ts_1']) ?></td>
-                                <td class="text-end"><?= dotsNumber($v2['ts_0']) ?></td>
+                                <td class="text-end"><?= dotsNumber($ts_2) ?></td>
+                                <td class="text-end"><?= dotsNumber($ts_1) ?></td>
+                                <td class="text-end"><?= dotsNumber($ts_0) ?></td>
                                 <td class="text-end"><?= dotsNumber($jumlah_ts_sebaris) ?></td>
                             </tr>
                             <?php endforeach; ?>

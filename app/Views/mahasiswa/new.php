@@ -101,7 +101,7 @@
                                     <select class="form-select" id="tahun_akademik_diterima" name="tahun_akademik_diterima">
                                         <option value="">Pilih</option>
                                         <?php
-                                        $tahun_akademik = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(5)->findAll();
+                                        $tahun_akademik = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(3)->findAll();
                                         foreach ($tahun_akademik as $v) :
                                         ?>
                                         <option value="<?= $v['id'] ?>"><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>

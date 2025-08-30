@@ -60,9 +60,7 @@ $get_search = $_GET['search'] ?? '';
                                     <select class="form-select" id="id_sumber_dana" name="id_sumber_dana">
                                         <option value="">Semua Sumber Dana</option>
                                         <?php
-                                        $sumber_dana = model('MasterDana')
-                                        ->where('id_pengguna', userSession('id'))
-                                        ->find();
+                                        $sumber_dana = model('MasterDana')->find();
                                         foreach ($sumber_dana as $v) :
                                             $selected = ($get_id_sumber_dana == $v['id']) ? 'selected' : '';
                                         ?>
@@ -97,6 +95,7 @@ $get_search = $_GET['search'] ?? '';
                             <th>Sumber Dana</th>
                             <th>Catatan</th>
                             <th>Tanggal</th>
+                            <th>Created By</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -145,13 +144,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 render: data => `<span class="${data.jenis == 'Masuk' ? 'text-success' : 'text-danger'}">${data.nominal}</span>`,
             }, {
                 name: '',
-                data: 'nama_sumber_dana',
+                data: null,
+                render: data => data.jenis == 'Masuk' ? `${data.nama_kategori_dana_masuk} - ${data.nama_sumber_dana}` : data.nama_sumber_dana,
             }, {
                 name: 'catatan',
                 data: 'catatan',
             }, {
                 name: 'tanggal',
                 data: 'tanggal',
+            }, {
+                name: '',
+                data: 'created_by',
             }, {
                 name: '',
                 data: null,

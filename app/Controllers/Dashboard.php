@@ -22,6 +22,15 @@ class Dashboard extends BaseController
         return view('dashboard/header', $view);
     }
 
+    public function akademik()
+    {
+        $data['title'] = 'Dashboard';
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view('dashboard/akademik', $data);
+        return view('dashboard/header', $view);
+    }
+
     public function mahasiswa()
     {
         $data['title'] = 'Dashboard';

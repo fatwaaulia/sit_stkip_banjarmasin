@@ -23,7 +23,6 @@
                                 <option value="">Pilih</option>
                                 <?php
                                 $sumber_dana = model('MasterDana')
-                                ->where('id_pengguna', userSession('id'))
                                 ->where('jenis', 'Keluar')
                                 ->findAll();
                                 foreach ($sumber_dana as $v) :

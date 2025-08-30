@@ -23,35 +23,14 @@ table tr th { text-align: center; }
                         </thead>
                         <tbody>
                             <?php
-                                $sumber_dana = [
-                                [
-                                    'no'   => 1,
-                                    'nama' => 'Mahasiswa',
-                                ],
-                                [
-                                    'no'   => 2,
-                                    'nama' => 'Kementerian/ Yayasan',
-                                ],
-                                [
-                                    'no'   => 3,
-                                    'nama' => 'PT Sendiri',
-                                ],
-                                [
-                                    'no'   => 4,
-                                    'nama' => 'Sumber Lain (Dalam dan Luar Negeri)',
-                                ],
-                                [
-                                    'no'   => 5,
-                                    'nama' => 'Dana Penelitian dan PKM',
-                                ],
-                            ];
+                            $kategori_dana_masuk = model('KategoriDanaMasuk')->findAll();
 
                             $jumlah_debit = 0;
-                            foreach ($sumber_dana as $key => $v) :
-                                $perolehan_dana = model('PerolehanDana')->where('no_sumber_dana', $v['no'])->findAll();
+                            foreach ($kategori_dana_masuk as $key => $v) :
+                                $perolehan_dana = model('Keuangan')->where('id_kategori_dana_masuk', $v['id'])->findAll();
                                 $jumlah_ts_sumber_dana = 0;
                                 foreach ($perolehan_dana as $v2) {
-                                    $jumlah_ts_sebaris = $v2['ts_2'] + $v2['ts_1'] + $v2['ts_0'];
+                                    $jumlah_ts_sebaris = $v2['nominal'];
                                     $jumlah_ts_sumber_dana += $jumlah_ts_sebaris;
                                 }
                                 $debit = $jumlah_ts_sumber_dana;
@@ -66,15 +45,20 @@ table tr th { text-align: center; }
                             <?php endforeach; ?>
 
                             <?php
-                            $penggunaan_dana = model('PenggunaanDana')->findAll();
+                            $penggunaan_dana = model('MasterDana')->where('jenis', 'Keluar')->findAll();
                             $jumlah_kredit = 0;
                             foreach ($penggunaan_dana as $key => $v) :
-                                $kredit = $v['ts_2'] + $v['ts_1'] + $v['ts_0'];
+                                $kredit = (int)model('Keuangan')
+                                ->selectSum('nominal')
+                                ->where([
+                                    'id_sumber_dana' => $v['id'],
+                                ])
+                                ->first()['nominal'];
                                 $jumlah_kredit += $kredit;
                             ?>
                             <tr>
-                                <td class="text-center"><?= $key + count($sumber_dana) + 1 ?></td>
-                                <td><?= $v['nama_jenis_dana'] ?></td>
+                                <td class="text-center"><?= $key + count($kategori_dana_masuk) + 1 ?></td>
+                                <td><?= $v['nama'] ?></td>
                                 <td class="text-center"></td>
                                 <td class="text-end"><?= dotsNumber($kredit) ?></td>
                             </tr>

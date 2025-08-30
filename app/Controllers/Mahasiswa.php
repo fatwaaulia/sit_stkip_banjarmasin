@@ -282,6 +282,40 @@ class Mahasiswa extends BaseController
         ]);
     }
 
+    public function updateStatusLulus($id = null)
+    {
+        $rules = [
+            'tahun_akademik_lulus' => 'required',
+            'persetujuan' => 'required',
+        ];
+        if (! $this->validate($rules)) {
+            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
+
+            return $this->response->setStatusCode(400)->setJSON([
+                'status'  => 'error',
+                'message' => 'Data yang dimasukkan tidak valid!',
+                'errors'  => $errors,
+            ]);
+        }
+
+        // Lolos Validasi
+        $tahun_akademik_lulus = model('TahunAkademik')->find($this->request->getVar('tahun_akademik_lulus'));
+        $data = [
+            'status' => 'Lulus',
+            'id_tahun_akademik_lulus'   => $tahun_akademik_lulus['id'],
+            'tahun_akademik_lulus'      => $tahun_akademik_lulus['tahun_akademik'],
+            'tipe_tahun_akademik_lulus' => $tahun_akademik_lulus['tipe'],
+        ];
+
+        // model($this->model_name)->update($id, $data);
+
+        return $this->response->setStatusCode(200)->setJSON([
+            'status'  => 'success',
+            'message' => 'Berhasil dinyatakan lulus',
+            'route'   => $this->base_route,
+        ]);
+    }
+
     public function delete($id = null)
     {
         $find_data = model($this->model_name)->find($id);

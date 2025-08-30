@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PerolehanDana extends Model
+class LogKeuangan extends Model
 {
-    protected $table         = 'perolehan_dana';
+    protected $table         = 'log_keuangan';
     protected $protectFields = false;
     protected $useTimestamps = true;
 }

@@ -106,12 +106,41 @@ if (userSession('id_role') == 1) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Keluar Masuk Uang'))) {
+    $routes->group("$slug_role/keuangan", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Keuangan::main');
+        $routes->get('new/uang-masuk', 'Keuangan::newUangMasuk/$1');
+        $routes->get('new/uang-keluar', 'Keuangan::newUangKeluar/$1');
+        $routes->get('edit/uang-masuk/(:segment)', 'Keuangan::editUangMasuk/$1');
+        $routes->get('edit/uang-keluar/(:segment)', 'Keuangan::editUangKeluar/$1');
+    });
+    $routes->group('api/keuangan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Keuangan::index');
+        $routes->post('create', 'Keuangan::create');
+        $routes->post('update/(:segment)', 'Keuangan::update/$1');
+        $routes->post('delete/(:segment)', 'Keuangan::delete/$1');
+        $routes->get('export-excel', 'Keuangan::exportExcel');
+        $routes->get('grafik', 'Keuangan::grafikKeuangan');
+        $routes->get('sumber-pemasukan-terbesar/grafik', 'Keuangan::grafikSumberPemasukanTerbesar');
+        $routes->get('sumber-pengeluaran-terbesar/grafik', 'Keuangan::grafikSumberPengeluaranTerbesar');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Log Keuangan'))) {
+    $routes->group("$slug_role/log-keuangan", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'LogKeuangan::main');
+    });
+    $routes->group('api/log-keuangan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'LogKeuangan::index');
+    });
+}
+
 if (in_array($id_role, roleAccessByTitle('Perolehan Dana'))) {
     $routes->group("$slug_role/perolehan-dana", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PerolehanDana::main');
     });
     $routes->group('api/perolehan-dana', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->post('update/(:segment)', 'PerolehanDana::update/$1');
+        $routes->get('export-excel', 'PerolehanDana::exportExcel');
     });
 }
 
@@ -120,7 +149,7 @@ if (in_array($id_role, roleAccessByTitle('Penggunaan Dana'))) {
         $routes->get('/', 'PenggunaanDana::main');
     });
     $routes->group('api/penggunaan-dana', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->post('update/(:segment)', 'PenggunaanDana::update/$1');
+        $routes->get('export-excel', 'PenggunaanDana::exportExcel');
     });
 }
 
@@ -168,35 +197,6 @@ if (in_array($id_role, roleAccessByTitle('Pembayaran Mahasiswa'))) {
 if (in_array($id_role, roleAccessByTitle('Status Bayar'))) {
     $routes->group("$slug_role/status-bayar", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'StatusBayar::main');
-    });
-}
-
-
-if (in_array($id_role, roleAccessByTitle('Keluar Masuk Uang'))) {
-    $routes->group("$slug_role/keuangan", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Keuangan::main');
-        $routes->get('new/uang-masuk', 'Keuangan::newUangMasuk/$1');
-        $routes->get('new/uang-keluar', 'Keuangan::newUangKeluar/$1');
-        $routes->get('edit/uang-masuk/(:segment)', 'Keuangan::editUangMasuk/$1');
-        $routes->get('edit/uang-keluar/(:segment)', 'Keuangan::editUangKeluar/$1');
-    });
-    $routes->group('api/keuangan', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Keuangan::index');
-        $routes->post('create', 'Keuangan::create');
-        $routes->post('update/(:segment)', 'Keuangan::update/$1');
-        $routes->post('delete/(:segment)', 'Keuangan::delete/$1');
-        $routes->get('export-excel', 'Keuangan::exportExcel');
-        $routes->get('grafik', 'Keuangan::grafikKeuangan');
-        $routes->get('sumber-pemasukan-terbesar/grafik', 'Keuangan::grafikSumberPemasukanTerbesar');
-        $routes->get('sumber-pengeluaran-terbesar/grafik', 'Keuangan::grafikSumberPengeluaranTerbesar');
-    });
-}
-
-if (in_array($id_role, roleAccessByTitle('Laporan Kas'))) {
-    $routes->get("$slug_role/laporan-kas", 'Keuangan::laporanKas', ['filter' => 'EnsureLogin']);
-    $routes->group('api/laporan-kas', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Keuangan::indexLaporanKas');
-        $routes->get('export-excel', 'Keuangan::exportExcelLaporanKas');
     });
 }
 
@@ -314,6 +314,7 @@ if (in_array($id_role, roleAccessByTitle('Mahasiswa'))) {
         $routes->post('update/(:segment)', 'Mahasiswa::update/$1');
         $routes->post('delete/(:segment)', 'Mahasiswa::delete/$1');
         $routes->get('naikkan-semester', 'Mahasiswa::naikkanSemester');
+        $routes->post('update/(:segment)/status-lulus', 'Mahasiswa::updateStatusLulus/$1');
     });
 }
 

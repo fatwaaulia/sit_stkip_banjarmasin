@@ -107,7 +107,7 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
                                     <select class="form-select" id="mulai_kuliah" name="mulai_kuliah">
                                         <option value="">Semua</option>
                                         <?php
-                                        $mulai_kuliah = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(5)->findAll();
+                                        $mulai_kuliah = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(3)->findAll();
                                         foreach ($mulai_kuliah as $v) :
                                             $selected = ($v['id'] == $get_mulai_kuliah) ? 'selected' : '';
                                         ?>
@@ -198,7 +198,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 render: data => `${data.tahun_akademik_diterima} - ${data.tipe_tahun_akademik}`,
             }, {
                 name: '',
-                data: 'status',
+                data: null,
+                render: renderStatus,
             }, {
                 name: '',
                 data: null,
@@ -207,6 +208,76 @@ document.addEventListener('DOMContentLoaded', function() {
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });
 });
+
+function renderStatus(data) {
+    const tahun_akademik = <?= json_encode(model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(3)->findAll()) ?>;
+    const html_form = `
+    <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Konfirmasi Lulus?</a>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Konfirmasi Lulus</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form_${data.id}">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">NIM</label>
+                            <input type="text" class="form-control" value="${data.nomor_identitas}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Mahasiswa</label>
+                            <input type="text" class="form-control" value="${data.nama}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Program Studi</label>
+                            <input type="text" class="form-control" value="${data.jenjang_program_studi} - ${data.nama_program_studi}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tahun_akademik_lulus" class="form-label">Tahun Akademik Lulus</label>
+                            <select class="form-select" id="tahun_akademik_lulus" name="tahun_akademik_lulus">
+                                <option value="">Pilih</option>
+                                ${tahun_akademik.map(item => `<option value="${item.id}">${item.tahun_akademik} - ${item.tipe}</option>`).join('')}
+                            </select>
+                            <div class="invalid-feedback" id="invalid_tahun_akademik_lulus"></div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="persetujuan" value="true" id="checkDefault">
+                            <label class="form-check-label" for="checkDefault">
+                                Centang untuk menyetujui mahasiswa diatas telah dinyatakan lulus.
+                            </label>
+                            <div class="invalid-feedback" id="invalid_persetujuan"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Ubah Status Lulus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>`;
+
+    let html = `${data.status} <br> ${ data.status != 'Lulus' ? html_form : data.tahun_akademik_lulus + ' - ' + data.tipe_tahun_akademik_lulus }`;
+
+    setTimeout(() => actionUbahStatusLulus(data.id), 0);
+
+    return html;
+}
+
+function actionUbahStatusLulus(id) {
+    const form = dom(`#form_${id}`);
+
+    if (! form.dataset.isInitialized) {
+        form.dataset.isInitialized  = 'true';
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const endpoint = `<?= $base_api ?>update/${id}/status-lulus`;
+            submitData(form, endpoint);
+        });
+    }
+}
 
 function renderOpsi(data) {
     let endpoint_edit_data = `<?= $base_route ?>edit/${data.id}`;

@@ -28,17 +28,10 @@ body { overflow: hidden; }
                         <hr>
                         <form id="form">
                             <div class="mb-3">
-                                <label class="form-label" for="username">Username</label>
                                 <input type="text" class="form-control" id="username" name="username" placeholder="username">
                                 <div class="invalid-feedback" id="invalid_username"></div>
                             </div>
                             <div class="mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">Password</label>
-                                    <!-- <a href="<?= base_url('password/forgot') ?>">
-                                        <small>Lupa Password?</small>
-                                    </a> -->
-                                </div>
                                 <div class="position-relative">
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off">
                                     <div class="invalid-feedback" id="invalid_password"></div>
@@ -47,8 +40,6 @@ body { overflow: hidden; }
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Masuk</button>
                         </form>
-                        <hr>
-                        <div class="text-center fw-500">© <?= date('Y') ?> | <a href="https://humasoftstudio.com?source=stkipis.ac.id" target="_blank">Humasoft Studio Teknologi</a></div>
                     </div>
                 </div>
             </div>

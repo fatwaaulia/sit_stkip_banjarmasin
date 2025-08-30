@@ -23,12 +23,11 @@
                                 <option value="">Pilih</option>
                                 <?php
                                 $sumber_dana = model('MasterDana')
-                                ->where('id_pengguna', userSession('id'))
                                 ->where('jenis', 'Masuk')
                                 ->findAll();
                                 foreach ($sumber_dana as $v) :
                                 ?>
-                                <option value="<?= $v['id'] ?>"><?= $v['nama'] ?></option>
+                                <option value="<?= $v['id'] ?>"><?= $v['nama_kategori_dana_masuk'] ?> - <?= $v['nama'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <div class="invalid-feedback" id="invalid_sumber_dana"></div>
