@@ -27,6 +27,9 @@ $routes->set404Override(
 $routes->get('/', 'Auth::login');
 // $routes->get('akreditasi', 'FrontEnd::beranda');
 
+$routes->get('mendaftar-mahasiswa', 'FrontEnd::mendaftarMahasiswa');
+$routes->post('api/pendaftar-mahasiswa/create', 'PendaftarMahasiswa::create');
+
 $routes->get('kalender-akademik', 'FrontEnd::kalenderAkademik');
 $routes->get('jadwal-kuliah', 'FrontEnd::jadwalKuliah');
 $routes->get('jadwal-kegiatan', 'FrontEnd::jadwalKegiatan');
@@ -230,6 +233,35 @@ if (in_array($id_role, roleAccessByTitle('Jadwal Kegiatan'))) {
 }
 $routes->get('api/jadwal-kegiatan', 'JadwalKegiatan::index');
 
+
+if (in_array($id_role, roleAccessByTitle('Pendaftar Mahasiswa'))) {
+    $routes->group("$slug_role/pendaftar-mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PendaftarMahasiswa::main');
+        $routes->get('edit/(:segment)', 'PendaftarMahasiswa::edit/$1');
+    });
+    $routes->group('api/pendaftar-mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PendaftarMahasiswa::index');
+        $routes->post('update/(:segment)', 'PendaftarMahasiswa::update/$1');
+        $routes->post('delete/(:segment)', 'PendaftarMahasiswa::delete/$1');
+    });
+}
+
+if (in_array($id_role, roleAccessByTitle('Mahasiswa'))) {
+    $routes->group("$slug_role/mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Mahasiswa::main');
+        $routes->get('new', 'Mahasiswa::new');
+        $routes->get('edit/(:segment)', 'Mahasiswa::edit/$1');
+    });
+    $routes->group('api/mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Mahasiswa::index');
+        $routes->post('create', 'Mahasiswa::create');
+        $routes->post('update/(:segment)', 'Mahasiswa::update/$1');
+        $routes->post('delete/(:segment)', 'Mahasiswa::delete/$1');
+        $routes->get('naikkan-semester', 'Mahasiswa::naikkanSemester');
+        $routes->post('update/(:segment)/status-lulus', 'Mahasiswa::updateStatusLulus/$1');
+    });
+}
+
 if (in_array($id_role, roleAccessByTitle('Mahasiswa Cuti / DO'))) {
     $routes->get("$slug_role/status-mahasiswa", 'StatusMahasiswa::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/status-mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
@@ -299,22 +331,6 @@ if (in_array($id_role, roleAccessByTitle('Dosen'))) {
         $routes->post('create', 'Dosen::create');
         $routes->post('update/(:segment)', 'Dosen::update/$1');
         $routes->post('delete/(:segment)', 'Dosen::delete/$1');
-    });
-}
-
-if (in_array($id_role, roleAccessByTitle('Mahasiswa'))) {
-    $routes->group("$slug_role/mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Mahasiswa::main');
-        $routes->get('new', 'Mahasiswa::new');
-        $routes->get('edit/(:segment)', 'Mahasiswa::edit/$1');
-    });
-    $routes->group('api/mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Mahasiswa::index');
-        $routes->post('create', 'Mahasiswa::create');
-        $routes->post('update/(:segment)', 'Mahasiswa::update/$1');
-        $routes->post('delete/(:segment)', 'Mahasiswa::delete/$1');
-        $routes->get('naikkan-semester', 'Mahasiswa::naikkanSemester');
-        $routes->post('update/(:segment)/status-lulus', 'Mahasiswa::updateStatusLulus/$1');
     });
 }
 

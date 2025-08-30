@@ -1,3 +1,7 @@
+<?php
+$tahun_akademik_aktif = model('TahunAkademik')->orderBy('id DESC')->first();
+?>
+
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/datatables/css/dataTables.dataTables.min.css">
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
@@ -35,7 +39,7 @@
                                                 <select class="form-select" id="jenis_tagihan_maba" name="jenis">
                                                     <option value="">Pilih</option>
                                                     <?php
-                                                    $jenis = ['ALMAMATER', 'KTM', 'UANG GEDUNG'];
+                                                    $jenis = ['PENDAFTARAN', 'ALMAMATER', 'KTM', 'UANG GEDUNG'];
                                                     foreach ($jenis as $v) :
                                                     ?>
                                                     <option value="<?= $v ?>"><?= $v ?></option>
@@ -44,18 +48,22 @@
                                                 <div class="invalid-feedback" id="invalid_jenis"></div>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="tahun_akademik_maba" class="form-label">Tahun Akademik</label>
-                                                <select class="form-select" id="tahun_akademik_maba" name="tahun_akademik">
-                                                    <option value="">Pilih</option>
-                                                    <?php
-                                                    $tahun_akademik = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(5)->findAll();
-                                                    foreach ($tahun_akademik as $v) :
-                                                    ?>
-                                                    <option value="<?= $v['id'] ?>"><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
+                                                <label class="form-label">Tahun Akdemik</label>
+                                                <input type="text" class="form-control" value="<?= $tahun_akademik_aktif['tahun_akademik'] ?> - <?= $tahun_akademik_aktif['tipe'] ?>" disabled>
                                             </div>
+                                            <div class="mb-2">
+                                                <span class="fw-600">Biaya Per-Prodi</span>
+                                            </div>
+                                            <?php
+                                            $program_studi = model('ProgramStudi')->findAll();
+                                            foreach ($program_studi as $v) :
+                                            ?>
+                                            <div class="mb-3">
+                                                <label for="biaya" class="form-label"><?= $v['jenjang'] ?> - <?= $v['nama'] ?></label>
+                                                <input type="hidden" name="id_program_studi[]" value="<?= $v['id'] ?>">
+                                                <input type="text" inputmode="numeric" class="form-control" name="biaya[]" placeholder="Masukkan biaya" oninput="this.value = dotsNumber(this.value)" required>
+                                            </div>
+                                            <?php endforeach; ?>
                                             <p class="mb-0">Tagihan akan diberikan kepada mahasiswa yang diterima/ mulai kuliah pada tahun akademik diatas.</p>
                                         </div>
                                         <div class="modal-footer">
@@ -100,17 +108,8 @@
                                                 <div class="invalid-feedback" id="invalid_jenis"></div>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="tahun_akademik_semester" class="form-label">Tahun Akademik</label>
-                                                <select class="form-select" id="tahun_akademik_semester" name="tahun_akademik">
-                                                    <option value="">Pilih</option>
-                                                    <?php
-                                                    $tahun_akademik = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(5)->findAll();
-                                                    foreach ($tahun_akademik as $v) :
-                                                    ?>
-                                                    <option value="<?= $v['id'] ?>"><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
+                                                <label class="form-label">Tahun Akdemik</label>
+                                                <input type="text" class="form-control" value="<?= $tahun_akademik_aktif['tahun_akademik'] ?> - <?= $tahun_akademik_aktif['tipe'] ?>" disabled>
                                             </div>
                                             <p class="mb-0">Tagihan akan diberikan kepada semua mahasiswa Aktif.</p>
                                         </div>
@@ -153,10 +152,7 @@
 
 <script>
 dselect(dom('#jenis_tagihan_maba'), { search: true });
-dselect(dom('#tahun_akademik_maba'), { search: true });
-
 dselect(dom('#jenis_tagihan_semester'), { search: true });
-dselect(dom('#tahun_akademik_semester'), { search: true });
 
 document.addEventListener('DOMContentLoaded', function() {
     new DataTable('#myTable', {
@@ -182,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
-                render: data => `<a href="<?= base_url(userSession('slug_role')) ?>/belum-bayar?tagihan_mahasiswa=${data.id}">${data.tahun_akademik} - ${data.tipe_tahun_akademik}</a>`,
+                render: data => `<a href="<?= base_url(userSession('slug_role')) ?>/status-bayar?tagihan_mahasiswa=${data.id}">${data.tahun_akademik} - ${data.tipe_tahun_akademik}</a>`,
             }, {
                 name: '',
                 data: 'created_at',

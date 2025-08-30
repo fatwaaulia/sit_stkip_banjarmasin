@@ -1,6 +1,5 @@
 <?php
 $get_program_studi = $_GET['program_studi'] ?? '';
-$get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -18,78 +17,10 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
         <div class="col-12">
             <div class="card p-3">
                 <div class="row g-3 mb-3">
-                    <div class="col-12 text-end">
-                        <button class="btn btn-primary" onclick="naikkanSemester(this)">
-                            <i class="fa-solid fa-arrow-up"></i>
-                            Naikkan Satu Semester
-                        </button>
-                        <script>
-                        async function naikkanSemester(btn) {
-                            const tombol_submit = btn;
-                            let original_text = tombol_submit.innerHTML;
-
-                            try {
-                                const result = await Swal.fire({
-                                    icon: 'question',
-                                    title: 'Naikkan Satu Semester',
-                                    text: 'Hanya berlaku untuk mahasiswa Aktif',
-                                    confirmButtonText: 'Iya',
-                                    cancelButtonText: 'Batal',
-                                    showCancelButton: true,
-                                    reverseButtons: true,
-                                });
-
-                                if (result.isConfirmed) {
-                                    tombol_submit.disabled = true;
-                                    tombol_submit.style.width = tombol_submit.getBoundingClientRect().width + 'px';
-                                    tombol_submit.innerHTML = `<div class="spinner-border spinner-border-sm"></div>`;
-
-                                    const response = await fetch(`<?= base_url() ?>api/mahasiswa/naikkan-semester`);
-                                    const data = await response.json();
-
-                                    tombol_submit.disabled = false;
-                                    tombol_submit.innerHTML = original_text;
-
-                                    if (['success', 'error'].includes(data.status)) {
-                                        await Swal.fire({
-                                            icon: data.status,
-                                            title: data.message,
-                                            showConfirmButton: false,
-                                            timer: 2500,
-                                            timerProgressBar: true,
-                                        });
-                                        data.route && (window.location.href = data.route);
-                                    } else {
-                                        await Swal.fire({
-                                            icon: 'error',
-                                            title: data.message,
-                                            showConfirmButton: false,
-                                        });
-                                    }
-                                }
-                            } catch (error) {
-                                tombol_submit.disabled = false;
-                                tombol_submit.innerHTML = original_text;
-
-                                console.error(error);
-                                await Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops! Terjadi kesalahan',
-                                    text: 'Silakan coba lagi nanti.',
-                                    showConfirmButton: false,
-                                    timer: 2500,
-                                    timerProgressBar: true,
-                                });
-                            }
-                        }
-                        </script>
-                    </div>
-                </div>
-                <div class="row g-3 mb-3">
-                    <div class="col-12 col-lg-10 col-xl-11">
+                    <div class="col-12 col-lg-10 col-xl-10">
                         <form action="" method="get">
                             <div class="row gx-2 gy-3">
-                                <div class="col-12 col-md-5 col-lg-4 col-xl-3">
+                                <div class="col-12 col-md-6 col-lg-5 col-xl-4">
                                     <label for="program_studi" class="form-label">Program Studi</label>
                                     <select class="form-select" id="program_studi" name="program_studi">
                                         <option value="">Semua</option>
@@ -99,19 +30,6 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
                                             $selected = ($v['id'] == $get_program_studi) ? 'selected' : '';
                                         ?>
                                         <option value="<?= $v['id'] ?>" <?= $selected ?>><?= $v['jenjang'] ?> - <?= $v['nama'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-md-5 col-lg-4 col-xl-3">
-                                    <label for="mulai_kuliah" class="form-label">Mulai Kuliah</label>
-                                    <select class="form-select" id="mulai_kuliah" name="mulai_kuliah">
-                                        <option value="">Semua</option>
-                                        <?php
-                                        $mulai_kuliah = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(3)->findAll();
-                                        foreach ($mulai_kuliah as $v) :
-                                            $selected = ($v['id'] == $get_mulai_kuliah) ? 'selected' : '';
-                                        ?>
-                                        <option value="<?= $v['id'] ?>" <?= $selected ?>><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -128,22 +46,17 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
                             </div>
                         </form>
                     </div>
-                    <div class="col-12 col-lg-2 col-xl-1 d-flex justify-content-end align-items-end">
-                        <a href="<?= $base_route ?>new" class="btn btn-primary">
-                            <i class="fa-solid fa-plus fa-sm"></i> New
-                        </a>
+                    <div class="col-12 col-lg-2 col-xl-2 d-flex justify-content-end align-items-end">
+                        <a href="<?= base_url() ?>mendaftar-mahasiswa" target="_blank">Formulir Pendaftaran</a>
                     </div>
                 </div>
                 <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>NIM</th>
-                            <th>Nama Mahasiswa</th>
-                            <th>Program Studi</th>
-                            <th>Semester dan Kelas</th>
-                            <th>Mulai Kuliah</th>
-                            <th>Status</th>
+                            <th>Nama Pendaftar</th>
+                            <th>Pilihan Program Studi</th>
+                            <th>Tanggal Mendaftar</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -155,7 +68,6 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
 
 <script>
 dselect(dom('#program_studi'), { search: true, clearable: true });
-dselect(dom('#mulai_kuliah'), { search: true, clearable: true });
 
 document.addEventListener('DOMContentLoaded', function() {
     new DataTable('#myTable', {
@@ -179,9 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: 'nomor_identitas',
-                data: 'nomor_identitas',
-            }, {
                 name: 'nama',
                 data: 'nama',
             }, {
@@ -190,16 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
             }, {
                 name: '',
-                data: null,
-                render: data => `${data.semester} - ${data.kelas}`,
-            }, {
-                name: '',
-                data: null,
-                render: data => `${data.tahun_akademik_diterima} - ${data.tipe_tahun_akademik}`,
-            }, {
-                name: '',
-                data: null,
-                render: renderStatus,
+                data: 'created_at',
             }, {
                 name: '',
                 data: null,

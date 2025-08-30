@@ -102,8 +102,8 @@ class TagihanMahasiswa extends BaseController
     public function create()
     {
         $rules = [
-            'jenis'          => 'required',
-            'tahun_akademik' => 'required',
+            'jenis' => 'required',
+            'biaya' => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -129,7 +129,18 @@ class TagihanMahasiswa extends BaseController
         }
 
         // Lolos Validasi
-        $tahun_akademik = model('TahunAkademik')->find($this->request->getVar('tahun_akademik'));
+        $tahun_akademik = model('TahunAkademik')->orderBy('id DESC')->first();
+
+        $id_program_studi = $this->request->getPost('id_program_studi');
+        $biaya            = $this->request->getPost('biaya');
+        $data_biaya = [];
+        foreach ($id_program_studi as $i => $id) {
+            $data_biaya[] = [
+                'id_program_studi' => $id,
+                'biaya'            => (int) str_replace('.', '', $biaya[$i]),
+            ];
+        }
+
         $data = [
             'kategori'                       => $kategori,
             'jenis'                          => $this->request->getVar('jenis'),
@@ -139,6 +150,8 @@ class TagihanMahasiswa extends BaseController
             'tipe_tahun_akademik'            => $tahun_akademik['tipe'],
             'periode_mulai_tahun_akademik'   => $tahun_akademik['periode_mulai'],
             'periode_selesai_tahun_akademik' => $tahun_akademik['periode_selesai'],
+            'json_biaya'                     => json_encode($data_biaya),
+            'biaya_yudisium_wisuda'          => $this->request->getVar('biaya_yudisium_wisuda', FILTER_SANITIZE_NUMBER_INT) ?? 0,
             'created_by' => userSession('id'),
         ];
 

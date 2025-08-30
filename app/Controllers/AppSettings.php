@@ -95,6 +95,7 @@ class AppSettings extends BaseController
             'ts_1_tanggal_akhir' => $this->request->getVar('ts_1_tanggal_akhir'),
             'ts_tanggal_awal'  => $this->request->getVar('ts_tanggal_awal'),
             'ts_tanggal_akhir' => $this->request->getVar('ts_tanggal_akhir'),
+            'buka_pendaftaran_mahasiswa' => $this->request->getVar('buka_pendaftaran_mahasiswa'),
         ];
 
         model($this->model_name)->update($id, $data);

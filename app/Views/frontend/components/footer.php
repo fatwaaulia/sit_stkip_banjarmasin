@@ -9,7 +9,7 @@ footer a:hover { color: white; }
     <div class="container">
         <div class="row">
             <div class="col-12 py-1">
-                <span>© <?= date('Y') ?> | <a href="https://humasoftstudio.com" target="_blank">Humasoft Studio Teknologi</a></span>
+                <span>© <?= date('Y') ?> | STKIP ISM BANJARMASIN</span>
             </div>
         </div>
     </div>

@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
-                render: data => data.jenis == 'Masuk' ? `${data.nama_kategori_dana_masuk} - ${data.nama_sumber_dana}` : data.nama_sumber_dana,
+                render: data => `${data.nama_kategori_dana} - ${data.nama_sumber_dana}`,
             }, {
                 name: 'catatan',
                 data: 'catatan',

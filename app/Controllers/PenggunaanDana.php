@@ -44,134 +44,132 @@ class PenggunaanDana extends BaseController
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+        // ========== HEADER ==========
+        $sheet->setCellValue('A1', 'No.');
+        $sheet->setCellValue('B1', 'Jenis Penggunaan');
+        $sheet->setCellValue('C1', 'Dana (Rp)');
+        $sheet->setCellValue('F1', 'Jumlah (Rp)');
 
-// ========== HEADER ==========
-$sheet->setCellValue('A1', 'No.');
-$sheet->setCellValue('B1', 'Jenis Penggunaan');
-$sheet->setCellValue('C1', 'Dana (Rp)');
-$sheet->setCellValue('F1', 'Jumlah (Rp)');
+        $sheet->setCellValue('C2', 'TS-2');
+        $sheet->setCellValue('D2', 'TS-1');
+        $sheet->setCellValue('E2', 'TS');
 
-$sheet->setCellValue('C2', 'TS-2');
-$sheet->setCellValue('D2', 'TS-1');
-$sheet->setCellValue('E2', 'TS');
+        // merge sesuai struktur HTML
+        $sheet->mergeCells('A1:A2');
+        $sheet->mergeCells('B1:B2');
+        $sheet->mergeCells('C1:E1');
+        $sheet->mergeCells('F1:F2');
 
-// merge sesuai struktur HTML
-$sheet->mergeCells('A1:A2');
-$sheet->mergeCells('B1:B2');
-$sheet->mergeCells('C1:E1');
-$sheet->mergeCells('F1:F2');
+        // style header center + bold
+        $sheet->getStyle('A1:F2')->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyle('A1:F2')->getFont()->setBold(true);
 
-// style header center + bold
-$sheet->getStyle('A1:F2')->getAlignment()
-    ->setHorizontal(Alignment::HORIZONTAL_CENTER)
-    ->setVertical(Alignment::VERTICAL_CENTER);
-$sheet->getStyle('A1:F2')->getFont()->setBold(true);
+        // ========== ISI DATA ==========
+        $data_row = 3;
+        $total_jumlah_ts_2 = 0;
+        $total_jumlah_ts_1 = 0;
+        $total_jumlah_ts_0 = 0;
+        $total_jumlah_ts_sumber_dana = 0;
 
-// ========== ISI DATA ==========
-$data_row = 3;
-$total_jumlah_ts_2 = 0;
-$total_jumlah_ts_1 = 0;
-$total_jumlah_ts_0 = 0;
-$total_jumlah_ts_sumber_dana = 0;
+        $id_grup = [11, 12];
 
-$master_dana = model('MasterDana')->where('jenis', 'Keluar')->findAll();
-$total_data = count($master_dana);
+        foreach ($id_grup as $v) :
 
-$jumlah_ts_2 = 0;
-$jumlah_ts_1 = 0;
-$jumlah_ts_0 = 0;
-$jumlah_ts_sumber_dana = 0;
+            $master_dana = model('MasterDana')->where('id_kategori_dana', $v)->findAll();
+            $jumlah_ts_2 = 0;
+            $jumlah_ts_1 = 0;
+            $jumlah_ts_0 = 0;
+            $jumlah_ts_sumber_dana = 0;
 
-foreach ($master_dana as $key => $v2) {
-    $ts_2 = (int)model('Keuangan')
-        ->selectSum('nominal')
-        ->where([
-            'id_sumber_dana' => $v2['id'],
-            'created_at >=' => appSettings('ts_2_tanggal_awal'),
-            'created_at <=' => appSettings('ts_2_tanggal_akhir'),
-        ])
-        ->first()['nominal'];
+            foreach ($master_dana as $key => $v2) :
+                $ts_2 = (int)model('Keuangan')
+                    ->selectSum('nominal')
+                    ->where([
+                        'id_sumber_dana' => $v2['id'],
+                        'created_at >=' => appSettings('ts_2_tanggal_awal'),
+                        'created_at <=' => appSettings('ts_2_tanggal_akhir'),
+                    ])
+                    ->first()['nominal'];
 
-    $ts_1 = (int)model('Keuangan')
-        ->selectSum('nominal')
-        ->where([
-            'id_sumber_dana' => $v2['id'],
-            'created_at >=' => appSettings('ts_1_tanggal_awal'),
-            'created_at <=' => appSettings('ts_1_tanggal_akhir'),
-        ])
-        ->first()['nominal'];
+                $ts_1 = (int)model('Keuangan')
+                    ->selectSum('nominal')
+                    ->where([
+                        'id_sumber_dana' => $v2['id'],
+                        'created_at >=' => appSettings('ts_1_tanggal_awal'),
+                        'created_at <=' => appSettings('ts_1_tanggal_akhir'),
+                    ])
+                    ->first()['nominal'];
 
-    $ts_0 = (int)model('Keuangan')
-        ->selectSum('nominal')
-        ->where([
-            'id_sumber_dana' => $v2['id'],
-            'created_at >=' => appSettings('ts_tanggal_awal'),
-            'created_at <=' => appSettings('ts_tanggal_akhir'),
-        ])
-        ->first()['nominal'];
+                $ts_0 = (int)model('Keuangan')
+                    ->selectSum('nominal')
+                    ->where([
+                        'id_sumber_dana' => $v2['id'],
+                        'created_at >=' => appSettings('ts_tanggal_awal'),
+                        'created_at <=' => appSettings('ts_tanggal_akhir'),
+                    ])
+                    ->first()['nominal'];
 
-    $jumlah_ts_sebaris = $ts_2 + $ts_1 + $ts_0;
-    $jumlah_ts_2 += $ts_2;
-    $jumlah_ts_1 += $ts_1;
-    $jumlah_ts_0 += $ts_0;
-    $jumlah_ts_sumber_dana += $jumlah_ts_sebaris;
+                $jumlah_ts_sebaris = $ts_2 + $ts_1 + $ts_0;
+                $jumlah_ts_2 += $ts_2;
+                $jumlah_ts_1 += $ts_1;
+                $jumlah_ts_0 += $ts_0;
+                $jumlah_ts_sumber_dana += $jumlah_ts_sebaris;
 
-    // isi baris data
-    $sheet->setCellValue("A{$data_row}", $key+1);
-    $sheet->setCellValue("B{$data_row}", $v2['nama']);
-    $sheet->setCellValue("C{$data_row}", dotsNumber($ts_2));
-    $sheet->setCellValue("D{$data_row}", dotsNumber($ts_1));
-    $sheet->setCellValue("E{$data_row}", dotsNumber($ts_0));
-    $sheet->setCellValue("F{$data_row}", dotsNumber($jumlah_ts_sebaris));
+                // isi baris data
+                $sheet->setCellValue("A{$data_row}", $key + 1);
+                $sheet->setCellValue("B{$data_row}", $v2['nama']);
+                $sheet->setCellValue("C{$data_row}", dotsNumber(abs($ts_2)));
+                $sheet->setCellValue("D{$data_row}", dotsNumber(abs($ts_1)));
+                $sheet->setCellValue("E{$data_row}", dotsNumber(abs($ts_0)));
+                $sheet->setCellValue("F{$data_row}", dotsNumber($jumlah_ts_sebaris));
 
-    // rata kanan untuk angka
-    $sheet->getStyle("C{$data_row}:F{$data_row}")
-          ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+                // rata kanan untuk angka
+                $sheet->getStyle("C{$data_row}:F{$data_row}")
+                    ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
-    $data_row++;
-}
+                $data_row++;
+            endforeach;
 
-$total_jumlah_ts_2 += $jumlah_ts_2;
-$total_jumlah_ts_1 += $jumlah_ts_1;
-$total_jumlah_ts_0 += $jumlah_ts_0;
-$total_jumlah_ts_sumber_dana += $jumlah_ts_sumber_dana;
+            // Tambah ke total keseluruhan
+            $total_jumlah_ts_2 += $jumlah_ts_2;
+            $total_jumlah_ts_1 += $jumlah_ts_1;
+            $total_jumlah_ts_0 += $jumlah_ts_0;
+            $total_jumlah_ts_sumber_dana += $jumlah_ts_sumber_dana;
 
-// ========== JUMLAH ==========
-$sheet->setCellValue("B{$data_row}", 'Jumlah');
-$sheet->setCellValue("C{$data_row}", dotsNumber($jumlah_ts_2));
-$sheet->setCellValue("D{$data_row}", dotsNumber($jumlah_ts_1));
-$sheet->setCellValue("E{$data_row}", dotsNumber($jumlah_ts_0));
-$sheet->setCellValue("F{$data_row}", dotsNumber($jumlah_ts_sumber_dana));
+            // ========== JUMLAH per grup ==========
+            $sheet->setCellValue("B{$data_row}", 'Jumlah');
+            $sheet->setCellValue("C{$data_row}", dotsNumber(abs($jumlah_ts_2)));
+            $sheet->setCellValue("D{$data_row}", dotsNumber(abs($jumlah_ts_1)));
+            $sheet->setCellValue("E{$data_row}", dotsNumber(abs($jumlah_ts_0)));
+            $sheet->setCellValue("F{$data_row}", dotsNumber(abs($jumlah_ts_sumber_dana)));
 
-// merge + center untuk teks "Jumlah"
-$sheet->mergeCells("B{$data_row}:B{$data_row}");
-$sheet->getStyle("B{$data_row}")->getAlignment()
-      ->setHorizontal(Alignment::HORIZONTAL_CENTER)
-      ->setVertical(Alignment::VERTICAL_CENTER);
-$sheet->getStyle("B{$data_row}")->getFont()->setBold(true);
+            $sheet->getStyle("B{$data_row}")->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+                ->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyle("B{$data_row}:F{$data_row}")->getFont()->setBold(true);
+            $sheet->getStyle("C{$data_row}:F{$data_row}")
+                ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
-$sheet->getStyle("C{$data_row}:F{$data_row}")
-      ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
-$sheet->getStyle("B{$data_row}:F{$data_row}")->getFont()->setBold(true);
+            $data_row++;
 
-$data_row++;
+        endforeach;
 
-// ========== TOTAL ==========
-$sheet->setCellValue("B{$data_row}", 'Total');
-$sheet->setCellValue("C{$data_row}", dotsNumber($total_jumlah_ts_2));
-$sheet->setCellValue("D{$data_row}", dotsNumber($total_jumlah_ts_1));
-$sheet->setCellValue("E{$data_row}", dotsNumber($total_jumlah_ts_0));
-$sheet->setCellValue("F{$data_row}", dotsNumber($total_jumlah_ts_sumber_dana));
+        // ========== TOTAL KESELURUHAN ==========
+        $sheet->setCellValue("B{$data_row}", 'Total');
+        $sheet->setCellValue("C{$data_row}", dotsNumber(abs($total_jumlah_ts_2)));
+        $sheet->setCellValue("D{$data_row}", dotsNumber(abs($total_jumlah_ts_1)));
+        $sheet->setCellValue("E{$data_row}", dotsNumber(abs($total_jumlah_ts_0)));
+        $sheet->setCellValue("F{$data_row}", dotsNumber(abs($total_jumlah_ts_sumber_dana)));
 
-// style
-$sheet->getStyle("B{$data_row}")->getAlignment()
-      ->setHorizontal(Alignment::HORIZONTAL_CENTER)
-      ->setVertical(Alignment::VERTICAL_CENTER);
-$sheet->getStyle("B{$data_row}:F{$data_row}")->getFont()->setBold(true);
-$sheet->getStyle("C{$data_row}:F{$data_row}")
-      ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $sheet->getStyle("B{$data_row}")->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyle("B{$data_row}:F{$data_row}")->getFont()->setBold(true);
+        $sheet->getStyle("C{$data_row}:F{$data_row}")
+            ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
-        
         // Lebar Kolom Sesuai Isinya
         foreach (range('A', $sheet->getHighestColumn()) as $col) $sheet->getColumnDimension($col)->setAutoSize(true);
 

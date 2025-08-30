@@ -6,12 +6,11 @@ async function submitData(form, endpoint) {
     tombol_submit.innerHTML = `<div class="spinner-border spinner-border-sm"></div>`;
 
     try {
+        form.querySelectorAll('input[type="text"], textarea').forEach(el => {
+            el.value = el.value.trim();
+        });
         const form_data = new FormData(form);
-        for (const [key, value] of form_data.entries()) {
-            if (typeof value === 'string') {
-                form_data.set(key, value.trim());
-            }
-        }
+
         const response = await fetch(endpoint, {
             method: 'POST',
             body: form_data,

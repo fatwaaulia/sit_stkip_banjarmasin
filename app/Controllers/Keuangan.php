@@ -212,8 +212,8 @@ class Keuangan extends BaseController
         $data = [
             'jenis'            => $jenis,
             'nominal'          => $nominal,
-            'id_kategori_dana_masuk'   => $sumber_dana['id_kategori_dana_masuk'],
-            'nama_kategori_dana_masuk' => $sumber_dana['nama_kategori_dana_masuk'],
+            'id_kategori_dana'   => $sumber_dana['id_kategori_dana'],
+            'nama_kategori_dana' => $sumber_dana['nama_kategori_dana'],
             'id_sumber_dana'   => $sumber_dana['id'],
             'nama_sumber_dana' => $sumber_dana['nama'],
             'catatan'          => $this->request->getVar('catatan'),
@@ -267,8 +267,8 @@ class Keuangan extends BaseController
         $data_log_keuangan = [
             'id_keuangan'              => $find_data['id'],
             'jenis_keuangan'           => $find_data['jenis'],
-            'id_kategori_dana_masuk'   => $find_data['id_kategori_dana_masuk'],
-            'nama_kategori_dana_masuk' => $find_data['nama_kategori_dana_masuk'],
+            'id_kategori_dana'   => $find_data['id_kategori_dana'],
+            'nama_kategori_dana' => $find_data['nama_kategori_dana'],
             'id_sumber_dana'   => $find_data['id_sumber_dana'],
             'nama_sumber_dana' => $find_data['nama_sumber_dana'],
             'nominal_sebelum'  => $find_data['nominal'],

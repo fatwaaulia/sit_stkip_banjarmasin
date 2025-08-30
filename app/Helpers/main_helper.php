@@ -243,7 +243,7 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'AKADEMIK',
+			'title'	=> 'WAKIL KETUA BIDANG AKADEMIK',
 			'role'	=> [1, 3],
 			'type'	=> 'heading',
 		],
@@ -269,9 +269,23 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'KEMAHASISWAAN',
+			'title'	=> 'STAFF AKADEMIK',
 			'role'	=> [1],
 			'type'	=> 'heading',
+		],
+        [
+			'title'	=> 'Pendaftar Mahasiswa',
+			'icon'	=> 'fa-solid fa-address-card',
+			'url'	=> base_url(userSession('slug_role')) . '/pendaftar-mahasiswa',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Mahasiswa',
+			'icon'	=> 'fa-solid fa-address-card',
+			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa',
+			'role'	=> [1, 3],
+			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Mahasiswa Cuti / DO',
@@ -317,13 +331,6 @@ function menuSidebar()
 			'title'	=> 'Dosen',
 			'icon'	=> 'fa-solid fa-address-card',
 			'url'	=> base_url(userSession('slug_role')) . '/dosen',
-			'role'	=> [1, 3],
-			'type'	=> 'no-collapse',
-		],
-		[
-			'title'	=> 'Mahasiswa',
-			'icon'	=> 'fa-solid fa-address-card',
-			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa',
 			'role'	=> [1, 3],
 			'type'	=> 'no-collapse',
 		],

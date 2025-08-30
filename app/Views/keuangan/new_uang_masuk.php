@@ -27,7 +27,7 @@
                                 ->findAll();
                                 foreach ($sumber_dana as $v) :
                                 ?>
-                                <option value="<?= $v['id'] ?>"><?= $v['nama_kategori_dana_masuk'] ?> - <?= $v['nama'] ?></option>
+                                <option value="<?= $v['id'] ?>"><?= $v['nama_kategori_dana'] ?> - <?= $v['nama'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <div class="invalid-feedback" id="invalid_sumber_dana"></div>

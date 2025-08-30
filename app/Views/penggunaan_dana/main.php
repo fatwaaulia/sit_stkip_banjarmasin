@@ -60,12 +60,16 @@ table tr th { text-align: center; }
                         </thead>
                         <tbody>
                             <?php
+                            $id_grup = [11, 12];
+
                             $total_jumlah_ts_2 = 0;
                             $total_jumlah_ts_1 = 0;
                             $total_jumlah_ts_0 = 0;
                             $total_jumlah_ts_sumber_dana = 0;
 
-                                $master_dana = model('MasterDana')->where('jenis', 'Keluar')->findAll();
+                            foreach ($id_grup as $v) :
+
+                                $master_dana = model('MasterDana')->where('id_kategori_dana', $v)->findAll();
                                 $total_data = count($master_dana);
                                 $jumlah_ts_2 = 0;
                                 $jumlah_ts_1 = 0;
@@ -112,10 +116,10 @@ table tr th { text-align: center; }
                                         <span class="text-wrap"><?= $v2['nama'] ?></span>
                                     </div>
                                 </td>
-                                <td class="text-end"><?= dotsNumber($ts_2) ?></td>
-                                <td class="text-end"><?= dotsNumber($ts_1) ?></td>
-                                <td class="text-end"><?= dotsNumber($ts_0) ?></td>
-                                <td class="text-end"><?= dotsNumber($jumlah_ts_sebaris) ?></td>
+                                <td class="text-end"><?= dotsNumber(abs($ts_2)) ?></td>
+                                <td class="text-end"><?= dotsNumber(abs($ts_1)) ?></td>
+                                <td class="text-end"><?= dotsNumber(abs($ts_0)) ?></td>
+                                <td class="text-end"><?= dotsNumber(abs($jumlah_ts_sebaris)) ?></td>
                             </tr>
                             <?php endforeach; ?>
                             <?php
@@ -127,19 +131,20 @@ table tr th { text-align: center; }
                             <tr>
                                 <td></td>
                                 <td class="fw-600 text-center">Jumlah</td>
-                                <td class="fw-600 text-end"><?= dotsNumber($jumlah_ts_2) ?></td>
-                                <td class="fw-600 text-end"><?= dotsNumber($jumlah_ts_1) ?></td>
-                                <td class="fw-600 text-end"><?= dotsNumber($jumlah_ts_0) ?></td>
-                                <td class="fw-600 text-end"><?= dotsNumber($jumlah_ts_sumber_dana) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber(abs($jumlah_ts_2)) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber(abs($jumlah_ts_1)) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber(abs($jumlah_ts_0)) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber(abs($jumlah_ts_sumber_dana)) ?></td>
                             </tr>
+                            <?php endforeach; ?>
 
                             <tr>
                                 <td></td>
                                 <td class="fw-600 text-center">Total</td>
-                                <td class="fw-600 text-end"><?= dotsNumber($total_jumlah_ts_2) ?></td>
-                                <td class="fw-600 text-end"><?= dotsNumber($total_jumlah_ts_1) ?></td>
-                                <td class="fw-600 text-end"><?= dotsNumber($total_jumlah_ts_0) ?></td>
-                                <td class="fw-600 text-end"><?= dotsNumber($total_jumlah_ts_sumber_dana) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber(abs($total_jumlah_ts_2)) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber(abs($total_jumlah_ts_1)) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber(abs($total_jumlah_ts_0)) ?></td>
+                                <td class="fw-600 text-end"><?= dotsNumber(abs($total_jumlah_ts_sumber_dana)) ?></td>
                             </tr>
                         </tbody>
                     </table>

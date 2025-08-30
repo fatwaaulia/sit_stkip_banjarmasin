@@ -83,7 +83,7 @@ class PerolehanDana extends BaseController
         $sheet->setCellValue("F{$data_row}", 'TS');
 
         // isi data
-        $kategori_dana_masuk = model('KategoriDanaMasuk')->findAll();
+        $kategori_dana = model('KategoriDanaMasuk')->findAll();
 
         $total_jumlah_ts_2 = 0;
         $total_jumlah_ts_1 = 0;
@@ -92,10 +92,10 @@ class PerolehanDana extends BaseController
 
         $data_row++;
 
-        foreach ($kategori_dana_masuk as $v) :
+        foreach ($kategori_dana as $v) :
             if (! in_array($v['id'], [1, 2, 3, 4])) continue;
 
-            $master_dana = model('MasterDana')->where('id_kategori_dana_masuk', $v['id'])->findAll();
+            $master_dana = model('MasterDana')->where('id_kategori_dana', $v['id'])->findAll();
             $total_data = count($master_dana);
 
             $jumlah_ts_2 = 0;
@@ -139,8 +139,8 @@ class PerolehanDana extends BaseController
                     $endRow = $data_row + $total_data - 1;
                     $sheet->mergeCells("A{$data_row}:A{$endRow}");
                     $sheet->mergeCells("B{$data_row}:B{$endRow}");
-                    $sheet->setCellValue("A{$data_row}", $v2['id_kategori_dana_masuk']);
-                    $sheet->setCellValue("B{$data_row}", $v2['nama_kategori_dana_masuk']);
+                    $sheet->setCellValue("A{$data_row}", $v2['id_kategori_dana']);
+                    $sheet->setCellValue("B{$data_row}", $v2['nama_kategori_dana']);
                 }
 
                 $sheet->setCellValue("C{$data_row}", $v2['nama']);
@@ -198,10 +198,10 @@ class PerolehanDana extends BaseController
         $data_row++;
 
         // kategori id = 5
-        foreach ($kategori_dana_masuk as $v) :
+        foreach ($kategori_dana as $v) :
             if ($v['id'] != 5) continue;
 
-            $master_dana = model('MasterDana')->where('id_kategori_dana_masuk', $v['id'])->findAll();
+            $master_dana = model('MasterDana')->where('id_kategori_dana', $v['id'])->findAll();
             $total_data = count($master_dana);
 
             $jumlah_ts_2 = 0;
@@ -221,8 +221,8 @@ class PerolehanDana extends BaseController
                     $endRow = $data_row + $total_data - 1;
                     $sheet->mergeCells("A{$data_row}:A{$endRow}");
                     $sheet->mergeCells("B{$data_row}:B{$endRow}");
-                    $sheet->setCellValue("A{$data_row}", $v2['id_kategori_dana_masuk']);
-                    $sheet->setCellValue("B{$data_row}", $v2['nama_kategori_dana_masuk']);
+                    $sheet->setCellValue("A{$data_row}", $v2['id_kategori_dana']);
+                    $sheet->setCellValue("B{$data_row}", $v2['nama_kategori_dana']);
                 }
 
                 $sheet->setCellValue("C{$data_row}", $v2['nama']);

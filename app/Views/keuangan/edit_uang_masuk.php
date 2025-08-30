@@ -15,7 +15,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Sumber Dana</label>
-                            <input type="text" class="form-control" value="<?= $data['nama_kategori_dana_masuk'] ?> - <?= $data['nama_sumber_dana'] ?>" disabled>
+                            <input type="text" class="form-control" value="<?= $data['nama_kategori_dana'] ?> - <?= $data['nama_sumber_dana'] ?>" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="nominal" class="form-label">Nominal</label>

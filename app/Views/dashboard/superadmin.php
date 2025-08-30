@@ -1,10 +1,10 @@
 <?php
-$tahun_akademik_aktif = model('TahunAkademik')->orderBy('periode_selesai DESC')->first();
+$tahun_akademik_aktif = model('TahunAkademik')->orderBy('id DESC')->first();
 
 if ($tahun_akademik_aktif) {
     $tahun_akademik_aktif = $tahun_akademik_aktif['tahun_akademik'] . ' - ' . $tahun_akademik_aktif['tipe'];
 } else {
-    $tahun_akademik_aktif = 'Libur';
+    $tahun_akademik_aktif = '-';
 }
 ?>
 

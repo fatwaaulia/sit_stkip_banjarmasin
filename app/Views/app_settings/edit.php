@@ -125,6 +125,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="mb-2">
+                                    <span class="fw-600">Pendaftaran</span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Buka Pendaftaran Mahasiswa</label>
+                                    <?php
+                                    $buka_pendaftaran_mahasiswa = ['Tutup', 'Buka'];
+                                    foreach ($buka_pendaftaran_mahasiswa as $key => $v) :
+                                    ?>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="buka_pendaftaran_mahasiswa_<?= $key ?>" name="buka_pendaftaran_mahasiswa" value="<?= $v ?>" <?= $data['buka_pendaftaran_mahasiswa'] == $v ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="buka_pendaftaran_mahasiswa_<?= $key ?>"><?= $v ?></label>
+                                    </div>
+                                    <?php endforeach ?>
+                                    <div class="invalid-feedback" id="invalid_buka_pendaftaran_mahasiswa"></div>
+                                </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3 float-end">Simpan Perubahan</button>

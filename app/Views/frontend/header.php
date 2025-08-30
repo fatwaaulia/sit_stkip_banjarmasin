@@ -61,6 +61,7 @@ $description  = isset($description) ? $description : appSettings('deskripsi');
         return nodes;
     };
     </script>
+    <script src="<?= base_url() ?>assets/js/fetch/submit_data.js"></script>
 </head>
 
 <body style="padding-top: 67.75px;">

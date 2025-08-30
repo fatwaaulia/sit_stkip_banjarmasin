@@ -88,8 +88,8 @@ class MasterDana extends BaseController
         $kategori_dana_masuk = model('KategoriDanaMasuk')->find($this->request->getVar('kategori_dana_masuk'));
         $data = [
             'jenis' => $this->request->getVar('jenis'),
-            'id_kategori_dana_masuk' => $kategori_dana_masuk['id'] ?? 0,
-            'nama_kategori_dana_masuk' => $kategori_dana_masuk['nama'] ?? '',
+            'id_kategori_dana' => $kategori_dana_masuk['id'] ?? 0,
+            'nama_kategori_dana' => $kategori_dana_masuk['nama'] ?? '',
             'nama'  => $this->request->getVar('nama'),
             'created_by' => userSession('id'),
         ];

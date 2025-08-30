@@ -1,3 +1,7 @@
+<?php
+$tahun_akademik_aktif = model('TahunAkademik')->orderBy('id DESC')->first();
+?>
+
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/datatables/css/dataTables.dataTables.min.css">
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
@@ -43,17 +47,15 @@
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="mb-3">
-                                    <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
-                                    <select class="form-select" id="tahun_akademik" name="tahun_akademik">
-                                        <option value="">Pilih</option>
-                                        <?php
-                                        $tahun_akademik = model('TahunAkademik')->orderBy('periode_mulai DESC')->limit(5)->findAll();
-                                        foreach ($tahun_akademik as $v) :
-                                        ?>
-                                        <option value="<?= $v['id'] ?>"><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
+                                    <label class="form-label">Tahun Akdemik</label>
+                                    <input type="text" class="form-control" value="<?= $tahun_akademik_aktif['tahun_akademik'] ?> - <?= $tahun_akademik_aktif['tipe'] ?>" disabled>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="mb-3">
+                                    <label for="biaya" class="form-label">Biaya Yudisium / Wisuda</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya" placeholder="Masukkan biaya yudisium / wisuda" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya"></div>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +87,6 @@
 
 <script>
 dselect(dom('#jenis'), { search: true });
-dselect(dom('#tahun_akademik'), { search: true });
 
 document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.removeItem('checked_id');

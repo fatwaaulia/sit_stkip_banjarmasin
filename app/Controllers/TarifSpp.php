@@ -59,6 +59,13 @@ class TarifSpp extends BaseController
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['biaya'] = formatRupiah($v['biaya']);
+            $data[$key]['biaya_uts'] = formatRupiah($v['biaya_uts']);
+            $data[$key]['biaya_uas'] = formatRupiah($v['biaya_uas']);
+            $data[$key]['biaya_ldkm'] = formatRupiah($v['biaya_ldkm']);
+            $data[$key]['biaya_mbkm'] = formatRupiah($v['biaya_mbkm']);
+            $data[$key]['biaya_bimbingan_skripsi'] = formatRupiah($v['biaya_bimbingan_skripsi']);
+            $data[$key]['biaya_seminar_proposal'] = formatRupiah($v['biaya_seminar_proposal']);
+            $data[$key]['biaya_sidang_skripsi'] = formatRupiah($v['biaya_sidang_skripsi']);
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
         }
 
@@ -72,8 +79,16 @@ class TarifSpp extends BaseController
     public function create()
     {
         $rules = [
+            'kode'  => "required|is_unique[$this->base_name.kode]",
             'nama'  => 'required',
             'biaya' => 'required',
+            'biaya_uts'  => 'required',
+            'biaya_uas'  => 'required',
+            'biaya_ldkm' => 'required',
+            'biaya_mbkm' => 'required',
+            'biaya_bimbingan_skripsi' => 'required',
+            'biaya_seminar_proposal'  => 'required',
+            'biaya_sidang_skripsi'    => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -87,8 +102,16 @@ class TarifSpp extends BaseController
 
         // Lolos Validasi
         $data = [
+            'kode'  => $this->request->getVar('kode'),
             'nama'  => $this->request->getVar('nama'),
             'biaya' => $this->request->getVar('biaya', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_uts' => $this->request->getVar('biaya_uts', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_uas' => $this->request->getVar('biaya_uas', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_ldkm' => $this->request->getVar('biaya_ldkm', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_mbkm' => $this->request->getVar('biaya_mbkm', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_bimbingan_skripsi' => $this->request->getVar('biaya_bimbingan_skripsi', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_seminar_proposal' => $this->request->getVar('biaya_seminar_proposal', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_sidang_skripsi' => $this->request->getVar('biaya_sidang_skripsi', FILTER_SANITIZE_NUMBER_INT),
         ];
 
         model($this->model_name)->insert($data);
@@ -103,8 +126,16 @@ class TarifSpp extends BaseController
     public function update($id = null)
     {
         $rules = [
+            'kode'  => "required|is_unique[$this->base_name.kode,id,$id]",
             'nama'  => 'required',
             'biaya' => 'required',
+            'biaya_uts'  => 'required',
+            'biaya_uas'  => 'required',
+            'biaya_ldkm' => 'required',
+            'biaya_mbkm' => 'required',
+            'biaya_bimbingan_skripsi' => 'required',
+            'biaya_seminar_proposal'  => 'required',
+            'biaya_sidang_skripsi'    => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -118,8 +149,16 @@ class TarifSpp extends BaseController
 
         // Lolos Validasi
         $data = [
+            'kode'  => $this->request->getVar('kode'),
             'nama'  => $this->request->getVar('nama'),
             'biaya' => $this->request->getVar('biaya', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_uts' => $this->request->getVar('biaya_uts', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_uas' => $this->request->getVar('biaya_uas', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_ldkm' => $this->request->getVar('biaya_ldkm', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_mbkm' => $this->request->getVar('biaya_mbkm', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_bimbingan_skripsi' => $this->request->getVar('biaya_bimbingan_skripsi', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_seminar_proposal' => $this->request->getVar('biaya_seminar_proposal', FILTER_SANITIZE_NUMBER_INT),
+            'biaya_sidang_skripsi' => $this->request->getVar('biaya_sidang_skripsi', FILTER_SANITIZE_NUMBER_INT),
         ];
 
         model($this->model_name)->update($id, $data);

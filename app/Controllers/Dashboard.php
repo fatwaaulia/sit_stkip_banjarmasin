@@ -4,12 +4,12 @@ namespace App\Controllers;
 
 class Dashboard extends BaseController
 {
-    public function admin()
+    public function superadmin()
     {
         $data['title'] = 'Dashboard';
 
         $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/admin', $data);
+        $view['content'] = view('dashboard/superadmin', $data);
         return view('dashboard/header', $view);
     }
 
@@ -22,7 +22,7 @@ class Dashboard extends BaseController
         return view('dashboard/header', $view);
     }
 
-    public function akademik()
+    public function wakaAkademik()
     {
         $data['title'] = 'Dashboard';
 

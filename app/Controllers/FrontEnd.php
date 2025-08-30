@@ -98,4 +98,16 @@ class FrontEnd extends BaseController
         $view['footer'] = view('frontend/components/footer');
         return view('frontend/header', $view);
     }
+
+    public function mendaftarMahasiswa()
+    {
+        $data = [
+            'title'    => 'Mendaftar Mahasiswa',
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/mendaftar_mahasiswa', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
 }

@@ -61,16 +61,16 @@ table tr th { text-align: center; }
                         </thead>
                         <tbody>
                             <?php
-                            $kategori_dana_masuk = model('KategoriDanaMasuk')->findAll();
+                            $kategori_dana = model('KategoriDanaMasuk')->findAll();
 
                             $total_jumlah_ts_2 = 0;
                             $total_jumlah_ts_1 = 0;
                             $total_jumlah_ts_0 = 0;
                             $total_jumlah_ts_sumber_dana = 0;
 
-                            foreach ($kategori_dana_masuk as $v) :
+                            foreach ($kategori_dana as $v) :
                                 if (! in_array($v['id'], [1, 2, 3, 4])) continue;
-                                $master_dana = model('MasterDana')->where('id_kategori_dana_masuk', $v['id'])->findAll();
+                                $master_dana = model('MasterDana')->where('id_kategori_dana', $v['id'])->findAll();
                                 $total_data = count($master_dana);
                                 $jumlah_ts_2 = 0;
                                 $jumlah_ts_1 = 0;
@@ -112,8 +112,8 @@ table tr th { text-align: center; }
                             ?>
                             <tr>
                                 <?php if ($key2 == 0) : ?>
-                                <td rowspan="<?= $total_data ?>" class="text-center align-middle"><?= $v2['id_kategori_dana_masuk'] ?></td>
-                                <td rowspan="<?= $total_data ?>" class="text-wrap text-center align-middle"><?= $v2['nama_kategori_dana_masuk'] ?></td>
+                                <td rowspan="<?= $total_data ?>" class="text-center align-middle"><?= $v2['id_kategori_dana'] ?></td>
+                                <td rowspan="<?= $total_data ?>" class="text-wrap text-center align-middle"><?= $v2['nama_kategori_dana'] ?></td>
                                 <?php endif; ?>
                                 <td>
                                     <div class="d-flex justify-content-between">
@@ -151,9 +151,9 @@ table tr th { text-align: center; }
                             </tr>
 
                             <?php
-                            foreach ($kategori_dana_masuk as $v) :
+                            foreach ($kategori_dana as $v) :
                                 if ($v['id'] != 5) continue;
-                                $master_dana = model('MasterDana')->where('id_kategori_dana_masuk', $v['id'])->findAll();
+                                $master_dana = model('MasterDana')->where('id_kategori_dana', $v['id'])->findAll();
                                 $total_data = count($master_dana);
                                 $jumlah_ts_2 = 0;
                                 $jumlah_ts_1 = 0;
@@ -168,8 +168,8 @@ table tr th { text-align: center; }
                             ?>
                             <tr>
                                 <?php if ($key2 == 0) : ?>
-                                <td rowspan="<?= $total_data ?>" class="text-center align-middle"><?= $v2['id_kategori_dana_masuk'] ?></td>
-                                <td rowspan="<?= $total_data ?>" class="text-wrap text-center align-middle"><?= $v2['nama_kategori_dana_masuk'] ?></td>
+                                <td rowspan="<?= $total_data ?>" class="text-center align-middle"><?= $v2['id_kategori_dana'] ?></td>
+                                <td rowspan="<?= $total_data ?>" class="text-wrap text-center align-middle"><?= $v2['nama_kategori_dana'] ?></td>
                                 <?php endif; ?>
                                 <td>
                                     <div class="d-flex justify-content-between">
