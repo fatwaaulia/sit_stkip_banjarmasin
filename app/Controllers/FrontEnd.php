@@ -76,4 +76,17 @@ class FrontEnd extends BaseController
         $view['footer'] = view('frontend/components/footer');
         return view('frontend/header', $view);
     }
+
+    
+    public function registerDosen()
+    {
+        $data = [
+            'title'    => 'Register Dosen',
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/register_dosen', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
 }

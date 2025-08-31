@@ -15,10 +15,10 @@ $get_program_studi = $_GET['program_studi'] ?? '';
         <div class="col-12">
             <div class="card p-3">
                 <div class="row g-3 mb-3">
-                    <div class="col-12 col-lg-10 col-xl-11">
+                    <div class="col-12 col-lg-10 col-xl-10">
                         <form action="" method="get">
                             <div class="row gx-2 gy-3">
-                                <div class="col-6 col-md-5 col-lg-4 col-xl-3">
+                                <div class="col-12 col-md-6 col-lg-5 col-xl-4">
                                     <label for="program_studi" class="form-label">Program Studi</label>
                                     <select class="form-select" id="program_studi" name="program_studi">
                                         <option value="">Pilih</option>
@@ -44,20 +44,19 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                             </div>
                         </form>
                     </div>
-                    <div class="col-12 col-lg-2 col-xl-1 d-flex justify-content-end align-items-end">
-                        <a href="<?= $base_route ?>new" class="btn btn-primary">
-                            <i class="fa-solid fa-plus fa-sm"></i> New
-                        </a>
+                    <div class="col-12 col-lg-2 col-xl-2 d-flex justify-content-end align-items-end">
+                        <a href="<?= base_url() ?>register-dosen" target="_blank">Register Dosen</a>
                     </div>
                 </div>
                 <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>NIP/NIK</th>
+                            <th>NIDN / NIDK</th>
                             <th>Nama Dosen</th>
                             <th>Program Studi</th>
-                            <th>Status</th>
+                            <th>Jabatan Fungsional</th>
+                            <th>Jabatan Struktural</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -101,7 +100,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
             }, {
                 name: '',
-                data: 'status',
+                data: 'jabatan_fungsional',
+            }, {
+                name: '',
+                data: 'jabatan_struktural',
             }, {
                 name: '',
                 data: null,

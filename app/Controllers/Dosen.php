@@ -116,9 +116,16 @@ class Dosen extends BaseController
             'nomor_identitas' => 'required|is_unique[users.nomor_identitas]',
             'nama'            => 'required',
             'jenis_kelamin'   => 'required',
-            'program_studi'   => 'required',
-            'email'           => 'permit_empty|valid_email',
-            'no_hp'           => 'permit_empty|numeric',
+            'tempat_lahir'    => 'required',
+            'tanggal_lahir'   => 'required',
+            'alamat'          => 'required',
+            'jabatan_fungsional' => 'required',
+            'jabatan_struktural' => 'required',
+            'program_studi'    => 'required',
+            'motto_kerja'       => 'required',
+            'persetujuan'      => 'required',
+            'password' => 'required|min_length[3]|matches[passconf]',
+            'passconf' => 'required|min_length[3]|matches[password]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -137,27 +144,33 @@ class Dosen extends BaseController
             'id_role'         => $role['id'],
             'nama_role'       => $role['nama'],
             'slug_role'       => $role['slug'],
+
+            'username' => $this->request->getVar('nomor_identitas'),
+            'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
+
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
             'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
+            'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
+            'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
+            'alamat'          => $this->request->getVar('alamat'),
+
+            'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
+            'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
+            'motto_kerja' => $this->request->getVar('motto_kerja'),
+
             'id_program_studi'        => $program_studi['id'],
             'jenjang_program_studi'   => $program_studi['jenjang'],
             'nama_program_studi'      => $program_studi['nama'],
             'singkatan_program_studi' => $program_studi['singkatan'],
-            'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
-            'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
-            'alamat'          => $this->request->getVar('alamat'),
-            'email'           => $this->request->getVar('email'),
-            'no_hp'           => $this->request->getVar('no_hp'),
-            'status'          => 'Aktif',
         ];
 
         model($this->model_name)->insert($data);
 
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
-            'message' => 'Data berhasil ditambahkan',
-            'route'   => $this->base_route,
+            'message' => 'Akun dosen berhasil dibuat, silakan login',
+            'route'   => base_url('login'),
         ]);
     }
 
@@ -169,10 +182,13 @@ class Dosen extends BaseController
             'nomor_identitas' => "required|is_unique[users.nomor_identitas,id,$id]",
             'nama'            => 'required',
             'jenis_kelamin'   => 'required',
-            'program_studi'   => 'required',
-            'email'           => 'permit_empty|valid_email',
-            'no_hp'           => 'permit_empty|numeric',
-            'status'          => 'required',
+            'tempat_lahir'    => 'required',
+            'tanggal_lahir'   => 'required',
+            'alamat'          => 'required',
+            'jabatan_fungsional' => 'required',
+            'jabatan_struktural' => 'required',
+            'program_studi'    => 'required',
+            'motto_kerja'       => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -185,17 +201,23 @@ class Dosen extends BaseController
         }
 
         // Lolos Validasi
+        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $data = [
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
             'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
-            'program_studi'   => $this->request->getVar('program_studi'),
             'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
             'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
             'alamat'          => $this->request->getVar('alamat'),
-            'email'           => $this->request->getVar('email'),
-            'no_hp'           => $this->request->getVar('no_hp'),
-            'status'          => $this->request->getVar('status'),
+
+            'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
+            'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
+            'motto_kerja' => $this->request->getVar('motto_kerja'),
+
+            'id_program_studi'        => $program_studi['id'],
+            'jenjang_program_studi'   => $program_studi['jenjang'],
+            'nama_program_studi'      => $program_studi['nama'],
+            'singkatan_program_studi' => $program_studi['singkatan'],
         ];
 
         model($this->model_name)->update($id, $data);

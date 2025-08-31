@@ -30,6 +30,9 @@ $routes->get('mendaftar-mahasiswa', 'FrontEnd::mendaftarMahasiswa');
 $routes->post('api/pendaftar-mahasiswa/create', 'PendaftarMahasiswa::create');
 $routes->get('mendaftar-mahasiswa/detail', 'FrontEnd::mendaftarMahasiswaDetail');
 
+$routes->get('register-dosen', 'FrontEnd::registerDosen');
+$routes->post('api/dosen/create', 'dosen::create');
+
 $routes->post('session/set/timezone', function() {
     $timezone = service('request')->getVar('timezone');
     session()->set('timezone', $timezone);

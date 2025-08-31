@@ -95,6 +95,7 @@ class Auth extends BaseController
         ->groupStart()
             ->where('username', $username)
             ->orWhere('email', $username)
+            ->orWhere('nomor_identitas', $username)
         ->groupEnd()
         ->first();
 

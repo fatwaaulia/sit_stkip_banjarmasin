@@ -236,7 +236,7 @@ class PendaftarMahasiswa extends BaseController
         }
 
         $data = [
-            'username' => $this->request->getVar('email'),
+            'username' => '',
             'password' => password_hash($this->request->getVar('no_hp'), PASSWORD_DEFAULT),
             'foto' => $filename_foto,
 
