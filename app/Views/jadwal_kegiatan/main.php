@@ -5,6 +5,11 @@ $kategori = [
     'MBKM',
     'Seminar Proposal', 'Sidang Skripsi'
 ];
+
+$is_access = false;
+if (userSession('id_role') == 3) {
+    $is_access = true;
+}
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -19,6 +24,7 @@ $kategori = [
     <div class="row">
         <div class="col-12">
             <div class="card p-3">
+                <?php if ($is_access) : ?>
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-lg-10 col-xl-11">
                         <form action="" method="get">
@@ -103,6 +109,7 @@ $kategori = [
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
                 <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                     <thead class="bg-primary-subtle">
                         <tr>
@@ -110,7 +117,9 @@ $kategori = [
                             <th>Kategori</th>
                             <th>Judul</th>
                             <th>Tautan SK</th>
+                            <?php if ($is_access) : ?>
                             <th>Opsi</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                 </table>
@@ -151,15 +160,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
-            }, {
+            }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
                 render: renderOpsi,
-            },
+            }, <?php endif; ?>
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });
 });
 
+<?php if ($is_access) : ?>
 function renderOpsi(data) {
     const kategori = [
         'MBKM',
@@ -227,6 +237,7 @@ function actionEdit(id) {
         });
     }
 }
+<?php endif; ?>
 </script>
 
 <script src="<?= base_url() ?>assets/modules/datatables/js/dataTables.min.js"></script>

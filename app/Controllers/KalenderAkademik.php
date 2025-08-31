@@ -52,6 +52,8 @@ class KalenderAkademik extends BaseController
         $order = $this->request->getVar('order')[0] ?? null;
         if (isset($order['column'], $order['dir']) && !empty($columns[$order['column']])) {
             $base_query->orderBy($columns[$order['column']], $order['dir'] === 'desc' ? 'desc' : 'asc');
+        } else {
+            $base_query->orderBy('id DESC');
         }
         // End | Datatables
 
@@ -60,7 +62,6 @@ class KalenderAkademik extends BaseController
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
-            $data[$key]['gambar'] = webFile('image', $this->base_name, $v['gambar'], $v['updated_at']);
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
         }
 
@@ -75,7 +76,7 @@ class KalenderAkademik extends BaseController
     {
         $rules = [
             'judul'  => 'required',
-            'gambar' => 'uploaded[gambar]|max_size[gambar,2048]|ext_in[gambar,png,jpg,jpeg]|mime_in[gambar,image/png,image/jpeg]|is_image[gambar]',
+            'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -88,20 +89,9 @@ class KalenderAkademik extends BaseController
         }
 
         // Lolos Validasi
-        $gambar = $this->request->getFile('gambar');
-        if ($gambar->isValid()) {
-            $filename_gambar = $gambar->getRandomName();
-            if ($gambar->getExtension() != 'jpg') {
-                $filename_gambar = str_replace($gambar->getExtension(), 'jpg', $filename_gambar);
-            }
-            lowCompressConvertImage($gambar, $this->upload_path, $filename_gambar);
-        } else {
-            $filename_gambar = '';
-        }
-
         $data = [
-            'gambar' => $filename_gambar,
             'judul'  => $this->request->getVar('judul'),
+            'tautan' => $this->request->getVar('tautan'),
         ];
 
         model($this->model_name)->insert($data);
@@ -119,7 +109,7 @@ class KalenderAkademik extends BaseController
 
         $rules = [
             'judul'  => 'required',
-            'gambar' => 'max_size[gambar,2048]|ext_in[gambar,png,jpg,jpeg]|mime_in[gambar,image/png,image/jpeg]|is_image[gambar]',
+            'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -132,20 +122,9 @@ class KalenderAkademik extends BaseController
         }
 
         // Lolos Validasi
-        $gambar = $this->request->getFile('gambar');
-        if ($gambar->isValid()) {
-            $filename_gambar = $find_data['gambar'] ?: $gambar->getRandomName();
-            if ($gambar->getExtension() != 'jpg') {
-                $filename_gambar = str_replace($gambar->getExtension(), 'jpg', $filename_gambar);
-            }
-            lowCompressConvertImage($gambar, $this->upload_path, $filename_gambar);
-        } else {
-            $filename_gambar = $find_data['gambar'];
-        }
-
         $data = [
-            'gambar' => $filename_gambar,
             'judul'  => $this->request->getVar('judul'),
+            'tautan' => $this->request->getVar('tautan'),
         ];
 
         model($this->model_name)->update($id, $data);
@@ -159,11 +138,6 @@ class KalenderAkademik extends BaseController
 
     public function delete($id = null)
     {
-        $find_data = model($this->model_name)->find($id);
-
-        $gambar = $this->upload_path . $find_data['gambar'];
-        if (is_file($gambar)) unlink($gambar);
-
         model($this->model_name)->delete($id);
 
         return $this->response->setStatusCode(200)->setJSON([

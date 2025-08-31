@@ -57,6 +57,7 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                             <th>Nama Pendaftar</th>
                             <th>Pilihan Program Studi</th>
                             <th>Tanggal Mendaftar</th>
+                            <th>Status</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -99,7 +100,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
             }, {
                 name: '',
-                data: 'created_at',
+                data: 'mendaftar_at',
+            }, {
+                name: '',
+                data: 'status',
             }, {
                 name: '',
                 data: null,
@@ -185,6 +189,9 @@ function renderOpsi(data) {
     return `
     <a href="${endpoint_edit_data}" class="me-2" title="Edit">
         <i class="fa-regular fa-pen-to-square fa-lg"></i>
+    </a>
+    <a href="<?= base_url() ?>mendaftar-mahasiswa/detail?email=${data.email}" target="_blank" class="me-2" title="Detail">
+        <i class="fa-solid fa-circle-info fa-lg"></i>
     </a>
     <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
         <i class="fa-regular fa-trash-can fa-lg text-danger"></i>

@@ -1,17 +1,21 @@
 <?php
-if (in_array(userSession('id_role'), [1, 2])) {
-    $get_nim = $_GET['nim'] ?? '';
-    $is_access = true;
-} else {
+if (userSession('id_role') == 5) {
     $get_nim = userSession('nomor_identitas');
     $is_access = false;
+} else {
+    $get_nim = $_GET['nim'] ?? '';
+    $is_access = true;
 }
 
 $mahasiswa = model('Users')
 ->where([
-    'id_role'         => 5,
-    'nomor_identitas' => $get_nim,
+    'id_role' => 5,
+    'status'  => 'Aktif',
 ])
+->groupStart()
+    ->where('nomor_identitas', $get_nim)
+    ->orWhere('email', $get_nim)
+->groupEnd()
 ->first();
 
 if ($mahasiswa) {
@@ -40,8 +44,8 @@ if ($mahasiswa) {
                         <form action="" method="get">
                             <div class="d-flex align-items-end gap-2 w-100">
                                 <div class="flex-grow-1">
-                                    <label for="nim" class="form-label">NIM</label>
-                                    <input type="number" class="form-control" id="nim" name="nim" value="<?= $get_nim ?>" placeholder="Masukkan nim">
+                                    <label for="nim" class="form-label">NIM / Email</label>
+                                    <input type="text" class="form-control" id="nim" name="nim" value="<?= $get_nim ?>" placeholder="Masukkan nim / email">
                                 </div>
                                 <button type="submit" class="btn btn-primary" title="Cari">
                                     <i class="fa-solid fa-search"></i>
@@ -56,7 +60,11 @@ if ($mahasiswa) {
                         <table class="table">
                             <tr>
                                 <td class="fw-500">Nama Mahasiswa</td>
-                                <td>: <?= $mahasiswa['nama'] ?> (<?= $mahasiswa['nomor_identitas'] ?>)</td>
+                                <td>:
+                                    <a href="<?= base_url(userSession('slug_role')) ?>/mahasiswa/edit/<?= $mahasiswa['id'] ?>" target="_blank">
+                                        <?= $mahasiswa['nama'] ?> (<?= $mahasiswa['nomor_identitas'] ?>)
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="fw-500">Program Studi</td>
@@ -67,8 +75,8 @@ if ($mahasiswa) {
                                 <td>: <?= $mahasiswa['tahun_akademik_diterima'] ?> - <?= $mahasiswa['tipe_tahun_akademik'] ?></td>
                             </tr>
                             <tr>
-                                <td class="fw-500">Semester dan Kelas</td>
-                                <td>: <?= $mahasiswa['semester'] ?> - <?= $mahasiswa['kelas'] ?></td>
+                                <td class="fw-500">Semester</td>
+                                <td>: <?= $mahasiswa['semester'] ?></td>
                             </tr>
                             <tr>
                                 <td class="fw-500">Status</td>

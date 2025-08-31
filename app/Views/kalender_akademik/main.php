@@ -1,3 +1,10 @@
+<?php
+$is_access = false;
+if (userSession('id_role') == 3) {
+    $is_access = true;
+}
+?>
+
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/datatables/css/dataTables.dataTables.min.css">
 
@@ -10,6 +17,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card p-3">
+                <?php if ($is_access) : ?>
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-md-6 col-lg-5 col-xl-4">
                         <!--  -->
@@ -33,17 +41,11 @@
                                                     <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
                                                     <div class="invalid-feedback" id="invalid_judul"></div>
                                                 </div>
-                                                <label for="gambar" class="form-label">Gambar</label>
-                                                <div class="col-12 col-md-6 position-relative">
-                                                    <img src="<?= webFile('image') ?>" class="w-100 cover-center" id="frame_gambar">
-                                                    <div class="position-absolute" style="bottom: 0px; right: 0px;">
-                                                        <label for="gambar" class="btn btn-secondary rounded-circle" style="padding: 8px;">
-                                                            <i class="fa-solid fa-camera fa-lg"></i>
-                                                        </label>
-                                                        <input type="file" class="form-control d-none" id="gambar" name="gambar" accept=".png,.jpg,.jpeg" onchange="dom('#frame_gambar').src = window.URL.createObjectURL(this.files[0]);">
-                                                    </div>
+                                                <div class="mb-3">
+                                                    <label for="tautan" class="form-label">Tautan SK</label>
+                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
+                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
                                                 </div>
-                                                <div class="invalid-feedback" id="invalid_gambar"></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -63,13 +65,16 @@
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
                 <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Gambar</th>
                             <th>Judul</th>
+                            <th>Tautan SK</th>
+                            <?php if ($is_access) : ?>
                             <th>Opsi</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                 </table>
@@ -84,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ajax: '<?= $get_data ?>',
         processing: true,
         serverSide: true,
-        searching: false,
         order: [],
         initComplete: function (settings, json) {
             $('#myTable').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');
@@ -102,21 +106,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: '',
-                data: null,
-                render: data => `<img data-src="${data.gambar}" class="wh-40 cover-center lazy-shimmer">`,
-            }, {
-                name: '',
+                name: 'judul',
                 data: 'judul',
             }, {
                 name: '',
                 data: null,
+                render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+            }, <?php if ($is_access) : ?> {
+                name: '',
+                data: null,
                 render: renderOpsi,
-            },
+            }, <?php endif; ?>
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });
 });
 
+<?php if ($is_access) : ?>
 function renderOpsi(data) {
     const tipe = ['SPP', 'Addons'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
@@ -139,17 +144,9 @@ function renderOpsi(data) {
                             <div class="invalid-feedback" id="invalid_judul"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="gambar" class="form-label">Gambar</label>
-                            <div class="col-12 col-md-6 position-relative">
-                                <img src="${data.gambar}" class="w-100 cover-center" id="frame_gambar_${data.id}">
-                                <div class="position-absolute" style="bottom: 0px; right: 0px;">
-                                    <label for="gambar_${data.id}" class="btn btn-secondary rounded-circle" style="padding: 8px;">
-                                        <i class="fa-solid fa-camera fa-lg"></i>
-                                    </label>
-                                    <input type="file" class="form-control d-none" id="gambar_${data.id}" name="gambar" accept=".png,.jpg,.jpeg" onchange="dom('#frame_gambar_${data.id}').src = window.URL.createObjectURL(this.files[0]);">
-                                </div>
-                            </div>
-                            <div class="invalid-feedback" id="invalid_gambar"></div>
+                            <label for="tautan" class="form-label">Tautan SK</label>
+                            <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
+                            <div class="invalid-feedback" id="invalid_tautan"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -181,6 +178,7 @@ function actionEdit(id) {
         });
     }
 }
+<?php endif; ?>
 </script>
 
 <script src="<?= base_url() ?>assets/modules/datatables/js/dataTables.min.js"></script>

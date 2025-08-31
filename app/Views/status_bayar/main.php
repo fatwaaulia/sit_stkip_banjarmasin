@@ -144,7 +144,9 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                         ?>
                         <tr>
                             <td><?= $no_urut ?></td>
-                            <td><?= $v2['nomor_identitas'] ?></td>
+                            <td>
+                                <a href="<?= base_url(userSession('slug_role')) ?>/mahasiswa/edit/<?= $v['id'] ?>" target="_blank"><?= $v2['nomor_identitas'] ?></a>
+                            </td>
                             <td><?= $v2['nama'] ?></td>
                             <td><?= $v2['jenjang_program_studi'] ?> - <?= $v2['nama_program_studi'] ?></td>
                             <td><?= dotsNumber($biaya) ?></td>

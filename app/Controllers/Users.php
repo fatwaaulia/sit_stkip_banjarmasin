@@ -67,7 +67,7 @@ class Users extends BaseController
     public function index()
     {
         $select          = ['*'];
-        $base_query      = model($this->model_name)->select($select);
+        $base_query      = model($this->model_name)->select($select)->whereNotIn('id_role', [4, 5]);
         $limit           = (int)$this->request->getVar('length');
         $offset          = (int)$this->request->getVar('start');
         $records_total   = $base_query->countAllResults(false);

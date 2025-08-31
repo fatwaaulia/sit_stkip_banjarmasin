@@ -25,17 +25,10 @@ $routes->set404Override(
   # Front-End
 --------------------------------------------------------------*/
 $routes->get('/', 'Auth::login');
-// $routes->get('akreditasi', 'FrontEnd::beranda');
 
 $routes->get('mendaftar-mahasiswa', 'FrontEnd::mendaftarMahasiswa');
 $routes->post('api/pendaftar-mahasiswa/create', 'PendaftarMahasiswa::create');
-
-$routes->get('kalender-akademik', 'FrontEnd::kalenderAkademik');
-$routes->get('jadwal-kuliah', 'FrontEnd::jadwalKuliah');
-$routes->get('jadwal-kegiatan', 'FrontEnd::jadwalKegiatan');
-
-$routes->get('perolehan-dana', 'FrontEnd::perolehanDana');
-$routes->get('penggunaan-dana', 'FrontEnd::penggunaanDana');
+$routes->get('mendaftar-mahasiswa/detail', 'FrontEnd::mendaftarMahasiswaDetail');
 
 $routes->post('session/set/timezone', function() {
     $timezone = service('request')->getVar('timezone');
@@ -68,7 +61,8 @@ $id_role   = userSession('id_role');
 $slug_role = userSession('slug_role');
 
 if (userSession()) {
-    $routes->get("$slug_role/dashboard", "Dashboard::$slug_role", ['filter' => 'EnsureLogin']);
+    $camelcase_slug_role = lcfirst(str_replace(' ', '', ucwords(str_replace('-', ' ', strtolower($slug_role)))));
+    $routes->get("$slug_role/dashboard", "Dashboard::$camelcase_slug_role", ['filter' => 'EnsureLogin']);
 }
 
 if (in_array($id_role, [1])) {
@@ -272,10 +266,24 @@ if (in_array($id_role, roleAccessByTitle('Mahasiswa Cuti / DO'))) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Dosen'))) {
+    $routes->group("$slug_role/dosen", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Dosen::main');
+        $routes->get('new', 'Dosen::new');
+        $routes->get('edit/(:segment)', 'Dosen::edit/$1');
+    });
+    $routes->group('api/dosen', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Dosen::index');
+        $routes->post('create', 'Dosen::create');
+        $routes->post('update/(:segment)', 'Dosen::update/$1');
+        $routes->post('delete/(:segment)', 'Dosen::delete/$1');
+    });
+}
+
 /*--------------------------------------------------------------
   # Master Data
 --------------------------------------------------------------*/
-if (in_array($id_role, roleAccessByTitle('Role'))) {
+if (in_array($id_role, [1])) {
     $routes->get("$slug_role/role", 'Role::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/role', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Role::index');
@@ -317,20 +325,6 @@ if (in_array($id_role, roleAccessByTitle('Program Studi'))) {
         $routes->post('create', 'ProgramStudi::create');
         $routes->post('update/(:segment)', 'ProgramStudi::update/$1');
         $routes->post('delete/(:segment)', 'ProgramStudi::delete/$1');
-    });
-}
-
-if (in_array($id_role, roleAccessByTitle('Dosen'))) {
-    $routes->group("$slug_role/dosen", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Dosen::main');
-        $routes->get('new', 'Dosen::new');
-        $routes->get('edit/(:segment)', 'Dosen::edit/$1');
-    });
-    $routes->group('api/dosen', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Dosen::index');
-        $routes->post('create', 'Dosen::create');
-        $routes->post('update/(:segment)', 'Dosen::update/$1');
-        $routes->post('delete/(:segment)', 'Dosen::delete/$1');
     });
 }
 

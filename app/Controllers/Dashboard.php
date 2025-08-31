@@ -27,7 +27,16 @@ class Dashboard extends BaseController
         $data['title'] = 'Dashboard';
 
         $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/akademik', $data);
+        $view['content'] = view('dashboard/waka_akademik', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function staffAkademik()
+    {
+        $data['title'] = 'Dashboard';
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view('dashboard/staff_akademik', $data);
         return view('dashboard/header', $view);
     }
 

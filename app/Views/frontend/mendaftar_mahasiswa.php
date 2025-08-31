@@ -39,9 +39,36 @@ if (!$biaya_pendaftaran || !$biaya_almamater || !$biaya_ktm || !$biaya_uang_gedu
 
 <section class="container">
     <div class="row mb-4">
-        <div class="col-12">
+        <div class="col-12 col-md-6">
             <h4><?= isset($title) ? $title : '' ?></h4>
             <p>Tahun Ajaran <?= $tahun_akademik_header ?></p>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="text-end">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#lacakJamaah">Lacak Pendaftar</a>
+            </div>
+            <div class="modal fade" id="lacakJamaah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Lacak Jamaah</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form action="<?= base_url() ?>mendaftar-mahasiswa/detail" method="get">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email Anda">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Cari Sekarang</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -129,7 +156,7 @@ if (!$biaya_pendaftaran || !$biaya_almamater || !$biaya_ktm || !$biaya_uang_gedu
                                 </div>
                                 <div class="mb-3">
                                     <label for="kewarganegaraan" class="form-label">Kewarganegaraan</label>
-                                    <input type="text" class="form-control" id="kewarganegaraan" name="kewarganegaraan" placeholder="Indonesia">
+                                    <input type="text" class="form-control" id="kewarganegaraan" name="kewarganegaraan" value="Indonesia" placeholder="Indonesia">
                                     <div class="invalid-feedback" id="invalid_kewarganegaraan"></div>
                                 </div>
                                 <div class="mb-3">
@@ -154,12 +181,12 @@ if (!$biaya_pendaftaran || !$biaya_almamater || !$biaya_ktm || !$biaya_uang_gedu
                                 </div>
                                 <div class="mb-3">
                                     <label for="tahun_ijazah" class="form-label">Tahun Ijazah</label>
-                                    <input type="text" class="form-control" id="tahun_ijazah" name="tahun_ijazah" placeholder="Masukkan tahun ijazah">
+                                    <input type="number" min="1900" max="2100" step="1" class="form-control" id="tahun_ijazah" name="tahun_ijazah" placeholder="Masukkan tahun ijazah">
                                     <div class="invalid-feedback" id="invalid_tahun_ijazah"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="nilai_rata_rata" class="form-label">Nilai Rata Rata</label>
-                                    <input type="text" class="form-control" id="nilai_rata_rata" name="nilai_rata_rata" placeholder="Masukkan nilai rata rata">
+                                    <input type="number" class="form-control" id="nilai_rata_rata" name="nilai_rata_rata" placeholder="Masukkan nilai rata rata" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
                                     <div class="invalid-feedback" id="invalid_nilai_rata_rata"></div>
                                 </div>
                                 <div class="mb-2">

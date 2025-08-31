@@ -194,11 +194,28 @@
                                     <label class="form-label">Tanggal Mendaftar</label>
                                     <input type="text" class="form-control" value="<?= date('d-m-Y H:i:s', strtotime(userLocalTime($data['created_at']))) ?>" disabled>
                                 </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Status Pendaftaran</label>
+                                    <?php
+                                    $status_pendaftaran = ['Terima', 'Tolak'];
+                                    foreach ($status_pendaftaran as $v) :
+                                    ?>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="<?= $v ?>" name="status_pendaftaran" value="<?= $v ?>">
+                                        <label class="form-check-label" for="<?= $v ?>">
+                                            <?= $v ?>
+                                        </label>
+                                    </div>
+                                    <?php endforeach; ?>
+                                    <div class="invalid-feedback" id="invalid_status_pendaftaran"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="mt-3 float-end">
                             <a href="<?= $base_route ?>" class="btn btn-secondary me-2">Kembali</a>
-                            <button type="submit" class="btn btn-primary">Terima Pendaftar</button>
+                            <?php if ($data['status'] == 'Pendaftar') : ?>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            <?php endif; ?>
                         </div>
                     </form>
                 </div>
@@ -209,8 +226,10 @@
 
 <script>
 dom('#form').addEventListener('submit', function(event) {
+    const status_pendaftaran = dom('#form input[name=status_pendaftaran]:checked').value + ' Pendaftar';
+    
     event.preventDefault();
     const endpoint = '<?= $base_api ?>update/<?= $data['id'] ?>';
-    submitData(dom('#form'), endpoint);
+    submitDataWithConfirm(dom('#form'), endpoint, confirm_title = status_pendaftaran)
 });
 </script>

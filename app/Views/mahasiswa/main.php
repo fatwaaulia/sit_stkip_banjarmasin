@@ -86,7 +86,7 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
-                    <div class="col-12 col-lg-10 col-xl-11">
+                    <div class="col-12">
                         <form action="" method="get">
                             <div class="row gx-2 gy-3">
                                 <div class="col-12 col-md-5 col-lg-4 col-xl-3">
@@ -128,11 +128,6 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
                             </div>
                         </form>
                     </div>
-                    <div class="col-12 col-lg-2 col-xl-1 d-flex justify-content-end align-items-end">
-                        <a href="<?= $base_route ?>new" class="btn btn-primary">
-                            <i class="fa-solid fa-plus fa-sm"></i> New
-                        </a>
-                    </div>
                 </div>
                 <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                     <thead class="bg-primary-subtle">
@@ -141,7 +136,7 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
                             <th>NIM</th>
                             <th>Nama Mahasiswa</th>
                             <th>Program Studi</th>
-                            <th>Semester dan Kelas</th>
+                            <th>Semester</th>
                             <th>Mulai Kuliah</th>
                             <th>Status</th>
                             <th>Opsi</th>
@@ -191,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
-                render: data => `${data.semester} - ${data.kelas}`,
+                render: data => `${data.semester}`,
             }, {
                 name: '',
                 data: null,

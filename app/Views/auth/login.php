@@ -19,7 +19,7 @@ body { overflow: hidden; }
                 <div class="card my-4 pt-3 pb-1" style="background-color: rgba(255, 255, 255, 0.6);">
                     <div class="card-body">
                         <div class="text-center">
-                            <a href="<?= base_url() ?>kalender-akademik">
+                            <a href="<?= base_url() ?>">
                                 <img src="<?= $logo_web ?>" alt="<?= $app_settings['nama_aplikasi'] ?>" class="wh-100">
                             </a>
                             <h3 class="mb-1 fw-600">Selamat Datang!</h3>

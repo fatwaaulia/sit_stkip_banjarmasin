@@ -19,7 +19,7 @@ $get_role = $_GET['role'] ?? '';
                         <select class="form-select" id="role" onchange="location = this.value;">
                             <option value="<?= current_url() ?>">Semua Role</option>
                             <?php
-                            $role = model('Role')->findAll();
+                            $role = model('Role')->whereNotIn('id', [4, 5])->findAll();
                             foreach ($role as $v) :
                                 $selected = ($get_role == $v['id']) ? 'selected' : '';
                             ?>

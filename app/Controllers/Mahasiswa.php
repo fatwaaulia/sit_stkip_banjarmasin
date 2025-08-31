@@ -12,7 +12,7 @@ class Mahasiswa extends BaseController
     {
         $this->base_name   = 'mahasiswa';
         $this->model_name  = 'Users';
-        $this->upload_path = dirUpload() . $this->base_name . '/';
+        $this->upload_path = dirUpload() . 'users/';
     }
 
     /*--------------------------------------------------------------
@@ -72,7 +72,7 @@ class Mahasiswa extends BaseController
         $base_query = model($this->model_name)->select($select)
         ->where([
             'id_role' => 5,
-            'status !=' => 'Pendaftar',
+            'status !=' => 'Menunggu Konfirmasi',
         ]);
         $limit           = (int)$this->request->getVar('length');
         $offset          = (int)$this->request->getVar('start');
@@ -121,13 +121,35 @@ class Mahasiswa extends BaseController
 
     public function update($id = null)
     {
+        $find_data = model($this->model_name)->find($id);
+
         $rules = [
             'nomor_identitas' => "required|is_unique[users.nomor_identitas,id,$id]",
-            'nama'            => 'required',
-            'jenis_kelamin'   => 'required',
-            'email'           => 'permit_empty|valid_email',
-            'no_hp'           => 'permit_empty|numeric',
-            'kelas'           => 'required',
+            'nama'             => 'required',
+            'jenis_kelamin'    => 'required',
+            'tempat_lahir'     => 'required',
+            'tanggal_lahir'    => 'required',
+            'agama'            => 'required',
+            'alamat'           => 'required|max_length[255]',
+            'status_perkawinan' => 'required',
+            'kewarganegaraan'  => 'required',
+            'email'            => "required|valid_email|is_unique[users.email,id,$id]",
+            'no_hp'            => 'required|numeric',
+            'asal_sekolah'     => 'required',
+            'nomor_ijazah'     => 'required',
+            'tahun_ijazah'     => 'required',
+            'nilai_rata_rata'  => 'required',
+            'nama_ayah'        => 'required',
+            'no_hp_ayah'       => 'required',
+            'pekerjaan_ayah'   => 'required',
+            'nama_ibu'         => 'required',
+            'no_hp_ibu'        => 'required',
+            'pekerjaan_ibu'    => 'required',
+            'nama_wali'        => 'required',
+            'no_hp_wali'       => 'required',
+            'pekerjaan_wali'   => 'required',
+            'foto'             => 'max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpeg]|is_image[foto]',
+            'biaya_pendaftaran' => 'required',
             'biaya_almamater'   => 'required',
             'biaya_ktm'         => 'required',
             'biaya_uang_gedung' => 'required',
@@ -153,19 +175,49 @@ class Mahasiswa extends BaseController
         }
 
         // Lolos Validasi
+        $foto = $this->request->getFile('foto');
+        if ($foto->isValid()) {
+            $filename_foto = $find_data['foto'] ?: $foto->getRandomName();
+            if ($foto->getExtension() != 'jpg') {
+                $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);
+            }
+            compressConvertImage($foto, $this->upload_path, $filename_foto);
+        } else {
+            $filename_foto = $find_data['foto'];
+        }
+
         $spp = model('TarifSpp')->find($this->request->getVar('spp'));
         $nomor_identitas = $this->request->getVar('nomor_identitas');
         $data = [
             'nomor_identitas' => $nomor_identitas,
+            'foto' => $filename_foto,
+
             'nama'            => $this->request->getVar('nama'),
             'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
             'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
             'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
+            'agama'           => $this->request->getVar('agama'),
             'alamat'          => $this->request->getVar('alamat'),
+            'status_perkawinan' => $this->request->getVar('status_perkawinan'),
+            'kewarganegaraan'   => $this->request->getVar('kewarganegaraan'),
             'email'           => $this->request->getVar('email'),
             'no_hp'           => $this->request->getVar('no_hp'),
-            'semester'        => $this->request->getVar('semester'),
-            'kelas'           => $this->request->getVar('kelas'),
+            'asal_sekolah'    => $this->request->getVar('asal_sekolah'),
+            'nomor_ijazah'    => $this->request->getVar('nomor_ijazah'),
+            'tahun_ijazah'    => $this->request->getVar('tahun_ijazah'),
+            'nilai_rata_rata' => $this->request->getVar('nilai_rata_rata'),
+
+            'nama_ayah' => $this->request->getVar('nama_ayah'),
+            'no_hp_ayah' => $this->request->getVar('no_hp_ayah'),
+            'pekerjaan_ayah' => $this->request->getVar('pekerjaan_ayah'),
+            'nama_ibu' => $this->request->getVar('nama_ibu'),
+            'no_hp_ibu' => $this->request->getVar('no_hp_ibu'),
+            'pekerjaan_ibu' => $this->request->getVar('pekerjaan_ibu'),
+            'nama_wali' => $this->request->getVar('nama_wali'),
+            'no_hp_wali' => $this->request->getVar('no_hp_wali'),
+            'pekerjaan_wali' => $this->request->getVar('pekerjaan_wali'),
+
+            'biaya_pendaftaran' => $this->request->getVar('biaya_pendaftaran',FILTER_SANITIZE_NUMBER_INT),
             'biaya_almamater'   => $this->request->getVar('biaya_almamater',FILTER_SANITIZE_NUMBER_INT),
             'biaya_ktm'         => $this->request->getVar('biaya_ktm', FILTER_SANITIZE_NUMBER_INT),
             'biaya_uang_gedung' => $this->request->getVar('biaya_uang_gedung', FILTER_SANITIZE_NUMBER_INT),

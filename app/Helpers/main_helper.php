@@ -152,16 +152,16 @@ function menuSidebar()
 			'title'	=> 'Dashboard',
 			'icon'	=> 'fa-solid fa-chart-line',
 			'url'	=> base_url(userSession('slug_role')) . '/dashboard',
-			'role'	=> [1, 2, 3, 5],
+			'role'	=> [1, 2, 3, 4, 5, 6],
 			'type'	=> 'no-collapse',
 		],
-		[
-			'title'	=> 'Beranda',
-			'icon'	=> 'fa-solid fa-house',
-			'url'	=> base_url('kalender-akademik'),
-			'role'	=> [1, 2, 3, 4, 5],
-			'type'	=> 'no-collapse',
-		],
+		// [
+		// 	'title'	=> 'Beranda',
+		// 	'icon'	=> 'fa-solid fa-house',
+		// 	'url'	=> base_url('laman-akreditas'),
+		// 	'role'	=> [1, 2, 3, 4, 5, 6],
+		// 	'type'	=> 'no-collapse',
+		// ],
         [
 			'title'	=> 'KEUANGAN',
 			'role'	=> [1, 2],
@@ -270,28 +270,35 @@ function menuSidebar()
 		],
         [
 			'title'	=> 'STAFF AKADEMIK',
-			'role'	=> [1],
+			'role'	=> [1, 6],
 			'type'	=> 'heading',
 		],
         [
 			'title'	=> 'Pendaftar Mahasiswa',
 			'icon'	=> 'fa-solid fa-address-card',
 			'url'	=> base_url(userSession('slug_role')) . '/pendaftar-mahasiswa',
-			'role'	=> [1, 3],
+			'role'	=> [1, 6],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Mahasiswa',
 			'icon'	=> 'fa-solid fa-address-card',
 			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa',
-			'role'	=> [1, 3],
+			'role'	=> [1, 6],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Mahasiswa Cuti / DO',
 			'icon'	=> 'fa-solid fa-toggle-off',
 			'url'	=> base_url() . userSession('slug_role') . '/status-mahasiswa',
-			'role'	=> [1],
+			'role'	=> [1, 6],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Dosen',
+			'icon'	=> 'fa-solid fa-address-card',
+			'url'	=> base_url(userSession('slug_role')) . '/dosen',
+			'role'	=> [1, 3, 6],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -299,13 +306,13 @@ function menuSidebar()
 			'role'	=> [1, 2, 3],
 			'type'	=> 'heading',
 		],
-		[
-			'title'	=> 'Role',
-			'icon'	=> 'fa-solid fa-user-tag',
-			'url'	=> base_url(userSession('slug_role')) . '/role',
-			'role'	=> [1],
-			'type'	=> 'no-collapse',
-		],
+		// [
+		// 	'title'	=> 'Role',
+		// 	'icon'	=> 'fa-solid fa-user-tag',
+		// 	'url'	=> base_url(userSession('slug_role')) . '/role',
+		// 	'role'	=> [1],
+		// 	'type'	=> 'no-collapse',
+		// ],
 		[
 			'title'	=> 'User Management',
 			'icon'	=> 'fa-solid fa-user-group',
@@ -328,13 +335,6 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
 		[
-			'title'	=> 'Dosen',
-			'icon'	=> 'fa-solid fa-address-card',
-			'url'	=> base_url(userSession('slug_role')) . '/dosen',
-			'role'	=> [1, 3],
-			'type'	=> 'no-collapse',
-		],
-		[
 			'title'	=> 'Tarif SPP',
 			'icon'	=> 'fa-solid fa-tag',
 			'url'	=> base_url(userSession('slug_role')) . '/tarif-spp',
@@ -350,7 +350,7 @@ function menuSidebar()
 		],
 		[
 			'title'	=> 'AKUN',
-			'role'	=> [1, 2, 3, 5],
+			'role'	=> [1, 2, 3, 4, 5, 6],
 			'type'	=> 'heading',
 		],
         [
@@ -371,14 +371,14 @@ function menuSidebar()
 			'title'	=> 'Profil',
 			'icon'	=> 'fa-solid fa-user',
 			'url'	=> base_url(userSession('slug_role')) . '/profile',
-			'role'	=> [1, 2, 3],
+			'role'	=> [1],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Keluar',
 			'icon'	=> 'fa-solid fa-arrow-right-from-bracket',
 			'url'	=> base_url('logout'),
-			'role'	=> [1, 2, 3, 5],
+			'role'	=> [1, 2, 3, 4, 5, 6],
 			'type'	=> 'no-collapse',
 		],
 	];
@@ -424,7 +424,9 @@ function biayaKuliahMahasiswa($id_mahasiswa, $jenis_tagihan)
     }
 
     // Tagihan Maba
-    if ($jenis_tagihan == 'ALMAMATER') {
+    if ($jenis_tagihan == 'PENDAFTARAN') {
+        $biaya = $mahasiswa['biaya_pendaftaran'];
+    } elseif ($jenis_tagihan == 'ALMAMATER') {
         $biaya = $mahasiswa['biaya_almamater'];
     } elseif ($jenis_tagihan == 'KTM') {
         $biaya = $mahasiswa['biaya_ktm'];

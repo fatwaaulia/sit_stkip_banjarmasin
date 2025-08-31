@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 30, 2025 at 03:05 PM
--- Server version: 8.0.30
--- PHP Version: 8.3.9
+-- Waktu pembuatan: 31 Agu 2025 pada 15.18
+-- Versi server: 8.0.30
+-- Versi PHP: 8.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_settings`
+-- Struktur dari tabel `app_settings`
 --
 
 CREATE TABLE `app_settings` (
@@ -49,7 +49,7 @@ CREATE TABLE `app_settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `app_settings`
+-- Dumping data untuk tabel `app_settings`
 --
 
 INSERT INTO `app_settings` (`id`, `nama_aplikasi`, `nama_perusahaan`, `deskripsi`, `logo`, `favicon`, `no_hp`, `alamat`, `maps`, `ts_2_tanggal_awal`, `ts_2_tanggal_akhir`, `ts_1_tanggal_awal`, `ts_1_tanggal_akhir`, `ts_tanggal_awal`, `ts_tanggal_akhir`, `buka_pendaftaran_mahasiswa`, `created_at`, `updated_at`) VALUES
@@ -58,7 +58,7 @@ INSERT INTO `app_settings` (`id`, `nama_aplikasi`, `nama_perusahaan`, `deskripsi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jadwal_kegiatan`
+-- Struktur dari tabel `jadwal_kegiatan`
 --
 
 CREATE TABLE `jadwal_kegiatan` (
@@ -71,7 +71,7 @@ CREATE TABLE `jadwal_kegiatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `jadwal_kegiatan`
+-- Dumping data untuk tabel `jadwal_kegiatan`
 --
 
 INSERT INTO `jadwal_kegiatan` (`id`, `kategori`, `judul`, `tautan`, `created_at`, `updated_at`) VALUES
@@ -80,7 +80,7 @@ INSERT INTO `jadwal_kegiatan` (`id`, `kategori`, `judul`, `tautan`, `created_at`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jadwal_kuliah`
+-- Struktur dari tabel `jadwal_kuliah`
 --
 
 CREATE TABLE `jadwal_kuliah` (
@@ -92,7 +92,7 @@ CREATE TABLE `jadwal_kuliah` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `jadwal_kuliah`
+-- Dumping data untuk tabel `jadwal_kuliah`
 --
 
 INSERT INTO `jadwal_kuliah` (`id`, `judul`, `tautan`, `created_at`, `updated_at`) VALUES
@@ -101,30 +101,30 @@ INSERT INTO `jadwal_kuliah` (`id`, `judul`, `tautan`, `created_at`, `updated_at`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kalender_akademik`
+-- Struktur dari tabel `kalender_akademik`
 --
 
 CREATE TABLE `kalender_akademik` (
   `id` bigint NOT NULL,
   `judul` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `gambar` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `kalender_akademik`
+-- Dumping data untuk tabel `kalender_akademik`
 --
 
-INSERT INTO `kalender_akademik` (`id`, `judul`, `gambar`, `created_at`, `updated_at`) VALUES
-(1, 'Kalender Akademik Semester Ganjil Tahun 2024-2025', '1755644878_7bfb72fc1b9ffc4f3898.jpg', '2025-08-20 06:07:59', '2025-08-28 21:03:39'),
-(2, 'Kalender Akademik Semester Genap Tahun 2024-2025', '1756389871_cbc7eff0e07706e086a1.jpg', '2025-08-28 21:04:31', '2025-08-28 21:04:31'),
-(3, 'Kalender Akademik Semester Ganjil Tahun 2025-2026', '1756389903_9a346bfa740dbd83da8f.jpg', '2025-08-28 21:05:03', '2025-08-28 21:05:03');
+INSERT INTO `kalender_akademik` (`id`, `judul`, `tautan`, `created_at`, `updated_at`) VALUES
+(1, 'Kalender Akademik Semester Ganjil Tahun 2024-2025', 'https://www.youtube.com/', '2025-08-20 06:07:59', '2025-08-31 06:31:22'),
+(2, 'Kalender Akademik Semester Genap Tahun 2024-2025', 'https://www.youtube.com/', '2025-08-28 21:04:31', '2025-08-31 06:31:15'),
+(3, 'Kalender Akademik Semester Ganjil Tahun 2025-2026', 'https://www.youtube.com/watch?v=sWeVcbGhBv0&list=RDsWeVcbGhBv0&start_radio=1', '2025-08-28 21:05:03', '2025-08-31 06:31:07');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kategori_dana_masuk`
+-- Struktur dari tabel `kategori_dana_masuk`
 --
 
 CREATE TABLE `kategori_dana_masuk` (
@@ -135,7 +135,7 @@ CREATE TABLE `kategori_dana_masuk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `kategori_dana_masuk`
+-- Dumping data untuk tabel `kategori_dana_masuk`
 --
 
 INSERT INTO `kategori_dana_masuk` (`id`, `nama`, `created_at`, `updated_at`) VALUES
@@ -148,7 +148,7 @@ INSERT INTO `kategori_dana_masuk` (`id`, `nama`, `created_at`, `updated_at`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kategori_penyusutan_inventaris`
+-- Struktur dari tabel `kategori_penyusutan_inventaris`
 --
 
 CREATE TABLE `kategori_penyusutan_inventaris` (
@@ -159,7 +159,7 @@ CREATE TABLE `kategori_penyusutan_inventaris` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `kategori_penyusutan_inventaris`
+-- Dumping data untuk tabel `kategori_penyusutan_inventaris`
 --
 
 INSERT INTO `kategori_penyusutan_inventaris` (`id`, `nama`, `created_at`, `updated_at`) VALUES
@@ -172,7 +172,7 @@ INSERT INTO `kategori_penyusutan_inventaris` (`id`, `nama`, `created_at`, `updat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `keuangan`
+-- Struktur dari tabel `keuangan`
 --
 
 CREATE TABLE `keuangan` (
@@ -192,7 +192,7 @@ CREATE TABLE `keuangan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `keuangan`
+-- Dumping data untuk tabel `keuangan`
 --
 
 INSERT INTO `keuangan` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`, `nominal`, `id_sumber_dana`, `nama_sumber_dana`, `catatan`, `tanggal`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
@@ -208,7 +208,7 @@ INSERT INTO `keuangan` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `log_keuangan`
+-- Struktur dari tabel `log_keuangan`
 --
 
 CREATE TABLE `log_keuangan` (
@@ -232,7 +232,7 @@ CREATE TABLE `log_keuangan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `log_keuangan`
+-- Dumping data untuk tabel `log_keuangan`
 --
 
 INSERT INTO `log_keuangan` (`id`, `id_keuangan`, `jenis_keuangan`, `id_kategori_dana_masuk`, `nama_kategori_dana_masuk`, `id_sumber_dana`, `nama_sumber_dana`, `nominal_sebelum`, `nominal_setelah`, `catatan_sebelum`, `catatan_setelah`, `tanggal_sebelum`, `tanggal_setelah`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
@@ -241,7 +241,7 @@ INSERT INTO `log_keuangan` (`id`, `id_keuangan`, `jenis_keuangan`, `id_kategori_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `log_login`
+-- Struktur dari tabel `log_login`
 --
 
 CREATE TABLE `log_login` (
@@ -257,7 +257,7 @@ CREATE TABLE `log_login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `log_login`
+-- Dumping data untuk tabel `log_login`
 --
 
 INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `ip_address`, `status`, `created_at`, `updated_at`) VALUES
@@ -414,12 +414,22 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (170, 3, 2, 'Keuangan', 'keuangan', '::1', 'Success', '2025-08-30 05:26:21', '2025-08-30 05:26:21'),
 (171, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-30 06:33:42', '2025-08-30 06:33:42'),
 (172, 0, 0, '', 'superadmin', '::1', 'Failed', '2025-08-30 16:36:01', '2025-08-30 16:36:01'),
-(173, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-30 16:36:05', '2025-08-30 16:36:05');
+(173, 1, 1, 'Admin', 'admin', '::1', 'Success', '2025-08-30 16:36:05', '2025-08-30 16:36:05'),
+(174, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-08-31 05:49:02', '2025-08-31 05:49:02'),
+(175, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-08-31 10:34:13', '2025-08-31 10:34:13'),
+(176, 4, 3, 'Waka Akademik', 'wakaakademik', '::1', 'Success', '2025-08-31 10:56:12', '2025-08-31 10:56:12'),
+(177, 10, 6, 'Staff Akademik', 'staffakademik', '::1', 'Success', '2025-08-31 17:01:28', '2025-08-31 17:01:28'),
+(178, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-08-31 17:58:30', '2025-08-31 17:58:30'),
+(179, 5, 5, 'Fatwa Aulia', '362055401093', '::1', 'Failed', '2025-08-31 20:41:09', '2025-08-31 20:41:09'),
+(180, 5, 5, 'Fatwa Aulia', '362055401093', '::1', 'Success', '2025-08-31 20:41:26', '2025-08-31 20:41:26'),
+(181, 5, 5, 'Fatwa Aulia', '362055401093', '::1', 'Failed', '2025-08-31 20:41:38', '2025-08-31 20:41:38'),
+(182, 0, 0, '', '', '', 'Failed', '2025-08-31 20:45:05', '2025-08-31 20:45:05'),
+(183, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-08-31 21:54:48', '2025-08-31 21:54:48');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `master_dana`
+-- Struktur dari tabel `master_dana`
 --
 
 CREATE TABLE `master_dana` (
@@ -435,7 +445,7 @@ CREATE TABLE `master_dana` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `master_dana`
+-- Dumping data untuk tabel `master_dana`
 --
 
 INSERT INTO `master_dana` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`, `nama`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
@@ -469,7 +479,7 @@ INSERT INTO `master_dana` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dan
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pembayaran_mahasiswa`
+-- Struktur dari tabel `pembayaran_mahasiswa`
 --
 
 CREATE TABLE `pembayaran_mahasiswa` (
@@ -494,10 +504,17 @@ CREATE TABLE `pembayaran_mahasiswa` (
   `updated_by` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `pembayaran_mahasiswa`
+--
+
+INSERT INTO `pembayaran_mahasiswa` (`id`, `id_tagihan_mahasiswa`, `jenis_tagihan_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `id_mahasiswa`, `nama_mahasiswa`, `nomor_identitas_mahasiswa`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `nominal`, `status`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(6, 7, 'PENDAFTARAN', 3, '2025/2026', 'Ganjil', 5, 'Fatwa Aulia', '362055401093', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 50000, 'Lunas', '2025-08-31 20:29:24', '2025-08-31 20:29:24', '1', '');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `penyusutan_inventaris`
+-- Struktur dari tabel `penyusutan_inventaris`
 --
 
 CREATE TABLE `penyusutan_inventaris` (
@@ -514,7 +531,7 @@ CREATE TABLE `penyusutan_inventaris` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `penyusutan_inventaris`
+-- Dumping data untuk tabel `penyusutan_inventaris`
 --
 
 INSERT INTO `penyusutan_inventaris` (`id`, `id_kategori`, `nama_kategori`, `nama_barang`, `unit`, `tahun_perolehan`, `umur_ekonomis`, `harga_perolehan`, `created_at`, `updated_at`) VALUES
@@ -629,7 +646,7 @@ INSERT INTO `penyusutan_inventaris` (`id`, `id_kategori`, `nama_kategori`, `nama
 -- --------------------------------------------------------
 
 --
--- Table structure for table `program_studi`
+-- Struktur dari tabel `program_studi`
 --
 
 CREATE TABLE `program_studi` (
@@ -642,7 +659,7 @@ CREATE TABLE `program_studi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `program_studi`
+-- Dumping data untuk tabel `program_studi`
 --
 
 INSERT INTO `program_studi` (`id`, `jenjang`, `nama`, `singkatan`, `created_at`, `updated_at`) VALUES
@@ -653,7 +670,7 @@ INSERT INTO `program_studi` (`id`, `jenjang`, `nama`, `singkatan`, `created_at`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role`
+-- Struktur dari tabel `role`
 --
 
 CREATE TABLE `role` (
@@ -663,7 +680,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `role`
+-- Dumping data untuk tabel `role`
 --
 
 INSERT INTO `role` (`id`, `nama`, `slug`) VALUES
@@ -677,7 +694,7 @@ INSERT INTO `role` (`id`, `nama`, `slug`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `status_mahasiswa`
+-- Struktur dari tabel `status_mahasiswa`
 --
 
 CREATE TABLE `status_mahasiswa` (
@@ -703,7 +720,7 @@ CREATE TABLE `status_mahasiswa` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tagihan_mahasiswa`
+-- Struktur dari tabel `tagihan_mahasiswa`
 --
 
 CREATE TABLE `tagihan_mahasiswa` (
@@ -725,7 +742,7 @@ CREATE TABLE `tagihan_mahasiswa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tagihan_mahasiswa`
+-- Dumping data untuk tabel `tagihan_mahasiswa`
 --
 
 INSERT INTO `tagihan_mahasiswa` (`id`, `kategori`, `jenis`, `json_id_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `periode_mulai_tahun_akademik`, `periode_selesai_tahun_akademik`, `json_biaya`, `biaya_yudisium_wisuda`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
@@ -737,7 +754,7 @@ INSERT INTO `tagihan_mahasiswa` (`id`, `kategori`, `jenis`, `json_id_mahasiswa`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tahun_akademik`
+-- Struktur dari tabel `tahun_akademik`
 --
 
 CREATE TABLE `tahun_akademik` (
@@ -751,7 +768,7 @@ CREATE TABLE `tahun_akademik` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tahun_akademik`
+-- Dumping data untuk tabel `tahun_akademik`
 --
 
 INSERT INTO `tahun_akademik` (`id`, `tahun_akademik`, `tipe`, `periode_mulai`, `periode_selesai`, `created_at`, `updated_at`) VALUES
@@ -762,7 +779,7 @@ INSERT INTO `tahun_akademik` (`id`, `tahun_akademik`, `tipe`, `periode_mulai`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tarif_spp`
+-- Struktur dari tabel `tarif_spp`
 --
 
 CREATE TABLE `tarif_spp` (
@@ -782,7 +799,7 @@ CREATE TABLE `tarif_spp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tarif_spp`
+-- Dumping data untuk tabel `tarif_spp`
 --
 
 INSERT INTO `tarif_spp` (`id`, `kode`, `nama`, `biaya`, `biaya_uts`, `biaya_uas`, `biaya_ldkm`, `biaya_mbkm`, `biaya_bimbingan_skripsi`, `biaya_seminar_proposal`, `biaya_sidang_skripsi`, `created_at`, `updated_at`) VALUES
@@ -794,7 +811,7 @@ INSERT INTO `tarif_spp` (`id`, `kode`, `nama`, `biaya`, `biaya_uts`, `biaya_uas`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -857,261 +874,265 @@ CREATE TABLE `users` (
   `biaya_sidang_skripsi` int NOT NULL,
   `biaya_yudisium` int NOT NULL,
   `biaya_wisuda` int NOT NULL,
-  `status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `token_reset_password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `token_reset_password_at` datetime DEFAULT NULL,
+  `mendaftar_at` datetime DEFAULT NULL,
+  `diterima_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `username`, `email`, `password`, `foto`, `jenis_kelamin`, `alamat`, `no_hp`, `nomor_identitas`, `tempat_lahir`, `tanggal_lahir`, `agama`, `status_perkawinan`, `kewarganegaraan`, `asal_sekolah`, `nomor_ijazah`, `tahun_ijazah`, `nilai_rata_rata`, `nama_ayah`, `no_hp_ayah`, `pekerjaan_ayah`, `nama_ibu`, `no_hp_ibu`, `pekerjaan_ibu`, `nama_wali`, `no_hp_wali`, `pekerjaan_wali`, `sumber_informasi`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `id_tahun_akademik_diterima`, `tahun_akademik_diterima`, `tipe_tahun_akademik`, `id_tahun_akademik_lulus`, `tahun_akademik_lulus`, `tipe_tahun_akademik_lulus`, `semester`, `biaya_pendaftaran`, `biaya_almamater`, `biaya_ktm`, `biaya_uang_gedung`, `id_spp`, `nama_spp`, `biaya_spp`, `biaya_uts`, `biaya_uas`, `biaya_ldkm`, `biaya_mbkm`, `biaya_bimbingan_skripsi`, `biaya_seminar_proposal`, `biaya_sidang_skripsi`, `biaya_yudisium`, `biaya_wisuda`, `status`, `token_reset_password`, `token_reset_password_at`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Superadmin', 'superadmin', 'Admin', 'admin', '', '$2y$10$mVEvojJB5S6yx0DpBklmYOFSmvI6k8WqqKuAZxLu7w3dFGBXxXLqa', '1701744923_ef8be205f9a3eefa1576.jpg', 'Laki-laki', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', NULL, '2022-10-21 14:14:28', '2025-08-30 20:29:56'),
-(3, 2, 'Keuangan', 'keuangan', 'Keuangan', 'keuangan', '', '$2y$10$O/h9YibyABmarCDRvVzrfe23Y0qcIF5VHLFccOijKUtjTHYDS0MsC', '', 'Laki-laki', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, '2024-04-27 20:10:01', '2025-08-17 12:55:09'),
-(4, 3, 'Waka Akademik', 'waka-akademik', 'Akademik', 'akademik', '', '$2y$10$ImQAWNG6keTBgvSlIZXZeOoO3U.aH8GcqL1nCamgFHiaunM3dje5.', '', 'Laki-laki', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, '2025-08-18 16:37:32', '2025-08-30 20:30:50'),
-(5, 5, 'Mahasiswa', 'mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '362055401093', 'Banyuwangi', '2001-01-05', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 0, 100000, 25000, 2500000, 3, 'SPP Tarif 3', 2500000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-19 09:56:48', '2025-08-28 17:47:48'),
-(6, 5, 'Mahasiswa', 'mahasiswa', 'Putri Salsabila', '1234567890', 'salsabilla@gmail.com', '$2y$10$DyxkiMlw8hyFGKeKHTGNruqLcg67JQAhVn10os8OxpDegkPpujrDK', '', 'Perempuan', 'Jember', '082634793123', '1234567890', 'Jember', '2002-01-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 0, 50000, 100000, 900000, 2, 'SPP Tarif 2', 4000000, 150000, 200000, 50000, 75000, 50000, 50000, 100000, 150000, 200000, 'Aktif', NULL, NULL, '2025-08-22 10:37:04', '2025-08-22 10:37:04'),
-(7, 5, 'Mahasiswa', 'mahasiswa', 'Sekar Wulandari', '1234567891', '', '$2y$10$RmQ0EQAIEh79XD75kUC0wOm.tX8W5pwS36PLBvIhNYdzKxpUUJCzy', '', 'Perempuan', 'Jl. Soedirman B2', '', '1234567891', 'Surabaya', '2002-02-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 0, 100000, 25000, 2500000, 4, 'SPP Tarif 4', 1000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, '2025-08-27 16:19:12', '2025-08-27 16:59:43'),
-(9, 5, 'Mahasiswa', 'mahasiswa', 'asudgaud', 'fatwaaulia.fy@gmail.com', 'fatwaaulia.fy@gmail.com', '$2y$10$NcaTEJT5vKHapt//7zrlTuvXeHssCQvWye6crbntVvsfIEt3gSAUe', '1756564199_f110e69ae9c6a0d773c5.jpg', 'Laki-laki', 'shduiasdasd', '082345566500', '', 'eihiufhiewf', '2010-12-01', 'Hindu', 'Belum Kawin', 'euiwqieqwe', 'uhquihw9dqhd', 'qidwhiudq', 'qiwdq', 'ihu9wqd', 'idijqoi', '928380', '09ji32id', 'jhiuh9', '9999', '9y889', '9797987', '978978', '979', 'aojsoda', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 100000, 150000, 100000, 2500000, 1, 'SPP Tarif 1', 5000000, 350000, 300000, 200000, 400000, 200000, 200000, 300000, 0, 0, 'Pendaftar', NULL, NULL, '2025-08-30 21:29:59', '2025-08-30 21:29:59');
+INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `username`, `email`, `password`, `foto`, `jenis_kelamin`, `alamat`, `no_hp`, `nomor_identitas`, `tempat_lahir`, `tanggal_lahir`, `agama`, `status_perkawinan`, `kewarganegaraan`, `asal_sekolah`, `nomor_ijazah`, `tahun_ijazah`, `nilai_rata_rata`, `nama_ayah`, `no_hp_ayah`, `pekerjaan_ayah`, `nama_ibu`, `no_hp_ibu`, `pekerjaan_ibu`, `nama_wali`, `no_hp_wali`, `pekerjaan_wali`, `sumber_informasi`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `id_tahun_akademik_diterima`, `tahun_akademik_diterima`, `tipe_tahun_akademik`, `id_tahun_akademik_lulus`, `tahun_akademik_lulus`, `tipe_tahun_akademik_lulus`, `semester`, `biaya_pendaftaran`, `biaya_almamater`, `biaya_ktm`, `biaya_uang_gedung`, `id_spp`, `nama_spp`, `biaya_spp`, `biaya_uts`, `biaya_uas`, `biaya_ldkm`, `biaya_mbkm`, `biaya_bimbingan_skripsi`, `biaya_seminar_proposal`, `biaya_sidang_skripsi`, `biaya_yudisium`, `biaya_wisuda`, `status`, `token_reset_password`, `token_reset_password_at`, `mendaftar_at`, `diterima_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Superadmin', 'superadmin', 'Superadmin', 'superadmin', '', '$2y$10$mVEvojJB5S6yx0DpBklmYOFSmvI6k8WqqKuAZxLu7w3dFGBXxXLqa', '1701744923_ef8be205f9a3eefa1576.jpg', 'Laki-laki', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', NULL, NULL, NULL, '2022-10-21 14:14:28', '2025-08-30 20:29:56'),
+(3, 2, 'Keuangan', 'keuangan', 'Keuangan', 'keuangan', '', '$2y$10$.kbDhl4hTwmXFAdRWuguC.GNtrksW2UZ6aFilRgZ/HkdsSGxT6M9a', '', 'Laki-laki', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2024-04-27 20:10:01', '2025-08-31 10:55:01'),
+(4, 3, 'Waka Akademik', 'waka-akademik', 'Waka Akademik', 'wakaakademik', '', '$2y$10$sSUYi5pEYrhk3NnzEviHAeWSBUQPbubKEfeFI9p6k/chOZHvaUbA6', '', 'Laki-laki', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-08-18 16:37:32', '2025-08-31 10:55:17'),
+(5, 5, 'Mahasiswa', 'mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '362055401093', 'Banyuwangi', '2001-01-05', 'Islam', 'Belum Kawin', 'Indonesia', 'SMAN 2 GENTENG', '0173081928301', '2019', '80.9', 'Handoko', '097390489324', 'Wiraswasta', 'Nur', '02830948', 'Ibu Rumah Tangga', 'Handoko', '097390489324', 'Wiraswasta', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 50000, 100000, 25000, 2500000, 3, 'SPP Tarif 3', 2500000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, NULL, NULL, '2025-08-19 09:56:48', '2025-08-31 20:30:08'),
+(6, 5, 'Mahasiswa', 'mahasiswa', 'Putri Salsabila', '1234567890', 'salsabilla@gmail.com', '$2y$10$DyxkiMlw8hyFGKeKHTGNruqLcg67JQAhVn10os8OxpDegkPpujrDK', '', 'Perempuan', 'Jember', '082634793123', '1234567890', 'Jember', '2002-01-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 0, 50000, 100000, 900000, 2, 'SPP Tarif 2', 4000000, 150000, 200000, 50000, 75000, 50000, 50000, 100000, 150000, 200000, 'Aktif', NULL, NULL, NULL, NULL, '2025-08-22 10:37:04', '2025-08-22 10:37:04'),
+(7, 5, 'Mahasiswa', 'mahasiswa', 'Sekar Wulandari', '1234567891', 'sekarwulan@gmail.com', '$2y$10$RmQ0EQAIEh79XD75kUC0wOm.tX8W5pwS36PLBvIhNYdzKxpUUJCzy', '1756639577_c596ac0fef04e40b1617.jpg', 'Perempuan', 'Jl. Soedirman B2', '087387492842', '1234567891', 'Surabaya', '2002-02-12', 'Islam', 'Kawin', 'Indonesia', 'SMAN 2 Malang', '023904832', '2020', '88.2', 'Mamad', '018273918723', 'Kades', 'Sri', '0812739123', 'Ibu Rumah Tangga', 'Mamad', '018273918723', 'Kades', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 75000, 100000, 25000, 2500000, 4, 'SPP Tarif 4', 1000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, NULL, NULL, '2025-08-27 16:19:12', '2025-08-31 18:29:21'),
+(9, 5, 'Mahasiswa', 'mahasiswa', 'asudgaud', 'fatwaaulia.fy@gmail.com', 'tes@gmail.com', '$2y$10$NcaTEJT5vKHapt//7zrlTuvXeHssCQvWye6crbntVvsfIEt3gSAUe', '1756564199_f110e69ae9c6a0d773c5.jpg', 'Laki-laki', 'shduiasdasd', '082345566500', '', 'eihiufhiewf', '2010-12-01', 'Hindu', 'Belum Kawin', 'euiwqieqwe', 'uhquihw9dqhd', 'qidwhiudq', 'qiwdq', 'ihu9wqd', 'idijqoi', '928380', '09ji32id', 'jhiuh9', '9999', '9y889', '9797987', '978978', '979', 'aojsoda', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 100000, 150000, 100000, 2500000, 1, 'SPP Tarif 1', 5000000, 350000, 300000, 200000, 400000, 200000, 200000, 300000, 0, 0, 'Menunggu Konfirmasi', NULL, NULL, NULL, NULL, '2025-08-30 21:29:59', '2025-08-30 21:29:59'),
+(10, 6, 'Staff Akademik', 'staff-akademik', 'Staff Akademik', 'staffakademik', '', '$2y$10$tRwnZaG5enq2fOjhRISN3.BwTKUhujw2.MwWOvU.RwAZSD8YbPJ1S', '', 'Laki-laki', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-08-31 10:54:21', '2025-08-31 10:54:21'),
+(11, 5, 'Mahasiswa', 'mahasiswa', 'Sefia Maharani', 'sefia@gmail.com', 'sefia@gmail.com', '$2y$10$VQLhbm64hdeYRJZdI9Jd9uak7WULV/2ux68J455KBTeqUHAsC8.aC', '1756651962_3017f16659c67615995d.jpg', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran', '123', '', 'Banyuwangi', '2001-02-01', 'Islam', 'Belum Kawin', 'Indonesia', 'MAN', '038409823904', '2019', '99', 'jasjd', '237492', 'AJDOIWQ', 'ajskd', '012391', 'djknjke', 'hdw', '234', 'jadj', 'ajsdjoa', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 100000, 150000, 100000, 2500000, 2, 'SPP Tarif 2', 4000000, 375000, 300000, 150000, 300000, 120000, 100000, 300000, 0, 0, 'Menunggu Konfirmasi', NULL, NULL, '2025-08-31 21:52:43', NULL, '2025-08-31 21:52:43', '2025-08-31 21:52:43');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `app_settings`
+-- Indeks untuk tabel `app_settings`
 --
 ALTER TABLE `app_settings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `jadwal_kegiatan`
+-- Indeks untuk tabel `jadwal_kegiatan`
 --
 ALTER TABLE `jadwal_kegiatan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `jadwal_kuliah`
+-- Indeks untuk tabel `jadwal_kuliah`
 --
 ALTER TABLE `jadwal_kuliah`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `kalender_akademik`
+-- Indeks untuk tabel `kalender_akademik`
 --
 ALTER TABLE `kalender_akademik`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `kategori_dana_masuk`
+-- Indeks untuk tabel `kategori_dana_masuk`
 --
 ALTER TABLE `kategori_dana_masuk`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `kategori_penyusutan_inventaris`
+-- Indeks untuk tabel `kategori_penyusutan_inventaris`
 --
 ALTER TABLE `kategori_penyusutan_inventaris`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `keuangan`
+-- Indeks untuk tabel `keuangan`
 --
 ALTER TABLE `keuangan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `log_keuangan`
+-- Indeks untuk tabel `log_keuangan`
 --
 ALTER TABLE `log_keuangan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `log_login`
+-- Indeks untuk tabel `log_login`
 --
 ALTER TABLE `log_login`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `master_dana`
+-- Indeks untuk tabel `master_dana`
 --
 ALTER TABLE `master_dana`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pembayaran_mahasiswa`
+-- Indeks untuk tabel `pembayaran_mahasiswa`
 --
 ALTER TABLE `pembayaran_mahasiswa`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `penyusutan_inventaris`
+-- Indeks untuk tabel `penyusutan_inventaris`
 --
 ALTER TABLE `penyusutan_inventaris`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `program_studi`
+-- Indeks untuk tabel `program_studi`
 --
 ALTER TABLE `program_studi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `role`
+-- Indeks untuk tabel `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `status_mahasiswa`
+-- Indeks untuk tabel `status_mahasiswa`
 --
 ALTER TABLE `status_mahasiswa`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tagihan_mahasiswa`
+-- Indeks untuk tabel `tagihan_mahasiswa`
 --
 ALTER TABLE `tagihan_mahasiswa`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tahun_akademik`
+-- Indeks untuk tabel `tahun_akademik`
 --
 ALTER TABLE `tahun_akademik`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tarif_spp`
+-- Indeks untuk tabel `tarif_spp`
 --
 ALTER TABLE `tarif_spp`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `app_settings`
+-- AUTO_INCREMENT untuk tabel `app_settings`
 --
 ALTER TABLE `app_settings`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `jadwal_kegiatan`
+-- AUTO_INCREMENT untuk tabel `jadwal_kegiatan`
 --
 ALTER TABLE `jadwal_kegiatan`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `jadwal_kuliah`
+-- AUTO_INCREMENT untuk tabel `jadwal_kuliah`
 --
 ALTER TABLE `jadwal_kuliah`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `kalender_akademik`
+-- AUTO_INCREMENT untuk tabel `kalender_akademik`
 --
 ALTER TABLE `kalender_akademik`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `kategori_dana_masuk`
+-- AUTO_INCREMENT untuk tabel `kategori_dana_masuk`
 --
 ALTER TABLE `kategori_dana_masuk`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `kategori_penyusutan_inventaris`
+-- AUTO_INCREMENT untuk tabel `kategori_penyusutan_inventaris`
 --
 ALTER TABLE `kategori_penyusutan_inventaris`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `keuangan`
+-- AUTO_INCREMENT untuk tabel `keuangan`
 --
 ALTER TABLE `keuangan`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `log_keuangan`
+-- AUTO_INCREMENT untuk tabel `log_keuangan`
 --
 ALTER TABLE `log_keuangan`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `log_login`
+-- AUTO_INCREMENT untuk tabel `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
 
 --
--- AUTO_INCREMENT for table `master_dana`
+-- AUTO_INCREMENT untuk tabel `master_dana`
 --
 ALTER TABLE `master_dana`
   MODIFY `id` smallint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
--- AUTO_INCREMENT for table `pembayaran_mahasiswa`
+-- AUTO_INCREMENT untuk tabel `pembayaran_mahasiswa`
 --
 ALTER TABLE `pembayaran_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `penyusutan_inventaris`
+-- AUTO_INCREMENT untuk tabel `penyusutan_inventaris`
 --
 ALTER TABLE `penyusutan_inventaris`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
--- AUTO_INCREMENT for table `program_studi`
+-- AUTO_INCREMENT untuk tabel `program_studi`
 --
 ALTER TABLE `program_studi`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `role`
+-- AUTO_INCREMENT untuk tabel `role`
 --
 ALTER TABLE `role`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `status_mahasiswa`
+-- AUTO_INCREMENT untuk tabel `status_mahasiswa`
 --
 ALTER TABLE `status_mahasiswa`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `tagihan_mahasiswa`
+-- AUTO_INCREMENT untuk tabel `tagihan_mahasiswa`
 --
 ALTER TABLE `tagihan_mahasiswa`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `tahun_akademik`
+-- AUTO_INCREMENT untuk tabel `tahun_akademik`
 --
 ALTER TABLE `tahun_akademik`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `tarif_spp`
+-- AUTO_INCREMENT untuk tabel `tarif_spp`
 --
 ALTER TABLE `tarif_spp`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

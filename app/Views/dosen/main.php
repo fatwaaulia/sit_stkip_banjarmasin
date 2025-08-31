@@ -21,6 +21,7 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                                 <div class="col-6 col-md-5 col-lg-4 col-xl-3">
                                     <label for="program_studi" class="form-label">Program Studi</label>
                                     <select class="form-select" id="program_studi" name="program_studi">
+                                        <option value="">Pilih</option>
                                         <?php
                                         $program_studi = model('ProgramStudi')->findAll();
                                         foreach ($program_studi as $v) :

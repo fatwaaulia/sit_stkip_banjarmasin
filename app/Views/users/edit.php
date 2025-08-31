@@ -75,7 +75,7 @@
                                     <label for="id_role" class="form-label">Role</label>
                                     <select class="form-select" id="id_role" name="id_role">
                                         <?php
-                                        $role = model('Role')->where('id !=', 1)->findAll();
+                                        $role = model('Role')->whereNotIn('id', [1, 4, 5])->findAll();
                                         foreach ($role as $v) :
                                             $selected = ($v['id'] == $data['id_role']) ? 'selected' : '';
                                         ?>

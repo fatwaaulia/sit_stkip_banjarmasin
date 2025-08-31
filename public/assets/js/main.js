@@ -1,6 +1,6 @@
 document.addEventListener('input', (e) => {
     if (e.target.name === 'username') {
-        e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '');
+        e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9@.]/g, '');
     }
 });
 

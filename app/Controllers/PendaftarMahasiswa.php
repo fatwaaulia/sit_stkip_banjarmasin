@@ -57,10 +57,8 @@ class PendaftarMahasiswa extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select)
-        ->where([
-            'id_role' => 5,
-            'status' => 'Pendaftar',
-        ]);
+        ->where('id_role', 5)
+        ->whereIn('status', ['Menunggu Konfirmasi', 'Ditolak']);
         $limit           = (int)$this->request->getVar('length');
         $offset          = (int)$this->request->getVar('start');
         $records_total   = $base_query->countAllResults(false);
@@ -92,6 +90,7 @@ class PendaftarMahasiswa extends BaseController
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
+            $data[$key]['mendaftar_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['mendaftar_at'])));
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -112,7 +111,7 @@ class PendaftarMahasiswa extends BaseController
             'alamat'           => 'required|max_length[255]',
             'status_perkawinan' => 'required',
             'kewarganegaraan'  => 'required',
-            'email'            => 'required|valid_email',
+            'email'            => "required|valid_email|is_unique[users.email]",
             'no_hp'            => 'required|numeric',
             'asal_sekolah'     => 'required',
             'nomor_ijazah'     => 'required',
@@ -258,7 +257,7 @@ class PendaftarMahasiswa extends BaseController
             'nomor_ijazah'    => $this->request->getVar('nomor_ijazah'),
             'tahun_ijazah'    => $this->request->getVar('tahun_ijazah'),
             'nilai_rata_rata' => $this->request->getVar('nilai_rata_rata'),
-            
+
             'nama_ayah' => $this->request->getVar('nama_ayah'),
             'no_hp_ayah' => $this->request->getVar('no_hp_ayah'),
             'pekerjaan_ayah' => $this->request->getVar('pekerjaan_ayah'),
@@ -268,7 +267,7 @@ class PendaftarMahasiswa extends BaseController
             'nama_wali' => $this->request->getVar('nama_wali'),
             'no_hp_wali' => $this->request->getVar('no_hp_wali'),
             'pekerjaan_wali' => $this->request->getVar('pekerjaan_wali'),
-            
+
             'id_program_studi'        => $program_studi['id'],
             'jenjang_program_studi'   => $program_studi['jenjang'],
             'nama_program_studi'      => $program_studi['nama'],
@@ -292,38 +291,62 @@ class PendaftarMahasiswa extends BaseController
             'biaya_ktm'         => $biaya_ktm,
             'biaya_uang_gedung' => $biaya_uang_gedung,
 
-            'status' => 'Pendaftar',
+            'status' => 'Menunggu Konfirmasi',
+            'mendaftar_at' => date('Y-m-d H:i:s'),
+            'diterima_at' => null,
         ];
-
-        // return $this->response->setStatusCode(200)->setJSON([
-        //     'data'  => $data,
-        // ]);
 
         model($this->model_name)->insert($data);
 
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Berhasil mendaftar',
-            'route'   => $this->base_route,
+            'route'   => base_url() . 'mendaftar-mahasiswa/detail?email=' . $this->request->getVar('email'),
         ]);
     }
 
     public function update($id = null)
     {
+         $rules = [
+            'status_pendaftaran' => 'required',
+
+        ];
+        if (! $this->validate($rules)) {
+            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
+
+            return $this->response->setStatusCode(400)->setJSON([
+                'status'  => 'error',
+                'message' => 'Data yang dimasukkan tidak valid!',
+                'errors'  => $errors,
+            ]);
+        }
+
         // Lolos Validasi
-        $tahun_akademik = model('TahunAkademik')->orderBy('id DESC')->first();
+        $status_pendaftaran = $this->request->getVar('status_pendaftaran');
+        if ($status_pendaftaran == 'Terima') {
+            $tahun_akademik = model('TahunAkademik')->orderBy('id DESC')->first();
+            $semester = 1;
+            $status = 'Aktif';
+            $diterima_at = date('Y-m-d H:i:s');
+        } else {
+            $semester = 0;
+            $status = 'Ditolak';
+            $diterima_at = null;
+        }
         $data = [
-            'id_tahun_akademik_diterima' => $tahun_akademik['id'],
-            'tahun_akademik_diterima' => $tahun_akademik['tahun_akademik'],
-            'tipe_tahun_akademik' => $tahun_akademik['tipe'],
-            'status' => 'Aktif',
+            'id_tahun_akademik_diterima' => $tahun_akademik['id'] ?? '',
+            'tahun_akademik_diterima' => $tahun_akademik['tahun_akademik'] ?? '',
+            'tipe_tahun_akademik' => $tahun_akademik['tipe'] ?? '',
+            'semester' => $semester,
+            'status' => $status,
+            'diterima_at' => $diterima_at,
         ];
 
-        // model($this->model_name)->update($id, $data);
+        model($this->model_name)->update($id, $data);
 
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
-            'message' => 'Mahasiswa telah Aktif',
+            'message' => 'Status Mahasiswa ' . $status,
             'route'   => $this->base_route,
         ]);
     }

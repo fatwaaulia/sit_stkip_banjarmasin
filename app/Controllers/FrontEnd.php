@@ -33,72 +33,6 @@ class FrontEnd extends BaseController
         return view('frontend/header', $view);
     }
 
-    public function kalenderAkademik()
-    {
-        $data = [
-            'kalender_akademik' => model('KalenderAkademik')->orderBy('id DESC')->limit(6)->findAll(),
-            'kalender_akademik_terbaru' => model('KalenderAkademik')->orderBy('id DESC')->first(),
-            'title' => 'Kalender Akademik',
-        ];
-
-        $view['navbar'] = view('frontend/components/navbar');
-        $view['content'] = view('frontend/kalender_akademik', $data);
-        $view['footer'] = view('frontend/components/footer');
-        return view('frontend/header', $view);
-    }
-
-    public function jadwalKuliah()
-    {
-        $query = $_SERVER['QUERY_STRING'] ? ('?' . $_SERVER['QUERY_STRING']) : '';
-        $data = [
-            'get_data' => base_url('api/jadwal-kuliah') . $query,
-            'title'    => 'Jadwal Kuliah',
-        ];
-
-        $view['navbar'] = view('frontend/components/navbar');
-        $view['content'] = view('frontend/jadwal_kuliah', $data);
-        $view['footer'] = view('frontend/components/footer');
-        return view('frontend/header', $view);
-    }
-
-    public function jadwalKegiatan()
-    {
-        $query = $_SERVER['QUERY_STRING'] ? ('?' . $_SERVER['QUERY_STRING']) : '';
-        $data = [
-            'get_data' => base_url('api/jadwal-kegiatan') . $query,
-            'title'    => 'Jadwal Kegiatan',
-        ];
-
-        $view['navbar'] = view('frontend/components/navbar');
-        $view['content'] = view('frontend/jadwal_kegiatan', $data);
-        $view['footer'] = view('frontend/components/footer');
-        return view('frontend/header', $view);
-    }
-
-    public function perolehanDana()
-    {
-        $data = [
-            'title'    => 'Perolehan Dana',
-        ];
-
-        $view['navbar'] = view('frontend/components/navbar');
-        $view['content'] = view('frontend/perolehan_dana', $data);
-        $view['footer'] = view('frontend/components/footer');
-        return view('frontend/header', $view);
-    }
-
-    public function penggunaanDana()
-    {
-        $data = [
-            'title'    => 'Penggunaan Dana',
-        ];
-
-        $view['navbar'] = view('frontend/components/navbar');
-        $view['content'] = view('frontend/penggunaan_dana', $data);
-        $view['footer'] = view('frontend/components/footer');
-        return view('frontend/header', $view);
-    }
-
     public function mendaftarMahasiswa()
     {
         $data = [
@@ -107,6 +41,38 @@ class FrontEnd extends BaseController
 
         $view['navbar'] = view('frontend/components/navbar');
         $view['content'] = view('frontend/mendaftar_mahasiswa', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
+
+    public function mendaftarMahasiswaDetail()
+    {
+        $email = $this->request->getVar('email', FILTER_SANITIZE_EMAIL);
+
+        $find_data = model('Users')
+        ->where('email', $email)
+        ->whereIn('status', ['Menunggu Konfirmasi', 'Ditolak'])
+        ->first();
+        if (! $find_data) {
+            return redirect()->to(base_url('mendaftar-mahasiswa'))->with('message',
+            '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Pendaftar mahasiswa tidak ditemukan!",
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+            });
+            </script>');
+        }
+        
+        $data = [
+            'title' => 'Detail Pendaftar Mahasiswa - ' . $find_data['nama'],
+            'data'  => $find_data,
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/detail_pendaftar_mahasiswa', $data);
         $view['footer'] = view('frontend/components/footer');
         return view('frontend/header', $view);
     }

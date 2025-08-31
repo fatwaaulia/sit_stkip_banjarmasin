@@ -57,7 +57,7 @@
                                     <select class="form-select" id="id_role" name="id_role">
                                         <option value="">Pilih</option>
                                         <?php
-                                        $role = model('Role')->where('id !=', 1)->findAll();
+                                        $role = model('Role')->whereNotIn('id', [1, 4, 5])->findAll();
                                         foreach ($role as $v) :
                                         ?>
                                         <option value="<?= $v['id'] ?>"><?= $v['nama'] ?></option>

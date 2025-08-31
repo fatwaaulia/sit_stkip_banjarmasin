@@ -30,27 +30,23 @@ table tr td { padding: 6px; }
 <?php
 $kas_bulan_ini = model('Keuangan')
     ->selectSum('nominal')
-    ->where('id_pengguna', userSession('id'))
     ->where("DATE_FORMAT(tanggal, '%Y-%m')", date('Y-m'))
     ->first()['nominal'];
 
 $pemasukan_bulan_ini = model('Keuangan')
     ->selectSum('nominal')
-    ->where('id_pengguna', userSession('id'))
     ->where("DATE_FORMAT(tanggal, '%Y-%m')", date('Y-m'))
     ->where('jenis', 'Masuk')
     ->first()['nominal'];
 
 $pengeluaran_bulan_ini = model('Keuangan')
     ->selectSum('nominal')
-    ->where('id_pengguna', userSession('id'))
     ->where("DATE_FORMAT(tanggal, '%Y-%m')", date('Y-m'))
     ->where('jenis', 'Keluar')
     ->first()['nominal'];
 
 $total_kas = model('Keuangan')
     ->selectSum('nominal')
-    ->where('id_pengguna', userSession('id'))
     ->first()['nominal'];
 ?>
 
