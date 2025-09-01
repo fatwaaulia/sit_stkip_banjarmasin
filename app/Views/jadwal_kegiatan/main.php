@@ -1,13 +1,6 @@
 <?php
-$get_kategori = $_GET['kategori'] ?? '';
-
-$kategori = [
-    'MBKM',
-    'Seminar Proposal', 'Sidang Skripsi'
-];
-
 $is_access = false;
-if (userSession('id_role') == 3) {
+if (in_array(userSession('id_role'), [3])) {
     $is_access = true;
 }
 ?>
@@ -27,32 +20,7 @@ if (userSession('id_role') == 3) {
                 <?php if ($is_access) : ?>
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-lg-10 col-xl-11">
-                        <form action="" method="get">
-                            <div class="row gx-2 gy-3">
-                                <div class="col-6 col-md-5 col-lg-4 col-xl-3">
-                                    <label for="kategori" class="form-label">Kategori</label>
-                                    <select class="form-select" id="kategori" name="kategori">
-                                        <option value="">Semua</option>
-                                        <?php
-                                        foreach ($kategori as $v) :
-                                            $selected = ($v == $get_kategori) ? 'selected' : '';
-                                        ?>
-                                        <option value="<?= $v ?>" <?= $selected ?>><?= $v ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-md-2 col-lg-2 col-xl-2 d-flex justify-content-start align-items-end">
-                                    <button type="submit" class="btn btn-primary me-2 w-100" title="Filter">
-                                        <i class="fa-solid fa-filter"></i>
-                                        <span class="ms-1 d-md-none">Filter</span>
-                                    </button>
-                                    <a href="<?= $base_route ?>" class="btn btn-outline-danger w-100" title="Reset">
-                                        <i class="fa-solid fa-filter-circle-xmark"></i>
-                                        <span class="ms-1 d-md-none">Reset</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
+                        <!--  -->
                     </div>
                     <div class="col-12 col-lg-2 col-xl-1 d-flex justify-content-end align-items-end">
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
@@ -69,27 +37,18 @@ if (userSession('id_role') == 3) {
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label for="kategori" class="form-label">Kategori</label>
-                                                <select class="form-select" id="kategori" name="kategori">
-                                                    <option value="">Pilih</option>
-                                                    <?php
-                                                    foreach ($kategori as $v) :
-                                                    ?>
-                                                    <option value="<?= $v ?>"><?= $v ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
+                                                <input type="text" class="form-control" id="kategori" name="kategori" placeholder="Masukkan kategori">
                                                 <div class="invalid-feedback" id="invalid_kategori"></div>
                                             </div>
                                             <div class="mb-3">
-                                                <div class="mb-3">
-                                                    <label for="judul" class="form-label">Judul</label>
-                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
-                                                    <div class="invalid-feedback" id="invalid_judul"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan SK</label>
-                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
-                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
-                                                </div>
+                                                <label for="judul" class="form-label">Judul</label>
+                                                <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
+                                                <div class="invalid-feedback" id="invalid_judul"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tautan" class="form-label">Tautan SK</label>
+                                                <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
+                                                <div class="invalid-feedback" id="invalid_tautan"></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -118,6 +77,7 @@ if (userSession('id_role') == 3) {
                             <th>Judul</th>
                             <th>Tautan SK</th>
                             <?php if ($is_access) : ?>
+                            <th>Created By</th>
                             <th>Opsi</th>
                             <?php endif; ?>
                         </tr>
@@ -161,6 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
             }, <?php if ($is_access) : ?> {
+                name: 'created_by',
+                data: 'created_by',
+            }, {
                 name: '',
                 data: null,
                 render: renderOpsi,
@@ -191,11 +154,8 @@ function renderOpsi(data) {
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="kategori" class="form-label">Kategori</label>
-                            <select class="form-select" id="kategori" name="kategori">
-                                <option value="">Pilih</option>
-                                ${kategori.map(item => `<option value="${item}" ${item == data.kategori ? 'selected' : ''}>${item}</option>`).join('')}
-                            </select>
-                            <div class="invalid-feedback" id="invalid_jenis"></div>
+                            <input type="text" class="form-control" id="kategori" name="kategori" value="${data.kategori}" placeholder="Masukkan kategori">
+                            <div class="invalid-feedback" id="invalid_kategori"></div>
                         </div>
                         <div class="mb-3">
                             <label for="judul" class="form-label">Judul</label>

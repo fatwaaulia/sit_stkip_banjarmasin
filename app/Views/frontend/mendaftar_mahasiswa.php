@@ -1,4 +1,7 @@
 <?php
+
+use PhpParser\Node\Expr\Empty_;
+
 $tahun_akademik_aktif = model('TahunAkademik')->orderBy('id DESC')->first();
 
 if ($tahun_akademik_aktif) {
@@ -76,6 +79,15 @@ if (!$biaya_pendaftaran || !$biaya_almamater || !$biaya_ktm || !$biaya_uang_gedu
     <div class="row">
         <div class="col-12">
             <h3>Pendaftaran Mahasiswa ditutup.</h3>
+            <?php
+            if (in_array(userSession('id_role'), [1, 2])) {
+                echo empty($biaya_pendaftaran) ? 'TAGIHAN BIAYA PENDAFTAR BELUM DIBUAT.' : ''; echo '<br>';
+                echo empty($biaya_almamater) ? 'TAGIHAN BIAYA ALAMAMATER BELUM DIBUAT.' : ''; echo '<br>';
+                echo empty($biaya_ktm) ? 'TAGIHAN BIAYA KTM BELUM DIBUAT.' : ''; echo '<br>';
+                echo empty($biaya_uang_gedung) ? 'TAGIHAN BIAYA UANG GEDUNG BELUM DIBUAT.' : ''; echo '<br>';
+                echo '<a href="' . base_url(userSession('slug_role')) . '/tagihan-mahasiswa" target="_blank">Buat Tagihan</a>';
+            }
+            ?>
         </div>
     </div>
     <?php else : ?>

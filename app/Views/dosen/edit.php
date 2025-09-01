@@ -86,6 +86,19 @@
                             <textarea class="form-control" id="motto_kerja" name="motto_kerja" rows="3" placeholder="Masukkan motto kerja"><?= $data['motto_kerja'] ?></textarea>
                             <div class="invalid-feedback" id="invalid_motto_kerja"></div>
                         </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Ubah Password</label><span class="text-secondary"> (Opsional)</span>
+                            <div class="mb-2 position-relative">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
+                                <div class="invalid-feedback" id="invalid_password"></div>
+                                <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_password">
+                            </div>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm password">
+                                <div class="invalid-feedback" id="invalid_passconf"></div>
+                                <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
+                            </div>
+                        </div>
                         <div class="mt-3 float-end">
                             <a href="<?= $base_route ?>" class="btn btn-secondary me-1">Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>

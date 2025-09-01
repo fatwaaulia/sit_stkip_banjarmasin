@@ -189,6 +189,8 @@ class Dosen extends BaseController
             'jabatan_struktural' => 'required',
             'program_studi'    => 'required',
             'motto_kerja'       => 'required',
+            'password' => 'permit_empty|min_length[3]|matches[passconf]',
+            'passconf' => 'permit_empty|min_length[3]|matches[password]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -202,6 +204,7 @@ class Dosen extends BaseController
 
         // Lolos Validasi
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+        $password = trim($this->request->getVar('password'));
         $data = [
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
@@ -218,6 +221,8 @@ class Dosen extends BaseController
             'jenjang_program_studi'   => $program_studi['jenjang'],
             'nama_program_studi'      => $program_studi['nama'],
             'singkatan_program_studi' => $program_studi['singkatan'],
+
+            'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
         ];
 
         model($this->model_name)->update($id, $data);

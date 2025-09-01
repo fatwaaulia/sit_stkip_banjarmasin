@@ -27,7 +27,7 @@ table tr th { text-align: center; }
 
                             $jumlah_debit = 0;
                             foreach ($kategori_dana_masuk as $key => $v) :
-                                $perolehan_dana = model('Keuangan')->where('id_kategori_dana_masuk', $v['id'])->findAll();
+                                $perolehan_dana = model('Keuangan')->where('id_kategori_dana', $v['id'])->findAll();
                                 $jumlah_ts_sumber_dana = 0;
                                 foreach ($perolehan_dana as $v2) {
                                     $jumlah_ts_sebaris = $v2['nominal'];

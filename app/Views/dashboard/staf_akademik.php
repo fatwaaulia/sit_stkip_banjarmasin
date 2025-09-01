@@ -10,7 +10,7 @@ if ($tahun_akademik_aktif) {
 $pendaftar_mahasiswa = model('Users')
 ->where([
     'id_role' => 5,
-    'status'  => 'Pendaftar',
+    'status'  => 'Menunggu Konfirmasi',
 ])->countAllResults();
 
 $mahasiswa_aktif = model('Users')

@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
+<script src="<?= base_url() ?>assets/modules/dselect/dselect.min.js"></script>
+
 <section class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -66,6 +69,22 @@
                                     <div class="invalid-feedback" id="invalid_id_role"></div>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="program_studi" class="form-label">Program Studi</label>
+                                    <select class="form-select" id="program_studi" name="program_studi">
+                                        <option value="">Pilih</option>
+                                        <?php
+                                        $program_studi = model('ProgramStudi')->findAll();
+                                        foreach ($program_studi as $v) :
+                                        ?>
+                                        <option value="<?= $v['id'] ?>"><?= $v['jenjang'] ?> - <?= $v['nama'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="form-text">
+                                        Khusus Kaprodi
+                                    </div>
+                                    <div class="invalid-feedback" id="invalid_program_studi"></div>
+                                </div>
+                                <div class="mb-3">
                                     <label for="no_hp" class="form-label">No. HP</label>
                                     <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="08xx">
                                     <div class="invalid-feedback" id="invalid_no_hp"></div>
@@ -107,6 +126,8 @@
 </section>
 
 <script>
+dselect(dom('#program_studi'), { search: true });
+
 function toggleVisibility(inputElement, eyeElement) {
     const showIcon = "<?= base_url('assets/icons/show.png') ?>";
     const hideIcon = "<?= base_url('assets/icons/hide.png') ?>";

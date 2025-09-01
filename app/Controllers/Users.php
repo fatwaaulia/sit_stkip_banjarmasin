@@ -147,6 +147,7 @@ class Users extends BaseController
         }
 
         $password = trim($this->request->getVar('password'));
+        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $data = [
             'id_role'       => $role['id'],
             'nama_role'     => $role['nama'],
@@ -159,6 +160,11 @@ class Users extends BaseController
             'foto'          => $filename_foto,
             'alamat'        => $this->request->getVar('alamat'),
             'no_hp'         => $this->request->getVar('no_hp'),
+
+            'id_program_studi'        => $program_studi['id'] ?? '',
+            'jenjang_program_studi'   => $program_studi['jenjang'] ?? '',
+            'nama_program_studi'      => $program_studi['nama'] ?? '',
+            'singkatan_program_studi' => $program_studi['singkatan'] ?? '',
         ];
 
         model($this->model_name)->insert($data);
@@ -211,6 +217,7 @@ class Users extends BaseController
         }
 
         $password = trim($this->request->getVar('password'));
+        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $data = [
             'id_role'       => $role['id'],
             'nama_role'     => $role['nama'],
@@ -223,6 +230,11 @@ class Users extends BaseController
             'foto'          => $filename_foto,
             'alamat'        => $this->request->getVar('alamat'),
             'no_hp'         => $this->request->getVar('no_hp'),
+
+            'id_program_studi'        => $program_studi['id'] ?? '',
+            'jenjang_program_studi'   => $program_studi['jenjang'] ?? '',
+            'nama_program_studi'      => $program_studi['nama'] ?? '',
+            'singkatan_program_studi' => $program_studi['singkatan'] ?? '',
         ];
 
         model($this->model_name)->update($id, $data);

@@ -68,7 +68,7 @@ if (userSession()) {
     $routes->get("$slug_role/dashboard", "Dashboard::$camelcase_slug_role", ['filter' => 'EnsureLogin']);
 }
 
-if (in_array($id_role, [1])) {
+if (in_array($id_role, roleAccessByTitle('Profil'))) {
     $routes->get("$slug_role/profile", "Profile::profilev1", ['filter' => 'EnsureLogin']);
     $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->post('update', 'Profile::updateProfilev1');
