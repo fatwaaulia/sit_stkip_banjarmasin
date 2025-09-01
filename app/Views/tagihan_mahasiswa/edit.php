@@ -34,6 +34,12 @@
                                     <input type="text" class="form-control" value="<?= $data['tahun_akademik'] ?> - <?= $data['tipe_tahun_akademik'] ?>" disabled>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="mb-3">
+                                    <label for="biaya_yudisium_wisuda" class="form-label">Biaya Yudisium / Wisuda</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_yudisium_wisuda" value="<?= $data['biaya_yudisium_wisuda'] ?>" disabled>
+                                </div>
+                            </div>
                         </div>
                         <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                             <thead class="bg-primary-subtle">

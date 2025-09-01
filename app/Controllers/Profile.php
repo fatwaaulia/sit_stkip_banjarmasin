@@ -33,7 +33,7 @@ class Profile extends BaseController
         return view('dashboard/header', $view);
     }
 
-    public function profilev2()
+    public function dosen()
     {
         $id = userSession('id');
 
@@ -44,7 +44,7 @@ class Profile extends BaseController
         ];
         
         $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view($this->base_name . '/v2', $data);
+        $view['content'] = view($this->base_name . '/dosen', $data);
         return view('dashboard/header', $view);
     }
 
@@ -103,20 +103,26 @@ class Profile extends BaseController
         ]);
     }
 
-    public function updateProfilev2()
+    public function updateProfileDosen()
     {
         $id = userSession('id');
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
-            'foto'          => 'max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpg,image/jpeg]|is_image[foto]',
-            'nama'          => 'required',
-            'jenis_kelamin' => 'required',
-            'alamat'        => 'max_length[255]',
-            'no_hp'         => 'permit_empty|numeric|min_length[10]|max_length[20]',
-            'email'         => "required|valid_email|is_unique[users.email,id,$id]",
+            'nomor_identitas' => "required|is_unique[users.nomor_identitas,id,$id]",
+            'nama'            => 'required',
+            'jenis_kelamin'   => 'required',
+            'tempat_lahir'    => 'required',
+            'tanggal_lahir'   => 'required',
+            'alamat'          => 'required',
+            'jabatan_fungsional' => 'required',
+            'jabatan_struktural' => 'required',
+            'program_studi'    => 'required',
+            'motto_kerja'       => 'required',
+            'password' => 'permit_empty|min_length[3]|matches[passconf]',
+            'passconf' => 'permit_empty|min_length[3]|matches[password]',
         ];
-        if (!$this->validate($rules)) {
+        if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
 
             return $this->response->setStatusCode(400)->setJSON([
@@ -127,24 +133,26 @@ class Profile extends BaseController
         }
 
         // Lolos Validasi
-        $foto = $this->request->getFile('foto');
-        if ($foto->isValid()) {
-            $filename_foto = $find_data['foto'] ?: $foto->getRandomName();
-            if ($foto->getExtension() != 'jpg') {
-                $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);
-            }
-            compressConvertImage($foto, $this->upload_path, $filename_foto);
-        } else {
-            $filename_foto = $find_data['foto'];
-        }
-
+        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+        $password = trim($this->request->getVar('password'));
         $data = [
-            'foto'          => $filename_foto,
-            'nama'          => ucwords($this->request->getVar('nama')),
-            'jenis_kelamin' => $this->request->getVar('jenis_kelamin'),
-            'alamat'        => $this->request->getVar('alamat'),
-            'no_hp'         => $this->request->getVar('no_hp'),
-            'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
+            'nomor_identitas' => $this->request->getVar('nomor_identitas'),
+            'nama'            => $this->request->getVar('nama'),
+            'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
+            'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
+            'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
+            'alamat'          => $this->request->getVar('alamat'),
+
+            'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
+            'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
+            'motto_kerja' => $this->request->getVar('motto_kerja'),
+
+            'id_program_studi'        => $program_studi['id'],
+            'jenjang_program_studi'   => $program_studi['jenjang'],
+            'nama_program_studi'      => $program_studi['nama'],
+            'singkatan_program_studi' => $program_studi['singkatan'],
+
+            'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
         ];
 
         model($this->model_name)->update($id, $data);

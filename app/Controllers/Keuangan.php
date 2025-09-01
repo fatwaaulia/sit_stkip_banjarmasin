@@ -663,7 +663,7 @@ class Keuangan extends BaseController
             $data_row = $key + $first_row_data;
             $sheet->setCellValueExplicit('A' . $data_row, $key+1, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->setCellValue('B' . $data_row, $v['nominal']);
-            $sheet->setCellValue('C' . $data_row, $v['nama_sumber_dana']);
+            $sheet->setCellValue('C' . $data_row, $v['nama_kategori_dana'] . ' - ' . $v['nama_sumber_dana']);
             $sheet->setCellValue('D' . $data_row, $v['catatan']);
             $sheet->setCellValue('E' . $data_row, $v['tanggal']);
 

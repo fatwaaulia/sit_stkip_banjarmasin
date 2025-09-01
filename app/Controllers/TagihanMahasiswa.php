@@ -103,7 +103,6 @@ class TagihanMahasiswa extends BaseController
     {
         $rules = [
             'jenis' => 'required',
-            'biaya' => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -115,7 +114,13 @@ class TagihanMahasiswa extends BaseController
             ]);
         }
 
+        // Lolos Validasi
         $kategori = $this->request->getVar('kategori');
+        $tahun_akademik = model('TahunAkademik')->orderBy('id DESC')->first();
+        $jenis = $this->request->getVar('jenis');
+        $biaya_yudisium_wisuda = $this->request->getVar('biaya_yudisium_wisuda', FILTER_SANITIZE_NUMBER_INT) ?? 0;
+
+
         $json_id_mahasiswa = '';
         if ($kategori == 'PERORANGAN') {
             $json_id_mahasiswa = $this->request->getVar('json_id_mahasiswa');
@@ -126,24 +131,41 @@ class TagihanMahasiswa extends BaseController
                     'message' => 'Pastikan sudah centang mahasiswa',
                 ]);
             }
+
+            if ($jenis == 'YUDISIUM') {
+                model('Users')
+                ->where('id_role', 5)
+                ->whereIn('id', json_decode($json_id_mahasiswa))
+                ->set(['biaya_yudisium' => $biaya_yudisium_wisuda])
+                ->update();
+            }
+            if ($jenis == 'WISUDA') {
+                model('Users')
+                ->where('id_role', 5)
+                ->whereIn('id', json_decode($json_id_mahasiswa))
+                ->set(['biaya_wisuda' => $biaya_yudisium_wisuda])
+                ->update();
+            }
         }
 
-        // Lolos Validasi
-        $tahun_akademik = model('TahunAkademik')->orderBy('id DESC')->first();
-
-        $id_program_studi = $this->request->getPost('id_program_studi');
-        $biaya            = $this->request->getPost('biaya');
         $data_biaya = [];
-        foreach ($id_program_studi as $i => $id) {
-            $data_biaya[] = [
-                'id_program_studi' => $id,
-                'biaya'            => (int) str_replace('.', '', $biaya[$i]),
-            ];
+        if ($kategori == 'MABA') {
+            $id_program_studi = $this->request->getPost('id_program_studi');
+            $biaya            = $this->request->getPost('biaya');
+            foreach ($id_program_studi as $i => $id) {
+                $program_studi = model('ProgramStudi')->find($id);
+                $data_biaya[] = [
+                    'id_program_studi'   => $id,
+                    'jenjang_program_studi' => $program_studi['jenjang'],
+                    'nama_program_studi' => $program_studi['nama'],
+                    'biaya'              => (int) str_replace('.', '', $biaya[$i]),
+                ];
+            }
         }
 
         $data = [
             'kategori'                       => $kategori,
-            'jenis'                          => $this->request->getVar('jenis'),
+            'jenis'                          => $jenis,
             'json_id_mahasiswa'              => $json_id_mahasiswa,
             'id_tahun_akademik'              => $tahun_akademik['id'],
             'tahun_akademik'                 => $tahun_akademik['tahun_akademik'],
@@ -151,7 +173,7 @@ class TagihanMahasiswa extends BaseController
             'periode_mulai_tahun_akademik'   => $tahun_akademik['periode_mulai'],
             'periode_selesai_tahun_akademik' => $tahun_akademik['periode_selesai'],
             'json_biaya'                     => json_encode($data_biaya),
-            'biaya_yudisium_wisuda'          => $this->request->getVar('biaya_yudisium_wisuda', FILTER_SANITIZE_NUMBER_INT) ?? 0,
+            'biaya_yudisium_wisuda'          => $biaya_yudisium_wisuda,
             'created_by' => userSession('id'),
         ];
 
@@ -166,7 +188,9 @@ class TagihanMahasiswa extends BaseController
 
     public function update($id = null)
     {
-        $kategori = $this->request->getVar('kategori');
+        $find_data = model($this->model_name)->find($id);
+        $kategori = $find_data['kategori'];
+
         if ($kategori == 'PERORANGAN') {
             $json_id_mahasiswa = ($this->request->getVar('json_id_mahasiswa'));
         } else {
@@ -176,9 +200,39 @@ class TagihanMahasiswa extends BaseController
             ]);
         }
 
-        // Lolos Validasi
+        $jenis = $find_data['jenis'];
+        $biaya_yudisium_wisuda = $find_data['biaya_yudisium_wisuda'];
+        
+        $json_id_mahasiswa = '';
+        if ($kategori == 'PERORANGAN') {
+            $json_id_mahasiswa = $this->request->getVar('json_id_mahasiswa');
+
+            if (! $json_id_mahasiswa) {
+                return $this->response->setStatusCode(400)->setJSON([
+                    'status'  => 'error',
+                    'message' => 'Pastikan sudah centang mahasiswa',
+                ]);
+            }
+
+            if ($jenis == 'YUDISIUM') {
+                model('Users')
+                ->where('id_role', 5)
+                ->whereIn('id', json_decode($json_id_mahasiswa))
+                ->set(['biaya_yudisium' => $biaya_yudisium_wisuda])
+                ->update();
+            }
+            if ($jenis == 'WISUDA') {
+                model('Users')
+                ->where('id_role', 5)
+                ->whereIn('id', json_decode($json_id_mahasiswa))
+                ->set(['biaya_wisuda' => $biaya_yudisium_wisuda])
+                ->update();
+            }
+        }
+
         $data = [
             'json_id_mahasiswa' => $json_id_mahasiswa,
+            'biaya_yudisium_wisuda' => $biaya_yudisium_wisuda,
             'updated_by' => userSession('id'),
         ];
 

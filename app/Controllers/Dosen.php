@@ -238,8 +238,8 @@ class Dosen extends BaseController
     {
         $find_data = model($this->model_name)->find($id);
 
-        $gambar = $this->upload_path . $find_data['gambar'];
-        if (is_file($gambar)) unlink($gambar);
+        $foto = $this->upload_path . $find_data['foto'];
+        if (is_file($foto)) unlink($foto);
 
         model($this->model_name)->delete($id);
 

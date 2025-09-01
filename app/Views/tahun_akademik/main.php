@@ -21,8 +21,8 @@ if ($tahun_akademik_aktif) {
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="alert alert-primary">
-                Tahun akademik sekarang dipilih berdasarkan yang terakhir dibuat.
+            <div class="alert alert-warning">
+                Tahun akademik sekarang dipilih berdasarkan yang terakhir dibuat. Jangan menambahkan data jika semester <span class="fw-600"><?= $tahun_akademik_aktif ?></span> belum selesai.
             </div>
         </div>
     </div>

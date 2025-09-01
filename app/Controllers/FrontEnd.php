@@ -36,7 +36,7 @@ class FrontEnd extends BaseController
     public function mendaftarMahasiswa()
     {
         $data = [
-            'title'    => 'Mendaftar Mahasiswa',
+            'title'    => 'Formulir Pendaftaran Mahasiswa',
         ];
 
         $view['navbar'] = view('frontend/components/navbar');

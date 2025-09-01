@@ -174,7 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 render: data => (data.kategori == 'PERORANGAN') ? `<a href="<?= $base_route ?>edit/${data.id}">${data.kategori}</a>` : data.kategori,
             }, {
                 name: '',
-                data: 'jenis',
+                data: null,
+                render: renderJenis,
             }, {
                 name: '',
                 data: null,
@@ -190,6 +191,40 @@ document.addEventListener('DOMContentLoaded', function() {
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });
 });
+
+function renderJenis(data) {
+    const json_biaya = JSON.parse(data.json_biaya);
+    const detail_tagihan_maba = `
+    <a href="#" data-bs-toggle="modal" data-bs-target="#detail_tagihan_maba_${data.id}">
+        <i class="fa-solid fa-circle-info"></i>
+    </a>
+    <div class="modal fade" id="detail_tagihan_maba_${data.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Detail Tagihan Maba</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Tagihan Maba</label>
+                        <input type="text" class="form-control" value="${data.jenis}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tahun Akademik</label>
+                        <input type="text" class="form-control" value="${data.tahun_akademik} - ${data.tipe_tahun_akademik}" disabled>
+                    </div>
+                    ${json_biaya.map(item => `${item.jenjang_program_studi} - ${item.nama_program_studi} : ${dotsNumber(item.biaya)}`).join('<br>')}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
+    return `
+    ${data.jenis} ${data.kategori == 'MABA' ? detail_tagihan_maba : ''}`;
+}
 
 function renderOpsi(data) {
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;

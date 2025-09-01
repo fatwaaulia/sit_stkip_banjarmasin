@@ -1,10 +1,7 @@
-<link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
-<script src="<?= base_url() ?>assets/modules/dselect/dselect.min.js"></script>
-
 <section class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h4 class="my-4"><?= isset($title) ? $title : '' ?></h4>
+            <h4 class="my-4">Profil</h4>
         </div>
     </div>
     <div class="row">
@@ -99,10 +96,7 @@
                                 <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
                             </div>
                         </div>
-                        <div class="mt-3 float-end">
-                            <a href="<?= $base_route ?>" class="btn btn-secondary me-1">Kembali</a>
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 float-end">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
@@ -111,8 +105,6 @@
 </section>
 
 <script>
-dselect(dom('#program_studi'), { search: true });
-
 function toggleVisibility(inputElement, eyeElement) {
     const showIcon = "<?= base_url('assets/icons/show.png') ?>";
     const hideIcon = "<?= base_url('assets/icons/hide.png') ?>";
@@ -127,10 +119,18 @@ dom('#eye_password').addEventListener('click', () => {
 dom('#eye_passconf').addEventListener('click', () => {
     toggleVisibility(dom('#passconf'), dom('#eye_passconf'));
 });
+</script>
 
+<script>
 dom('#form').addEventListener('submit', function(event) {
     event.preventDefault();
-    const endpoint = '<?= $base_api ?>update/<?= $data['id'] ?>';
+    const endpoint = '<?= $base_api ?>update';
     submitData(dom('#form'), endpoint);
+});
+
+dom('#form_ubah_password').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const endpoint = '<?= $base_api ?>update/password';
+    submitData(dom('#form_ubah_password'), endpoint);
 });
 </script>

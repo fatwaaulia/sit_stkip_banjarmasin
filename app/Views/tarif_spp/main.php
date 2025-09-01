@@ -243,6 +243,7 @@ function renderOpsi(data) {
                             <input type="text" inputmode="numeric" class="form-control" name="biaya_sidang_skripsi" value="${dotsNumber(data.biaya_sidang_skripsi)}" placeholder="Masukkan biaya sidang skripsi" oninput="this.value = dotsNumber(this.value)">
                             <div class="invalid-feedback" id="invalid_biaya_sidang_skripsi"></div>
                         </div>
+                        <p class="mb-0">Perubahan biaya hanya berlaku pada mahasiswa yang baru mendaftar.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

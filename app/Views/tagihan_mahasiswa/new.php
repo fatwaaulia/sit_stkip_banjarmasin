@@ -53,9 +53,9 @@ $tahun_akademik_aktif = model('TahunAkademik')->orderBy('id DESC')->first();
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="mb-3">
-                                    <label for="biaya" class="form-label">Biaya Yudisium / Wisuda</label>
-                                    <input type="text" inputmode="numeric" class="form-control" name="biaya" placeholder="Masukkan biaya yudisium / wisuda" oninput="this.value = dotsNumber(this.value)">
-                                    <div class="invalid-feedback" id="invalid_biaya"></div>
+                                    <label for="biaya_yudisium_wisuda" class="form-label">Biaya Yudisium / Wisuda</label>
+                                    <input type="text" inputmode="numeric" class="form-control" name="biaya_yudisium_wisuda" value="0" placeholder="Masukkan biaya yudisium / wisuda" oninput="this.value = dotsNumber(this.value)">
+                                    <div class="invalid-feedback" id="invalid_biaya_yudisium_wisuda"></div>
                                 </div>
                             </div>
                         </div>

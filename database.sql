@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 01 Sep 2025 pada 03.09
+-- Waktu pembuatan: 01 Sep 2025 pada 03.34
 -- Versi server: 8.0.30
 -- Versi PHP: 8.3.9
 
@@ -449,7 +449,9 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (208, 10, 6, 'Staf Akademik', 'stafakademik', '::1', 'Success', '2025-09-01 10:02:03', '2025-09-01 10:02:03'),
 (209, 10, 6, 'Staf Akademik', 'stafakademik', '::1', 'Success', '2025-09-01 10:02:19', '2025-09-01 10:02:19'),
 (210, 14, 8, 'Kaprodi', 'kaprodi', '::1', 'Success', '2025-09-01 10:03:04', '2025-09-01 10:03:04'),
-(211, 4, 3, 'Waka Akademik', 'wakaakademik', '::1', 'Success', '2025-09-01 10:03:50', '2025-09-01 10:03:50');
+(211, 4, 3, 'Waka Akademik', 'wakaakademik', '::1', 'Success', '2025-09-01 10:03:50', '2025-09-01 10:03:50'),
+(212, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-01 10:11:44', '2025-09-01 10:11:44'),
+(213, 24, 4, 'Mulyadi', '1234', '::1', 'Success', '2025-09-01 10:31:14', '2025-09-01 10:31:14');
 
 -- --------------------------------------------------------
 
@@ -945,7 +947,9 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `usernam
 (19, 13, 'Pustakawan', 'pustakawan', 'Pustakawan', 'pustakawan', '', '$2y$10$yIiHMru9yBXAF7LHUO81NO/dmBPlN5x8t09R.odC9loudHc2EtyaW', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:44:06', '2025-09-01 09:44:06'),
 (20, 14, 'Biro Alumni', 'biro-alumni', 'Biro Alumni', 'biroalumni', '', '$2y$10$/kNT6RPw25n8BkBAU74xZ.P7zDDDdo26/RvVsTBQSHZyeuOisifr.', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:45:52', '2025-09-01 09:45:52'),
 (21, 15, 'UTP PLP', 'upt-plp', 'UPT PLP', 'uptplp', '', '$2y$10$IhIHmUr3HeFZCCPfNxMf5OYyVgezWxG.CcUuyyobpAxc1MEWV9DWy', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:49:14', '2025-09-01 09:49:14'),
-(22, 16, 'Tendik', 'tendik', 'Tendik', 'tendik', '', '$2y$10$0N9UVbHNXBTy0sDS9A10tuRjetb/ZvxGkRZFUCqEpr26qFaizexRO', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:51:11', '2025-09-01 09:51:11');
+(22, 16, 'Tendik', 'tendik', 'Tendik', 'tendik', '', '$2y$10$0N9UVbHNXBTy0sDS9A10tuRjetb/ZvxGkRZFUCqEpr26qFaizexRO', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:51:11', '2025-09-01 09:51:11'),
+(23, 5, 'Mahasiswa', 'mahasiswa', 'Dimas Pradana', '', 'dimas@gmail.com', '$2y$10$u2d2WfIAbAuKyk0sgMp5Q.zWpAnq0BEimSVRgkeE1rvZyV7TaDuSa', '1756696620_2a194365d9473a1835b6.jpg', 'Laki-laki', 'Klaten', '08123', '', '', '', '', 'Solo', '2002-02-12', 'Buddha', 'Belum Kawin', 'Indonesia', 'SMAN 1 Klaten', '2038428304', '2019', '85', 'Slamet', '01928301', 'Konsultan', 'Sari', '01928392', 'Petani', 'Yani', '0394223', 'Wiraswasta', 'Instagram', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 50000, 150000, 50000, 2500000, 2, 'SPP Tarif 2', 4000000, 375000, 300000, 150000, 300000, 120000, 100000, 300000, 0, 0, 'Aktif', NULL, NULL, '2025-09-01 10:17:01', '2025-09-01 10:28:29', '2025-09-01 10:17:01', '2025-09-01 10:28:29'),
+(24, 4, 'Dosen', 'dosen', 'Mulyadi', '1234', '', '$2y$10$.X5gyk1WDOLiod92YcE.VOpptm1H1g0CuOcyCADvH29vb0yiv/zyK', '', 'Laki-laki', 'Jakarta', '', 'Wakil Direktur', 'Dosen', 'Semangat Kerja', '1234', 'Bogor', '1978-09-18', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 10:31:03', '2025-09-01 10:31:03');
 
 --
 -- Indexes for dumped tables
@@ -1121,7 +1125,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT untuk tabel `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=212;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
 
 --
 -- AUTO_INCREMENT untuk tabel `master_dana`
@@ -1181,7 +1185,7 @@ ALTER TABLE `tarif_spp`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

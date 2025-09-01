@@ -281,9 +281,10 @@ function renderOpsi(data) {
     <a href="${endpoint_edit_data}" class="me-2" title="Edit">
         <i class="fa-regular fa-pen-to-square fa-lg"></i>
     </a>
+    <?php if (userSession('id_role') == 1) : ?>
     <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
         <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
-    </a>`;
+    </a><?php endif; ?>`;
 }
 </script>
 

@@ -157,12 +157,6 @@
                                     <div class="d-flex">
                                         <div class="position-relative">
                                             <img src="<?= webFile('image_user', 'users', $data['foto'], $data['updated_at']) ?>" class="wh-150 cover-center rounded-circle" id="frame_foto">
-                                            <div class="position-absolute" style="bottom: 0px; right: 0px;">
-                                                <button class="btn btn-secondary rounded-circle" style="padding: 8px;" type="button" onclick="dom('#foto').click()">
-                                                    <i class="fa-solid fa-camera fa-lg"></i>
-                                                </button>
-                                                <input type="file" class="form-control d-none" id="foto" name="foto" accept=".png,.jpg,.jpeg" onchange="dom('#frame_foto').src = window.URL.createObjectURL(this.files[0]);">
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="invalid-feedback" id="invalid_foto"></div>
@@ -213,7 +207,7 @@
                         </div>
                         <div class="mt-3 float-end">
                             <a href="<?= $base_route ?>" class="btn btn-secondary me-2">Kembali</a>
-                            <?php if ($data['status'] == 'Pendaftar') : ?>
+                            <?php if ($data['status'] == 'Menunggu Konfirmasi') : ?>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             <?php endif; ?>
                         </div>
