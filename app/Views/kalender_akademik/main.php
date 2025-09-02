@@ -1,6 +1,6 @@
 <?php
 $is_access = false;
-if (in_array(userSession('id_role'), [1, 3])) {
+if (array_intersect(userSession('id_roles'), [1, 3])) {
     $is_access = true;
 }
 ?>

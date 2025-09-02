@@ -61,7 +61,18 @@
 						<img src="<?= $foto ?>" alt="<?= userSession('nama') ?>" title="<?= userSession('nama') ?>" class="rounded-circle cover-center wh-100 mt-2">
 						<div class="my-3">
 							<h5><?= $nama ?></h5>
-							<span><?= userSession('nama_role') ?></span>
+							<div><?= userSession('nama_role') ?></div>
+                            <p>
+                            <?php
+                            $multi_role = json_decode(userSession('multi_role'), true);
+                            if (!empty($multi_role)) {
+                                $multi_role = array_column($multi_role, 'nama_role');
+                                echo implode(', ', $multi_role);
+                            } else {
+                                echo '-';
+                            }
+                            ?>
+                            </p>
 						</div>
 					</li>
 					<li>
@@ -105,7 +116,7 @@
 
 		foreach ($menu as $v) :
 			if (! isset($v['title'])) continue;
-			if (in_array(userSession('id_role'), $v['role'])) : // Tampilkan Menu Sesuai Role
+			if (array_intersect(userSession('id_roles'), $v['role'])) : // Tampilkan Menu Sesuai Role
 			if ($v['type'] == 'no-collapse') :
 				$collapsed = ($base_route == $v['url']) ? '' : 'collapsed';
 		?>

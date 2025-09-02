@@ -33,6 +33,21 @@ table tr td { padding: 6px; }
                     <hr>
                     <table>
                         <tr>
+                            <td>Jabatan Lainnya</td>
+                            <td>:
+                                <?php
+                                $multi_role = json_decode(userSession('multi_role'), true);
+                                
+                                if (!empty($multi_role)) {
+                                    $multi_role = array_column($multi_role, 'nama_role');
+                                    echo implode(', ', $multi_role);
+                                } else {
+                                    echo '-';
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>NIDN / NIDK</td>
                             <td>: <?= userSession('nomor_identitas') ?></td>
                         </tr>

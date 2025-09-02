@@ -61,6 +61,7 @@ $routes->get('email-layout', 'AppSettings::emailLayout');
   # Menu Dashboard dan Profil
 --------------------------------------------------------------*/
 $id_role   = userSession('id_role');
+$id_roles   = userSession('id_roles');
 $slug_role = userSession('slug_role');
 
 if (userSession()) {
@@ -113,7 +114,7 @@ if (userSession('id_role') == 1) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Keluar Masuk Uang'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Keluar Masuk Uang'))) {
     $routes->group("$slug_role/keuangan", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Keuangan::main');
         $routes->get('new/uang-masuk', 'Keuangan::newUangMasuk/$1');
@@ -133,7 +134,7 @@ if (in_array($id_role, roleAccessByTitle('Keluar Masuk Uang'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Log Keuangan'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Log Keuangan'))) {
     $routes->group("$slug_role/log-keuangan", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'LogKeuangan::main');
     });
@@ -142,7 +143,7 @@ if (in_array($id_role, roleAccessByTitle('Log Keuangan'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Perolehan Dana'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Perolehan Dana'))) {
     $routes->group("$slug_role/perolehan-dana", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PerolehanDana::main');
     });
@@ -151,7 +152,7 @@ if (in_array($id_role, roleAccessByTitle('Perolehan Dana'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Penggunaan Dana'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Penggunaan Dana'))) {
     $routes->group("$slug_role/penggunaan-dana", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PenggunaanDana::main');
     });
@@ -160,13 +161,13 @@ if (in_array($id_role, roleAccessByTitle('Penggunaan Dana'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Neraca'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Neraca'))) {
     $routes->group("$slug_role/neraca", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Neraca::main');
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Penyusutan Inventaris'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Penyusutan Inventaris'))) {
     $routes->group("$slug_role/penyusutan-inventaris", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PenyusutanInventaris::main');
     });
@@ -178,7 +179,7 @@ if (in_array($id_role, roleAccessByTitle('Penyusutan Inventaris'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Tagihan Mahasiswa'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Tagihan Mahasiswa'))) {
     $routes->group("$slug_role/tagihan-mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'TagihanMahasiswa::main');
         $routes->get('new', 'TagihanMahasiswa::new');
@@ -192,7 +193,7 @@ if (in_array($id_role, roleAccessByTitle('Tagihan Mahasiswa'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Pembayaran Mahasiswa'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Pembayaran Mahasiswa'))) {
     $routes->group("$slug_role/pembayaran-mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PembayaranMahasiswa::main');
     });
@@ -201,13 +202,13 @@ if (in_array($id_role, roleAccessByTitle('Pembayaran Mahasiswa'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Status Bayar'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Status Bayar'))) {
     $routes->group("$slug_role/status-bayar", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'StatusBayar::main');
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Kalender Akademik'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Kalender Akademik'))) {
     $routes->get("$slug_role/kalender-akademik", 'KalenderAkademik::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/kalender-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'KalenderAkademik::index');
@@ -217,7 +218,7 @@ if (in_array($id_role, roleAccessByTitle('Kalender Akademik'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Jadwal Kuliah'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Jadwal Kuliah'))) {
     $routes->get("$slug_role/jadwal-kuliah", 'JadwalKuliah::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/jadwal-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'JadwalKuliah::index');
@@ -227,7 +228,7 @@ if (in_array($id_role, roleAccessByTitle('Jadwal Kuliah'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Jadwal Kegiatan'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Jadwal Kegiatan'))) {
     $routes->get("$slug_role/jadwal-kegiatan", 'JadwalKegiatan::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/jadwal-kegiatan', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'JadwalKegiatan::index');
@@ -238,7 +239,7 @@ if (in_array($id_role, roleAccessByTitle('Jadwal Kegiatan'))) {
 }
 
 
-if (in_array($id_role, roleAccessByTitle('Pendaftar Mahasiswa'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Pendaftar Mahasiswa'))) {
     $routes->group("$slug_role/pendaftar-mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PendaftarMahasiswa::main');
         $routes->get('edit/(:segment)', 'PendaftarMahasiswa::edit/$1');
@@ -250,7 +251,7 @@ if (in_array($id_role, roleAccessByTitle('Pendaftar Mahasiswa'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Mahasiswa'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Mahasiswa'))) {
     $routes->group("$slug_role/mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Mahasiswa::main');
         $routes->get('new', 'Mahasiswa::new');
@@ -266,7 +267,7 @@ if (in_array($id_role, roleAccessByTitle('Mahasiswa'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Mahasiswa Cuti / DO'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Mahasiswa Cuti / DO'))) {
     $routes->get("$slug_role/status-mahasiswa", 'StatusMahasiswa::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/status-mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'StatusMahasiswa::index');
@@ -276,7 +277,7 @@ if (in_array($id_role, roleAccessByTitle('Mahasiswa Cuti / DO'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Dosen'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Dosen'))) {
     $routes->group("$slug_role/dosen", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Dosen::main');
         $routes->get('new', 'Dosen::new');
@@ -289,7 +290,7 @@ if (in_array($id_role, roleAccessByTitle('Dosen'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Penelitian Dosen'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Penelitian Dosen'))) {
     $routes->get("$slug_role/penelitian-dosen", 'PenelitianDosen::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/penelitian-dosen', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PenelitianDosen::index');
@@ -299,10 +300,30 @@ if (in_array($id_role, roleAccessByTitle('Penelitian Dosen'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Surat Peringatan'))) {
+    $routes->get("$slug_role/surat-peringatan", 'SuratPeringatan::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/surat-peringatan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'SuratPeringatan::index');
+        $routes->post('create', 'SuratPeringatan::create');
+        $routes->post('update/(:segment)', 'SuratPeringatan::update/$1');
+        $routes->post('delete/(:segment)', 'SuratPeringatan::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Pencatatan Surat'))) {
+    $routes->get("$slug_role/pencatatan-surat", 'PencatatanSurat::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/pencatatan-surat', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PencatatanSurat::index');
+        $routes->post('create', 'PencatatanSurat::create');
+        $routes->post('update/(:segment)', 'PencatatanSurat::update/$1');
+        $routes->post('delete/(:segment)', 'PencatatanSurat::delete/$1');
+    });
+}
+
 /*--------------------------------------------------------------
   # Master Data
 --------------------------------------------------------------*/
-if (in_array($id_role, [1])) {
+if (array_intersect($id_roles, [1])) {
     $routes->get("$slug_role/role", 'Role::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/role', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Role::index');
@@ -312,7 +333,7 @@ if (in_array($id_role, [1])) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('User Management'))) {
+if (array_intersect($id_roles, roleAccessByTitle('User Management'))) {
     $routes->group("$slug_role/users", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Users::main');
         $routes->get('new', 'Users::new');
@@ -327,7 +348,7 @@ if (in_array($id_role, roleAccessByTitle('User Management'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Tahun Akademik'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Tahun Akademik'))) {
     $routes->get("$slug_role/tahun-akademik", 'TahunAkademik::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/tahun-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'TahunAkademik::index');
@@ -337,7 +358,7 @@ if (in_array($id_role, roleAccessByTitle('Tahun Akademik'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Program Studi'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Program Studi'))) {
     $routes->get("$slug_role/program-studi", 'ProgramStudi::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/program-studi', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'ProgramStudi::index');
@@ -347,7 +368,7 @@ if (in_array($id_role, roleAccessByTitle('Program Studi'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Tarif SPP'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Tarif SPP'))) {
     $routes->get("$slug_role/tarif-spp", 'TarifSpp::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/tarif-spp', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'TarifSpp::index');
@@ -357,7 +378,7 @@ if (in_array($id_role, roleAccessByTitle('Tarif SPP'))) {
     });
 }
 
-if (in_array($id_role, roleAccessByTitle('Master Dana'))) {
+if (array_intersect($id_roles, roleAccessByTitle('Master Dana'))) {
     $routes->get("$slug_role/master-dana", 'MasterDana::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/master-dana', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'MasterDana::index');

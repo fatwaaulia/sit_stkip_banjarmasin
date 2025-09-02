@@ -19,7 +19,7 @@ $get_role = $_GET['role'] ?? '';
                         <select class="form-select" id="role" onchange="location = this.value;">
                             <option value="<?= current_url() ?>">Semua Role</option>
                             <?php
-                            $role = model('Role')->whereNotIn('id', [4, 5])->findAll();
+                            $role = model('Role')->whereNotIn('id', [5])->findAll();
                             foreach ($role as $v) :
                                 $selected = ($get_role == $v['id']) ? 'selected' : '';
                             ?>
@@ -38,6 +38,7 @@ $get_role = $_GET['role'] ?? '';
                         <tr>
                             <th>No.</th>
                             <th>Role</th>
+                            <th>Multi Role</th>
                             <th>Foto</th>
                             <th>Nama</th>
                             <th>Jenis Kelamin</th>
@@ -83,6 +84,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
+                render: renderMultiRole,
+            }, {
+                name: '',
+                data: null,
                 render: data => `<img data-src="${data.foto}" class="wh-40 cover-center rounded-circle lazy-shimmer">`,
             }, {
                 name: 'nama',
@@ -114,6 +119,16 @@ document.addEventListener('DOMContentLoaded', function() {
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     })
 });
+
+function renderMultiRole(data) {
+    let multi_role = data.multi_role;
+    if (! multi_role) return '';
+
+    multi_role = Object.values(JSON.parse(multi_role));
+    const html = multi_role.map(item => `<span class="bg-secondary text-light fw-500 rounded py-1 px-2">${item.nama_role}</span>`).join(' ');
+
+    return html;
+}
 
 function renderOpsi(data) {
     if (data.id_role == 1) return null;

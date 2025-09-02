@@ -67,7 +67,7 @@ class Users extends BaseController
     public function index()
     {
         $select          = ['*'];
-        $base_query      = model($this->model_name)->select($select)->whereNotIn('id_role', [4, 5]);
+        $base_query      = model($this->model_name)->select($select)->whereNotIn('id_role', [5]);
         $limit           = (int)$this->request->getVar('length');
         $offset          = (int)$this->request->getVar('start');
         $records_total   = $base_query->countAllResults(false);
@@ -148,10 +148,22 @@ class Users extends BaseController
 
         $password = trim($this->request->getVar('password'));
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+
+        $multi_role = $this->request->getVar('multi_role');
+        $data_multi_role = [];
+        foreach ($multi_role as $id_role) {
+            $data_role = model('Role')->find($id_role);
+            $data_multi_role[$id_role] = [
+                'nama_role' => $data_role['nama'],
+                'slug_role' => $data_role['slug'],
+            ];
+        }
+
         $data = [
             'id_role'       => $role['id'],
             'nama_role'     => $role['nama'],
             'slug_role'     => $role['slug'],
+            'multi_role'    => $multi_role ? json_encode($data_multi_role) : null,
             'nama'          => ucwords($this->request->getVar('nama')),
             'username'      => strtolower($this->request->getVar('username')),
             'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
@@ -218,10 +230,22 @@ class Users extends BaseController
 
         $password = trim($this->request->getVar('password'));
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+
+        $multi_role = $this->request->getVar('multi_role');
+        $data_multi_role = [];
+        foreach ($multi_role as $id_role) {
+            $data_role = model('Role')->find($id_role);
+            $data_multi_role[$id_role] = [
+                'nama_role' => $data_role['nama'],
+                'slug_role' => $data_role['slug'],
+            ];
+        }
+
         $data = [
             'id_role'       => $role['id'],
             'nama_role'     => $role['nama'],
             'slug_role'     => $role['slug'],
+            'multi_role'    => $multi_role ? json_encode($data_multi_role) : $find_data['multi_role'],
             'nama'          => ucwords($this->request->getVar('nama')),
             'username'      => strtolower($this->request->getVar('username')),
             'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),

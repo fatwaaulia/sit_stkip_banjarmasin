@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class PenelitianDosen extends BaseController
+class SuratPeringatan extends BaseController
 {
     protected $base_name;
     protected $model_name;
@@ -10,7 +10,7 @@ class PenelitianDosen extends BaseController
 
     public function __construct()
     {
-        $this->base_name   = 'penelitian_dosen';
+        $this->base_name   = 'surat_peringatan';
         $this->model_name  = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->base_name)));
         $this->upload_path = dirUpload() . $this->base_name . '/';
     }
@@ -40,9 +40,9 @@ class PenelitianDosen extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (userSession('id_roles') == 4) {
-            $base_query->where('created_by', userSession('id'));
-        }
+        // if (userSession('id_roles') == 4) {
+        //     $base_query->where('created_by', userSession('id'));
+        // }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -82,8 +82,10 @@ class PenelitianDosen extends BaseController
     public function create()
     {
         $rules = [
-            'kategori' => 'required',
-            'judul'  => 'required',
+            'tingkat_sp'  => 'required',
+            'nomor_surat' => 'required',
+            'perihal'  => 'required',
+            'catatan'  => 'permit_empty|max_length[500]',
             'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
@@ -98,8 +100,10 @@ class PenelitianDosen extends BaseController
 
         // Lolos Validasi
         $data = [
-            'kategori' => $this->request->getVar('kategori'),
-            'judul'  => $this->request->getVar('judul'),
+            'tingkat_sp' => $this->request->getVar('tingkat_sp'),
+            'nomor_surat' => $this->request->getVar('nomor_surat'),
+            'perihal'  => $this->request->getVar('perihal'),
+            'catatan' => $this->request->getVar('catatan'),
             'tautan' => $this->request->getVar('tautan'),
             'created_by' => userSession('id'),
         ];
@@ -118,8 +122,10 @@ class PenelitianDosen extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
-            'kategori'  => 'required',
-            'judul'  => 'required',
+            'tingkat_sp'  => 'required',
+            'nomor_surat' => 'required',
+            'perihal'  => 'required',
+            'catatan'  => 'permit_empty|max_length[500]',
             'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
@@ -134,8 +140,10 @@ class PenelitianDosen extends BaseController
 
         // Lolos Validasi
         $data = [
-            'kategori' => $this->request->getVar('kategori'),
-            'judul'  => $this->request->getVar('judul'),
+            'tingkat_sp' => $this->request->getVar('tingkat_sp'),
+            'nomor_surat' => $this->request->getVar('nomor_surat'),
+            'perihal'  => $this->request->getVar('perihal'),
+            'catatan'  => $this->request->getVar('catatan'),
             'tautan' => $this->request->getVar('tautan'),
             'updated_by' => userSession('id'),
         ];

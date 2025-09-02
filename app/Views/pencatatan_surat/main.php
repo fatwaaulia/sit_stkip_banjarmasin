@@ -1,8 +1,8 @@
 <?php
-$is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 3])) {
-    $is_access = true;
-}
+$is_access = true;
+// if (array_intersect(userSession('id_roles'), [1, 4])) {
+//     $is_access = true;
+// }
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -37,12 +37,30 @@ if (array_intersect(userSession('id_roles'), [1, 3])) {
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="mb-3">
-                                                    <label for="judul" class="form-label">Judul</label>
-                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
-                                                    <div class="invalid-feedback" id="invalid_judul"></div>
+                                                    <label for="jenis" class="form-label">Jenis</label>
+                                                    <select class="form-select" id="jenis" name="jenis">
+                                                        <option value="">Pilih</option>
+                                                        <?php
+                                                        $jenis = ['MASUK', 'KELUAR'];
+                                                        foreach ($jenis as $v) :
+                                                        ?>
+                                                        <option value="<?= $v ?>"><?= $v ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_jenis"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan SK</label>
+                                                    <label for="nomor_surat" class="form-label">Nomor Surat</label>
+                                                    <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" placeholder="Masukkan nomor surat">
+                                                    <div class="invalid-feedback" id="invalid_nomor_surat"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="perihal" class="form-label">Perihal</label>
+                                                    <input type="text" class="form-control" id="perihal" name="perihal" placeholder="Masukkan perihal">
+                                                    <div class="invalid-feedback" id="invalid_perihal"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="tautan" class="form-label">Tautan</label>
                                                     <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
                                                     <div class="invalid-feedback" id="invalid_tautan"></div>
                                                 </div>
@@ -70,8 +88,12 @@ if (array_intersect(userSession('id_roles'), [1, 3])) {
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Judul</th>
-                            <th>Tautan SK</th>
+                            <th>Jenis</th>
+                            <th>Nomor</th>
+                            <th>Perihal</th>
+                            <th>Tautan</th>
+                            <th>Created At</th>
+                            <th>Created By</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -106,12 +128,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: 'judul',
-                data: 'judul',
+                name: 'jenis',
+                data: 'jenis',
+            }, {
+                name: 'nomor_surat',
+                data: 'nomor_surat',
+            }, {
+                name: 'perihal',
+                data: 'perihal',
             }, {
                 name: '',
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+            }, {
+                name: 'created_at',
+                data: 'created_at',
+            }, {
+                name: 'created_by',
+                data: 'created_by',
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -123,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const tipe = ['SPP', 'Addons'];
+    const jenis = ['MASUK', 'KELUAR'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -139,9 +173,22 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="judul" class="form-label">Judul</label>
-                            <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
-                            <div class="invalid-feedback" id="invalid_judul"></div>
+                            <label for="jenis" class="form-label">Jenis</label>
+                            <select class="form-select" id="jenis" name="jenis">
+                                <option value="">Pilih</option>
+                                ${jenis.map(item => `<option value="${item}" ${item == data.jenis ? 'selected' : ''}>${item}</option>`).join('')}
+                            </select>
+                            <div class="invalid-feedback" id="invalid_jenis"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nomor_surat" class="form-label">Nomor Surat</label>
+                            <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="${data.nomor_surat}" placeholder="Masukkan nomor surat">
+                            <div class="invalid-feedback" id="invalid_nomor_surat"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="perihal" class="form-label">Perihal</label>
+                            <input type="text" class="form-control" id="perihal" name="perihal" value="${data.perihal}" placeholder="Masukkan perihal">
+                            <div class="invalid-feedback" id="invalid_perihal"></div>
                         </div>
                         <div class="mb-3">
                             <label for="tautan" class="form-label">Tautan SK</label>

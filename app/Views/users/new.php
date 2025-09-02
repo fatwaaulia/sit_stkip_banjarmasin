@@ -60,13 +60,27 @@
                                     <select class="form-select" id="id_role" name="id_role">
                                         <option value="">Pilih</option>
                                         <?php
-                                        $role = model('Role')->whereNotIn('id', [1, 4, 5])->findAll();
+                                        $role = model('Role')->whereNotIn('id', [1, 5])->findAll();
                                         foreach ($role as $v) :
                                         ?>
                                         <option value="<?= $v['id'] ?>"><?= $v['nama'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <div class="invalid-feedback" id="invalid_id_role"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="multi_role" class="form-label">Multi Role</label>
+                                    <select id="multi_role" name="multi_role[]" multiple>
+                                        <option value="">Pilih</option>
+                                        <?php
+                                        foreach ($role as $v) :
+                                        ?>
+                                        <option value="<?= $v['id'] ?>">
+                                            <?= $v['nama'] ?>
+                                        </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="invalid-feedback" id="invalid_multi_role"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="program_studi" class="form-label">Program Studi</label>
@@ -79,9 +93,6 @@
                                         <option value="<?= $v['id'] ?>"><?= $v['jenjang'] ?> - <?= $v['nama'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <div class="form-text">
-                                        Khusus Kaprodi
-                                    </div>
                                     <div class="invalid-feedback" id="invalid_program_studi"></div>
                                 </div>
                                 <div class="mb-3">
@@ -127,6 +138,7 @@
 
 <script>
 dselect(dom('#program_studi'), { search: true });
+dselect(dom('#multi_role'), { search: true });
 
 function toggleVisibility(inputElement, eyeElement) {
     const showIcon = "<?= base_url('assets/icons/show.png') ?>";

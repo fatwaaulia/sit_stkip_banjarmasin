@@ -25,7 +25,16 @@ function userSession($field = null)
     if (! $user) return 'Pengguna tidak ditemukan!';
 
     if ($field) {
-        $user_session = $user[$field];
+        if ($field == 'id_roles') {
+            if (!empty($user['multi_role'])) {
+                $multi_role = array_keys(json_decode($user['multi_role'], true));
+                $user_session = array_merge([$user['id_role']], $multi_role);
+            } else {
+                $user_session = [$user['id_role']];
+            }
+        } else {
+            $user_session = $user[$field];
+        }
     } else {
         $user_session = $user;
     }
@@ -410,16 +419,16 @@ function menuSidebar()
         ],
         [
 			'title'	=> 'Surat Peringatan',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url(userSession('slug_role')) . '/surat-peringatan',
-			'role'	=> [1, 12],
+			'role'	=> [1, 2, 3, 7, 9, 12],
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'Nomor Surat',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url(userSession('slug_role')) . '/nomor-surat',
-			'role'	=> [1, 12],
+			'title'	=> 'Pencatatan Surat',
+			'icon'	=> 'fa-solid fa-file',
+			'url'	=> base_url(userSession('slug_role')) . '/pencatatan-surat',
+			'role'	=> [1, 3, 7, 8, 9, 10, 11, 12],
 			'type'	=> 'no-collapse',
 		],
         [

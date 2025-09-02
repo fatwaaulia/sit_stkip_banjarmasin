@@ -78,7 +78,7 @@
                                     <label for="id_role" class="form-label">Role</label>
                                     <select class="form-select" id="id_role" name="id_role">
                                         <?php
-                                        $role = model('Role')->whereNotIn('id', [1, 4, 5])->findAll();
+                                        $role = model('Role')->whereNotIn('id', [1, 5])->findAll();
                                         foreach ($role as $v) :
                                             $selected = ($v['id'] == $data['id_role']) ? 'selected' : '';
                                         ?>
@@ -86,6 +86,21 @@
                                         <?php endforeach; ?>
                                     </select>
                                     <div class="invalid-feedback" id="invalid_id_role"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="multi_role" class="form-label">Multi Role</label>
+                                    <select id="multi_role" name="multi_role[]" multiple>
+                                        <option value="">Pilih</option>
+                                        <?php
+                                        $selected = array_keys((array) json_decode($data['multi_role'], true));
+                                        foreach ($role as $v) :
+                                        ?>
+                                        <option value="<?= $v['id'] ?>" <?= in_array($v['id'], $selected) ? 'selected' : '' ?>>
+                                            <?= $v['nama'] ?>
+                                        </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="invalid-feedback" id="invalid_multi_role"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="program_studi" class="form-label">Program Studi</label>
@@ -99,9 +114,6 @@
                                         <option value="<?= $v['id'] ?>" <?= $selected ?>><?= $v['jenjang'] ?> - <?= $v['nama'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <div class="form-text">
-                                        Khusus Kaprodi
-                                    </div>
                                     <div class="invalid-feedback" id="invalid_program_studi"></div>
                                 </div>
                                 <div class="mb-3">
@@ -146,6 +158,7 @@
 </section>
 
 <script>
+dselect(dom('#multi_role'), { search: true });
 dselect(dom('#program_studi'), { search: true });
 
 function toggleVisibility(inputElement, eyeElement) {
