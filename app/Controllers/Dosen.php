@@ -12,7 +12,7 @@ class Dosen extends BaseController
     {
         $this->base_name   = 'dosen';
         $this->model_name  = 'Users';
-        $this->upload_path = dirUpload() . $this->base_name . '/';
+        $this->upload_path = dirUpload() . 'users/';
     }
 
     /*--------------------------------------------------------------
@@ -100,6 +100,7 @@ class Dosen extends BaseController
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['foto'] = webFile('image_user', 'users', $v['foto'], $v['updated_at']);
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
         }
 
@@ -126,6 +127,8 @@ class Dosen extends BaseController
             'persetujuan'      => 'required',
             'password' => 'required|min_length[3]|matches[passconf]',
             'passconf' => 'required|min_length[3]|matches[password]',
+            'email'    => "required|valid_email|is_unique[users.email]",
+            'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -154,6 +157,8 @@ class Dosen extends BaseController
             'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
             'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
             'alamat'          => $this->request->getVar('alamat'),
+            'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
+            'no_hp'         => $this->request->getVar('no_hp'),
 
             'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
@@ -191,6 +196,8 @@ class Dosen extends BaseController
             'motto_kerja'       => 'required',
             'password' => 'permit_empty|min_length[3]|matches[passconf]',
             'passconf' => 'permit_empty|min_length[3]|matches[password]',
+            'email'    => "required|valid_email|is_unique[users.email,id,$id]",
+            'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -204,25 +211,50 @@ class Dosen extends BaseController
 
         // Lolos Validasi
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
-        $password = trim($this->request->getVar('password'));
+
+        $multi_role = $this->request->getVar('multi_role');
+        $data_multi_role = [];
+        if ($multi_role) {
+            foreach ($multi_role as $id_role) {
+                $data_role = model('Role')->find($id_role);
+                $data_multi_role[$id_role] = [
+                    'nama_role' => $data_role['nama'],
+                    'slug_role' => $data_role['slug'],
+                ];
+            }
+        }
+
+        $foto = $this->request->getFile('foto');
+        if ($foto->isValid()) {
+            $filename_foto = $foto->getRandomName();
+            if ($foto->getExtension() != 'jpg') {
+                $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);
+            }
+            compressConvertImage($foto, $this->upload_path, $filename_foto);
+        } else {
+            $filename_foto = '';
+        }
+
         $data = [
+            'foto'          => $filename_foto,
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
             'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
             'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
             'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
             'alamat'          => $this->request->getVar('alamat'),
+            'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
+            'no_hp'         => $this->request->getVar('no_hp'),
 
             'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
             'motto_kerja' => $this->request->getVar('motto_kerja'),
+            'multi_role'    => $multi_role ? json_encode($data_multi_role) : $find_data['multi_role'],
 
             'id_program_studi'        => $program_studi['id'],
             'jenjang_program_studi'   => $program_studi['jenjang'],
             'nama_program_studi'      => $program_studi['nama'],
             'singkatan_program_studi' => $program_studi['singkatan'],
-
-            'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
         ];
 
         model($this->model_name)->update($id, $data);

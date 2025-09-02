@@ -93,7 +93,7 @@
                                         <option value="">Pilih</option>
                                         <?php
                                         $selected = array_keys((array) json_decode($data['multi_role'], true));
-                                        $multi_role = model('Role')->whereNotIn('id', [1, 17, 5])->findAll();
+                                        $multi_role = model('Role')->whereNotIn('id', [1, 17, 4, 5])->findAll();
                                         foreach ($multi_role as $v) :
                                         ?>
                                         <option value="<?= $v['id'] ?>" <?= in_array($v['id'], $selected) ? 'selected' : '' ?>>

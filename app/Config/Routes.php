@@ -82,6 +82,7 @@ if ($id_role == 4) {
     $routes->get("$slug_role/profile", "Profile::dosen", ['filter' => 'EnsureLogin']);
     $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->post('update', 'Profile::updateProfileDosen');
+        $routes->post('delete/photo', 'Profile::deletePhoto');
     });
 }
 
@@ -218,6 +219,16 @@ if (array_intersect($id_roles, roleAccessByTitle('Kalender Akademik'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Mata Kuliah'))) {
+    $routes->get("$slug_role/mata-kuliah", 'MataKuliah::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/mata-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'MataKuliah::index');
+        $routes->post('create', 'MataKuliah::create');
+        $routes->post('update/(:segment)', 'MataKuliah::update/$1');
+        $routes->post('delete/(:segment)', 'MataKuliah::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Jadwal Kuliah'))) {
     $routes->get("$slug_role/jadwal-kuliah", 'JadwalKuliah::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/jadwal-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {
@@ -287,6 +298,7 @@ if (array_intersect($id_roles, roleAccessByTitle('Dosen'))) {
         $routes->get('/', 'Dosen::index');
         $routes->post('update/(:segment)', 'Dosen::update/$1');
         $routes->post('delete/(:segment)', 'Dosen::delete/$1');
+        $routes->post('foto/delete/(:segment)', 'Users::hapusFoto/$1');
     });
 }
 

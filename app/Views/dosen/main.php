@@ -52,11 +52,13 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
+                            <th>Foto</th>
                             <th>NIDN / NIDK</th>
                             <th>Nama Dosen</th>
                             <th>Program Studi</th>
                             <th>Jabatan Fungsional</th>
                             <th>Jabatan Struktural</th>
+                            <th>Multi Role</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -89,6 +91,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
+                name: '',
+                data: null,
+                render: data => `<img data-src="${data.foto}" class="wh-40 cover-center rounded-circle lazy-shimmer">`,
+            }, {
                 name: 'nomor_identitas',
                 data: 'nomor_identitas',
             }, {
@@ -107,11 +113,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
+                render: renderMultiRole,
+            }, {
+                name: '',
+                data: null,
                 render: renderOpsi,
             },
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });
 });
+
+function renderMultiRole(data) {
+    let multi_role = data.multi_role;
+    if (! multi_role) return '';
+
+    multi_role = Object.values(JSON.parse(multi_role));
+    const html = multi_role.map(item => `<span class="bg-secondary text-light fw-500 rounded py-1 px-2">${item.nama_role}</span>`).join(' ');
+
+    return html;
+}
 
 function renderOpsi(data) {
     let endpoint_edit_data = `<?= $base_route ?>edit/${data.id}`;

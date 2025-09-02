@@ -238,7 +238,7 @@ function menuSidebar()
 			'title'	=> 'Status Bayar',
 			'icon'	=> 'fa-solid fa-hourglass-half',
 			'url'	=> base_url(userSession('slug_role')) . '/status-bayar',
-			'role'	=> [1, 17, 2],
+			'role'	=> [1, 17, 2, 7],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -331,16 +331,16 @@ function menuSidebar()
 		],
         [
 			'title'	=> 'Mata Kuliah',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url(userSession('slug_role')) . '/mata-kuliah',
-			'role'	=> [1, 17, 8],
+			'role'	=> [1, 17, 5, 8],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Jadwal Kuliah',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kuliah',
-			'role'	=> [1, 17, 3, 8],
+			'role'	=> [1, 17, 3, 5, 8],
 			'type'	=> 'no-collapse',
 		],
 		[

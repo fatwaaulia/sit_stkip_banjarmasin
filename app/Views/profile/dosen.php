@@ -10,6 +10,38 @@
                 <div class="card-body">
                     <form id="form">
                         <div class="mb-3">
+                            <div class="d-flex">
+                                <div class="position-relative">
+                                    <img src="<?= webFile('image_user', 'users', $data['foto'], $data['updated_at']) ?>" class="wh-150 cover-center rounded-circle" id="frame_foto">
+                                    <div class="position-absolute" style="bottom: 0px; right: 0px;">
+                                        <button class="btn btn-secondary rounded-circle" style="padding: 8px;" type="button" data-bs-toggle="modal" data-bs-target="#option">
+                                            <i class="fa-solid fa-camera fa-lg"></i>
+                                        </button>
+                                        <div class="modal fade" id="option" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div data-bs-dismiss="modal">
+                                                            <input type="file" class="form-control" name="foto" accept=".png,.jpg,.jpeg" onchange="dom('#frame_foto').src = window.URL.createObjectURL(this.files[0]);">
+                                                        </div>
+                                                        <?php if ($data['foto']) : ?>
+                                                        <div class="mt-3">
+                                                            <a style="cursor: pointer;" onclick="deleteData('<?= $base_api ?>delete/photo')" class="text-danger">
+                                                                <i class="fa-solid fa-trash-can fa-lg"></i>
+                                                                Hapus Foto
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback" id="invalid_foto"></div>
+                        </div>
+                        <div class="mb-3">
                             <label for="nomor_identitas" class="form-label">NIDN / NIDK</label>
                             <input type="text" class="form-control" id="nomor_identitas" name="nomor_identitas" value="<?= $data['nomor_identitas'] ?>" placeholder="Masukkan nomor identitas">
                             <div class="invalid-feedback" id="invalid_nomor_identitas"></div>
@@ -53,6 +85,16 @@
                             <label for="alamat" class="form-label">Alamat</label>
                             <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan alamat"><?= $data['alamat'] ?></textarea>
                             <div class="invalid-feedback" id="invalid_alamat"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="no_hp" class="form-label">No. HP</label>
+                            <input type="number" class="form-control" id="no_hp" name="no_hp" value="<?= $data['no_hp'] ?>" placeholder="08xx">
+                            <div class="invalid-feedback" id="invalid_no_hp"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<?= $data['email'] ?>" placeholder="name@gmail.com">
+                            <div class="invalid-feedback" id="invalid_email"></div>
                         </div>
                         <div class="mb-3">
                             <label for="jabatan_fungsional" class="form-label">Jabatan Fungsional</label>

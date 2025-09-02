@@ -109,6 +109,7 @@ class Profile extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
+            'foto'     => 'max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpeg]|is_image[foto]',
             'nomor_identitas' => "required|is_unique[users.nomor_identitas,id,$id]",
             'nama'            => 'required',
             'jenis_kelamin'   => 'required',
@@ -121,6 +122,8 @@ class Profile extends BaseController
             'motto_kerja'       => 'required',
             'password' => 'permit_empty|min_length[3]|matches[passconf]',
             'passconf' => 'permit_empty|min_length[3]|matches[password]',
+            'email'    => "required|valid_email|is_unique[users.email,id,$id]",
+            'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -133,15 +136,29 @@ class Profile extends BaseController
         }
 
         // Lolos Validasi
+        $foto = $this->request->getFile('foto');
+        if ($foto->isValid()) {
+            $filename_foto = $find_data['foto'] ?: $foto->getRandomName();
+            if ($foto->getExtension() != 'jpg') {
+                $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);
+            }
+            compressConvertImage($foto, $this->upload_path, $filename_foto);
+        } else {
+            $filename_foto = $find_data['foto'];
+        }
+
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $password = trim($this->request->getVar('password'));
         $data = [
+            'foto'          => $filename_foto,
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
             'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
             'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
             'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
             'alamat'          => $this->request->getVar('alamat'),
+            'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
+            'no_hp'         => $this->request->getVar('no_hp'),
 
             'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),

@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class JadwalKuliah extends BaseController
+class MataKuliah extends BaseController
 {
     protected $base_name;
     protected $model_name;
@@ -10,7 +10,7 @@ class JadwalKuliah extends BaseController
 
     public function __construct()
     {
-        $this->base_name   = 'jadwal_kuliah';
+        $this->base_name   = 'mata_kuliah';
         $this->model_name  = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->base_name)));
         $this->upload_path = dirUpload() . $this->base_name . '/';
     }
@@ -40,6 +40,9 @@ class JadwalKuliah extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
+        if (userSession('id_role') == 5) {
+            $base_query->where('id_program_studi', userSession('id_program_studi'));
+        }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);

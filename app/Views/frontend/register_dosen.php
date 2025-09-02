@@ -57,6 +57,16 @@
                                         <div class="invalid-feedback" id="invalid_alamat"></div>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="no_hp" class="form-label">No. HP</label>
+                                        <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="08xx">
+                                        <div class="invalid-feedback" id="invalid_no_hp"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="name@gmail.com">
+                                        <div class="invalid-feedback" id="invalid_email"></div>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="jabatan_fungsional" class="form-label">Jabatan Fungsional</label>
                                         <input type="text" class="form-control" id="jabatan_fungsional" name="jabatan_fungsional" placeholder="Masukkan jabatan fungsional">
                                         <div class="invalid-feedback" id="invalid_jabatan_fungsional"></div>

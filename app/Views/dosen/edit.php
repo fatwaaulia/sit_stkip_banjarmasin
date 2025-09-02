@@ -13,6 +13,38 @@
                 <div class="card-body">
                     <form id="form">
                         <div class="mb-3">
+                            <div class="d-flex">
+                                <div class="position-relative">
+                                    <img src="<?= webFile('image_user', 'users', $data['foto'], $data['updated_at']) ?>" class="wh-150 cover-center rounded-circle" id="frame_foto">
+                                    <div class="position-absolute" style="bottom: 0px; right: 0px;">
+                                        <button class="btn btn-secondary rounded-circle" style="padding: 8px;" type="button" data-bs-toggle="modal" data-bs-target="#option">
+                                            <i class="fa-solid fa-camera fa-lg"></i>
+                                        </button>
+                                        <div class="modal fade" id="option" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div data-bs-dismiss="modal">
+                                                            <input type="file" class="form-control" name="foto" accept=".png,.jpg,.jpeg" onchange="dom('#frame_foto').src = window.URL.createObjectURL(this.files[0]);">
+                                                            <?php if ($data['foto']) : ?>
+                                                            <div class="mt-3">
+                                                                <a style="cursor: pointer;" onclick="deleteData('<?= $base_api ?>foto/delete/<?= $data['id'] ?>')" class="text-danger">
+                                                                    <i class="fa-solid fa-trash-can fa-lg"></i>
+                                                                    Hapus Foto
+                                                                </a>
+                                                            </div>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback" id="invalid_foto"></div>
+                        </div>
+                        <div class="mb-3">
                             <label for="nomor_identitas" class="form-label">NIDN / NIDK</label>
                             <input type="text" class="form-control" id="nomor_identitas" name="nomor_identitas" value="<?= $data['nomor_identitas'] ?>" placeholder="Masukkan nomor identitas">
                             <div class="invalid-feedback" id="invalid_nomor_identitas"></div>
@@ -58,6 +90,16 @@
                             <div class="invalid-feedback" id="invalid_alamat"></div>
                         </div>
                         <div class="mb-3">
+                            <label for="no_hp" class="form-label">No. HP</label>
+                            <input type="number" class="form-control" id="no_hp" name="no_hp" value="<?= $data['no_hp'] ?>" placeholder="08xx">
+                            <div class="invalid-feedback" id="invalid_no_hp"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<?= $data['email'] ?>" placeholder="name@gmail.com">
+                            <div class="invalid-feedback" id="invalid_email"></div>
+                        </div>
+                        <div class="mb-3">
                             <label for="jabatan_fungsional" class="form-label">Jabatan Fungsional</label>
                             <input type="text" class="form-control" id="jabatan_fungsional" name="jabatan_fungsional" value="<?= $data['jabatan_fungsional'] ?>" placeholder="Masukkan jabatan fungsional">
                             <div class="invalid-feedback" id="invalid_jabatan_fungsional"></div>
@@ -66,6 +108,22 @@
                             <label for="jabatan_struktural" class="form-label">Jabatan Struktural</label>
                             <input type="text" class="form-control" id="jabatan_struktural" name="jabatan_struktural" value="<?= $data['jabatan_struktural'] ?>" placeholder="Masukkan jabatan struktural">
                             <div class="invalid-feedback" id="invalid_jabatan_struktural"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="multi_role" class="form-label">Multi Role</label>
+                            <select id="multi_role" name="multi_role[]" multiple>
+                                <option value="">Pilih</option>
+                                <?php
+                                $selected = array_keys((array) json_decode($data['multi_role'], true));
+                                $multi_role = model('Role')->whereNotIn('id', [1, 17, 4, 5])->findAll();
+                                foreach ($multi_role as $v) :
+                                ?>
+                                <option value="<?= $v['id'] ?>" <?= in_array($v['id'], $selected) ? 'selected' : '' ?>>
+                                    <?= $v['nama'] ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="invalid-feedback" id="invalid_multi_role"></div>
                         </div>
                         <div class="mb-3">
                             <label for="program_studi" class="form-label">Program Studi</label>
@@ -86,19 +144,6 @@
                             <textarea class="form-control" id="motto_kerja" name="motto_kerja" rows="3" placeholder="Masukkan motto kerja"><?= $data['motto_kerja'] ?></textarea>
                             <div class="invalid-feedback" id="invalid_motto_kerja"></div>
                         </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Ubah Password</label><span class="text-secondary"> (Opsional)</span>
-                            <div class="mb-2 position-relative">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
-                                <div class="invalid-feedback" id="invalid_password"></div>
-                                <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_password">
-                            </div>
-                            <div class="position-relative">
-                                <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm password">
-                                <div class="invalid-feedback" id="invalid_passconf"></div>
-                                <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
-                            </div>
-                        </div>
                         <div class="mt-3 float-end">
                             <a href="<?= $base_route ?>" class="btn btn-secondary me-1">Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
@@ -111,22 +156,8 @@
 </section>
 
 <script>
+dselect(dom('#multi_role'), { search: true });
 dselect(dom('#program_studi'), { search: true });
-
-function toggleVisibility(inputElement, eyeElement) {
-    const showIcon = "<?= base_url('assets/icons/show.png') ?>";
-    const hideIcon = "<?= base_url('assets/icons/hide.png') ?>";
-    inputElement.type = inputElement.type === 'password' ? 'text' : 'password';
-    eyeElement.src = inputElement.type === 'password' ? showIcon : hideIcon;
-}
-
-dom('#eye_password').addEventListener('click', () => {
-    toggleVisibility(dom('#password'), dom('#eye_password'));
-});
-
-dom('#eye_passconf').addEventListener('click', () => {
-    toggleVisibility(dom('#passconf'), dom('#eye_passconf'));
-});
 
 dom('#form').addEventListener('submit', function(event) {
     event.preventDefault();

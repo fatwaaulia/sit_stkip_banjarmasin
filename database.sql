@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 02 Sep 2025 pada 06.28
+-- Waktu pembuatan: 02 Sep 2025 pada 12.00
 -- Versi server: 8.0.30
 -- Versi PHP: 8.3.9
 
@@ -87,6 +87,10 @@ INSERT INTO `jadwal_kegiatan` (`id`, `kategori`, `judul`, `tautan`, `created_at`
 
 CREATE TABLE `jadwal_kuliah` (
   `id` bigint NOT NULL,
+  `id_program_studi` bigint NOT NULL,
+  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
@@ -97,8 +101,8 @@ CREATE TABLE `jadwal_kuliah` (
 -- Dumping data untuk tabel `jadwal_kuliah`
 --
 
-INSERT INTO `jadwal_kuliah` (`id`, `judul`, `tautan`, `created_at`, `updated_at`) VALUES
-(1, 'S1 - PBI | 2024-2025 Ganjil', 'https://drive.google.com/drive/?lfhs=2', '2025-08-29 07:46:30', '2025-08-29 07:48:29');
+INSERT INTO `jadwal_kuliah` (`id`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `judul`, `tautan`, `created_at`, `updated_at`) VALUES
+(2, 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', '2024/2025 Ganjil', 'https://translate.google.com/?sl=en&tl=id&text=teknologi%20rekayasa%20perangkatan%20lunak%20terapan%20sistem&op=translate', '2025-09-02 18:31:04', '2025-09-02 18:31:04');
 
 -- --------------------------------------------------------
 
@@ -465,7 +469,10 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (224, 24, 4, 'Mulyadi', '1234', '::1', 'Success', '2025-09-02 09:48:28', '2025-09-02 09:48:28'),
 (225, 25, 4, 'fatwa', '123', '::1', 'Success', '2025-09-02 10:11:23', '2025-09-02 10:11:23'),
 (226, 24, 4, 'Mulyadi', '1234', '::1', 'Success', '2025-09-02 10:15:18', '2025-09-02 10:15:18'),
-(227, 27, 17, 'Admin Utama', 'adminutama', '::1', 'Success', '2025-09-02 13:23:28', '2025-09-02 13:23:28');
+(227, 27, 17, 'Admin Utama', 'adminutama', '::1', 'Success', '2025-09-02 13:23:28', '2025-09-02 13:23:28'),
+(228, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-02 16:47:05', '2025-09-02 16:47:05'),
+(229, 25, 4, 'fatwa', '123', '::1', 'Success', '2025-09-02 17:51:21', '2025-09-02 17:51:21'),
+(230, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-02 17:53:23', '2025-09-02 17:53:23');
 
 -- --------------------------------------------------------
 
@@ -516,6 +523,31 @@ INSERT INTO `master_dana` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dan
 (24, 'Keluar', 11, 'Grup 1', 'Lain-lain', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 3, 0),
 (25, 'Keluar', 12, 'Grup 2', 'Dana Penelitian', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 3, 0),
 (26, 'Keluar', 12, 'Grup 2', 'Dana PKM', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 3, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `mata_kuliah`
+--
+
+CREATE TABLE `mata_kuliah` (
+  `id` bigint NOT NULL,
+  `id_program_studi` bigint NOT NULL,
+  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `mata_kuliah`
+--
+
+INSERT INTO `mata_kuliah` (`id`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `judul`, `tautan`, `created_at`, `updated_at`) VALUES
+(2, 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025/2026 Ganjil', 'https://translate.google.com/?sl=en&tl=id&text=teknologi%20rekayasa%20perangkatan%20lunak%20terapan%20sistem&op=translate', '2025-09-02 18:27:20', '2025-09-02 18:27:55');
 
 -- --------------------------------------------------------
 
@@ -1038,8 +1070,8 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `multi_role`, `n
 (21, 15, 'UTP PLP', 'upt-plp', '', 'UPT PLP', 'uptplp', '', '$2y$10$IhIHmUr3HeFZCCPfNxMf5OYyVgezWxG.CcUuyyobpAxc1MEWV9DWy', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 09:49:14', '2025-09-01 09:49:14'),
 (22, 16, 'Tendik', 'tendik', '', 'Tendik', 'tendik', '', '$2y$10$0N9UVbHNXBTy0sDS9A10tuRjetb/ZvxGkRZFUCqEpr26qFaizexRO', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 09:51:11', '2025-09-01 09:51:11'),
 (23, 5, 'Mahasiswa', 'mahasiswa', '', 'Dimas Pradana', '', 'dimas@gmail.com', '$2y$10$u2d2WfIAbAuKyk0sgMp5Q.zWpAnq0BEimSVRgkeE1rvZyV7TaDuSa', '1756696620_2a194365d9473a1835b6.jpg', 'Laki-laki', 'Klaten', '08123', '', '', '', '', 'Solo', '2002-02-12', 'Buddha', 'Belum Kawin', 'Indonesia', 'SMAN 1 Klaten', '2038428304', '2019', '85', 'Slamet', '01928301', 'Konsultan', 'Sari', '01928392', 'Petani', 'Yani', '0394223', 'Wiraswasta', 'Instagram', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 50000, 150000, 50000, 2500000, 2, 'SPP Tarif 2', 4000000, 375000, 300000, 150000, 300000, 120000, 100000, 300000, 0, 0, 'Aktif', NULL, NULL, '2025-09-01 10:17:01', '2025-09-01 10:28:29', 'ENABLE', '2025-09-01 10:17:01', '2025-09-01 10:28:29'),
-(24, 4, 'Dosen', 'dosen', '{\"3\":{\"nama_role\":\"Waka Akademik\",\"slug_role\":\"waka-akademik\"}}', 'Mulyadi', '1234', '', '$2y$10$.X5gyk1WDOLiod92YcE.VOpptm1H1g0CuOcyCADvH29vb0yiv/zyK', '', 'Laki-laki', 'Jakarta', '', 'Wakil Direktur', 'Dosen', 'Semangat Kerja', '1234', 'Bogor', '1978-09-18', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 10:31:03', '2025-09-02 10:23:30'),
-(25, 4, 'Dosen', 'dosen', '', 'fatwa', '123', '', '$2y$10$NLvs11UUa0yh6JDpZz4EquBpzKWOFTbw9DgWI2zQ0zVWXSNY5jSOS', '', 'Laki-laki', 'asd', '', 'asd', 'jo', 'asdad', '123', 'Solo', '2024-12-31', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:04:31', '2025-09-01 12:04:31'),
+(24, 4, 'Dosen', 'dosen', '{\"3\":{\"nama_role\":\"Waka Akademik\",\"slug_role\":\"waka-akademik\"},\"6\":{\"nama_role\":\"Staf Akademik\",\"slug_role\":\"staf-akademik\"}}', 'Mulyadi', '1234', '', '$2y$10$.X5gyk1WDOLiod92YcE.VOpptm1H1g0CuOcyCADvH29vb0yiv/zyK', '', 'Laki-laki', 'Jakarta', '', 'Wakil Direktur', 'Dosen', 'Semangat Kerja', '1234', 'Bogor', '1978-09-18', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 10:31:03', '2025-09-02 17:00:03'),
+(25, 4, 'Dosen', 'dosen', '', 'fatwa', '123', 'fatwa@gmail.com', '$2y$10$NLvs11UUa0yh6JDpZz4EquBpzKWOFTbw9DgWI2zQ0zVWXSNY5jSOS', '', 'Laki-laki', 'asd', '081273981793', 'asd', 'jo', 'asdad', '123', 'Solo', '2024-12-31', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:04:31', '2025-09-02 17:52:41'),
 (27, 17, 'Admin Utama', 'admin-utama', '', 'Admin Utama', 'adminutama', '', '$2y$10$N4NRNeIPTRz.eywKj70sc.YFE2OsmueaE/3wCSa3PrGKkDf2lU50W', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-02 13:14:19', '2025-09-02 13:14:19');
 
 --
@@ -1104,6 +1136,12 @@ ALTER TABLE `log_login`
 -- Indeks untuk tabel `master_dana`
 --
 ALTER TABLE `master_dana`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `mata_kuliah`
+--
+ALTER TABLE `mata_kuliah`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1198,7 +1236,7 @@ ALTER TABLE `jadwal_kegiatan`
 -- AUTO_INCREMENT untuk tabel `jadwal_kuliah`
 --
 ALTER TABLE `jadwal_kuliah`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `kalender_akademik`
@@ -1234,13 +1272,19 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT untuk tabel `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 
 --
 -- AUTO_INCREMENT untuk tabel `master_dana`
 --
 ALTER TABLE `master_dana`
   MODIFY `id` smallint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT untuk tabel `mata_kuliah`
+--
+ALTER TABLE `mata_kuliah`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `pembayaran_mahasiswa`
