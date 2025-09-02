@@ -91,13 +91,23 @@ class Auth extends BaseController
         $password = trim($this->request->getVar('password'));
 
         $user = model($this->model_name)
-        ->select(['id', 'id_role', 'nama', 'username', 'password', 'status'])
+        ->select(['id', 'id_role', 'nama', 'username', 'password', 'status', 'status_akun'])
         ->groupStart()
             ->where('username', $username)
             ->orWhere('email', $username)
             ->orWhere('nomor_identitas', $username)
         ->groupEnd()
         ->first();
+
+        if ($user['status_akun'] == 'DISABLE') {
+            $log['status'] = 'Failed';
+            model('LogLogin')->insert($log);
+
+            return $this->response->setStatusCode(401)->setJSON([
+                'status'  => 'error',
+                'message' => 'Akun telah dinonaktifkan',
+            ]);
+        }
 
         if ($user['id_role'] == 5 && $user['status'] != 'Aktif') {
             $log['status'] = 'Failed';

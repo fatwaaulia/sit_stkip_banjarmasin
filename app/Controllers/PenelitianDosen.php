@@ -40,9 +40,9 @@ class PenelitianDosen extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (userSession('id_roles') == 4) {
-            $base_query->where('created_by', userSession('id'));
-        }
+        // if (userSession('id_roles') == 4) {
+        //     $base_query->where('created_by', userSession('id'));
+        // }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);

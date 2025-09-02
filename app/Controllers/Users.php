@@ -151,19 +151,21 @@ class Users extends BaseController
 
         $multi_role = $this->request->getVar('multi_role');
         $data_multi_role = [];
-        foreach ($multi_role as $id_role) {
-            $data_role = model('Role')->find($id_role);
-            $data_multi_role[$id_role] = [
-                'nama_role' => $data_role['nama'],
-                'slug_role' => $data_role['slug'],
-            ];
+        if ($multi_role) {
+            foreach ($multi_role as $id_role) {
+                $data_role = model('Role')->find($id_role);
+                $data_multi_role[$id_role] = [
+                    'nama_role' => $data_role['nama'],
+                    'slug_role' => $data_role['slug'],
+                ];
+            }
         }
 
         $data = [
             'id_role'       => $role['id'],
             'nama_role'     => $role['nama'],
             'slug_role'     => $role['slug'],
-            'multi_role'    => $multi_role ? json_encode($data_multi_role) : null,
+            'multi_role'    => $multi_role ? json_encode($data_multi_role) : '',
             'nama'          => ucwords($this->request->getVar('nama')),
             'username'      => strtolower($this->request->getVar('username')),
             'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
@@ -172,6 +174,8 @@ class Users extends BaseController
             'foto'          => $filename_foto,
             'alamat'        => $this->request->getVar('alamat'),
             'no_hp'         => $this->request->getVar('no_hp'),
+
+            'status_akun' => 'ENABLE',
 
             'id_program_studi'        => $program_studi['id'] ?? '',
             'jenjang_program_studi'   => $program_studi['jenjang'] ?? '',
@@ -202,6 +206,7 @@ class Users extends BaseController
             'foto'     => 'max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpeg]|is_image[foto]',
             'alamat'   => 'max_length[255]',
             'no_hp'    => 'permit_empty|numeric|min_length[10]|max_length[20]',
+            'status_akun' => 'required',
         ];
         if (!$this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -233,12 +238,14 @@ class Users extends BaseController
 
         $multi_role = $this->request->getVar('multi_role');
         $data_multi_role = [];
-        foreach ($multi_role as $id_role) {
-            $data_role = model('Role')->find($id_role);
-            $data_multi_role[$id_role] = [
-                'nama_role' => $data_role['nama'],
-                'slug_role' => $data_role['slug'],
-            ];
+        if ($multi_role) {
+            foreach ($multi_role as $id_role) {
+                $data_role = model('Role')->find($id_role);
+                $data_multi_role[$id_role] = [
+                    'nama_role' => $data_role['nama'],
+                    'slug_role' => $data_role['slug'],
+                ];
+            }
         }
 
         $data = [
@@ -254,6 +261,8 @@ class Users extends BaseController
             'foto'          => $filename_foto,
             'alamat'        => $this->request->getVar('alamat'),
             'no_hp'         => $this->request->getVar('no_hp'),
+
+            'status_akun' => $this->request->getVar('status_akun'),
 
             'id_program_studi'        => $program_studi['id'] ?? '',
             'jenjang_program_studi'   => $program_studi['jenjang'] ?? '',

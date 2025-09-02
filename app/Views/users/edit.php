@@ -93,7 +93,8 @@
                                         <option value="">Pilih</option>
                                         <?php
                                         $selected = array_keys((array) json_decode($data['multi_role'], true));
-                                        foreach ($role as $v) :
+                                        $multi_role = model('Role')->whereNotIn('id', [1, 17, 5])->findAll();
+                                        foreach ($multi_role as $v) :
                                         ?>
                                         <option value="<?= $v['id'] ?>" <?= in_array($v['id'], $selected) ? 'selected' : '' ?>>
                                             <?= $v['nama'] ?>
@@ -143,6 +144,22 @@
                                         <div class="invalid-feedback" id="invalid_passconf"></div>
                                        <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
                                     </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Status Akun</label>
+                                    <?php
+                                    $status_akun = ['ENABLE', 'DISABLE'];
+                                    foreach ($status_akun as $v) :
+                                        $checked = ($v == $data['status_akun']) ? 'checked' : '';
+                                    ?>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="<?= $v ?>" name="status_akun" value="<?= $v ?>" <?= $checked ?>>
+                                        <label class="form-check-label" for="<?= $v ?>">
+                                            <?= $v ?>
+                                        </label>
+                                    </div>
+                                    <?php endforeach; ?>
+                                    <div class="invalid-feedback" id="invalid_status_akun"></div>
                                 </div>
                             </div>
                         </div>

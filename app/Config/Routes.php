@@ -61,7 +61,7 @@ $routes->get('email-layout', 'AppSettings::emailLayout');
   # Menu Dashboard dan Profil
 --------------------------------------------------------------*/
 $id_role   = userSession('id_role');
-$id_roles   = userSession('id_roles');
+$id_roles   = userSession('id_roles') ?: [];
 $slug_role = userSession('slug_role');
 
 if (userSession()) {

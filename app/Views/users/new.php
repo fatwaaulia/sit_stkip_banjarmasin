@@ -73,7 +73,8 @@
                                     <select id="multi_role" name="multi_role[]" multiple>
                                         <option value="">Pilih</option>
                                         <?php
-                                        foreach ($role as $v) :
+                                        $multi_role = model('Role')->whereNotIn('id', [1, 17, 5])->findAll();
+                                        foreach ($multi_role as $v) :
                                         ?>
                                         <option value="<?= $v['id'] ?>">
                                             <?= $v['nama'] ?>

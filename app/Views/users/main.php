@@ -46,6 +46,7 @@ $get_role = $_GET['role'] ?? '';
                             <th>No. HP</th>
                             <th>Username</th>
                             <th>Email</th>
+                            <th>Status Akun</th>
                             <th>Created At</th>
                             <th>Opsi</th>
                         </tr>
@@ -108,6 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: 'email',
                 data: 'email',
+            }, {
+                name: '',
+                data: 'status_akun',
             }, {
                 name: '',
                 data: 'created_at',
