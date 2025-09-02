@@ -1,6 +1,6 @@
 <?php
 $is_access = false;
-if (in_array(userSession('id_role'), [1, 3])) {
+if (in_array(userSession('id_role'), [1, 4])) {
     $is_access = true;
 }
 ?>
@@ -37,12 +37,25 @@ if (in_array(userSession('id_role'), [1, 3])) {
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="mb-3">
+                                                    <label for="kategori" class="form-label">Kategori</label>
+                                                    <select class="form-select" id="kategori" name="kategori">
+                                                        <option value="">Pilih</option>
+                                                        <?php
+                                                        $kategori = ['PENELITIAN', 'PENGABDIAN', 'ARTIKEL PUBLIKASI'];
+                                                        foreach ($kategori as $v) :
+                                                        ?>
+                                                        <option value="<?= $v ?>"><?= $v ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_kategori"></div>
+                                                </div>
+                                                <div class="mb-3">
                                                     <label for="judul" class="form-label">Judul</label>
                                                     <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
                                                     <div class="invalid-feedback" id="invalid_judul"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan SK</label>
+                                                    <label for="tautan" class="form-label">Tautan</label>
                                                     <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
                                                     <div class="invalid-feedback" id="invalid_tautan"></div>
                                                 </div>
@@ -70,8 +83,11 @@ if (in_array(userSession('id_role'), [1, 3])) {
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
+                            <th>Kategori</th>
                             <th>Judul</th>
-                            <th>Tautan SK</th>
+                            <th>Tautan</th>
+                            <th>Created At</th>
+                            <th>Created By</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -106,12 +122,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
+                name: 'kategori',
+                data: 'kategori',
+            }, {
                 name: 'judul',
                 data: 'judul',
             }, {
                 name: '',
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+            }, {
+                name: 'created_at',
+                data: 'created_at',
+            }, {
+                name: 'created_by',
+                data: 'created_by',
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -123,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const tipe = ['SPP', 'Addons'];
+    const kategori = ['PENELITIAN', 'PENGABDIAN', 'ARTIKEL PUBLIKASI'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -138,6 +163,14 @@ function renderOpsi(data) {
                 </div>
                 <form id="form_${data.id}">
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="kategori" class="form-label">Kategori</label>
+                            <select class="form-select" id="kategori" name="kategori">
+                                <option value="">Pilih</option>
+                                ${kategori.map(item => `<option value="${item}" ${item == data.kategori ? 'selected' : ''}>${item}</option>`).join('')}
+                            </select>
+                            <div class="invalid-feedback" id="invalid_kategori"></div>
+                        </div>
                         <div class="mb-3">
                             <label for="judul" class="form-label">Judul</label>
                             <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">

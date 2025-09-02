@@ -289,6 +289,16 @@ if (in_array($id_role, roleAccessByTitle('Dosen'))) {
     });
 }
 
+if (in_array($id_role, roleAccessByTitle('Penelitian Dosen'))) {
+    $routes->get("$slug_role/penelitian-dosen", 'PenelitianDosen::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/penelitian-dosen', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PenelitianDosen::index');
+        $routes->post('create', 'PenelitianDosen::create');
+        $routes->post('update/(:segment)', 'PenelitianDosen::update/$1');
+        $routes->post('delete/(:segment)', 'PenelitianDosen::delete/$1');
+    });
+}
+
 /*--------------------------------------------------------------
   # Master Data
 --------------------------------------------------------------*/

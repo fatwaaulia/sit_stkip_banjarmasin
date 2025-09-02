@@ -397,8 +397,8 @@ function menuSidebar()
             'type'	=> 'heading',
         ],
         [
-			'title'	=> 'Penelititan Dosen',
-			'icon'	=> 'fa-solid fa-spinner',
+			'title'	=> 'Penelitian Dosen',
+			'icon'	=> 'fa-solid fa-flask',
 			'url'	=> base_url(userSession('slug_role')) . '/penelitian-dosen',
 			'role'	=> [1, 4],
 			'type'	=> 'no-collapse',

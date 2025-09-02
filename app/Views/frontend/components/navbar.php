@@ -25,8 +25,8 @@ $uri->setSilent(true);
         <a class="navbar-brand d-flex" href="<?= base_url() ?>">
             <img src="<?= appSettings('logo') ?>" style="height: 45px;" alt="<?= appSettings('nama_aplikasi') ?>">
             <div class="ms-3" style="font-size: 14px;">
-                <span class="fw-500">STKIP Islam Sabilal Muhtadin</span> <br>
-                <small>VISIONER</small>
+                <div class="fw-500">STKIP Islam Sabilal Muhtadin</div>
+                <small>KAMPUS VISIONER</small>
             </div>
         </a>
         <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">

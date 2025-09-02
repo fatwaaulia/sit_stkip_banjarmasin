@@ -9,7 +9,7 @@ if ($tahun_akademik_aktif) {
 
 $biaya_pendaftaran = model('TagihanMahasiswa')->where([
     'kategori' => 'MABA',
-    'jenis' => 'pendaftaran',
+    'jenis' => 'PENDAFTARAN',
     'id_tahun_akademik' => $tahun_akademik_aktif['id'],
 ])->first();
 $biaya_almamater = model('TagihanMahasiswa')->where([
@@ -19,7 +19,7 @@ $biaya_almamater = model('TagihanMahasiswa')->where([
 ])->first();
 $biaya_ktm = model('TagihanMahasiswa')->where([
     'kategori' => 'MABA',
-    'jenis' => 'pendaftaran',
+    'jenis' => 'KTM',
     'id_tahun_akademik' => $tahun_akademik_aktif['id'],
 ])->first();
 $biaya_uang_gedung = model('TagihanMahasiswa')->where([

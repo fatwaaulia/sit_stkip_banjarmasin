@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 01 Sep 2025 pada 03.34
+-- Waktu pembuatan: 02 Sep 2025 pada 00.31
 -- Versi server: 8.0.30
 -- Versi PHP: 8.3.9
 
@@ -451,7 +451,17 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (210, 14, 8, 'Kaprodi', 'kaprodi', '::1', 'Success', '2025-09-01 10:03:04', '2025-09-01 10:03:04'),
 (211, 4, 3, 'Waka Akademik', 'wakaakademik', '::1', 'Success', '2025-09-01 10:03:50', '2025-09-01 10:03:50'),
 (212, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-01 10:11:44', '2025-09-01 10:11:44'),
-(213, 24, 4, 'Mulyadi', '1234', '::1', 'Success', '2025-09-01 10:31:14', '2025-09-01 10:31:14');
+(213, 24, 4, 'Mulyadi', '1234', '::1', 'Success', '2025-09-01 10:31:14', '2025-09-01 10:31:14'),
+(214, 25, 4, 'fatwa', '123', '::1', 'Success', '2025-09-01 12:04:35', '2025-09-01 12:04:35'),
+(215, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-01 19:00:54', '2025-09-01 19:00:54'),
+(216, 12, 4, 'Bambang', '12345', '::1', 'Success', '2025-09-01 19:35:41', '2025-09-01 19:35:41'),
+(217, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-01 19:38:21', '2025-09-01 19:38:21'),
+(218, 12, 4, 'Bambang', '12345', '::1', 'Success', '2025-09-01 19:39:35', '2025-09-01 19:39:35'),
+(219, 12, 4, 'Bambang S', '12345', '::1', 'Failed', '2025-09-01 19:43:35', '2025-09-01 19:43:35'),
+(220, 12, 4, 'Bambang S', '12345', '::1', 'Success', '2025-09-01 19:43:38', '2025-09-01 19:43:38'),
+(221, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-01 19:51:53', '2025-09-01 19:51:53'),
+(222, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-01 21:35:29', '2025-09-01 21:35:29'),
+(223, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-02 06:34:28', '2025-09-02 06:34:28');
 
 -- --------------------------------------------------------
 
@@ -537,6 +547,30 @@ CREATE TABLE `pembayaran_mahasiswa` (
 
 INSERT INTO `pembayaran_mahasiswa` (`id`, `id_tagihan_mahasiswa`, `jenis_tagihan_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `id_mahasiswa`, `nama_mahasiswa`, `nomor_identitas_mahasiswa`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `nominal`, `status`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (6, 7, 'PENDAFTARAN', 3, '2025/2026', 'Ganjil', 5, 'Fatwa Aulia', '362055401093', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 50000, 'Lunas', '2025-08-31 20:29:24', '2025-08-31 20:29:24', '1', '');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `penelitian_dosen`
+--
+
+CREATE TABLE `penelitian_dosen` (
+  `id` bigint NOT NULL,
+  `kategori` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `penelitian_dosen`
+--
+
+INSERT INTO `penelitian_dosen` (`id`, `kategori`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'PENELITIAN', 'Rancang Bangun Sistem Keuangan Menggunakan Metode Waterfall', 'https://www.youtube.com/watch?v=HSPRv0Hdvmo', '2025-09-01 21:33:08', '2025-09-01 21:37:26', 12, 12);
 
 -- --------------------------------------------------------
 
@@ -783,10 +817,7 @@ CREATE TABLE `tagihan_mahasiswa` (
 --
 
 INSERT INTO `tagihan_mahasiswa` (`id`, `kategori`, `jenis`, `json_id_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `periode_mulai_tahun_akademik`, `periode_selesai_tahun_akademik`, `json_biaya`, `biaya_yudisium_wisuda`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(7, 'MABA', 'PENDAFTARAN', '', 3, '2025/2026', 'Ganjil', '2025-08-25', '2026-01-15', '[{\"id_program_studi\":\"1\",\"biaya\":100000},{\"id_program_studi\":\"2\",\"biaya\":50000},{\"id_program_studi\":\"3\",\"biaya\":50000}]', 0, '2025-08-30 20:20:06', '2025-08-30 20:20:06', '1', ''),
-(8, 'MABA', 'ALMAMATER', '', 3, '2025/2026', 'Ganjil', '2025-08-25', '2026-01-15', '[{\"id_program_studi\":\"1\",\"biaya\":150000},{\"id_program_studi\":\"2\",\"biaya\":150000},{\"id_program_studi\":\"3\",\"biaya\":150000}]', 0, '2025-08-30 20:20:29', '2025-08-30 20:20:29', '1', ''),
-(9, 'MABA', 'KTM', '', 3, '2025/2026', 'Ganjil', '2025-08-25', '2026-01-15', '[{\"id_program_studi\":\"1\",\"biaya\":25000},{\"id_program_studi\":\"2\",\"biaya\":25000},{\"id_program_studi\":\"3\",\"biaya\":25000}]', 0, '2025-08-30 20:20:45', '2025-08-30 20:20:45', '1', ''),
-(10, 'MABA', 'UANG GEDUNG', '', 3, '2025/2026', 'Ganjil', '2025-08-25', '2026-01-15', '[{\"id_program_studi\":\"1\",\"biaya\":2500000},{\"id_program_studi\":\"2\",\"biaya\":2500000},{\"id_program_studi\":\"3\",\"biaya\":2500000}]', 0, '2025-08-30 20:21:00', '2025-08-30 20:21:00', '1', '');
+(12, 'MABA', 'PENDAFTARAN', '', 3, '2025/2026', 'Ganjil', '2025-08-25', '2026-01-15', '[{\"id_program_studi\":\"1\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Bahasa Inggris\",\"biaya\":25000},{\"id_program_studi\":\"2\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Guru Sekolah Dasar\",\"biaya\":50000},{\"id_program_studi\":\"3\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Guru Pendidikan Anak Usia Dini\",\"biaya\":75000}]', 0, '2025-09-01 20:14:52', '2025-09-01 20:14:52', '1', '');
 
 -- --------------------------------------------------------
 
@@ -931,13 +962,13 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `usernam
 (1, 1, 'Superadmin', 'superadmin', 'Superadmin', 'superadmin', '', '$2y$10$mVEvojJB5S6yx0DpBklmYOFSmvI6k8WqqKuAZxLu7w3dFGBXxXLqa', '1701744923_ef8be205f9a3eefa1576.jpg', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', NULL, NULL, NULL, '2022-10-21 14:14:28', '2025-08-30 20:29:56'),
 (3, 2, 'Keuangan', 'keuangan', 'Keuangan', 'keuangan', '', '$2y$10$.kbDhl4hTwmXFAdRWuguC.GNtrksW2UZ6aFilRgZ/HkdsSGxT6M9a', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2024-04-27 20:10:01', '2025-08-31 10:55:01'),
 (4, 3, 'Waka Akademik', 'waka-akademik', 'Waka Akademik', 'wakaakademik', '', '$2y$10$sSUYi5pEYrhk3NnzEviHAeWSBUQPbubKEfeFI9p6k/chOZHvaUbA6', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-08-18 16:37:32', '2025-08-31 10:55:17'),
-(5, 5, 'Mahasiswa', 'mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '', '', '', '362055401093', 'Banyuwangi', '2001-01-05', 'Islam', 'Belum Kawin', 'Indonesia', 'SMAN 2 GENTENG', '0173081928301', '2019', '80.9', 'Handoko', '097390489324', 'Wiraswasta', 'Nur', '02830948', 'Ibu Rumah Tangga', 'Handoko', '097390489324', 'Wiraswasta', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 50000, 100000, 25000, 2500000, 3, 'SPP Tarif 3', 2500000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, NULL, NULL, '2025-08-19 09:56:48', '2025-08-31 20:30:08'),
-(6, 5, 'Mahasiswa', 'mahasiswa', 'Putri Salsabila', '1234567890', 'salsabilla@gmail.com', '$2y$10$DyxkiMlw8hyFGKeKHTGNruqLcg67JQAhVn10os8OxpDegkPpujrDK', '', 'Perempuan', 'Jember', '082634793123', '', '', '', '1234567890', 'Jember', '2002-01-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 0, 50000, 100000, 900000, 2, 'SPP Tarif 2', 4000000, 150000, 200000, 50000, 75000, 50000, 50000, 100000, 150000, 200000, 'Aktif', NULL, NULL, NULL, NULL, '2025-08-22 10:37:04', '2025-08-22 10:37:04'),
+(5, 5, 'Mahasiswa', 'mahasiswa', 'Fatwa Aulia', '362055401093', 'fatwaaulia.fy@gmail.com', '$2y$10$Kj6j1J1g65.P6rzazo/4DexLRkjFggUuFaivHjx94LBVMRGx4p7da', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '', '', '', '362055401093', 'Banyuwangi', '2001-01-05', 'Islam', 'Belum Kawin', 'Indonesia', 'SMAN 2 GENTENG', '0173081928301', '2019', '80.9', 'Handoko', '097390489324', 'Wiraswasta', 'Nur', '02830948', 'Ibu Rumah Tangga', 'Handoko', '097390489324', 'Wiraswasta', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 50000, 100000, 25000, 2500000, 3, 'SPP Tarif 3', 2500000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 500000, 300000, 'Aktif', NULL, NULL, NULL, NULL, '2025-08-19 09:56:48', '2025-09-01 19:34:09'),
+(6, 5, 'Mahasiswa', 'mahasiswa', 'Putri Salsabila', '1234567890', 'salsabilla@gmail.com', '$2y$10$DyxkiMlw8hyFGKeKHTGNruqLcg67JQAhVn10os8OxpDegkPpujrDK', '', 'Perempuan', 'Jember', '082634793123', '', '', '', '1234567890', 'Jember', '2002-01-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 0, 50000, 100000, 900000, 2, 'SPP Tarif 2', 4000000, 150000, 200000, 50000, 75000, 50000, 50000, 100000, 500000, 200000, 'Aktif', NULL, NULL, NULL, NULL, '2025-08-22 10:37:04', '2025-09-01 19:34:09'),
 (7, 5, 'Mahasiswa', 'mahasiswa', 'Sekar Wulandari', '1234567891', 'sekarwulan@gmail.com', '$2y$10$RmQ0EQAIEh79XD75kUC0wOm.tX8W5pwS36PLBvIhNYdzKxpUUJCzy', '1756639577_c596ac0fef04e40b1617.jpg', 'Perempuan', 'Jl. Soedirman B2', '087387492842', '', '', '', '1234567891', 'Surabaya', '2002-02-12', 'Islam', 'Kawin', 'Indonesia', 'SMAN 2 Malang', '023904832', '2020', '88.2', 'Mamad', '018273918723', 'Kades', 'Sri', '0812739123', 'Ibu Rumah Tangga', 'Mamad', '018273918723', 'Kades', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 75000, 100000, 25000, 2500000, 4, 'SPP Tarif 4', 1000000, 250000, 500000, 50000, 50000, 100000, 150000, 200000, 250000, 300000, 'Aktif', NULL, NULL, NULL, NULL, '2025-08-27 16:19:12', '2025-08-31 18:29:21'),
 (9, 5, 'Mahasiswa', 'mahasiswa', 'asudgaud', 'fatwaaulia.fy@gmail.com', 'tes@gmail.com', '$2y$10$NcaTEJT5vKHapt//7zrlTuvXeHssCQvWye6crbntVvsfIEt3gSAUe', '1756564199_f110e69ae9c6a0d773c5.jpg', 'Laki-laki', 'shduiasdasd', '082345566500', '', '', '', '', 'eihiufhiewf', '2010-12-01', 'Hindu', 'Belum Kawin', 'euiwqieqwe', 'uhquihw9dqhd', 'qidwhiudq', 'qiwdq', 'ihu9wqd', 'idijqoi', '928380', '09ji32id', 'jhiuh9', '9999', '9y889', '9797987', '978978', '979', 'aojsoda', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 100000, 150000, 100000, 2500000, 1, 'SPP Tarif 1', 5000000, 350000, 300000, 200000, 400000, 200000, 200000, 300000, 0, 0, 'Menunggu Konfirmasi', NULL, NULL, NULL, NULL, '2025-08-30 21:29:59', '2025-08-30 21:29:59'),
 (10, 6, 'Staf Akademik', 'staf-akademik', 'Staf Akademik', 'stafakademik', '', '$2y$10$cVOuhN4t.CRTY5hGJqChmuRGtH1mwq4lCB47RX6GcQVkcBFj.M8eq', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-08-31 10:54:21', '2025-09-01 08:52:33'),
 (11, 5, 'Mahasiswa', 'mahasiswa', 'Sefia Maharani', '', 'sefia@gmail.com', '$2y$10$VQLhbm64hdeYRJZdI9Jd9uak7WULV/2ux68J455KBTeqUHAsC8.aC', '1756651962_3017f16659c67615995d.jpg', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran', '123', '', '', '', '', 'Banyuwangi', '2001-02-01', 'Islam', 'Belum Kawin', 'Indonesia', 'MAN', '038409823904', '2019', '99', 'jasjd', '237492', 'AJDOIWQ', 'ajskd', '012391', 'djknjke', 'hdw', '234', 'jadj', 'ajsdjoa', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 100000, 150000, 100000, 2500000, 2, 'SPP Tarif 2', 4000000, 375000, 300000, 150000, 300000, 120000, 100000, 300000, 0, 0, 'Menunggu Konfirmasi', NULL, NULL, '2025-08-31 21:52:43', NULL, '2025-08-31 21:52:43', '2025-08-31 21:52:43'),
-(12, 4, 'Dosen', 'dosen', 'Bambang', '12345', '', '$2y$10$ixYA6T75afckKcWeLg7DOu1p59WJC9Cliap2QcFZVdwogcgPc9Nta', '', 'Laki-laki', 'Surabaya', '', 'Dosen Tetap', 'Wakil Direktur', 'kerja kerja kerja', '12345', 'Mojokerto', '1992-02-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-08-31 22:51:33', '2025-09-01 08:06:38'),
+(12, 4, 'Dosen', 'dosen', 'Bambang S', '12345', '', '$2y$10$FWXdr2OqRoa1Rt1/1MBeQ.Mb6.VGo1JHf5hWpCoGQfopcw7qJaUim', '', 'Laki-laki', 'Surabaya', '', 'Dosen Tetap', 'Wakil Direktur', 'kerja kerja kerja', '12345', 'Mojokerto', '1992-02-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-08-31 22:51:33', '2025-09-01 19:43:51'),
 (13, 7, 'Pimpinan', 'pimpinan', 'Pimpinan', 'pimpinan', '', '$2y$10$jfvwAmvzAAFKr5f6inVURebO.tFhMPi5asXCiPbjcnDzmWXFEjjzO', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:04:46', '2025-09-01 09:04:46'),
 (14, 8, 'Kaprodi', 'kaprodi', 'Kaprodi', 'kaprodi', '', '$2y$10$FJPtan1wLkj3MH8gzoGtfeLnrGsFFOWpSzLdjHp4wORAkvRQiZXrq', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:13:49', '2025-09-01 09:14:28'),
 (15, 9, 'Waka Kemahasiswaan dan Kerja Sama', 'waka-kemahasiswaan-kerjasama', 'Waka Kemahasiswaan Dan Kerja Sama', 'wakakemahasiswaan', '', '$2y$10$/wny.1lBZEF7K3eEPbidSOme4RGvXpBBto.OXdVz71ltD1Ixw1yAK', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:22:04', '2025-09-01 09:23:29'),
@@ -949,7 +980,8 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `nama`, `usernam
 (21, 15, 'UTP PLP', 'upt-plp', 'UPT PLP', 'uptplp', '', '$2y$10$IhIHmUr3HeFZCCPfNxMf5OYyVgezWxG.CcUuyyobpAxc1MEWV9DWy', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:49:14', '2025-09-01 09:49:14'),
 (22, 16, 'Tendik', 'tendik', 'Tendik', 'tendik', '', '$2y$10$0N9UVbHNXBTy0sDS9A10tuRjetb/ZvxGkRZFUCqEpr26qFaizexRO', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 09:51:11', '2025-09-01 09:51:11'),
 (23, 5, 'Mahasiswa', 'mahasiswa', 'Dimas Pradana', '', 'dimas@gmail.com', '$2y$10$u2d2WfIAbAuKyk0sgMp5Q.zWpAnq0BEimSVRgkeE1rvZyV7TaDuSa', '1756696620_2a194365d9473a1835b6.jpg', 'Laki-laki', 'Klaten', '08123', '', '', '', '', 'Solo', '2002-02-12', 'Buddha', 'Belum Kawin', 'Indonesia', 'SMAN 1 Klaten', '2038428304', '2019', '85', 'Slamet', '01928301', 'Konsultan', 'Sari', '01928392', 'Petani', 'Yani', '0394223', 'Wiraswasta', 'Instagram', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 50000, 150000, 50000, 2500000, 2, 'SPP Tarif 2', 4000000, 375000, 300000, 150000, 300000, 120000, 100000, 300000, 0, 0, 'Aktif', NULL, NULL, '2025-09-01 10:17:01', '2025-09-01 10:28:29', '2025-09-01 10:17:01', '2025-09-01 10:28:29'),
-(24, 4, 'Dosen', 'dosen', 'Mulyadi', '1234', '', '$2y$10$.X5gyk1WDOLiod92YcE.VOpptm1H1g0CuOcyCADvH29vb0yiv/zyK', '', 'Laki-laki', 'Jakarta', '', 'Wakil Direktur', 'Dosen', 'Semangat Kerja', '1234', 'Bogor', '1978-09-18', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 10:31:03', '2025-09-01 10:31:03');
+(24, 4, 'Dosen', 'dosen', 'Mulyadi', '1234', '', '$2y$10$.X5gyk1WDOLiod92YcE.VOpptm1H1g0CuOcyCADvH29vb0yiv/zyK', '', 'Laki-laki', 'Jakarta', '', 'Wakil Direktur', 'Dosen', 'Semangat Kerja', '1234', 'Bogor', '1978-09-18', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 10:31:03', '2025-09-01 10:31:03'),
+(25, 4, 'Dosen', 'dosen', 'fatwa', '123', '', '$2y$10$NLvs11UUa0yh6JDpZz4EquBpzKWOFTbw9DgWI2zQ0zVWXSNY5jSOS', '', 'Laki-laki', 'asd', '', 'asd', 'jo', 'asdad', '123', 'Solo', '2024-12-31', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, '2025-09-01 12:04:31', '2025-09-01 12:04:31');
 
 --
 -- Indexes for dumped tables
@@ -1019,6 +1051,12 @@ ALTER TABLE `master_dana`
 -- Indeks untuk tabel `pembayaran_mahasiswa`
 --
 ALTER TABLE `pembayaran_mahasiswa`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `penelitian_dosen`
+--
+ALTER TABLE `penelitian_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1125,7 +1163,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT untuk tabel `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
 
 --
 -- AUTO_INCREMENT untuk tabel `master_dana`
@@ -1138,6 +1176,12 @@ ALTER TABLE `master_dana`
 --
 ALTER TABLE `pembayaran_mahasiswa`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT untuk tabel `penelitian_dosen`
+--
+ALTER TABLE `penelitian_dosen`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `penyusutan_inventaris`
@@ -1167,7 +1211,7 @@ ALTER TABLE `status_mahasiswa`
 -- AUTO_INCREMENT untuk tabel `tagihan_mahasiswa`
 --
 ALTER TABLE `tagihan_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `tahun_akademik`
@@ -1185,7 +1229,7 @@ ALTER TABLE `tarif_spp`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
