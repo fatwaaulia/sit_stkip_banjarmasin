@@ -77,7 +77,6 @@ class FrontEnd extends BaseController
         return view('frontend/header', $view);
     }
 
-    
     public function registerDosen()
     {
         $data = [
@@ -86,6 +85,18 @@ class FrontEnd extends BaseController
 
         $view['navbar'] = view('frontend/components/navbar');
         $view['content'] = view('frontend/register_dosen', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
+
+    public function registerTendik()
+    {
+        $data = [
+            'title'    => 'Register Tendik',
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/register_tendik', $data);
         $view['footer'] = view('frontend/components/footer');
         return view('frontend/header', $view);
     }

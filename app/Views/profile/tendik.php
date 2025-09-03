@@ -1,10 +1,7 @@
-<link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
-<script src="<?= base_url() ?>assets/modules/dselect/dselect.min.js"></script>
-
 <section class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h4 class="my-4"><?= isset($title) ? $title : '' ?></h4>
+            <h4 class="my-4">Profil</h4>
         </div>
     </div>
     <div class="row">
@@ -26,15 +23,15 @@
                                                     <div class="modal-body">
                                                         <div data-bs-dismiss="modal">
                                                             <input type="file" class="form-control" name="foto" accept=".png,.jpg,.jpeg" onchange="dom('#frame_foto').src = window.URL.createObjectURL(this.files[0]);">
-                                                            <?php if ($data['foto']) : ?>
-                                                            <div class="mt-3">
-                                                                <a style="cursor: pointer;" onclick="deleteData('<?= $base_api ?>foto/delete/<?= $data['id'] ?>')" class="text-danger">
-                                                                    <i class="fa-solid fa-trash-can fa-lg"></i>
-                                                                    Hapus Foto
-                                                                </a>
-                                                            </div>
-                                                            <?php endif; ?>
                                                         </div>
+                                                        <?php if ($data['foto']) : ?>
+                                                        <div class="mt-3">
+                                                            <a style="cursor: pointer;" onclick="deleteData('<?= $base_api ?>delete/photo')" class="text-danger">
+                                                                <i class="fa-solid fa-trash-can fa-lg"></i>
+                                                                Hapus Foto
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,22 +107,6 @@
                             <div class="invalid-feedback" id="invalid_jabatan_struktural"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="multi_role" class="form-label">Multi Role</label>
-                            <select id="multi_role" name="multi_role[]" multiple>
-                                <option value="">Pilih</option>
-                                <?php
-                                $selected = array_keys((array) json_decode($data['multi_role'], true));
-                                $multi_role = model('Role')->whereNotIn('id', [1, 17, 4, 5, 16])->findAll();
-                                foreach ($multi_role as $v) :
-                                ?>
-                                <option value="<?= $v['id'] ?>" <?= in_array($v['id'], $selected) ? 'selected' : '' ?>>
-                                    <?= $v['nama'] ?>
-                                </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div class="invalid-feedback" id="invalid_multi_role"></div>
-                        </div>
-                        <div class="mb-3">
                             <label for="program_studi" class="form-label">Program Studi</label>
                             <select class="form-select" id="program_studi" name="program_studi">
                                 <option value="">Pilih</option>
@@ -144,10 +125,20 @@
                             <textarea class="form-control" id="motto_kerja" name="motto_kerja" rows="3" placeholder="Masukkan motto kerja"><?= $data['motto_kerja'] ?></textarea>
                             <div class="invalid-feedback" id="invalid_motto_kerja"></div>
                         </div>
-                        <div class="mt-3 float-end">
-                            <a href="<?= $base_route ?>" class="btn btn-secondary me-1">Kembali</a>
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Ubah Password</label><span class="text-secondary"> (Opsional)</span>
+                            <div class="mb-2 position-relative">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
+                                <div class="invalid-feedback" id="invalid_password"></div>
+                                <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_password">
+                            </div>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm password">
+                                <div class="invalid-feedback" id="invalid_passconf"></div>
+                                <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
+                            </div>
                         </div>
+                        <button type="submit" class="btn btn-primary mt-3 float-end">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
@@ -156,12 +147,32 @@
 </section>
 
 <script>
-dselect(dom('#multi_role'), { search: true });
-dselect(dom('#program_studi'), { search: true });
+function toggleVisibility(inputElement, eyeElement) {
+    const showIcon = "<?= base_url('assets/icons/show.png') ?>";
+    const hideIcon = "<?= base_url('assets/icons/hide.png') ?>";
+    inputElement.type = inputElement.type === 'password' ? 'text' : 'password';
+    eyeElement.src = inputElement.type === 'password' ? showIcon : hideIcon;
+}
 
+dom('#eye_password').addEventListener('click', () => {
+    toggleVisibility(dom('#password'), dom('#eye_password'));
+});
+
+dom('#eye_passconf').addEventListener('click', () => {
+    toggleVisibility(dom('#passconf'), dom('#eye_passconf'));
+});
+</script>
+
+<script>
 dom('#form').addEventListener('submit', function(event) {
     event.preventDefault();
-    const endpoint = '<?= $base_api ?>update/<?= $data['id'] ?>';
+    const endpoint = '<?= $base_api ?>update';
     submitData(dom('#form'), endpoint);
+});
+
+dom('#form_ubah_password').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const endpoint = '<?= $base_api ?>update/password';
+    submitData(dom('#form_ubah_password'), endpoint);
 });
 </script>

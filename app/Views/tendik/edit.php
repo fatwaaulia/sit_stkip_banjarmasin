@@ -45,7 +45,7 @@
                             <div class="invalid-feedback" id="invalid_foto"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="nomor_identitas" class="form-label">NIDN / NIDK</label>
+                            <label for="nomor_identitas" class="form-label">Nomor Identitas</label>
                             <input type="text" class="form-control" id="nomor_identitas" name="nomor_identitas" value="<?= $data['nomor_identitas'] ?>" placeholder="Masukkan nomor identitas">
                             <div class="invalid-feedback" id="invalid_nomor_identitas"></div>
                         </div>

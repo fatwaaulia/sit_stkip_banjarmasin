@@ -14,6 +14,15 @@ $routes->set404Override(
             $data['sidebar'] = view('dashboard/sidebar');
             return view('dashboard/header', $data);
         } else {
+            $uri = service('uri');
+            $uri->setSilent();
+            $segment_1 = $uri->getSegment(1);
+            $array_slug_role = model('Role')->findColumn('slug');
+            if (in_array($segment_1, $array_slug_role)) {
+                redirect()->route('login')->send();
+                exit;
+            }
+
             $data['navbar'] = view('frontend/components/navbar');
             $data['footer'] = view('frontend/components/footer');
             return view('frontend/header', $data);
@@ -32,6 +41,9 @@ $routes->get('mendaftar-mahasiswa/detail', 'FrontEnd::mendaftarMahasiswaDetail')
 
 $routes->get('register-dosen', 'FrontEnd::registerDosen');
 $routes->post('api/dosen/create', 'Dosen::create');
+
+$routes->get('register-tendik', 'FrontEnd::registerTendik');
+$routes->post('api/tendik/create', 'Tendik::create');
 
 $routes->post('session/set/timezone', function() {
     $timezone = service('request')->getVar('timezone');
@@ -82,6 +94,14 @@ if ($id_role == 4) {
     $routes->get("$slug_role/profile", "Profile::dosen", ['filter' => 'EnsureLogin']);
     $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->post('update', 'Profile::updateProfileDosen');
+        $routes->post('delete/photo', 'Profile::deletePhoto');
+    });
+}
+
+if ($id_role == 16) {
+    $routes->get("$slug_role/profile", "Profile::tendik", ['filter' => 'EnsureLogin']);
+    $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->post('update', 'Profile::updateProfileTendik');
         $routes->post('delete/photo', 'Profile::deletePhoto');
     });
 }
@@ -298,6 +318,20 @@ if (array_intersect($id_roles, roleAccessByTitle('Dosen'))) {
         $routes->get('/', 'Dosen::index');
         $routes->post('update/(:segment)', 'Dosen::update/$1');
         $routes->post('delete/(:segment)', 'Dosen::delete/$1');
+        $routes->post('foto/delete/(:segment)', 'Users::hapusFoto/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Tendik'))) {
+    $routes->group("$slug_role/tendik", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Tendik::main');
+        $routes->get('new', 'Tendik::new');
+        $routes->get('edit/(:segment)', 'Tendik::edit/$1');
+    });
+    $routes->group('api/tendik', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Tendik::index');
+        $routes->post('update/(:segment)', 'Tendik::update/$1');
+        $routes->post('delete/(:segment)', 'Tendik::delete/$1');
         $routes->post('foto/delete/(:segment)', 'Users::hapusFoto/$1');
     });
 }

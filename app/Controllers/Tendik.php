@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class Profile extends BaseController
+class Tendik extends BaseController
 {
     protected $base_name;
     protected $model_name;
@@ -10,7 +10,7 @@ class Profile extends BaseController
 
     public function __construct()
     {
-        $this->base_name   = 'profile';
+        $this->base_name   = 'tendik';
         $this->model_name  = 'Users';
         $this->upload_path = dirUpload() . 'users/';
     }
@@ -18,99 +18,103 @@ class Profile extends BaseController
     /*--------------------------------------------------------------
     # Front-End
     --------------------------------------------------------------*/
-    public function profilev1()
+    public function main()
     {
-        $id = userSession('id');
-
+        $query = $_SERVER['QUERY_STRING'] ? ('?' . $_SERVER['QUERY_STRING']) : '';
         $data = [
-            'base_api' => $this->base_api,
-            'data'     => model($this->model_name)->find($id),
-            'title'    => 'Profil',
+            'get_data'   => $this->base_api . $query,
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => ucwords(str_replace('_', ' ', $this->base_name)),
         ];
-        
+
         $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view($this->base_name . '/v1', $data);
+        $view['content'] = view($this->base_name . '/main', $data);
         return view('dashboard/header', $view);
     }
 
-    public function dosen()
+    public function new()
     {
-        $id = userSession('id');
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/new', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function edit($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
 
         $data = [
-            'base_api' => $this->base_api,
-            'data'     => model($this->model_name)->find($id),
-            'title'    => 'Profil',
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => $find_data,
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
         ];
-        
+
         $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view($this->base_name . '/dosen', $data);
+        $view['content'] = view($this->base_name . '/edit', $data);
         return view('dashboard/header', $view);
     }
 
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
-    public function updateProfilev1()
+    public function index()
     {
-        $id = userSession('id');
-        $find_data = model($this->model_name)->find($id);
+        $select          = ['*'];
+        $base_query      = model($this->model_name)->select($select)->where('id_role', 16);
+        $limit           = (int)$this->request->getVar('length');
+        $offset          = (int)$this->request->getVar('start');
+        $records_total   = $base_query->countAllResults(false);
+        $array_query_key = ['program_studi'];
 
-        $rules = [
-            'foto'     => 'max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpeg]|is_image[foto]',
-            'nama'     => 'required',
-            'alamat'   => 'max_length[255]',
-            'no_hp'    => 'permit_empty|numeric|min_length[10]|max_length[20]',
-            'username' => "required|alpha_numeric|is_unique[users.username,id,$id]",
-        ];
-        if (!$this->validate($rules)) {
-            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
-
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => 'error',
-                'message' => 'Data yang dimasukkan tidak valid!',
-                'errors'  => $errors,
-            ]);
-        }
-
-        // Lolos Validasi
-        $foto = $this->request->getFile('foto');
-        if ($foto->isValid()) {
-            $filename_foto = $find_data['foto'] ?: $foto->getRandomName();
-            if ($foto->getExtension() != 'jpg') {
-                $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);
+        if (array_intersect(array_keys($_GET), $array_query_key)) {
+            $get_program_studi = $this->request->getVar('program_studi');
+            if ($get_program_studi) {
+                $base_query->where('id_program_studi', $get_program_studi);
             }
-            compressConvertImage($foto, $this->upload_path, $filename_foto);
-        } else {
-            $filename_foto = $find_data['foto'];
         }
 
-        $data = [
-            'nama'          => ucwords($this->request->getVar('nama')),
-            'foto'          => $filename_foto,
-            'jenis_kelamin' => $this->request->getVar('jenis_kelamin'),
-            'alamat'        => $this->request->getVar('alamat'),
-            'no_hp'         => $this->request->getVar('no_hp'),
-            'username'      => $this->request->getVar('username'),
-        ];
+        // Datatables
+        $columns = array_column($this->request->getVar('columns') ?? [], 'name');
+        $search = $this->request->getVar('search')['value'] ?? null;
+        dataTablesSearch($columns, $search, $select, $base_query);
 
-        model($this->model_name)->update($id, $data);
+        $order = $this->request->getVar('order')[0] ?? null;
+        if (isset($order['column'], $order['dir']) && !empty($columns[$order['column']])) {
+            $base_query->orderBy($columns[$order['column']], $order['dir'] === 'desc' ? 'desc' : 'asc');
+        } else {
+            $base_query->orderBy('created_at DESC');
+        }
+        // End | Datatables
+
+        $total_rows = $base_query->countAllResults(false);
+        $data       = $base_query->limit($limit, $offset)->get()->getResultArray();
+
+        foreach ($data as $key => $v) {
+            $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['foto'] = webFile('image_user', 'users', $v['foto'], $v['updated_at']);
+            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
+        }
 
         return $this->response->setStatusCode(200)->setJSON([
-            'status'  => 'success',
-            'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
+            'recordsTotal'    => $records_total,
+            'recordsFiltered' => $total_rows,
+            'data'            => $data,
         ]);
     }
 
-    public function updateProfileDosen()
+    public function create()
     {
-        $id = userSession('id');
-        $find_data = model($this->model_name)->find($id);
-
         $rules = [
-            'foto'     => 'max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpeg]|is_image[foto]',
-            'nomor_identitas' => "required|is_unique[users.nomor_identitas,id,$id]",
+            'nomor_identitas' => 'required|is_unique[users.nomor_identitas]',
             'nama'            => 'required',
             'jenis_kelamin'   => 'required',
             'tempat_lahir'    => 'required',
@@ -120,156 +124,13 @@ class Profile extends BaseController
             'jabatan_struktural' => 'required',
             'program_studi'    => 'required',
             'motto_kerja'       => 'required',
-            'password' => 'permit_empty|min_length[3]|matches[passconf]',
-            'passconf' => 'permit_empty|min_length[3]|matches[password]',
-            'email'    => "required|valid_email|is_unique[users.email,id,$id]",
-            'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
-        ];
-        if (! $this->validate($rules)) {
-            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
-
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => 'error',
-                'message' => 'Data yang dimasukkan tidak valid!',
-                'errors'  => $errors,
-            ]);
-        }
-
-        // Lolos Validasi
-        $foto = $this->request->getFile('foto');
-        if ($foto->isValid()) {
-            $filename_foto = $find_data['foto'] ?: $foto->getRandomName();
-            if ($foto->getExtension() != 'jpg') {
-                $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);
-            }
-            compressConvertImage($foto, $this->upload_path, $filename_foto);
-        } else {
-            $filename_foto = $find_data['foto'];
-        }
-
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
-        $password = trim($this->request->getVar('password'));
-        $data = [
-            'foto'          => $filename_foto,
-            'nomor_identitas' => $this->request->getVar('nomor_identitas'),
-            'nama'            => $this->request->getVar('nama'),
-            'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
-            'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
-            'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
-            'alamat'          => $this->request->getVar('alamat'),
-            'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
-            'no_hp'         => $this->request->getVar('no_hp'),
-
-            'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
-            'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
-            'motto_kerja' => $this->request->getVar('motto_kerja'),
-
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
-
-            'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
-        ];
-
-        model($this->model_name)->update($id, $data);
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'status'  => 'success',
-            'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
-        ]);
-    }
-
-    public function updateProfileTendik()
-    {
-        $id = userSession('id');
-        $find_data = model($this->model_name)->find($id);
-
-        $rules = [
-            'foto'     => 'max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpeg]|is_image[foto]',
-            'nomor_identitas' => "required|is_unique[users.nomor_identitas,id,$id]",
-            'nama'            => 'required',
-            'jenis_kelamin'   => 'required',
-            'tempat_lahir'    => 'required',
-            'tanggal_lahir'   => 'required',
-            'alamat'          => 'required',
-            'jabatan_fungsional' => 'required',
-            'jabatan_struktural' => 'required',
-            'program_studi'    => 'required',
-            'motto_kerja'       => 'required',
-            'password' => 'permit_empty|min_length[3]|matches[passconf]',
-            'passconf' => 'permit_empty|min_length[3]|matches[password]',
-            'email'    => "required|valid_email|is_unique[users.email,id,$id]",
-            'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
-        ];
-        if (! $this->validate($rules)) {
-            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
-
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => 'error',
-                'message' => 'Data yang dimasukkan tidak valid!',
-                'errors'  => $errors,
-            ]);
-        }
-
-        // Lolos Validasi
-        $foto = $this->request->getFile('foto');
-        if ($foto->isValid()) {
-            $filename_foto = $find_data['foto'] ?: $foto->getRandomName();
-            if ($foto->getExtension() != 'jpg') {
-                $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);
-            }
-            compressConvertImage($foto, $this->upload_path, $filename_foto);
-        } else {
-            $filename_foto = $find_data['foto'];
-        }
-
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
-        $password = trim($this->request->getVar('password'));
-        $data = [
-            'foto'          => $filename_foto,
-            'nomor_identitas' => $this->request->getVar('nomor_identitas'),
-            'nama'            => $this->request->getVar('nama'),
-            'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
-            'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
-            'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
-            'alamat'          => $this->request->getVar('alamat'),
-            'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
-            'no_hp'         => $this->request->getVar('no_hp'),
-
-            'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
-            'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
-            'motto_kerja' => $this->request->getVar('motto_kerja'),
-
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
-
-            'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
-        ];
-
-        model($this->model_name)->update($id, $data);
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'status'  => 'success',
-            'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
-        ]);
-    }
-
-    public function updatePassword()
-    {
-        $id = userSession('id');
-        $find_data = model($this->model_name)->find($id);
-
-        $rules = [
-            'oldpass'  => 'required',
+            'persetujuan'      => 'required',
             'password' => 'required|min_length[3]|matches[passconf]',
             'passconf' => 'required|min_length[3]|matches[password]',
+            'email'    => "required|valid_email|is_unique[users.email]",
+            'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
         ];
-        if (!$this->validate($rules)) {
+        if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
 
             return $this->response->setStatusCode(400)->setJSON([
@@ -280,43 +141,143 @@ class Profile extends BaseController
         }
 
         // Lolos Validasi
-        $oldpass = trim($this->request->getVar('oldpass'));
-        $password = trim($this->request->getVar('password'));
-
-        if (! password_verify($oldpass, $find_data['password'])) {
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => 'error',
-                'message' => 'Password saat ini salah!',
-            ]);
-        }
-
+        $role = model('Role')->find(16);
+        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $data = [
-            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'id_role'         => $role['id'],
+            'nama_role'       => $role['nama'],
+            'slug_role'       => $role['slug'],
+
+            'username' => $this->request->getVar('nomor_identitas'),
+            'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
+
+            'nomor_identitas' => $this->request->getVar('nomor_identitas'),
+            'nama'            => $this->request->getVar('nama'),
+            'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
+            'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
+            'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
+            'alamat'          => $this->request->getVar('alamat'),
+            'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
+            'no_hp'         => $this->request->getVar('no_hp'),
+
+            'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
+            'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
+            'motto_kerja' => $this->request->getVar('motto_kerja'),
+
+            'id_program_studi'        => $program_studi['id'],
+            'jenjang_program_studi'   => $program_studi['jenjang'],
+            'nama_program_studi'      => $program_studi['nama'],
+            'singkatan_program_studi' => $program_studi['singkatan'],
         ];
 
-        model($this->model_name)->update($id, $data);
-        session()->remove(['isLogin', 'user']);
+        model($this->model_name)->insert($data);
 
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
-            'message' => 'Password berhasil diubah. Silakan login kembali.',
-            'route'   => base_url('login/admin'),
+            'message' => 'Akun dosen berhasil dibuat, silakan login',
+            'route'   => base_url('login'),
         ]);
     }
 
-    public function deletePhoto()
+    public function update($id = null)
     {
-        $id = userSession('id');
+        $find_data = model($this->model_name)->find($id);
+
+        $rules = [
+            'nomor_identitas' => "required|is_unique[users.nomor_identitas,id,$id]",
+            'nama'            => 'required',
+            'jenis_kelamin'   => 'required',
+            'tempat_lahir'    => 'required',
+            'tanggal_lahir'   => 'required',
+            'alamat'          => 'required',
+            'jabatan_fungsional' => 'required',
+            'jabatan_struktural' => 'required',
+            'program_studi'    => 'required',
+            'motto_kerja'       => 'required',
+            'password' => 'permit_empty|min_length[3]|matches[passconf]',
+            'passconf' => 'permit_empty|min_length[3]|matches[password]',
+            'email'    => "required|valid_email|is_unique[users.email,id,$id]",
+            'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
+        ];
+        if (! $this->validate($rules)) {
+            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
+
+            return $this->response->setStatusCode(400)->setJSON([
+                'status'  => 'error',
+                'message' => 'Data yang dimasukkan tidak valid!',
+                'errors'  => $errors,
+            ]);
+        }
+
+        // Lolos Validasi
+        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+
+        $multi_role = $this->request->getVar('multi_role');
+        $data_multi_role = [];
+        if ($multi_role) {
+            foreach ($multi_role as $id_role) {
+                $data_role = model('Role')->find($id_role);
+                $data_multi_role[$id_role] = [
+                    'nama_role' => $data_role['nama'],
+                    'slug_role' => $data_role['slug'],
+                ];
+            }
+        }
+
+        $foto = $this->request->getFile('foto');
+        if ($foto->isValid()) {
+            $filename_foto = $foto->getRandomName();
+            if ($foto->getExtension() != 'jpg') {
+                $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);
+            }
+            compressConvertImage($foto, $this->upload_path, $filename_foto);
+        } else {
+            $filename_foto = '';
+        }
+
+        $data = [
+            'foto'          => $filename_foto,
+            'nomor_identitas' => $this->request->getVar('nomor_identitas'),
+            'nama'            => $this->request->getVar('nama'),
+            'jenis_kelamin'   => $this->request->getVar('jenis_kelamin'),
+            'tempat_lahir'    => $this->request->getVar('tempat_lahir'),
+            'tanggal_lahir'   => $this->request->getVar('tanggal_lahir'),
+            'alamat'          => $this->request->getVar('alamat'),
+            'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
+            'no_hp'         => $this->request->getVar('no_hp'),
+
+            'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
+            'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
+            'motto_kerja' => $this->request->getVar('motto_kerja'),
+            'multi_role'    => $multi_role ? json_encode($data_multi_role) : $find_data['multi_role'],
+
+            'id_program_studi'        => $program_studi['id'],
+            'jenjang_program_studi'   => $program_studi['jenjang'],
+            'nama_program_studi'      => $program_studi['nama'],
+            'singkatan_program_studi' => $program_studi['singkatan'],
+        ];
+
+        model($this->model_name)->update($id, $data);
+
+        return $this->response->setStatusCode(200)->setJSON([
+            'status'  => 'success',
+            'message' => 'Perubahan disimpan',
+            'route'   => $this->base_route,
+        ]);
+    }
+
+    public function delete($id = null)
+    {
         $find_data = model($this->model_name)->find($id);
 
         $foto = $this->upload_path . $find_data['foto'];
         if (is_file($foto)) unlink($foto);
 
-        model($this->model_name)->update($id, ['foto' => '']);
+        model($this->model_name)->delete($id);
 
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
-            'message' => 'Foto berhasil dihapus',
+            'message' => 'Data berhasil dihapus',
         ]);
     }
 }

@@ -313,6 +313,13 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
+			'title'	=> 'Tendik',
+			'icon'	=> 'fa-solid fa-address-card',
+			'url'	=> base_url(userSession('slug_role')) . '/tendik',
+			'role'	=> [1, 17, 3, 6],
+			'type'	=> 'no-collapse',
+		],
+        [
             'title'	=> 'WAKIL KETUA BIDANG KEMAHASISWAAN DAN KERJASAMA',
             'role'	=> [1, 17],
             'type'	=> 'heading',
