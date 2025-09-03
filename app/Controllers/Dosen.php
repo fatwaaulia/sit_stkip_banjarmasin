@@ -168,6 +168,8 @@ class Dosen extends BaseController
             'jenjang_program_studi'   => $program_studi['jenjang'],
             'nama_program_studi'      => $program_studi['nama'],
             'singkatan_program_studi' => $program_studi['singkatan'],
+
+            'status_akun' => 'ENABLE',
         ];
 
         model($this->model_name)->insert($data);
@@ -198,6 +200,7 @@ class Dosen extends BaseController
             'passconf' => 'permit_empty|min_length[3]|matches[password]',
             'email'    => "required|valid_email|is_unique[users.email,id,$id]",
             'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
+            'status_akun' => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -235,6 +238,7 @@ class Dosen extends BaseController
             $filename_foto = '';
         }
 
+        $password = trim($this->request->getVar('password'));
         $data = [
             'foto'          => $filename_foto,
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
@@ -255,6 +259,9 @@ class Dosen extends BaseController
             'jenjang_program_studi'   => $program_studi['jenjang'],
             'nama_program_studi'      => $program_studi['nama'],
             'singkatan_program_studi' => $program_studi['singkatan'],
+
+            'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
+            'status_akun' => $this->request->getVar('status_akun'),
         ];
 
         model($this->model_name)->update($id, $data);

@@ -159,6 +159,8 @@ class Tendik extends BaseController
             'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
             'motto_kerja' => $this->request->getVar('motto_kerja'),
+
+            'status_akun' => 'ENABLE',
         ];
 
         model($this->model_name)->insert($data);
@@ -186,6 +188,7 @@ class Tendik extends BaseController
             'passconf' => 'permit_empty|min_length[3]|matches[password]',
             'email'    => "required|valid_email|is_unique[users.email,id,$id]",
             'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
+            'status_akun' => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -221,6 +224,7 @@ class Tendik extends BaseController
             $filename_foto = '';
         }
 
+        $password = trim($this->request->getVar('password'));
         $data = [
             'foto'          => $filename_foto,
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
@@ -236,6 +240,9 @@ class Tendik extends BaseController
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
             'motto_kerja' => $this->request->getVar('motto_kerja'),
             'multi_role'    => $multi_role ? json_encode($data_multi_role) : $find_data['multi_role'],
+
+            'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
+            'status_akun' => $this->request->getVar('status_akun'),
         ];
 
         model($this->model_name)->update($id, $data);

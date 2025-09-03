@@ -32,6 +32,7 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                             <th>Jabatan Fungsional</th>
                             <th>Jabatan Struktural</th>
                             <th>Multi Role</th>
+                            <th>Status Akun</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -83,6 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: renderMultiRole,
+            }, {
+                name: '',
+                data: 'status_akun',
             }, {
                 name: '',
                 data: null,

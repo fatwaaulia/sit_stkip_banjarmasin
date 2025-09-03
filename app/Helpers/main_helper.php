@@ -340,14 +340,14 @@ function menuSidebar()
 			'title'	=> 'Mata Kuliah',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url(userSession('slug_role')) . '/mata-kuliah',
-			'role'	=> [1, 17, 5, 8],
+			'role'	=> [1, 17, 4, 5, 8],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Jadwal Kuliah',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kuliah',
-			'role'	=> [1, 17, 3, 5, 8],
+			'role'	=> [1, 17, 3, 4, 5, 8],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -506,16 +506,16 @@ function menuSidebar()
 		],
         [
 			'title'	=> 'Tracer Studi',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url(userSession('slug_role')) . '/tracer-studi',
-			'role'	=> [1, 17, 14],
+			'role'	=> [1, 17, 3, 7, 9, 14],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Laporan Promosi',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url(userSession('slug_role')) . '/laporan-promosi',
-			'role'	=> [1, 17, 14],
+			'role'	=> [1, 17, 7, 9, 14],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -523,13 +523,13 @@ function menuSidebar()
 			'role'	=> [1, 17, 2, 3],
 			'type'	=> 'heading',
 		],
-		[
-			'title'	=> 'User Management',
-			'icon'	=> 'fa-solid fa-user-group',
-			'url'	=> base_url(userSession('slug_role')) . '/users',
-			'role'	=> [1, 17],
-			'type'	=> 'no-collapse',
-		],
+		// [
+		// 	'title'	=> 'User Management',
+		// 	'icon'	=> 'fa-solid fa-user-group',
+		// 	'url'	=> base_url(userSession('slug_role')) . '/users',
+		// 	'role'	=> [1, 17],
+		// 	'type'	=> 'no-collapse',
+		// ],
 		[
 			'title'	=> 'Tahun Akademik',
 			'icon'	=> 'fa-solid fa-clone',

@@ -376,6 +376,26 @@ if (array_intersect($id_roles, roleAccessByTitle('Pencatatan Surat'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Tracer Studi'))) {
+    $routes->get("$slug_role/tracer-studi", 'TracerStudi::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/tracer-studi', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'TracerStudi::index');
+        $routes->post('create', 'TracerStudi::create');
+        $routes->post('update/(:segment)', 'TracerStudi::update/$1');
+        $routes->post('delete/(:segment)', 'TracerStudi::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Laporan Promosi'))) {
+    $routes->get("$slug_role/laporan-promosi", 'LaporanPromosi::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/laporan-promosi', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'LaporanPromosi::index');
+        $routes->post('create', 'LaporanPromosi::create');
+        $routes->post('update/(:segment)', 'LaporanPromosi::update/$1');
+        $routes->post('delete/(:segment)', 'LaporanPromosi::delete/$1');
+    });
+}
+
 /*--------------------------------------------------------------
   # Master Data
 --------------------------------------------------------------*/

@@ -1,6 +1,6 @@
 <?php
 $is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
+if (array_intersect(userSession('id_roles'), [1, 17, 3, 7, 9, 14])) {
     $is_access = true;
 }
 ?>
@@ -19,10 +19,10 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
             <div class="card p-3">
                 <?php if ($is_access) : ?>
                 <div class="row g-3 mb-3">
-                    <div class="col-12 col-lg-10 col-xl-11">
+                    <div class="col-12 col-md-6 col-lg-5 col-xl-4">
                         <!--  -->
                     </div>
-                    <div class="col-12 col-lg-2 col-xl-1 d-flex justify-content-end align-items-end">
+                    <div class="col-12 col-md-6 col-lg-7 col-xl-8 d-flex justify-content-end align-items-end">
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
                             <i class="fa-solid fa-plus fa-sm"></i> New
                         </button>
@@ -36,19 +36,16 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                                     <form id="form">
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="kategori" class="form-label">Kategori</label>
-                                                <input type="text" class="form-control" id="kategori" name="kategori" placeholder="Masukkan kategori">
-                                                <div class="invalid-feedback" id="invalid_kategori"></div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="judul" class="form-label">Judul</label>
-                                                <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
-                                                <div class="invalid-feedback" id="invalid_judul"></div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="tautan" class="form-label">Tautan SK</label>
-                                                <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
-                                                <div class="invalid-feedback" id="invalid_tautan"></div>
+                                                <div class="mb-3">
+                                                    <label for="judul" class="form-label">Judul</label>
+                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
+                                                    <div class="invalid-feedback" id="invalid_judul"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="tautan" class="form-label">Tautan</label>
+                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
+                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -73,11 +70,9 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Kategori</th>
                             <th>Judul</th>
-                            <th>Tautan SK</th>
+                            <th>Tautan</th>
                             <?php if ($is_access) : ?>
-                            <th>Created By</th>
                             <th>Opsi</th>
                             <?php endif; ?>
                         </tr>
@@ -111,9 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: '',
-                data: 'kategori',
-            }, {
                 name: 'judul',
                 data: 'judul',
             }, {
@@ -121,9 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
             }, <?php if ($is_access) : ?> {
-                name: 'created_by',
-                data: 'created_by',
-            }, {
                 name: '',
                 data: null,
                 render: renderOpsi,
@@ -134,10 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const kategori = [
-        'MBKM',
-        'Seminar Proposal', 'Sidang Skripsi'
-    ];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -153,17 +138,12 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="kategori" class="form-label">Kategori</label>
-                            <input type="text" class="form-control" id="kategori" name="kategori" value="${data.kategori}" placeholder="Masukkan kategori">
-                            <div class="invalid-feedback" id="invalid_kategori"></div>
-                        </div>
-                        <div class="mb-3">
                             <label for="judul" class="form-label">Judul</label>
                             <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
                             <div class="invalid-feedback" id="invalid_judul"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan SK</label>
+                            <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
                         </div>

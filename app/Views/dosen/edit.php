@@ -144,6 +144,38 @@
                             <textarea class="form-control" id="motto_kerja" name="motto_kerja" rows="3" placeholder="Masukkan motto kerja"><?= $data['motto_kerja'] ?></textarea>
                             <div class="invalid-feedback" id="invalid_motto_kerja"></div>
                         </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Ubah Password</label><span class="text-secondary"> (Opsional)</span>
+                            <div class="mb-2 position-relative">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
+                                <div class="invalid-feedback" id="invalid_password"></div>
+                                <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_password">
+                            </div>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm password">
+                                <div class="invalid-feedback" id="invalid_passconf"></div>
+                                <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
+                            </div>
+                            <div class="form-text">
+                                Kosongi jika tidak ingin ubah password
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Akun</label>
+                            <?php
+                            $status_akun = ['ENABLE', 'DISABLE'];
+                            foreach ($status_akun as $v) :
+                                $checked = ($v == $data['status_akun']) ? 'checked' : '';
+                            ?>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="<?= $v ?>" name="status_akun" value="<?= $v ?>" <?= $checked ?>>
+                                <label class="form-check-label" for="<?= $v ?>">
+                                    <?= $v ?>
+                                </label>
+                            </div>
+                            <?php endforeach; ?>
+                            <div class="invalid-feedback" id="invalid_status_akun"></div>
+                        </div>
                         <div class="mt-3 float-end">
                             <a href="<?= $base_route ?>" class="btn btn-secondary me-1">Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
