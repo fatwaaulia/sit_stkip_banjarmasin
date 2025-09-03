@@ -79,10 +79,6 @@ table tr td { padding: 6px; }
                             <td>Jabatan Struktural</td>
                             <td>: <?= userSession('jabatan_struktural') ?></td>
                         </tr>
-                        <tr>
-                            <td>Program Studi</td>
-                            <td>: <?= userSession('jenjang_program_studi') ?> - <?= userSession('nama_program_studi') ?></td>
-                        </tr>
                     </table>
                 </div>
             </div>

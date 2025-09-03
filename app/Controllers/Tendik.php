@@ -73,14 +73,14 @@ class Tendik extends BaseController
         $limit           = (int)$this->request->getVar('length');
         $offset          = (int)$this->request->getVar('start');
         $records_total   = $base_query->countAllResults(false);
-        $array_query_key = ['program_studi'];
+        // $array_query_key = ['program_studi'];
 
-        if (array_intersect(array_keys($_GET), $array_query_key)) {
-            $get_program_studi = $this->request->getVar('program_studi');
-            if ($get_program_studi) {
-                $base_query->where('id_program_studi', $get_program_studi);
-            }
-        }
+        // if (array_intersect(array_keys($_GET), $array_query_key)) {
+        //     $get_program_studi = $this->request->getVar('program_studi');
+        //     if ($get_program_studi) {
+        //         $base_query->where('id_program_studi', $get_program_studi);
+        //     }
+        // }
 
         // Datatables
         $columns = array_column($this->request->getVar('columns') ?? [], 'name');
@@ -120,9 +120,6 @@ class Tendik extends BaseController
             'tempat_lahir'    => 'required',
             'tanggal_lahir'   => 'required',
             'alamat'          => 'required',
-            'jabatan_fungsional' => 'required',
-            'jabatan_struktural' => 'required',
-            'program_studi'    => 'required',
             'motto_kerja'       => 'required',
             'persetujuan'      => 'required',
             'password' => 'required|min_length[3]|matches[passconf]',
@@ -142,7 +139,6 @@ class Tendik extends BaseController
 
         // Lolos Validasi
         $role = model('Role')->find(16);
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $data = [
             'id_role'         => $role['id'],
             'nama_role'       => $role['nama'],
@@ -163,11 +159,6 @@ class Tendik extends BaseController
             'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
             'motto_kerja' => $this->request->getVar('motto_kerja'),
-
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
         ];
 
         model($this->model_name)->insert($data);
@@ -190,9 +181,6 @@ class Tendik extends BaseController
             'tempat_lahir'    => 'required',
             'tanggal_lahir'   => 'required',
             'alamat'          => 'required',
-            'jabatan_fungsional' => 'required',
-            'jabatan_struktural' => 'required',
-            'program_studi'    => 'required',
             'motto_kerja'       => 'required',
             'password' => 'permit_empty|min_length[3]|matches[passconf]',
             'passconf' => 'permit_empty|min_length[3]|matches[password]',
@@ -210,8 +198,6 @@ class Tendik extends BaseController
         }
 
         // Lolos Validasi
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
-
         $multi_role = $this->request->getVar('multi_role');
         $data_multi_role = [];
         if ($multi_role) {
@@ -250,11 +236,6 @@ class Tendik extends BaseController
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
             'motto_kerja' => $this->request->getVar('motto_kerja'),
             'multi_role'    => $multi_role ? json_encode($data_multi_role) : $find_data['multi_role'],
-
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
         ];
 
         model($this->model_name)->update($id, $data);

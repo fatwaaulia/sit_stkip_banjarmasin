@@ -48,6 +48,21 @@ class Profile extends BaseController
         return view('dashboard/header', $view);
     }
 
+    public function tendik()
+    {
+        $id = userSession('id');
+
+        $data = [
+            'base_api' => $this->base_api,
+            'data'     => model($this->model_name)->find($id),
+            'title'    => 'Profil',
+        ];
+        
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/tendik', $data);
+        return view('dashboard/header', $view);
+    }
+
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
@@ -196,7 +211,6 @@ class Profile extends BaseController
             'alamat'          => 'required',
             'jabatan_fungsional' => 'required',
             'jabatan_struktural' => 'required',
-            'program_studi'    => 'required',
             'motto_kerja'       => 'required',
             'password' => 'permit_empty|min_length[3]|matches[passconf]',
             'passconf' => 'permit_empty|min_length[3]|matches[password]',
@@ -225,7 +239,6 @@ class Profile extends BaseController
             $filename_foto = $find_data['foto'];
         }
 
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $password = trim($this->request->getVar('password'));
         $data = [
             'foto'          => $filename_foto,
@@ -241,11 +254,6 @@ class Profile extends BaseController
             'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
             'motto_kerja' => $this->request->getVar('motto_kerja'),
-
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
 
             'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
         ];

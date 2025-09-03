@@ -73,7 +73,7 @@
                                     <select id="multi_role" name="multi_role[]" multiple>
                                         <option value="">Pilih</option>
                                         <?php
-                                        $multi_role = model('Role')->whereNotIn('id', [1, 17, 4, 5])->findAll();
+                                        $multi_role = model('Role')->whereNotIn('id', [1, 17, 5])->findAll();
                                         foreach ($multi_role as $v) :
                                         ?>
                                         <option value="<?= $v['id'] ?>">
@@ -122,6 +122,9 @@
                                         <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm password">
                                         <div class="invalid-feedback" id="invalid_passconf"></div>
                                        <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
+                                    </div>
+                                    <div class="form-text">
+                                        Kosongi jika tidak ingin ubah password
                                     </div>
                                 </div>
                             </div>

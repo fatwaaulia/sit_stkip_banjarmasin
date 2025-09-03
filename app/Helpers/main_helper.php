@@ -418,7 +418,14 @@ function menuSidebar()
 			'title'	=> 'Penelitian Dosen',
 			'icon'	=> 'fa-solid fa-flask',
 			'url'	=> base_url(userSession('slug_role')) . '/penelitian-dosen',
-			'role'	=> [1, 17, 4],
+			'role'	=> [1, 17, 4, 7, 3, 9, 10, 11, 12],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Pengembangan Kompetensi',
+			'icon'	=> 'fa-solid fa-flask',
+			'url'	=> base_url(userSession('slug_role')) . '/pengembangan-kompetensi',
+			'role'	=> [1, 17, 4, 7, 3, 9, 10, 11, 12],
 			'type'	=> 'no-collapse',
 		],
         [

@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
-<script src="<?= base_url() ?>assets/modules/dselect/dselect.min.js"></script>
-
 <section class="container-fluid" style="background:radial-gradient(circle at 30% 30%,#66c28a 0%,#00993c 55%,#005c24 100%);">
     <div class="container">
         <div class="row">
@@ -77,19 +74,6 @@
                                         <div class="invalid-feedback" id="invalid_jabatan_struktural"></div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="program_studi" class="form-label">Program Studi</label>
-                                        <select class="form-select" id="program_studi" name="program_studi">
-                                            <option value="">Pilih</option>
-                                            <?php
-                                            $program_studi = model('ProgramStudi')->findAll();
-                                            foreach ($program_studi as $v) :
-                                            ?>
-                                            <option value="<?= $v['id'] ?>"><?= $v['jenjang'] ?> - <?= $v['nama'] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <div class="invalid-feedback" id="invalid_program_studi"></div>
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="motto_kerja" class="form-label">Motto Kerja</label>
                                         <textarea class="form-control" id="motto_kerja" name="motto_kerja" rows="3" placeholder="Masukkan motto kerja"></textarea>
                                         <div class="invalid-feedback" id="invalid_motto_kerja"></div>
@@ -125,8 +109,6 @@
             </div>
         </div>
         <script>
-        dselect(dom('#program_studi'), { search: true });
-        
         dom('#form').addEventListener('submit', function(event) {
             event.preventDefault();
             const endpoint = '<?= base_url() ?>api/tendik/create';

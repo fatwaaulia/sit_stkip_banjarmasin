@@ -137,6 +137,9 @@
                                 <div class="invalid-feedback" id="invalid_passconf"></div>
                                 <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
                             </div>
+                            <div class="form-text">
+                                Kosongi jika tidak ingin ubah password
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3 float-end">Simpan Perubahan</button>
                     </form>

@@ -42,7 +42,7 @@
                             <div class="invalid-feedback" id="invalid_foto"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="nomor_identitas" class="form-label">NIDN / NIDK</label>
+                            <label for="nomor_identitas" class="form-label">Nomor Identitas</label>
                             <input type="text" class="form-control" id="nomor_identitas" name="nomor_identitas" value="<?= $data['nomor_identitas'] ?>" placeholder="Masukkan nomor identitas">
                             <div class="invalid-feedback" id="invalid_nomor_identitas"></div>
                         </div>
@@ -107,20 +107,6 @@
                             <div class="invalid-feedback" id="invalid_jabatan_struktural"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="program_studi" class="form-label">Program Studi</label>
-                            <select class="form-select" id="program_studi" name="program_studi">
-                                <option value="">Pilih</option>
-                                <?php
-                                $program_studi = model('ProgramStudi')->findAll();
-                                foreach ($program_studi as $v) :
-                                    $selected = ($v['id'] == $data['id_program_studi']) ? 'selected' : '';
-                                ?>
-                                <option value="<?= $v['id'] ?>" <?= $selected ?>><?= $v['jenjang'] ?> - <?= $v['nama'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div class="invalid-feedback" id="invalid_program_studi"></div>
-                        </div>
-                        <div class="mb-3">
                             <label for="motto_kerja" class="form-label">Motto Kerja</label>
                             <textarea class="form-control" id="motto_kerja" name="motto_kerja" rows="3" placeholder="Masukkan motto kerja"><?= $data['motto_kerja'] ?></textarea>
                             <div class="invalid-feedback" id="invalid_motto_kerja"></div>
@@ -136,6 +122,9 @@
                                 <input type="password" class="form-control" id="passconf" name="passconf" placeholder="Confirm password">
                                 <div class="invalid-feedback" id="invalid_passconf"></div>
                                 <img src="<?= base_url('assets/icons/show.png') ?>" class="position-absolute" id="eye_passconf">
+                            </div>
+                            <div class="form-text">
+                                Kosongi jika tidak ingin ubah password
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3 float-end">Simpan Perubahan</button>

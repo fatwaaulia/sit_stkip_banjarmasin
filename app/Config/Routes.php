@@ -81,15 +81,6 @@ if (userSession()) {
     $routes->get("$slug_role/dashboard", "Dashboard::$camelcase_slug_role", ['filter' => 'EnsureLogin']);
 }
 
-if ($id_role != 4) {
-    $routes->get("$slug_role/profile", "Profile::profilev1", ['filter' => 'EnsureLogin']);
-    $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->post('update', 'Profile::updateProfilev1');
-        $routes->post('update/password', 'Profile::updatePassword');
-        $routes->post('delete/photo', 'Profile::deletePhoto');
-    });
-}
-
 if ($id_role == 4) {
     $routes->get("$slug_role/profile", "Profile::dosen", ['filter' => 'EnsureLogin']);
     $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
@@ -102,6 +93,15 @@ if ($id_role == 16) {
     $routes->get("$slug_role/profile", "Profile::tendik", ['filter' => 'EnsureLogin']);
     $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->post('update', 'Profile::updateProfileTendik');
+        $routes->post('delete/photo', 'Profile::deletePhoto');
+    });
+}
+
+if (! in_array($id_role, [4, 16])) {
+    $routes->get("$slug_role/profile", "Profile::profilev1", ['filter' => 'EnsureLogin']);
+    $routes->group("api/profile", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->post('update', 'Profile::updateProfilev1');
+        $routes->post('update/password', 'Profile::updatePassword');
         $routes->post('delete/photo', 'Profile::deletePhoto');
     });
 }
@@ -343,6 +343,16 @@ if (array_intersect($id_roles, roleAccessByTitle('Penelitian Dosen'))) {
         $routes->post('create', 'PenelitianDosen::create');
         $routes->post('update/(:segment)', 'PenelitianDosen::update/$1');
         $routes->post('delete/(:segment)', 'PenelitianDosen::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Pengembangan Kompetensi'))) {
+    $routes->get("$slug_role/pengembangan-kompetensi", 'PengembanganKompetensi::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/pengembangan-kompetensi', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PengembanganKompetensi::index');
+        $routes->post('create', 'PengembanganKompetensi::create');
+        $routes->post('update/(:segment)', 'PengembanganKompetensi::update/$1');
+        $routes->post('delete/(:segment)', 'PengembanganKompetensi::delete/$1');
     });
 }
 

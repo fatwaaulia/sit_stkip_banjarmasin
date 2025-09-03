@@ -16,33 +16,7 @@ $get_program_studi = $_GET['program_studi'] ?? '';
             <div class="card p-3">
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-lg-10 col-xl-10">
-                        <form action="" method="get">
-                            <div class="row gx-2 gy-3">
-                                <div class="col-12 col-md-6 col-lg-5 col-xl-4">
-                                    <label for="program_studi" class="form-label">Program Studi</label>
-                                    <select class="form-select" id="program_studi" name="program_studi">
-                                        <option value="">Pilih</option>
-                                        <?php
-                                        $program_studi = model('ProgramStudi')->findAll();
-                                        foreach ($program_studi as $v) :
-                                            $selected = ($v == $get_program_studi) ? 'selected' : '';
-                                        ?>
-                                        <option value="<?= $v['id'] ?>" <?= $selected ?>><?= $v['jenjang'] ?> - <?= $v['nama'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-md-2 col-lg-2 col-xl-2 d-flex justify-content-start align-items-end">
-                                    <button type="submit" class="btn btn-primary me-2 w-100" title="Filter">
-                                        <i class="fa-solid fa-filter"></i>
-                                        <span class="ms-1 d-md-none">Filter</span>
-                                    </button>
-                                    <a href="<?= $base_route ?>" class="btn btn-outline-danger w-100" title="Reset">
-                                        <i class="fa-solid fa-filter-circle-xmark"></i>
-                                        <span class="ms-1 d-md-none">Reset</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
+                        <!--  -->
                     </div>
                     <div class="col-12 col-lg-2 col-xl-2 d-flex justify-content-end align-items-end">
                         <a href="<?= base_url() ?>register-tendik" target="_blank">Register Tendik</a>
@@ -55,7 +29,6 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                             <th>Foto</th>
                             <th>Nomor Identitas</th>
                             <th>Nama Dosen</th>
-                            <th>Program Studi</th>
                             <th>Jabatan Fungsional</th>
                             <th>Jabatan Struktural</th>
                             <th>Multi Role</th>
@@ -100,10 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: 'nama',
                 data: 'nama',
-            }, {
-                name: '',
-                data: null,
-                render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
             }, {
                 name: '',
                 data: 'jabatan_fungsional',
