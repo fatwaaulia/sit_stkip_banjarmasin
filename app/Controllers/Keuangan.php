@@ -236,7 +236,7 @@ class Keuangan extends BaseController
 
         $rules = [
             'nominal'     => 'required',
-            'catatan'     => 'max_length[255]',
+            'catatan'     => 'required|max_length[255]',
             'tanggal'     => 'required',
         ];
         if (! $this->validate($rules)) {
@@ -256,14 +256,6 @@ class Keuangan extends BaseController
             $nominal = 0 - abs($nominal);
         }
 
-        $data = [
-            'nominal'    => $nominal,
-            'catatan'    => $this->request->getVar('catatan'),
-            'tanggal'    => $this->request->getVar('tanggal'),
-            'updated_by' => userSession('id'),
-        ];
-        model($this->model_name)->update($id, $data);
-
         $data_log_keuangan = [
             'id_keuangan'              => $find_data['id'],
             'jenis_keuangan'           => $find_data['jenis'],
@@ -281,6 +273,14 @@ class Keuangan extends BaseController
             'updated_by' => userSession('id'),
         ];
         model('LogKeuangan')->insert($data_log_keuangan);
+
+        $data = [
+            'nominal'    => $nominal,
+            'catatan'    => $this->request->getVar('catatan'),
+            'tanggal'    => $this->request->getVar('tanggal'),
+            'updated_by' => userSession('id'),
+        ];
+        model($this->model_name)->update($id, $data);
 
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 03 Sep 2025 pada 14.01
+-- Waktu pembuatan: 04 Sep 2025 pada 02.26
 -- Versi server: 8.0.30
 -- Versi PHP: 8.3.9
 
@@ -54,6 +54,32 @@ CREATE TABLE `app_settings` (
 
 INSERT INTO `app_settings` (`id`, `nama_aplikasi`, `nama_perusahaan`, `deskripsi`, `logo`, `favicon`, `no_hp`, `alamat`, `maps`, `ts_2_tanggal_awal`, `ts_2_tanggal_akhir`, `ts_1_tanggal_awal`, `ts_1_tanggal_akhir`, `ts_tanggal_awal`, `ts_tanggal_akhir`, `buka_pendaftaran_mahasiswa`, `created_at`, `updated_at`) VALUES
 (1, 'STKIP ISM Banjarmasin', 'Humasoft Studio Teknologi', 'Kampus Visioner STKIP ISM Banjarmasin', 'logo.png', 'favicon.png', '0', 'Jl. Malkon Temon Jl. Sultan Adam No.12, RT.23, Surgi Mufti, Kec. Banjarmasin Utara, Kota Banjarmasin, Kalimantan Selatan 70122', '', '2024-09-08', '2025-03-04', '2025-03-05', '2025-07-23', '2025-07-24', '2026-03-17', 'Buka', '2024-09-17 13:06:51', '2025-09-01 08:47:11');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `buku_perpustakaan`
+--
+
+CREATE TABLE `buku_perpustakaan` (
+  `id` bigint NOT NULL,
+  `kategori` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `buku_perpustakaan`
+--
+
+INSERT INTO `buku_perpustakaan` (`id`, `kategori`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'PENGAJUAN BUKU BARU', 'pengajuan buku untuk tahun 2026', 'https://chat.deepseek.com/', '2025-09-04 08:48:52', '2025-09-04 09:19:46', 1, 1),
+(2, 'BUKU RUSAK', 'buku rusak tahun 2024', 'https://id.quora.com/', '2025-09-04 09:12:05', '2025-09-04 09:19:23', 1, 1),
+(3, 'BUKU', 'buku tersedia tahun 2024', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '2025-09-04 09:18:16', '2025-09-04 09:18:51', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -207,7 +233,7 @@ INSERT INTO `keuangan` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`,
 (3, 'Keluar', 11, 'Grup 1', -1000000, 18, 'Dana Operasional Proses Pembelajaran', '', '2025-08-30 07:33:00', '2025-08-30 07:34:01', '2025-08-30 07:34:01', 1, 0),
 (4, 'Masuk', 1, 'Mahasiswa', 30000000, 1, 'SPP', '', '2025-08-28 07:34:00', '2025-08-30 07:34:40', '2025-08-30 07:34:40', 1, 0),
 (5, 'Masuk', 1, 'Mahasiswa', 10000000, 2, 'Sumbangan Lainnya', 'donasi mahasiswa', '2025-08-30 10:39:00', '2025-08-30 10:40:09', '2025-08-30 10:40:09', 1, 0),
-(6, 'Masuk', 2, 'Kementerian/ Yayasan', 5000000, 4, 'Anggaran Rutin', '', '2025-08-30 10:40:00', '2025-08-30 10:40:30', '2025-08-30 10:40:30', 1, 0),
+(6, 'Masuk', 2, 'Kementerian/ Yayasan', 5000000, 4, 'Anggaran Rutin', 'salah input nominal', '2025-08-30 10:40:00', '2025-08-30 10:40:30', '2025-09-04 09:02:35', 1, 1),
 (7, 'Keluar', 12, 'Grup 2', -900000, 25, 'Dana Penelitian', '', '2025-08-25 15:45:00', '2025-08-30 15:45:42', '2025-08-30 15:45:42', 1, 0),
 (8, 'Keluar', 12, 'Grup 2', -1500000, 26, 'Dana PKM', '', '2025-08-28 16:17:00', '2025-08-30 16:18:15', '2025-08-30 16:18:15', 1, 0);
 
@@ -237,8 +263,8 @@ CREATE TABLE `log_keuangan` (
   `id` bigint NOT NULL,
   `id_keuangan` bigint NOT NULL,
   `jenis_keuangan` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_kategori_dana_masuk` bigint NOT NULL,
-  `nama_kategori_dana_masuk` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_kategori_dana` bigint NOT NULL,
+  `nama_kategori_dana` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_sumber_dana` bigint NOT NULL,
   `nama_sumber_dana` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `nominal_sebelum` int NOT NULL,
@@ -257,8 +283,8 @@ CREATE TABLE `log_keuangan` (
 -- Dumping data untuk tabel `log_keuangan`
 --
 
-INSERT INTO `log_keuangan` (`id`, `id_keuangan`, `jenis_keuangan`, `id_kategori_dana_masuk`, `nama_kategori_dana_masuk`, `id_sumber_dana`, `nama_sumber_dana`, `nominal_sebelum`, `nominal_setelah`, `catatan_sebelum`, `catatan_setelah`, `tanggal_sebelum`, `tanggal_setelah`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 1, 'Masuk', 1, 'Mahasiswa', 1, 'SPP', 2500000, 2500000, '0', '0', '2025-08-30 06:25:00', '2025-08-30 06:25:00', 2025, 2025, 1, 1);
+INSERT INTO `log_keuangan` (`id`, `id_keuangan`, `jenis_keuangan`, `id_kategori_dana`, `nama_kategori_dana`, `id_sumber_dana`, `nama_sumber_dana`, `nominal_sebelum`, `nominal_setelah`, `catatan_sebelum`, `catatan_setelah`, `tanggal_sebelum`, `tanggal_setelah`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(3, 6, 'Masuk', 2, 'Kementerian/ Yayasan', 4, 'Anggaran Rutin', 6000000, 5000000, '', 'salah input nominal', '2025-08-30 10:40:00', '2025-08-30 10:40:00', 2025, 2025, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -497,7 +523,8 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (239, 34, 4, 'Vebrianti Umar, M.Pd', '1108029104', '::1', 'Success', '2025-09-03 20:49:05', '2025-09-03 20:49:05'),
 (240, 35, 4, 'Yuliana Nurhayati, M.Pd.', '1109079302', '::1', 'Success', '2025-09-03 20:58:30', '2025-09-03 20:58:30'),
 (241, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-03 20:59:43', '2025-09-03 20:59:43'),
-(242, 37, 16, 'Muhammad Juanda', '63710104108310004', '::1', 'Success', '2025-09-03 21:00:55', '2025-09-03 21:00:55');
+(242, 37, 16, 'Muhammad Juanda', '63710104108310004', '::1', 'Success', '2025-09-03 21:00:55', '2025-09-03 21:00:55'),
+(243, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-04 06:58:32', '2025-09-04 06:58:32');
 
 -- --------------------------------------------------------
 
@@ -934,6 +961,13 @@ CREATE TABLE `tagihan_mahasiswa` (
   `updated_by` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `tagihan_mahasiswa`
+--
+
+INSERT INTO `tagihan_mahasiswa` (`id`, `kategori`, `jenis`, `json_id_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `periode_mulai_tahun_akademik`, `periode_selesai_tahun_akademik`, `json_biaya`, `biaya_yudisium_wisuda`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(11, 'MABA', 'PENDAFTARAN', '', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-31', '[{\"id_program_studi\":\"1\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Bahasa Inggris\",\"biaya\":100000},{\"id_program_studi\":\"2\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Guru Sekolah Dasar\",\"biaya\":150000},{\"id_program_studi\":\"3\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Guru Pendidikan Anak Usia Dini\",\"biaya\":200000}]', 0, '2025-09-04 07:19:52', '2025-09-04 07:19:52', '1', '');
+
 -- --------------------------------------------------------
 
 --
@@ -978,6 +1012,14 @@ CREATE TABLE `tarif_spp` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tarif_spp`
+--
+
+INSERT INTO `tarif_spp` (`id`, `kode`, `nama`, `biaya`, `biaya_uts`, `biaya_uas`, `biaya_ldkm`, `biaya_mbkm`, `biaya_bimbingan_skripsi`, `biaya_seminar_proposal`, `biaya_sidang_skripsi`, `created_at`, `updated_at`) VALUES
+(5, 'TARIF1', 'Tarif 1', 5000000, 250000, 250000, 250000, 250000, 250000, 250000, 250000, '2025-09-04 07:06:49', '2025-09-04 07:06:49'),
+(6, 'TARIF2', 'Tarif 2', 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, '2025-09-04 07:07:19', '2025-09-04 07:07:19');
 
 -- --------------------------------------------------------
 
@@ -1111,7 +1153,8 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `multi_role`, `n
 (34, 4, 'Dosen', 'dosen', '{\"3\":{\"nama_role\":\"Waka Akademik\",\"slug_role\":\"waka-akademik\"}}', 'Vebrianti Umar, M.Pd', '1108029104', 'vebrianti@gmail.com', '$2y$10$iw4uz.Fuh7594KgPwb697.nyG.59O7ROwPpsXDO4t.XqOJitK8Rei', '', 'Perempuan', 'Jl. Subur Makmur 2, Landasan Ulin', '1234567890', 'Asisten Ahli', 'Wakil Ketua Bidang Akademik', 'Melaksanakan tugas dengan penuh tanggung jawab, karena tugas adalah sebuah kehormatan.', '1108029104', 'Bitung', '1991-02-08', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:59:56', '2025-09-03 20:44:01'),
 (35, 4, 'Dosen', 'dosen', '{\"9\":{\"nama_role\":\"Waka Kemahasiswaan dan Kerja Sama\",\"slug_role\":\"waka-kemahasiswaan-kerjasama\"}}', 'Yuliana Nurhayati, M.Pd.', '1109079302', 'yuliana@gmail.com', '$2y$10$dQXThze4BmeiOqQPpYqmO.g.xGploS9yV83r1CLug3hJMarrrJtpi', '', 'Perempuan', 'Jl.Dharma Bakti 2 Komplek budair permai Blok B /66', '081258026807', 'Belum Ada', 'Wakil Ketua Bidang Kerjasama dan Kemahasiswaan', '\" Jika Lelah Menjalani Profesimu Maka Istirahatlah Sejenak dan Lanjutkan dengan Ide Barumu\"', '1109079302', 'Ponorogo', '1993-07-09', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 13:20:13', '2025-09-03 20:42:01'),
 (36, 17, 'Admin Utama', 'admin-utama', '', 'Admin Utama', 'adminutama', '', '$2y$10$9DYUNHjLRKoy6MxfnjapUOPDG3KZa3QfBcoY2gE4N0Vws4fMWI6H6', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-02 14:10:27', '2025-09-02 14:10:27'),
-(37, 16, 'Tendik', 'tendik', '{\"13\":{\"nama_role\":\"Pustakawan\",\"slug_role\":\"pustakawan\"}}', 'Muhammad Juanda', '63710104108310004', 'juandapustaka@gmail.com', '$2y$10$8eCBtHvjmZF8IDvbhTJ3FuPO5RNHeYVuYfGW5EycNHBZZg7ilc2y6', '', 'Laki-laki', 'Jl. Gerilya Komp.Bumi Handayani 2', '08194101983', 'Pustakawan', 'Kepala Perpustakaan', 'Terus bersemangat', '63710104108310004', 'HSS', '1983-10-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-03 14:05:04', '2025-09-03 20:47:12');
+(37, 16, 'Tendik', 'tendik', '{\"13\":{\"nama_role\":\"Pustakawan\",\"slug_role\":\"pustakawan\"}}', 'Muhammad Juanda', '63710104108310004', 'juandapustaka@gmail.com', '$2y$10$8eCBtHvjmZF8IDvbhTJ3FuPO5RNHeYVuYfGW5EycNHBZZg7ilc2y6', '', 'Laki-laki', 'Jl. Gerilya Komp.Bumi Handayani 2', '08194101983', 'Pustakawan', 'Kepala Perpustakaan', 'Terus bersemangat', '63710104108310004', 'HSS', '1983-10-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-03 14:05:04', '2025-09-03 20:47:12'),
+(38, 5, 'Mahasiswa', 'mahasiswa', '', 'Fatwa Aulia', '', 'fatwaaulia.fy@gmail.com', '$2y$10$cin6517bAN0RdGpjv3nqFeScYMBZlgHKlQl5J3z3Tpqo2MBw0/YFu', '1756945406_3803e6dc3fbbe12930d9.jpg', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '', '', '', '', 'Banyuwangi', '2001-01-01', 'Islam', 'Belum Kawin', 'Indonesia', 'SMAN 2 GENTENG', '12123123123', '2019', '89.4', 'akdkoak', '9932790381923', 'qqjhdiq', 'kqjdq', '12313123', 'ajdoajo', '1jdjwd9j9d23', '93843424', 'mdjw', 'ajsdjoa', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 100000, 140000, 100000, 0, 6, 'Tarif 2', 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 0, 0, 'Aktif', NULL, NULL, '2025-09-04 07:23:26', '2025-09-04 07:24:38', '', '2025-09-04 07:23:26', '2025-09-04 07:39:33');
 
 --
 -- Indexes for dumped tables
@@ -1121,6 +1164,12 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `multi_role`, `n
 -- Indeks untuk tabel `app_settings`
 --
 ALTER TABLE `app_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `buku_perpustakaan`
+--
+ALTER TABLE `buku_perpustakaan`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1284,6 +1333,12 @@ ALTER TABLE `app_settings`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `buku_perpustakaan`
+--
+ALTER TABLE `buku_perpustakaan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT untuk tabel `jadwal_kegiatan`
 --
 ALTER TABLE `jadwal_kegiatan`
@@ -1329,13 +1384,13 @@ ALTER TABLE `laporan_promosi`
 -- AUTO_INCREMENT untuk tabel `log_keuangan`
 --
 ALTER TABLE `log_keuangan`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
 
 --
 -- AUTO_INCREMENT untuk tabel `master_dana`
@@ -1407,7 +1462,7 @@ ALTER TABLE `surat_peringatan`
 -- AUTO_INCREMENT untuk tabel `tagihan_mahasiswa`
 --
 ALTER TABLE `tagihan_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `tahun_akademik`
@@ -1419,7 +1474,7 @@ ALTER TABLE `tahun_akademik`
 -- AUTO_INCREMENT untuk tabel `tarif_spp`
 --
 ALTER TABLE `tarif_spp`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `tracer_studi`
@@ -1431,7 +1486,7 @@ ALTER TABLE `tracer_studi`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -376,6 +376,36 @@ if (array_intersect($id_roles, roleAccessByTitle('Pencatatan Surat'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Buku'))) {
+    $routes->get("$slug_role/buku", 'Buku::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/buku', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Buku::index');
+        $routes->post('create', 'Buku::create');
+        $routes->post('update/(:segment)', 'Buku::update/$1');
+        $routes->post('delete/(:segment)', 'Buku::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Buku Rusak'))) {
+    $routes->get("$slug_role/buku-rusak", 'BukuRusak::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/buku-rusak', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'BukuRusak::index');
+        $routes->post('create', 'BukuRusak::create');
+        $routes->post('update/(:segment)', 'BukuRusak::update/$1');
+        $routes->post('delete/(:segment)', 'BukuRusak::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Pengajuan Buku Baru'))) {
+    $routes->get("$slug_role/pengajuan-buku-baru", 'PengajuanBukuBaru::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/pengajuan-buku-baru', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PengajuanBukuBaru::index');
+        $routes->post('create', 'PengajuanBukuBaru::create');
+        $routes->post('update/(:segment)', 'PengajuanBukuBaru::update/$1');
+        $routes->post('delete/(:segment)', 'PengajuanBukuBaru::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Tracer Studi'))) {
     $routes->get("$slug_role/tracer-studi", 'TracerStudi::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/tracer-studi', ['filter' => 'EnsureLogin'], static function ($routes) {

@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
-                render: data => data.jenis_keuangan == 'Masuk' ? `${data.nama_kategori_dana_masuk} - ${data.nama_sumber_dana}` : data.nama_sumber_dana,
+                render: data => data.jenis_keuangan == 'Masuk' ? `${data.nama_kategori_dana} - ${data.nama_sumber_dana}` : data.nama_sumber_dana,
             }, {
                 name: '',
                 data: 'nominal_sebelum',
