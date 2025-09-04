@@ -256,23 +256,18 @@ class Keuangan extends BaseController
             $nominal = 0 - abs($nominal);
         }
 
-        $data_log_keuangan = [
-            'id_keuangan'              => $find_data['id'],
-            'jenis_keuangan'           => $find_data['jenis'],
-            'id_kategori_dana'   => $find_data['id_kategori_dana'],
-            'nama_kategori_dana' => $find_data['nama_kategori_dana'],
-            'id_sumber_dana'   => $find_data['id_sumber_dana'],
-            'nama_sumber_dana' => $find_data['nama_sumber_dana'],
-            'nominal_sebelum'  => $find_data['nominal'],
-            'nominal_setelah'  => $nominal,
-            'catatan_sebelum'  => $find_data['catatan'],
-            'catatan_setelah'  => $this->request->getVar('catatan'),
-            'tanggal_sebelum'  => $find_data['tanggal'],
-            'tanggal_setelah'  => $this->request->getVar('tanggal'),
-            'created_by' => userSession('id'),
-            'updated_by' => userSession('id'),
-        ];
-        model('LogKeuangan')->insert($data_log_keuangan);
+        if ($find_data['nominal'] != $nominal) {
+            $yang_diubah = ' dari ' . formatRupiah($find_data['nominal']) . ' menjadi ' . formatRupiah($nominal) . '. Catatan: ' . $this->request->getVar('catatan');
+
+            $log_pesan = userSession('nama') . ' mengubah uang ' . $find_data['jenis'] . ' ' . $find_data['nama_kategori_dana'] . ' - ' . $find_data['nama_sumber_dana'] . ' ' . $yang_diubah;
+            $data_log_keuangan = [
+                'pesan' => $log_pesan,
+                'created_by' => userSession('id'),
+                'updated_by' => userSession('id'),
+            ];
+
+            model('LogKeuangan')->insert($data_log_keuangan);
+        }
 
         $data = [
             'nominal'    => $nominal,

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 04 Sep 2025 pada 02.26
+-- Waktu pembuatan: 04 Sep 2025 pada 05.10
 -- Versi server: 8.0.30
 -- Versi PHP: 8.3.9
 
@@ -77,9 +77,9 @@ CREATE TABLE `buku_perpustakaan` (
 --
 
 INSERT INTO `buku_perpustakaan` (`id`, `kategori`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'PENGAJUAN BUKU BARU', 'pengajuan buku untuk tahun 2026', 'https://chat.deepseek.com/', '2025-09-04 08:48:52', '2025-09-04 09:19:46', 1, 1),
 (2, 'BUKU RUSAK', 'buku rusak tahun 2024', 'https://id.quora.com/', '2025-09-04 09:12:05', '2025-09-04 09:19:23', 1, 1),
-(3, 'BUKU', 'buku tersedia tahun 2024', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '2025-09-04 09:18:16', '2025-09-04 09:18:51', 1, 1);
+(3, 'BUKU', 'buku tersedia tahun 2024', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '2025-09-04 09:18:16', '2025-09-04 09:18:51', 1, 1),
+(4, 'PENGAJUAN BUKU BARU', 'Pengajuan buku baru untuk 2026', 'https://hpanel.hostinger.com/', '2025-09-04 10:30:01', '2025-09-04 10:30:01', 37, 0);
 
 -- --------------------------------------------------------
 
@@ -233,7 +233,7 @@ INSERT INTO `keuangan` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`,
 (3, 'Keluar', 11, 'Grup 1', -1000000, 18, 'Dana Operasional Proses Pembelajaran', '', '2025-08-30 07:33:00', '2025-08-30 07:34:01', '2025-08-30 07:34:01', 1, 0),
 (4, 'Masuk', 1, 'Mahasiswa', 30000000, 1, 'SPP', '', '2025-08-28 07:34:00', '2025-08-30 07:34:40', '2025-08-30 07:34:40', 1, 0),
 (5, 'Masuk', 1, 'Mahasiswa', 10000000, 2, 'Sumbangan Lainnya', 'donasi mahasiswa', '2025-08-30 10:39:00', '2025-08-30 10:40:09', '2025-08-30 10:40:09', 1, 0),
-(6, 'Masuk', 2, 'Kementerian/ Yayasan', 5000000, 4, 'Anggaran Rutin', 'salah input nominal', '2025-08-30 10:40:00', '2025-08-30 10:40:30', '2025-09-04 09:02:35', 1, 1),
+(6, 'Masuk', 2, 'Kementerian/ Yayasan', 5000000, 4, 'Anggaran Rutin', 'salah input nominal', '2025-08-30 10:40:00', '2025-08-30 10:40:30', '2025-09-04 12:07:56', 1, 1),
 (7, 'Keluar', 12, 'Grup 2', -900000, 25, 'Dana Penelitian', '', '2025-08-25 15:45:00', '2025-08-30 15:45:42', '2025-08-30 15:45:42', 1, 0),
 (8, 'Keluar', 12, 'Grup 2', -1500000, 26, 'Dana PKM', '', '2025-08-28 16:17:00', '2025-08-30 16:18:15', '2025-08-30 16:18:15', 1, 0);
 
@@ -262,19 +262,9 @@ CREATE TABLE `laporan_promosi` (
 CREATE TABLE `log_keuangan` (
   `id` bigint NOT NULL,
   `id_keuangan` bigint NOT NULL,
-  `jenis_keuangan` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_kategori_dana` bigint NOT NULL,
-  `nama_kategori_dana` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `id_sumber_dana` bigint NOT NULL,
-  `nama_sumber_dana` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `nominal_sebelum` int NOT NULL,
-  `nominal_setelah` int NOT NULL,
-  `catatan_sebelum` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `catatan_setelah` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `tanggal_sebelum` datetime NOT NULL,
-  `tanggal_setelah` datetime NOT NULL,
-  `created_at` int NOT NULL,
-  `updated_at` int NOT NULL,
+  `pesan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
   `updated_by` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -283,8 +273,8 @@ CREATE TABLE `log_keuangan` (
 -- Dumping data untuk tabel `log_keuangan`
 --
 
-INSERT INTO `log_keuangan` (`id`, `id_keuangan`, `jenis_keuangan`, `id_kategori_dana`, `nama_kategori_dana`, `id_sumber_dana`, `nama_sumber_dana`, `nominal_sebelum`, `nominal_setelah`, `catatan_sebelum`, `catatan_setelah`, `tanggal_sebelum`, `tanggal_setelah`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(3, 6, 'Masuk', 2, 'Kementerian/ Yayasan', 4, 'Anggaran Rutin', 6000000, 5000000, '', 'salah input nominal', '2025-08-30 10:40:00', '2025-08-30 10:40:00', 2025, 2025, 1, 1);
+INSERT INTO `log_keuangan` (`id`, `id_keuangan`, `pesan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(5, 0, 'Superadmin mengubah uang Masuk Kementerian/ Yayasan - Anggaran Rutin  dari Rp6.000.000 menjadi Rp5.000.000. Catatan: salah input nominal', '2025-09-04 12:07:56', '2025-09-04 12:07:56', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -524,7 +514,16 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (240, 35, 4, 'Yuliana Nurhayati, M.Pd.', '1109079302', '::1', 'Success', '2025-09-03 20:58:30', '2025-09-03 20:58:30'),
 (241, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-03 20:59:43', '2025-09-03 20:59:43'),
 (242, 37, 16, 'Muhammad Juanda', '63710104108310004', '::1', 'Success', '2025-09-03 21:00:55', '2025-09-03 21:00:55'),
-(243, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-04 06:58:32', '2025-09-04 06:58:32');
+(243, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-04 06:58:32', '2025-09-04 06:58:32'),
+(244, 0, 0, '', 'asdad', '::1', 'Failed', '2025-09-04 10:25:05', '2025-09-04 10:25:05'),
+(245, 0, 0, '', 'dosen', '::1', 'Failed', '2025-09-04 10:25:18', '2025-09-04 10:25:18'),
+(246, 25, 4, 'Muhammad Supian Sauri', '4333774675130243', '::1', 'Failed', '2025-09-04 10:25:56', '2025-09-04 10:25:56'),
+(247, 35, 4, 'Yuliana Nurhayati, M.Pd.', '1109079302', '::1', 'Success', '2025-09-04 10:26:09', '2025-09-04 10:26:09'),
+(248, 37, 16, 'Muhammad Juanda', '63710104108310004', '::1', 'Success', '2025-09-04 10:27:03', '2025-09-04 10:27:03'),
+(249, 35, 4, 'Yuliana Nurhayati, M.Pd.', '1109079302', '::1', 'Success', '2025-09-04 10:30:37', '2025-09-04 10:30:37'),
+(250, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-04 10:32:38', '2025-09-04 10:32:38'),
+(251, 34, 4, 'Vebrianti Umar, M.Pd', '1108029104', '::1', 'Success', '2025-09-04 10:36:20', '2025-09-04 10:36:20'),
+(252, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-04 11:50:40', '2025-09-04 11:50:40');
 
 -- --------------------------------------------------------
 
@@ -653,6 +652,13 @@ CREATE TABLE `pencatatan_surat` (
   `created_by` bigint NOT NULL,
   `updated_by` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pencatatan_surat`
+--
+
+INSERT INTO `pencatatan_surat` (`id`, `jenis`, `nomor_surat`, `perihal`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'MASUK', 'SK/MP2025/00123', 'Surat Kunjungan Presiden', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '2025-09-04 10:34:03', '2025-09-04 10:34:03', 33, 0);
 
 -- --------------------------------------------------------
 
@@ -1336,7 +1342,7 @@ ALTER TABLE `app_settings`
 -- AUTO_INCREMENT untuk tabel `buku_perpustakaan`
 --
 ALTER TABLE `buku_perpustakaan`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `jadwal_kegiatan`
@@ -1384,13 +1390,13 @@ ALTER TABLE `laporan_promosi`
 -- AUTO_INCREMENT untuk tabel `log_keuangan`
 --
 ALTER TABLE `log_keuangan`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
 
 --
 -- AUTO_INCREMENT untuk tabel `master_dana`
@@ -1414,7 +1420,7 @@ ALTER TABLE `pembayaran_mahasiswa`
 -- AUTO_INCREMENT untuk tabel `pencatatan_surat`
 --
 ALTER TABLE `pencatatan_surat`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `penelitian_dosen`

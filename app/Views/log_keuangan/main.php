@@ -14,16 +14,8 @@
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Jenis</th>
-                            <th>Sumber Dana</th>
-                            <th>Nominal Sebelum</th>
-                            <th>Nominal Sesudah</th>
-                            <th>Catatan Sebelum</th>
-                            <th>Catatan Sesudah</th>
-                            <th>Tanggal Sebelum</th>
-                            <th>Tanggal Sesudah</th>
-                            <th>Updated At</th>
-                            <th>Updated By</th>
+                            <th>Pesan</th>
+                            <th>Tanggal</th>
                         </tr>
                     </thead>
                 </table>
@@ -49,35 +41,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: 'no_urut',
             }, {
                 name: '',
-                data: 'jenis_keuangan',
-            }, {
-                name: '',
-                data: null,
-                render: data => data.jenis_keuangan == 'Masuk' ? `${data.nama_kategori_dana} - ${data.nama_sumber_dana}` : data.nama_sumber_dana,
-            }, {
-                name: '',
-                data: 'nominal_sebelum',
-            }, {
-                name: '',
-                data: 'nominal_setelah',
-            }, {
-                name: '',
-                data: 'catatan_sebelum',
-            }, {
-                name: '',
-                data: 'catatan_setelah',
-            }, {
-                name: '',
-                data: 'tanggal_sebelum',
-            }, {
-                name: '',
-                data: 'tanggal_setelah',
+                data: 'pesan',
+                className: 'text-wrap',
             }, {
                 name: '',
                 data: 'created_at',
-            }, {
-                name: '',
-                data: 'created_by',
             },
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });

@@ -62,10 +62,6 @@ class LogKeuangan extends BaseController
         $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
-            $data[$key]['nominal_sebelum'] = formatRupiah($v['nominal_sebelum']);
-            $data[$key]['nominal_setelah'] = formatRupiah($v['nominal_setelah']);
-            $data[$key]['tanggal_sebelum'] = date('d-m-Y H:i', strtotime(userLocalTime($v['tanggal_sebelum'])));
-            $data[$key]['tanggal_setelah'] = date('d-m-Y H:i', strtotime(userLocalTime($v['tanggal_setelah'])));
             $data[$key]['created_at'] = date('d-m-Y H:i', strtotime(userLocalTime($v['created_at'])));
             $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
