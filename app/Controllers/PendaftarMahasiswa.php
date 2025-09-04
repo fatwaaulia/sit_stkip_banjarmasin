@@ -126,7 +126,7 @@ class PendaftarMahasiswa extends BaseController
             'nama_wali'        => 'required',
             'no_hp_wali'       => 'required',
             'pekerjaan_wali'   => 'required',
-            'foto'             => 'uploaded[foto]|max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpeg]|is_image[foto]',
+            'foto'             => 'max_size[foto,2048]|ext_in[foto,png,jpg,jpeg]|mime_in[foto,image/png,image/jpeg]|is_image[foto]',
             'program_studi'    => 'required',
             'sumber_informasi' => 'required',
             'kode_pendaftaran' => 'required',
@@ -143,8 +143,15 @@ class PendaftarMahasiswa extends BaseController
             ]);
         }
 
-        $tarif_spp = model('TarifSpp')->where('kode', $this->request->getVar('kode_pendaftaran'))->first();
+        $all_tarif_spp = model('TarifSpp')->findAll();
+        if (!$all_tarif_spp || appSettings('buka_pendaftaran_mahasiswa') == 'Tutup') {
+            return $this->response->setStatusCode(400)->setJSON([
+                'status'  => 'error',
+                'message' => 'SPP atau Pendaftaran Sedang Tutup',
+            ]);
+        }
 
+        $tarif_spp = model('TarifSpp')->where('kode', $this->request->getVar('kode_pendaftaran'))->first();
         if (! $tarif_spp) {
             return $this->response->setStatusCode(400)->setJSON([
                 'status'  => 'error',
@@ -153,74 +160,72 @@ class PendaftarMahasiswa extends BaseController
         }
 
         $tahun_akademik_aktif = model('TahunAkademik')->orderBy('id DESC')->first();
-        $biaya_pendaftaran = model('TagihanMahasiswa')->where([
+
+        $json_biaya_pendaftaran = model('TagihanMahasiswa')->where([
             'kategori' => 'MABA',
             'jenis' => 'pendaftaran',
             'id_tahun_akademik' => $tahun_akademik_aktif['id'],
-        ])->first();
-        $json_biaya_pendaftaran = $biaya_pendaftaran['json_biaya'];
+        ])->first()['json_biaya'] ?? [];
 
-        $biaya_almamater = model('TagihanMahasiswa')->where([
+        $json_biaya_almamater = model('TagihanMahasiswa')->where([
             'kategori' => 'MABA',
             'jenis' => 'ALMAMATER',
             'id_tahun_akademik' => $tahun_akademik_aktif['id'],
-        ])->first();
-        $json_biaya_almamater = $biaya_almamater['json_biaya'];
+        ])->first()['json_biaya'] ?? [];
 
-        $biaya_ktm = model('TagihanMahasiswa')->where([
+        $json_biaya_ktm = model('TagihanMahasiswa')->where([
             'kategori' => 'MABA',
             'jenis' => 'pendaftaran',
             'id_tahun_akademik' => $tahun_akademik_aktif['id'],
-        ])->first();
-        $json_biaya_ktm = $biaya_ktm['json_biaya'];
+        ])->first()['json_biaya'] ?? [];
 
-        $biaya_uang_gedung = model('TagihanMahasiswa')->where([
+        $json_biaya_uang_gedung = model('TagihanMahasiswa')->where([
             'kategori' => 'MABA',
             'jenis' => 'UANG GEDUNG',
             'id_tahun_akademik' => $tahun_akademik_aktif['id'],
-        ])->first();
-        $json_biaya_uang_gedung = $biaya_uang_gedung['json_biaya'];
-
-        if (!$biaya_pendaftaran || !$biaya_almamater || !$biaya_ktm || !$biaya_uang_gedung) {
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => 'error',
-                'message' => 'Pendaftaran gagal diproses',
-            ]);
-        }
+        ])->first()['json_biaya'] ?? [];
 
         // Lolos Validasi
         $role = model('Role')->find(5);
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
 
         $biaya_pendaftaran = 0;
-        foreach (json_decode($json_biaya_pendaftaran, true) as $v) {
+        if ($json_biaya_pendaftaran) {
+            foreach (json_decode($json_biaya_pendaftaran, true) as $v) {
                 if ($v['id_program_studi'] == $program_studi['id']) {
                     $biaya_pendaftaran = $v['biaya'];
                     break;
                 }
+            }
         }
 
         $biaya_almamater = 0;
-        foreach (json_decode($json_biaya_almamater, true) as $v) {
+        if ($json_biaya_almamater) {
+            foreach (json_decode($json_biaya_almamater, true) as $v) {
                 if ($v['id_program_studi'] == $program_studi['id']) {
                     $biaya_almamater = $v['biaya'];
                     break;
                 }
+            }
         }
 
         $biaya_ktm = 0;
-        foreach (json_decode($json_biaya_ktm, true) as $v) {
+        if ($json_biaya_ktm) {
+            foreach (json_decode($json_biaya_ktm, true) as $v) {
                 if ($v['id_program_studi'] == $program_studi['id']) {
                     $biaya_ktm = $v['biaya'];
                     break;
                 }
+            }
         }
 
         $biaya_uang_gedung = 0;
-        foreach (json_decode($json_biaya_uang_gedung, true) as $v) {
-            if ($v['id_program_studi'] == $program_studi['id']) {
-                $biaya_uang_gedung = $v['biaya'];
-                break;
+        if ($json_biaya_uang_gedung) {
+            foreach (json_decode($json_biaya_uang_gedung, true) as $v) {
+                if ($v['id_program_studi'] == $program_studi['id']) {
+                    $biaya_uang_gedung = $v['biaya'];
+                    break;
+                }
             }
         }
 

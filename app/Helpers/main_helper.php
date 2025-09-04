@@ -78,16 +78,20 @@ function dataTablesSearch($columns, $search, $select, $base_query) {
     }
 }
 
-function dotsNumber($angka)
-{
-    return number_format($angka, 0, ',', '.');
-}
-
 function formatRupiah($angka)
 {
     $angka = (int)$angka;
     $abs = number_format(abs($angka), 0, ',', '.');
     return ($angka < 0 ? '-Rp' : 'Rp') . $abs;
+}
+
+function dotsNumber($angka)
+{
+    return number_format($angka, 0, ',', '.');
+}
+
+function numberOnly($str) {
+    return (int) preg_replace('/\D/', '', $str);
 }
 
 /*--------------------------------------------------------------

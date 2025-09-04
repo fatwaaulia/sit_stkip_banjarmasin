@@ -7,29 +7,10 @@ if ($tahun_akademik_aktif) {
     $tahun_akademik_header = '-';
 }
 
-$biaya_pendaftaran = model('TagihanMahasiswa')->where([
-    'kategori' => 'MABA',
-    'jenis' => 'PENDAFTARAN',
-    'id_tahun_akademik' => $tahun_akademik_aktif['id'],
-])->first();
-$biaya_almamater = model('TagihanMahasiswa')->where([
-    'kategori' => 'MABA',
-    'jenis' => 'ALMAMATER',
-    'id_tahun_akademik' => $tahun_akademik_aktif['id'],
-])->first();
-$biaya_ktm = model('TagihanMahasiswa')->where([
-    'kategori' => 'MABA',
-    'jenis' => 'KTM',
-    'id_tahun_akademik' => $tahun_akademik_aktif['id'],
-])->first();
-$biaya_uang_gedung = model('TagihanMahasiswa')->where([
-    'kategori' => 'MABA',
-    'jenis' => 'UANG GEDUNG',
-    'id_tahun_akademik' => $tahun_akademik_aktif['id'],
-])->first();
+$tarif_spp = model('TarifSpp')->findAll();
 
 $buka_pendaftaran_mahasiswa = true;
-if (!$biaya_pendaftaran || !$biaya_almamater || !$biaya_ktm || !$biaya_uang_gedung || appSettings('buka_pendaftaran_mahasiswa') == 'Tutup') {
+if (!$tarif_spp || appSettings('buka_pendaftaran_mahasiswa') == 'Tutup') {
     $buka_pendaftaran_mahasiswa = false;
 }
 ?>
@@ -81,12 +62,9 @@ if (!$biaya_pendaftaran || !$biaya_almamater || !$biaya_ktm || !$biaya_uang_gedu
                         <div>
                             <h3>Pendaftaran Mahasiswa ditutup.</h3>
                             <?php
-                            if (in_array(userSession('id_role'), [1, 2])) {
-                                echo empty($biaya_pendaftaran) ? 'TAGIHAN BIAYA PENDAFTAR BELUM DIBUAT.' : ''; echo '<br>';
-                                echo empty($biaya_almamater) ? 'TAGIHAN BIAYA ALAMAMATER BELUM DIBUAT.' : ''; echo '<br>';
-                                echo empty($biaya_ktm) ? 'TAGIHAN BIAYA KTM BELUM DIBUAT.' : ''; echo '<br>';
-                                echo empty($biaya_uang_gedung) ? 'TAGIHAN BIAYA UANG GEDUNG BELUM DIBUAT.' : ''; echo '<br>';
-                                echo '<a href="' . base_url(userSession('slug_role')) . '/tagihan-mahasiswa" target="_blank">Buat Tagihan</a>';
+                            if (in_array(userSession('id_role'), [1, 17, 2])) {
+                                echo empty($tarif_spp) ? 'Tarif SPP Belum Dibuat.' : ''; echo '<br>';
+                                echo '<a href="' . base_url(userSession('slug_role')) . '/tarif-spp" target="_blank">Buat Tarif SPP</a>';
                             }
                             ?>
                         </div>

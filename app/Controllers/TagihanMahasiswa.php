@@ -151,15 +151,35 @@ class TagihanMahasiswa extends BaseController
         $data_biaya = [];
         if ($kategori == 'MABA') {
             $id_program_studi = $this->request->getPost('id_program_studi');
-            $biaya            = $this->request->getPost('biaya');
+            $biaya            = $this->request->getPost('biaya', FILTER_SANITIZE_NUMBER_INT);
             foreach ($id_program_studi as $i => $id) {
                 $program_studi = model('ProgramStudi')->find($id);
                 $data_biaya[] = [
                     'id_program_studi'   => $id,
                     'jenjang_program_studi' => $program_studi['jenjang'],
                     'nama_program_studi' => $program_studi['nama'],
-                    'biaya'              => (int) str_replace('.', '', $biaya[$i]),
+                    'biaya'              => numberOnly($biaya[$i]),
                 ];
+
+                if ($jenis == 'PENDAFTARAN') {
+                    $update_biaya = ['biaya_pendaftaran' => $biaya[$i]];
+                }
+                if ($jenis == 'ALMAMATER') {
+                    $update_biaya = ['biaya_almamater' => $biaya[$i]];
+                }
+                if ($jenis == 'KTM') {
+                    $update_biaya = ['biaya_ktm' => $biaya[$i]];
+                }
+                if ($jenis == 'UANG GEDUNG') {
+                    $update_biaya = ['biaya_uang_gedung' => $biaya[$i]];
+                }
+                model('Users')->where([
+                    'id_role' => 5,
+                    'id_tahun_akademik_diterima' => $tahun_akademik['id'],
+                    'id_program_studi' => $program_studi['id'],
+                ])
+                ->set($update_biaya)
+                ->update();
             }
         }
 
