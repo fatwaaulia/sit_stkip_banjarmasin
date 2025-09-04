@@ -18,13 +18,37 @@ table tr td { padding: 6px; }
     <div class="row">
         <div class="col-12">
             <div class="card mt-4 bg-primary-subtle">
-                <div class="card-body d-flex justify-content-between">
-                    <h5 class="mb-0"><?= $tahun_akademik_aktif ?></h5>
-                    <h5 class="mb-0"><?= dateFormatter(date('d-m-Y'), 'cccc, d MMMM yyyy') ?></h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-between">
+                            <h5 class="mb-0"><?= $tahun_akademik_aktif ?></h5>
+                            <h5 class="mb-0"><?= dateFormatter(date('d-m-Y'), 'cccc, d MMMM yyyy') ?></h5>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <?php
+                            $motto_kerja = model('Users')->select('nama, motto_kerja')
+                            ->whereIn('id_role', [4, 16])
+                            ->where('motto_kerja !=', '')
+                            ->orderBy('RAND()')
+                            ->findAll();
+                            ?>
+                            <marquee behavior="scroll" direction="left" scrollamount="5">
+                                <?php foreach ($motto_kerja as $v) : ?>
+                                <span>"<?= str_replace('"', '', trim($v['motto_kerja'])) ?>" - <?= $v['nama'] ?></span>
+                                <span class="px-3">|</span>
+                                <?php endforeach; ?>
+                            </marquee>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="card mt-4">

@@ -98,25 +98,21 @@ class Auth extends BaseController
             ->orWhere('nomor_identitas', $username)
         ->groupEnd()
         ->first();
+        
+        if ($user) {
+            if ($user['status_akun'] == 'DISABLE') {
+                return $this->response->setStatusCode(401)->setJSON([
+                    'status'  => 'error',
+                    'message' => 'Akun telah dinonaktifkan',
+                ]);
+            }
 
-        if ($user['status_akun'] == 'DISABLE') {
-            $log['status'] = 'Failed';
-            model('LogLogin')->insert($log);
-
-            return $this->response->setStatusCode(401)->setJSON([
-                'status'  => 'error',
-                'message' => 'Akun telah dinonaktifkan',
-            ]);
-        }
-
-        if ($user['id_role'] == 5 && $user['status'] != 'Aktif') {
-            $log['status'] = 'Failed';
-            model('LogLogin')->insert($log);
-
-            return $this->response->setStatusCode(401)->setJSON([
-                'status'  => 'error',
-                'message' => 'Status mahasiswa tidak aktif!',
-            ]);
+            if ($user['id_role'] == 5 && $user['status'] != 'Aktif') {
+                return $this->response->setStatusCode(401)->setJSON([
+                    'status'  => 'error',
+                    'message' => 'Status mahasiswa tidak aktif!',
+                ]);
+            }
         }
 
         // Log Login
