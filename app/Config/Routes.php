@@ -299,7 +299,6 @@ if (array_intersect($id_roles, roleAccessByTitle('Jadwal Kegiatan'))) {
     });
 }
 
-
 if (array_intersect($id_roles, roleAccessByTitle('Pendaftar Mahasiswa'))) {
     $routes->group("$slug_role/pendaftar-mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PendaftarMahasiswa::main');
@@ -335,6 +334,16 @@ if (array_intersect($id_roles, roleAccessByTitle('Mahasiswa Cuti / DO'))) {
         $routes->post('create', 'StatusMahasiswa::create');
         $routes->post('update/(:segment)', 'StatusMahasiswa::update/$1');
         $routes->post('delete/(:segment)', 'StatusMahasiswa::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Mahasiswa Lulus'))) {
+    $routes->group("$slug_role/mahasiswa-lulus", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'MahasiswaLulus::main');
+        $routes->get('detail/(:segment)', 'MahasiswaLulus::detail/$1');
+    });
+    $routes->group('api/mahasiswa-lulus', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'MahasiswaLulus::index');
     });
 }
 

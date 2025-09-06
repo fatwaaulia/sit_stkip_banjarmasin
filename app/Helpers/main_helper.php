@@ -510,7 +510,7 @@ function menuSidebar()
         ],
         [
 			'title'	=> 'Mahasiswa Lulus',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-user-graduate',
 			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa-lulus',
 			'role'	=> [1, 17, 14],
 			'type'	=> 'no-collapse',
