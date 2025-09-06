@@ -55,7 +55,7 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                                                     <div class="invalid-feedback" id="invalid_judul"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan SK</label>
+                                                    <label for="tautan" class="form-label">Tautan</label>
                                                     <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
                                                     <div class="invalid-feedback" id="invalid_tautan"></div>
                                                 </div>
@@ -85,7 +85,7 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                             <th>No.</th>
                             <th>Program Studi</th>
                             <th>Judul</th>
-                            <th>Tautan SK</th>
+                            <th>Tautan</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -170,7 +170,7 @@ function renderOpsi(data) {
                             <div class="invalid-feedback" id="invalid_judul"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan SK</label>
+                            <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
                         </div>

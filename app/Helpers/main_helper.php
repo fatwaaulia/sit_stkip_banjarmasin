@@ -242,7 +242,7 @@ function menuSidebar()
 			'title'	=> 'Status Bayar',
 			'icon'	=> 'fa-solid fa-hourglass-half',
 			'url'	=> base_url(userSession('slug_role')) . '/status-bayar',
-			'role'	=> [1, 17, 2, 7],
+			'role'	=> [1, 17, 2, 7, 8],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -299,7 +299,7 @@ function menuSidebar()
 			'title'	=> 'Mahasiswa',
 			'icon'	=> 'fa-solid fa-address-card',
 			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa',
-			'role'	=> [1, 17, 6],
+			'role'	=> [1, 17, 2],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -313,14 +313,14 @@ function menuSidebar()
 			'title'	=> 'Dosen',
 			'icon'	=> 'fa-solid fa-address-card',
 			'url'	=> base_url(userSession('slug_role')) . '/dosen',
-			'role'	=> [1, 17, 3, 6],
+			'role'	=> [1, 17],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Tendik',
 			'icon'	=> 'fa-solid fa-address-card',
 			'url'	=> base_url(userSession('slug_role')) . '/tendik',
-			'role'	=> [1, 17, 3, 6],
+			'role'	=> [1, 17],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -334,10 +334,10 @@ function menuSidebar()
             'type'	=> 'heading',
         ],
         [
-			'title'	=> 'Dosen Penasehat',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url(userSession('slug_role')) . '/dosen-penasehat',
-			'role'	=> [1, 17, 8],
+			'title'	=> 'Dosen Penasihat',
+			'icon'	=> 'fa-solid fa-voicemail',
+			'url'	=> base_url(userSession('slug_role')) . '/dosen-penasihat',
+			'role'	=> [1, 17, 4, 5, 8],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -355,17 +355,17 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
 		[
-			'title'	=> 'Dosen Pembimbing Skripsi',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url() . userSession('slug_role') . '/dosen-pembimbing-skripsi',
-			'role'	=> [1, 17, 3, 10],
+			'title'	=> 'Pembimbing Skripsi',
+			'icon'	=> 'fa-solid fa-voicemail',
+			'url'	=> base_url() . userSession('slug_role') . '/pembimbing-skripsi',
+			'role'	=> [1, 17, 3, 4, 8, 10],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Dosen PL dan MBKM',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-voicemail',
 			'url'	=> base_url() . userSession('slug_role') . '/dosen-pl-mbkm',
-			'role'	=> [1, 17, 3, 10],
+			'role'	=> [1, 17, 3, 4, 8, 10],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -419,10 +419,17 @@ function menuSidebar()
             'type'	=> 'heading',
         ],
         [
-			'title'	=> 'Penelitian Dosen',
+			'title'	=> 'Tri Dharma',
 			'icon'	=> 'fa-solid fa-flask',
-			'url'	=> base_url(userSession('slug_role')) . '/penelitian-dosen',
+			'url'	=> base_url(userSession('slug_role')) . '/tri-dharma',
 			'role'	=> [1, 17, 4, 7, 3, 9, 10, 11, 12],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Pengajaran',
+			'icon'	=> 'fa-solid fa-calendar',
+			'url'	=> base_url(userSession('slug_role')) . '/pengajaran',
+			'role'	=> [1, 17, 4],
 			'type'	=> 'no-collapse',
 		],
         [

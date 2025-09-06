@@ -1,8 +1,8 @@
 <?php
-$is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
-    $is_access = true;
-}
+$is_access = true;
+// if (array_intersect(userSession('id_roles'), [1, 17, 4])) {
+//     $is_access = true;
+// }
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -37,6 +37,19 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="mb-3">
+                                                    <label for="kategori" class="form-label">Kategori</label>
+                                                    <select class="form-select" id="kategori" name="kategori">
+                                                        <option value="">Pilih</option>
+                                                        <?php
+                                                        $kategori = ['PENELITIAN', 'PENGABDIAN', 'ARTIKEL PUBLIKASI'];
+                                                        foreach ($kategori as $v) :
+                                                        ?>
+                                                        <option value="<?= $v ?>"><?= $v ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_kategori"></div>
+                                                </div>
+                                                <div class="mb-3">
                                                     <label for="judul" class="form-label">Judul</label>
                                                     <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
                                                     <div class="invalid-feedback" id="invalid_judul"></div>
@@ -70,6 +83,7 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
+                            <th>Kategori</th>
                             <th>Judul</th>
                             <th>Tautan</th>
                             <?php if ($is_access) : ?>
@@ -106,6 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
+                name: 'kategori',
+                data: 'kategori',
+            }, {
                 name: 'judul',
                 data: 'judul',
             }, {
@@ -123,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const tipe = ['SPP', 'Addons'];
+    const kategori = ['PENELITIAN', 'PENGABDIAN', 'ARTIKEL PUBLIKASI'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -138,6 +155,14 @@ function renderOpsi(data) {
                 </div>
                 <form id="form_${data.id}">
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="kategori" class="form-label">Kategori</label>
+                            <select class="form-select" id="kategori" name="kategori">
+                                <option value="">Pilih</option>
+                                ${kategori.map(item => `<option value="${item}" ${item == data.kategori ? 'selected' : ''}>${item}</option>`).join('')}
+                            </select>
+                            <div class="invalid-feedback" id="invalid_kategori"></div>
+                        </div>
                         <div class="mb-3">
                             <label for="judul" class="form-label">Judul</label>
                             <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">

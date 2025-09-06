@@ -77,7 +77,6 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                             <th>Judul</th>
                             <th>Tautan SK</th>
                             <?php if ($is_access) : ?>
-                            <th>Created By</th>
                             <th>Opsi</th>
                             <?php endif; ?>
                         </tr>
@@ -121,9 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
             }, <?php if ($is_access) : ?> {
-                name: 'created_by',
-                data: 'created_by',
-            }, {
                 name: '',
                 data: null,
                 render: renderOpsi,

@@ -148,7 +148,7 @@ $total_kas = model('Keuangan')
                             new Chart(chart_sumber_pemasukan_terbesar.querySelector('canvas'), {
                                 type: 'bar',
                                 data: {
-                                    labels: data.data.map(item => item.nama_sumber_dana),
+                                    labels: data.data.map(item => [item.nama_kategori_dana, item.nama_sumber_dana]),
                                     datasets: [{
                                             label: 'Pemasukan',
                                             data: data.data.map(item => item.total_nominal),
@@ -193,7 +193,7 @@ $total_kas = model('Keuangan')
                             new Chart(chart_sumber_pengeluaran_terbesar.querySelector('canvas'), {
                                 type: 'bar',
                                 data: {
-                                    labels: data.data.map(item => item.nama_sumber_dana),
+                                    labels: data.data.map(item => [item.nama_kategori_dana, item.nama_sumber_dana]),
                                     datasets: [{
                                             label: 'Pengeluaran',
                                             data: data.data.map(item => item.total_nominal),

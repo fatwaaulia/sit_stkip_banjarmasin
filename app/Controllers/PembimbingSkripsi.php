@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class PenelitianDosen extends BaseController
+class PembimbingSkripsi extends BaseController
 {
     protected $base_name;
     protected $model_name;
@@ -10,8 +10,8 @@ class PenelitianDosen extends BaseController
 
     public function __construct()
     {
-        $this->base_name   = 'penelitian_dosen';
-        $this->model_name  = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->base_name)));
+        $this->base_name   = 'pembimbing_skripsi';
+        $this->model_name  = 'DosenPenasihat';
         $this->upload_path = dirUpload() . $this->base_name . '/';
     }
 
@@ -39,10 +39,7 @@ class PenelitianDosen extends BaseController
     public function index()
     {
         $select     = ['*'];
-        $base_query = model($this->model_name)->select($select);
-        // if (userSession('id_roles') == 4) {
-        //     $base_query->where('created_by', userSession('id'));
-        // }
+        $base_query = model($this->model_name)->select($select)->where('kategori', 'PEMBIMBING SKRIPSI');
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -82,8 +79,8 @@ class PenelitianDosen extends BaseController
     public function create()
     {
         $rules = [
-            'kategori' => 'required',
-            'judul'  => 'required',
+            'dosen'  => 'required',
+            'tahun_akademik' => 'required',
             'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
@@ -97,10 +94,20 @@ class PenelitianDosen extends BaseController
         }
 
         // Lolos Validasi
+        $dosen = model('Users')->find($this->request->getVar('dosen'));
+        $tahun_akademik = model('TahunAkademik')->find($this->request->getVar('tahun_akademik'));
         $data = [
-            'kategori' => $this->request->getVar('kategori'),
-            'judul'  => $this->request->getVar('judul'),
+            'kategori' => 'PEMBIMBING SKRIPSI',
             'tautan' => $this->request->getVar('tautan'),
+            'id_dosen' => $dosen['id'],
+            'nama_dosen' => $dosen['nama'],
+            'id_program_studi' => $dosen['id_program_studi'],
+            'jenjang_program_studi' => $dosen['jenjang_program_studi'],
+            'nama_program_studi' => $dosen['nama_program_studi'],
+            'singkatan_program_studi' => $dosen['singkatan_program_studi'],
+            'id_tahun_akademik' => $tahun_akademik['id'],
+            'tahun_akademik' => $tahun_akademik['tahun_akademik'],
+            'tipe_tahun_akademik' => $tahun_akademik['tipe'],
             'created_by' => userSession('id'),
         ];
 
@@ -118,8 +125,6 @@ class PenelitianDosen extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
-            'kategori'  => 'required',
-            'judul'  => 'required',
             'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
@@ -134,8 +139,6 @@ class PenelitianDosen extends BaseController
 
         // Lolos Validasi
         $data = [
-            'kategori' => $this->request->getVar('kategori'),
-            'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'updated_by' => userSession('id'),
         ];

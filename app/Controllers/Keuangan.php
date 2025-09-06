@@ -520,7 +520,7 @@ class Keuangan extends BaseController
     {
         $periode = $this->request->getVar('periode');
         $base_query = model($this->model_name)
-        ->select('id_sumber_dana, COUNT(*) AS total, SUM(nominal) as total_nominal, MAX(nama_sumber_dana) AS nama_sumber_dana')
+        ->select('id_sumber_dana, COUNT(*) AS total, SUM(nominal) as total_nominal, MAX(nama_kategori_dana) AS nama_kategori_dana, MAX(nama_sumber_dana) AS nama_sumber_dana')
         ->where('jenis', 'Masuk');
 
         if ($periode == 'hari ini') {
@@ -562,7 +562,7 @@ class Keuangan extends BaseController
     {
         $periode = $this->request->getVar('periode');
         $base_query = model($this->model_name)
-        ->select('id_sumber_dana, COUNT(*) AS total, SUM(ABS(nominal)) as total_nominal, MAX(nama_sumber_dana) AS nama_sumber_dana')
+        ->select('id_sumber_dana, COUNT(*) AS total, SUM(ABS(nominal)) as total_nominal, MAX(nama_kategori_dana) AS nama_kategori_dana, MAX(nama_sumber_dana) AS nama_sumber_dana')
         ->where('jenis', 'Keluar');
 
         if ($periode == 'hari ini') {

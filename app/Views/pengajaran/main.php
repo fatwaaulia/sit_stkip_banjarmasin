@@ -1,8 +1,8 @@
 <?php
-$is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
-    $is_access = true;
-}
+$is_access = true;
+// if (array_intersect(userSession('id_roles'), [1, 17, 4])) {
+//     $is_access = true;
+// }
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+            }, {
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -123,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const tipe = ['SPP', 'Addons'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">

@@ -47,7 +47,7 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                         </form>
                     </div>
                     <div class="col-12 col-lg-2 col-xl-2 d-flex justify-content-end align-items-end">
-                        <a href="<?= base_url() ?>mendaftar-mahasiswa" target="_blank">Formulir Pendaftaran</a>
+                        <a href="<?= base_url() ?>pendaftaran-mahasiswa" target="_blank">Formulir Pendaftaran</a>
                     </div>
                 </div>
                 <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">

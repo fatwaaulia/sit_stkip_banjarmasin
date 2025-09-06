@@ -1,6 +1,7 @@
 <?php
 $get_program_studi = $_GET['program_studi'] ?? '';
 $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
+$get_status = $_GET['status'] ?? '';
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -83,6 +84,10 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
                             }
                         }
                         </script>
+
+                        <a href="<?= $base_route ?>new" class="btn btn-primary ms-2">
+                            <i class="fa-solid fa-plus fa-sm"></i> New
+                        </a>
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
@@ -112,6 +117,19 @@ $get_mulai_kuliah = $_GET['mulai_kuliah'] ?? '';
                                             $selected = ($v['id'] == $get_mulai_kuliah) ? 'selected' : '';
                                         ?>
                                         <option value="<?= $v['id'] ?>" <?= $selected ?>><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-5 col-lg-4 col-xl-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="">Semua</option>
+                                        <?php
+                                        $status = ['Aktif', 'Cuti', 'DO', 'Lulus'];
+                                        foreach ($status as $v) :
+                                            $selected = ($v == $get_status) ? 'selected' : '';
+                                        ?>
+                                        <option value="<?= $v ?>" <?= $selected ?>><?= $v ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

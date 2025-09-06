@@ -33,19 +33,19 @@ class FrontEnd extends BaseController
         return view('frontend/header', $view);
     }
 
-    public function mendaftarMahasiswa()
+    public function pendaftaranMahasiswa()
     {
         $data = [
             'title'    => 'Formulir Pendaftaran Mahasiswa',
         ];
 
         $view['navbar'] = view('frontend/components/navbar');
-        $view['content'] = view('frontend/mendaftar_mahasiswa', $data);
+        $view['content'] = view('frontend/pendaftaran_mahasiswa', $data);
         $view['footer'] = view('frontend/components/footer');
         return view('frontend/header', $view);
     }
 
-    public function mendaftarMahasiswaDetail()
+    public function pendaftaranMahasiswaDetail()
     {
         $email = $this->request->getVar('email', FILTER_SANITIZE_EMAIL);
 
@@ -72,7 +72,7 @@ class FrontEnd extends BaseController
         ];
 
         $view['navbar'] = view('frontend/components/navbar');
-        $view['content'] = view('frontend/detail_pendaftar_mahasiswa', $data);
+        $view['content'] = view('frontend/detail_pendaftaran_mahasiswa', $data);
         $view['footer'] = view('frontend/components/footer');
         return view('frontend/header', $view);
     }

@@ -146,6 +146,7 @@ class Tendik extends BaseController
 
             'username' => $this->request->getVar('nomor_identitas'),
             'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
+            'password_asli' => $this->request->getVar('password'),
 
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
@@ -242,6 +243,8 @@ class Tendik extends BaseController
             'multi_role'    => $multi_role ? json_encode($data_multi_role) : $find_data['multi_role'],
 
             'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
+            'password_asli' => $password != '' ? $password : $find_data['password'],
+
             'status_akun' => $this->request->getVar('status_akun'),
         ];
 

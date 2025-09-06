@@ -240,9 +240,11 @@ class PendaftarMahasiswa extends BaseController
             $filename_foto = '';
         }
 
+        $password = trim($this->request->getVar('no_hp'));
         $data = [
             'username' => '',
-            'password' => password_hash($this->request->getVar('no_hp'), PASSWORD_DEFAULT),
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'password_asli' => $password,
             'foto' => $filename_foto,
 
             'id_role'         => $role['id'],

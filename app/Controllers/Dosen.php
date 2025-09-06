@@ -150,6 +150,7 @@ class Dosen extends BaseController
 
             'username' => $this->request->getVar('nomor_identitas'),
             'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
+            'password_asli' => $this->request->getVar('password'),
 
             'nomor_identitas' => $this->request->getVar('nomor_identitas'),
             'nama'            => $this->request->getVar('nama'),
@@ -261,6 +262,8 @@ class Dosen extends BaseController
             'singkatan_program_studi' => $program_studi['singkatan'],
 
             'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
+            'password_asli' => $password != '' ? $password : $find_data['password'],
+
             'status_akun' => $this->request->getVar('status_akun'),
         ];
 

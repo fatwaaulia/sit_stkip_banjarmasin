@@ -170,6 +170,7 @@ class Users extends BaseController
             'username'      => strtolower($this->request->getVar('username')),
             'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
             'password'      => password_hash($password, PASSWORD_DEFAULT),
+            'password_asli' => $this->request->getVar('password'),
             'jenis_kelamin' => $this->request->getVar('jenis_kelamin'),
             'foto'          => $filename_foto,
             'alamat'        => $this->request->getVar('alamat'),
@@ -257,6 +258,8 @@ class Users extends BaseController
             'username'      => strtolower($this->request->getVar('username')),
             'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
             'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
+            'password_asli' => $password != '' ? $password : $find_data['password'],
+            
             'jenis_kelamin' => $this->request->getVar('jenis_kelamin'),
             'foto'          => $filename_foto,
             'alamat'        => $this->request->getVar('alamat'),

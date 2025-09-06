@@ -92,8 +92,6 @@ $is_access = true;
                             <th>Nomor</th>
                             <th>Perihal</th>
                             <th>Tautan</th>
-                            <th>Created At</th>
-                            <th>Created By</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -140,12 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
-            }, {
-                name: 'created_at',
-                data: 'created_at',
-            }, {
-                name: 'created_by',
-                data: 'created_by',
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -191,7 +183,7 @@ function renderOpsi(data) {
                             <div class="invalid-feedback" id="invalid_perihal"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan SK</label>
+                            <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
                         </div>

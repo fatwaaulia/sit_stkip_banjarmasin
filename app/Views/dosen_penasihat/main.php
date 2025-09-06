@@ -1,12 +1,14 @@
 <?php
-$is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
+$is_access = true;
+if (array_intersect(userSession('id_roles'), [1, 17, 8])) {
     $is_access = true;
 }
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/datatables/css/dataTables.dataTables.min.css">
+<link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
+<script src="<?= base_url() ?>assets/modules/dselect/dselect.min.js"></script>
 
 <section class="container-fluid">
     <div class="row">
@@ -37,9 +39,30 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="mb-3">
-                                                    <label for="judul" class="form-label">Judul</label>
-                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
-                                                    <div class="invalid-feedback" id="invalid_judul"></div>
+                                                    <label for="dosen" class="form-label">Dosen</label>
+                                                    <select class="form-select" id="dosen" name="dosen">
+                                                        <option value="">Pilih</option>
+                                                        <?php
+                                                        $dosen = model('Users')->where('id_role', 4)->findAll();
+                                                        foreach ($dosen as $v) :
+                                                        ?>
+                                                        <option value="<?= $v['id'] ?>"><?= $v['jenjang_program_studi'] ?> <?= $v['nama_program_studi'] ?> - <?= $v['nama'] ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_dosen"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="tahun_akademik" class="form-label">Tahun Akademik Mahasiswa Diterima</label>
+                                                    <select class="form-select" id="tahun_akademik" name="tahun_akademik">
+                                                        <option value="">Pilih</option>
+                                                        <?php
+                                                        $tahun_akademik = model('TahunAkademik')->orderBy('id DESC')->limit(6)->findAll();
+                                                        foreach ($tahun_akademik as $v) :
+                                                        ?>
+                                                        <option value="<?= $v['id'] ?>"><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="tautan" class="form-label">Tautan</label>
@@ -70,7 +93,9 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Judul</th>
+                            <th>Tahun Akademik Mahasiswa Diterima</th>
+                            <th>Dosen</th>
+                            <th>Program Studi</th>
                             <th>Tautan</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
@@ -106,8 +131,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: 'judul',
-                data: 'judul',
+                name: '',
+                data: null,
+                render: data => `${data.tahun_akademik} - ${data.tipe_tahun_akademik}`,
+            }, {
+                name: 'nama_dosen',
+                data: 'nama_dosen',
+            }, {
+                name: 'nama_program_studi',
+                data: null,
+                render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
             }, {
                 name: '',
                 data: null,
@@ -122,8 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 <?php if ($is_access) : ?>
+dselect(dom('#dosen'), { search: true });
 function renderOpsi(data) {
-    const tipe = ['SPP', 'Addons'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -139,9 +172,12 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="judul" class="form-label">Judul</label>
-                            <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
-                            <div class="invalid-feedback" id="invalid_judul"></div>
+                            <label class="form-label">Tahun Akademik Mahasiswa Diterima</label>
+                            <input type="text" class="form-control" value="${data.tahun_akademik} - ${data.tipe_tahun_akademik}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dosen</label>
+                            <input type="text" class="form-control" value="${data.jenjang_program_studi} ${data.nama_program_studi} - ${data.nama_dosen}" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="tautan" class="form-label">Tautan</label>

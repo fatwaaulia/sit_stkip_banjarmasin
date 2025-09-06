@@ -200,7 +200,7 @@ function renderOpsi(data) {
                             <div class="invalid-feedback" id="invalid_perihal"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan SK</label>
+                            <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
                         </div>

@@ -55,6 +55,7 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                             <th>Foto</th>
                             <th>NIDN / NIDK</th>
                             <th>Nama Dosen</th>
+                            <th>Password Asli</th>
                             <th>Program Studi</th>
                             <th>Jabatan Fungsional</th>
                             <th>Jabatan Struktural</th>
@@ -101,6 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: 'nama',
                 data: 'nama',
+            }, {
+                name: '',
+                data: 'password_asli',
             }, {
                 name: '',
                 data: null,
