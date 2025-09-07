@@ -289,6 +289,26 @@ if (array_intersect($id_roles, roleAccessByTitle('Dosen PL dan MBKM'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('SPMI'))) {
+    $routes->get("$slug_role/spmi", 'Spmi::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/spmi', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Spmi::index');
+        $routes->post('create', 'Spmi::create');
+        $routes->post('update/(:segment)', 'Spmi::update/$1');
+        $routes->post('delete/(:segment)', 'Spmi::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('LKPT'))) {
+    $routes->get("$slug_role/lkpt", 'Lkpt::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/lkpt', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Lkpt::index');
+        $routes->post('create', 'Lkpt::create');
+        $routes->post('update/(:segment)', 'Lkpt::update/$1');
+        $routes->post('delete/(:segment)', 'Lkpt::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Mata Kuliah'))) {
     $routes->get("$slug_role/mata-kuliah", 'MataKuliah::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/mata-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 07, 2025 at 11:29 AM
+-- Generation Time: Sep 07, 2025 at 10:57 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -272,6 +272,22 @@ CREATE TABLE `laporan_promosi` (
   `id` bigint NOT NULL,
   `judul` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lkpt`
+--
+
+CREATE TABLE `lkpt` (
+  `id` bigint NOT NULL,
+  `judul` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -565,7 +581,8 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (266, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-06 16:03:46', '2025-09-06 16:03:46'),
 (267, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 08:37:37', '2025-09-07 08:37:37'),
 (268, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 13:11:38', '2025-09-07 13:11:38'),
-(269, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 18:05:03', '2025-09-07 18:05:03');
+(269, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 18:05:03', '2025-09-07 18:05:03'),
+(270, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-08 05:17:46', '2025-09-08 05:17:46');
 
 -- --------------------------------------------------------
 
@@ -1010,6 +1027,22 @@ INSERT INTO `role` (`id`, `nama`, `slug`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `spmi`
+--
+
+CREATE TABLE `spmi` (
+  `id` bigint NOT NULL,
+  `judul` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `status_mahasiswa`
 --
 
@@ -1400,6 +1433,12 @@ ALTER TABLE `laporan_promosi`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `lkpt`
+--
+ALTER TABLE `lkpt`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `log_keuangan`
 --
 ALTER TABLE `log_keuangan`
@@ -1481,6 +1520,12 @@ ALTER TABLE `program_studi`
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `spmi`
+--
+ALTER TABLE `spmi`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1602,6 +1647,12 @@ ALTER TABLE `laporan_promosi`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `lkpt`
+--
+ALTER TABLE `lkpt`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `log_keuangan`
 --
 ALTER TABLE `log_keuangan`
@@ -1611,7 +1662,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`
@@ -1684,6 +1735,12 @@ ALTER TABLE `program_studi`
 --
 ALTER TABLE `role`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `spmi`
+--
+ALTER TABLE `spmi`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `status_mahasiswa`

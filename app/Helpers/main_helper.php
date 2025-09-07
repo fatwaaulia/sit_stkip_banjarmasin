@@ -375,16 +375,16 @@ function menuSidebar()
         ],
         [
 			'title'	=> 'SPMI',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url() . userSession('slug_role') . '/spmi',
 			'role'	=> [1, 17, 10],
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'IKU',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url() . userSession('slug_role') . '/iku',
-			'role'	=> [1, 17, 10],
+			'title'	=> 'LKPT',
+			'icon'	=> 'fa-solid fa-file',
+			'url'	=> base_url() . userSession('slug_role') . '/lkpt',
+			'role'	=> [1, 17, 10, 11],
 			'type'	=> 'no-collapse',
 		],
         [
