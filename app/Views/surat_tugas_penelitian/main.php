@@ -1,8 +1,8 @@
 <?php
-$is_access = true;
-// if (array_intersect(userSession('id_roles'), [1, 4])) {
-//     $is_access = true;
-// }
+$is_access = false;
+if (array_intersect(userSession('id_roles'), [1, 17, 15])) {
+    $is_access = true;
+}
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -37,37 +37,14 @@ $is_access = true;
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="mb-3">
-                                                    <label for="tingkat_sp" class="form-label">Tingkat SP</label>
-                                                    <select class="form-select" id="tingkat_sp" name="tingkat_sp">
-                                                        <option value="">Pilih</option>
-                                                        <?php
-                                                        $tingkat_sp = ['SP 1', 'SP 2', 'SP 3'];
-                                                        foreach ($tingkat_sp as $v) :
-                                                        ?>
-                                                        <option value="<?= $v ?>"><?= $v ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                    <div class="invalid-feedback" id="invalid_tingkat_sp"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="nomor_surat" class="form-label">Nomor Surat</label>
-                                                    <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" placeholder="Masukkan nomor surat">
-                                                    <div class="invalid-feedback" id="invalid_nomor_surat"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="perihal" class="form-label">Perihal</label>
-                                                    <input type="text" class="form-control" id="perihal" name="perihal" placeholder="Masukkan perihal">
-                                                    <div class="invalid-feedback" id="invalid_perihal"></div>
+                                                    <label for="judul" class="form-label">Judul</label>
+                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
+                                                    <div class="invalid-feedback" id="invalid_judul"></div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="tautan" class="form-label">Tautan</label>
                                                     <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
                                                     <div class="invalid-feedback" id="invalid_tautan"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="catatan" class="form-label">Catatan <span class="text-secondary">(Opsional)</span></label>
-                                                    <textarea class="form-control" id="catatan" name="catatan" rows="3" placeholder="Masukkan catatan peringatan"></textarea>
-                                                    <div class="invalid-feedback" id="invalid_catatan"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,10 +70,7 @@ $is_access = true;
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Tingkat SP</th>
-                            <th>Nomor</th>
-                            <th>Perihal</th>
-                            <th>Catatan</th>
+                            <th>Judul</th>
                             <th>Tautan</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
@@ -132,17 +106,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: '',
-                data: 'tingkat_sp',
-            }, {
-                name: 'nomor_surat',
-                data: 'nomor_surat',
-            }, {
-                name: 'perihal',
-                data: 'perihal',
-            }, {
-                name: '',
-                data: 'catatan',
+                name: 'judul',
+                data: 'judul',
             }, {
                 name: '',
                 data: null,
@@ -158,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const tingkat_sp = ['SP 1', 'SP 2', 'SP 3'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -174,32 +138,14 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="tingkat_sp" class="form-label">Tingkat SP</label>
-                            <select class="form-select" id="tingkat_sp" name="tingkat_sp">
-                                <option value="">Pilih</option>
-                                ${tingkat_sp.map(item => `<option value="${item}" ${item == data.tingkat_sp ? 'selected' : ''}>${item}</option>`).join('')}
-                            </select>
-                            <div class="invalid-feedback" id="invalid_tingkat_sp"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nomor_surat" class="form-label">Nomor Surat</label>
-                            <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="${data.nomor_surat}" placeholder="Masukkan nomor surat">
-                            <div class="invalid-feedback" id="invalid_nomor_surat"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="perihal" class="form-label">Perihal</label>
-                            <input type="text" class="form-control" id="perihal" name="perihal" value="${data.perihal}" placeholder="Masukkan perihal">
-                            <div class="invalid-feedback" id="invalid_perihal"></div>
+                            <label for="judul" class="form-label">Judul</label>
+                            <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
+                            <div class="invalid-feedback" id="invalid_judul"></div>
                         </div>
                         <div class="mb-3">
                             <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="catatan" class="form-label">Catatan <span class="text-secondary">(Opsional)</span></label>
-                            <textarea class="form-control" id="catatan" name="catatan" rows="3" placeholder="Masukkan catatan peringatan">${data.catatan}</textarea>
-                            <div class="invalid-feedback" id="invalid_catatan"></div>
                         </div>
                     </div>
                     <div class="modal-footer">

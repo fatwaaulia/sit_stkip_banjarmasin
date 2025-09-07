@@ -229,6 +229,16 @@ if (array_intersect($id_roles, roleAccessByTitle('Status Bayar'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Laporan Pertanggungjawaban'))) {
+    $routes->get("$slug_role/laporan-pertanggungjawaban", 'LaporanPertanggungjawaban::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/laporan-pertanggungjawaban', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'LaporanPertanggungjawaban::index');
+        $routes->post('create', 'LaporanPertanggungjawaban::create');
+        $routes->post('update/(:segment)', 'LaporanPertanggungjawaban::update/$1');
+        $routes->post('delete/(:segment)', 'LaporanPertanggungjawaban::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Kalender Akademik'))) {
     $routes->get("$slug_role/kalender-akademik", 'KalenderAkademik::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/kalender-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {
@@ -375,6 +385,16 @@ if (array_intersect($id_roles, roleAccessByTitle('Tendik'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Surat Tugas Penelitian'))) {
+    $routes->get("$slug_role/surat-tugas-penelitian", 'SuratTugasPenelitian::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/surat-tugas-penelitian', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'SuratTugasPenelitian::index');
+        $routes->post('create', 'SuratTugasPenelitian::create');
+        $routes->post('update/(:segment)', 'SuratTugasPenelitian::update/$1');
+        $routes->post('delete/(:segment)', 'SuratTugasPenelitian::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Tri Dharma'))) {
     $routes->get("$slug_role/tri-dharma", 'TriDharma::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/tri-dharma', ['filter' => 'EnsureLogin'], static function ($routes) {
@@ -452,6 +472,26 @@ if (array_intersect($id_roles, roleAccessByTitle('Pengajuan Buku Baru'))) {
         $routes->post('create', 'PengajuanBukuBaru::create');
         $routes->post('update/(:segment)', 'PengajuanBukuBaru::update/$1');
         $routes->post('delete/(:segment)', 'PengajuanBukuBaru::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Kegiatan Perpustakaan'))) {
+    $routes->get("$slug_role/kegiatan-perpustakaan", 'KegiatanPerpustakaan::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/kegiatan-perpustakaan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'KegiatanPerpustakaan::index');
+        $routes->post('create', 'KegiatanPerpustakaan::create');
+        $routes->post('update/(:segment)', 'KegiatanPerpustakaan::update/$1');
+        $routes->post('delete/(:segment)', 'KegiatanPerpustakaan::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Mahasiswa Praktik Lapangan'))) {
+    $routes->get("$slug_role/mahasiswa-praktik-lapangan", 'MahasiswaPraktikLapangan::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/mahasiswa-praktik-lapangan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'MahasiswaPraktikLapangan::index');
+        $routes->post('create', 'MahasiswaPraktikLapangan::create');
+        $routes->post('update/(:segment)', 'MahasiswaPraktikLapangan::update/$1');
+        $routes->post('delete/(:segment)', 'MahasiswaPraktikLapangan::delete/$1');
     });
 }
 

@@ -11,7 +11,7 @@ class Buku extends BaseController
     public function __construct()
     {
         $this->base_name   = 'buku';
-        $this->model_name  = 'BukuPerpustakaan';
+        $this->model_name  = 'Perpustakaan';
         $this->upload_path = dirUpload() . $this->base_name . '/';
     }
 

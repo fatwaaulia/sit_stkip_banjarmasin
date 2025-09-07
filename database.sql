@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 06, 2025 at 07:04 AM
+-- Generation Time: Sep 07, 2025 at 06:33 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -54,32 +54,6 @@ CREATE TABLE `app_settings` (
 
 INSERT INTO `app_settings` (`id`, `nama_aplikasi`, `nama_perusahaan`, `deskripsi`, `logo`, `favicon`, `no_hp`, `alamat`, `maps`, `ts_2_tanggal_awal`, `ts_2_tanggal_akhir`, `ts_1_tanggal_awal`, `ts_1_tanggal_akhir`, `ts_tanggal_awal`, `ts_tanggal_akhir`, `buka_pendaftaran_mahasiswa`, `created_at`, `updated_at`) VALUES
 (1, 'STKIP ISM Banjarmasin', 'Humasoft Studio Teknologi', 'Kampus Visioner STKIP ISM Banjarmasin', 'logo.png', 'favicon.png', '0', 'Jl. Malkon Temon Jl. Sultan Adam No.12, RT.23, Surgi Mufti, Kec. Banjarmasin Utara, Kota Banjarmasin, Kalimantan Selatan 70122', '', '2024-09-08', '2025-03-04', '2025-03-05', '2025-07-23', '2025-07-24', '2026-03-17', 'Buka', '2024-09-17 13:06:51', '2025-09-01 08:47:11');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `buku_perpustakaan`
---
-
-CREATE TABLE `buku_perpustakaan` (
-  `id` bigint NOT NULL,
-  `kategori` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_by` bigint NOT NULL,
-  `updated_by` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `buku_perpustakaan`
---
-
-INSERT INTO `buku_perpustakaan` (`id`, `kategori`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(2, 'BUKU RUSAK', 'buku rusak tahun 2024', 'https://id.quora.com/', '2025-09-04 09:12:05', '2025-09-04 09:19:23', 1, 1),
-(3, 'BUKU', 'buku tersedia tahun 2024', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '2025-09-04 09:18:16', '2025-09-04 09:18:51', 1, 1),
-(4, 'PENGAJUAN BUKU BARU', 'Pengajuan buku baru untuk 2026', 'https://hpanel.hostinger.com/', '2025-09-04 10:30:01', '2025-09-04 10:30:01', 37, 0);
 
 -- --------------------------------------------------------
 
@@ -271,6 +245,22 @@ INSERT INTO `keuangan` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`,
 (6, 'Masuk', 2, 'Kementerian/ Yayasan', 5000000, 4, 'Anggaran Rutin', 'salah input nominal', '2025-08-30 10:40:00', '2025-08-30 10:40:30', '2025-09-04 12:07:56', 1, 1),
 (7, 'Keluar', 12, 'Grup 2', -900000, 25, 'Dana Penelitian', '', '2025-08-25 15:45:00', '2025-08-30 15:45:42', '2025-08-30 15:45:42', 1, 0),
 (8, 'Keluar', 12, 'Grup 2', -1500000, 26, 'Dana PKM', '', '2025-08-28 16:17:00', '2025-08-30 16:18:15', '2025-08-30 16:18:15', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `laporan_pertanggungjawaban`
+--
+
+CREATE TABLE `laporan_pertanggungjawaban` (
+  `id` bigint NOT NULL,
+  `judul` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -571,7 +561,33 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (262, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-06 07:29:22', '2025-09-06 07:29:22'),
 (263, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-06 08:36:49', '2025-09-06 08:36:49'),
 (264, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-06 10:35:48', '2025-09-06 10:35:48'),
-(265, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-06 10:40:27', '2025-09-06 10:40:27');
+(265, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-06 10:40:27', '2025-09-06 10:40:27'),
+(266, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-06 16:03:46', '2025-09-06 16:03:46'),
+(267, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 08:37:37', '2025-09-07 08:37:37'),
+(268, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 13:11:38', '2025-09-07 13:11:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mahasiswa_praktik_lapangan`
+--
+
+CREATE TABLE `mahasiswa_praktik_lapangan` (
+  `id` bigint NOT NULL,
+  `judul` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mahasiswa_praktik_lapangan`
+--
+
+INSERT INTO `mahasiswa_praktik_lapangan` (`id`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(6, '2024/2025 ganjil', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '2025-09-07 08:57:28', '2025-09-07 08:57:28', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -882,6 +898,33 @@ INSERT INTO `penyusutan_inventaris` (`id`, `id_kategori`, `nama_kategori`, `nama
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `perpustakaan`
+--
+
+CREATE TABLE `perpustakaan` (
+  `id` bigint NOT NULL,
+  `kategori` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `perpustakaan`
+--
+
+INSERT INTO `perpustakaan` (`id`, `kategori`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(2, 'BUKU RUSAK', 'buku rusak tahun 2024', 'https://id.quora.com/', '2025-09-04 09:12:05', '2025-09-04 09:19:23', 1, 1),
+(3, 'BUKU', 'buku tersedia tahun 2024', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '2025-09-04 09:18:16', '2025-09-04 09:18:51', 1, 1),
+(4, 'PENGAJUAN BUKU BARU', 'Pengajuan buku baru untuk 2026', 'https://hpanel.hostinger.com/', '2025-09-04 10:30:01', '2025-09-04 10:30:01', 37, 0),
+(5, 'KEGIATAN PERPUSTAKAAN', 'Laporan Kegiatan Perpustakaan 02 Maret 2025', 'https://translate.google.com/?sl=en&tl=id&text=teknologi%20rekayasa%20perangkatan%20lunak%20terapan%20sistem&op=translate', '2025-09-07 09:08:53', '2025-09-07 09:08:53', 1, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `program_studi`
 --
 
@@ -989,6 +1032,29 @@ CREATE TABLE `surat_peringatan` (
 
 INSERT INTO `surat_peringatan` (`id`, `nomor_surat`, `tingkat_sp`, `perihal`, `catatan`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (1, 'SK/MP2025/00123', 'SP 1', 'Dosen Merokok Dalam Kelas', '-', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '2025-09-03 20:56:34', '2025-09-03 20:57:31', 34, 34);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `surat_tugas_penelitian`
+--
+
+CREATE TABLE `surat_tugas_penelitian` (
+  `id` bigint NOT NULL,
+  `judul` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `surat_tugas_penelitian`
+--
+
+INSERT INTO `surat_tugas_penelitian` (`id`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(6, 'Surat Tugas Penelitian Di Desa Kebondalem', 'https://hpanel.hostinger.com/', '2025-09-07 10:46:15', '2025-09-07 10:46:15', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1254,12 +1320,6 @@ ALTER TABLE `app_settings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `buku_perpustakaan`
---
-ALTER TABLE `buku_perpustakaan`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `dosen_penasihat`
 --
 ALTER TABLE `dosen_penasihat`
@@ -1302,6 +1362,12 @@ ALTER TABLE `keuangan`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `laporan_pertanggungjawaban`
+--
+ALTER TABLE `laporan_pertanggungjawaban`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `laporan_promosi`
 --
 ALTER TABLE `laporan_promosi`
@@ -1317,6 +1383,12 @@ ALTER TABLE `log_keuangan`
 -- Indexes for table `log_login`
 --
 ALTER TABLE `log_login`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `mahasiswa_praktik_lapangan`
+--
+ALTER TABLE `mahasiswa_praktik_lapangan`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1362,6 +1434,12 @@ ALTER TABLE `penyusutan_inventaris`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `perpustakaan`
+--
+ALTER TABLE `perpustakaan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `program_studi`
 --
 ALTER TABLE `program_studi`
@@ -1383,6 +1461,12 @@ ALTER TABLE `status_mahasiswa`
 -- Indexes for table `surat_peringatan`
 --
 ALTER TABLE `surat_peringatan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `surat_tugas_penelitian`
+--
+ALTER TABLE `surat_tugas_penelitian`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1432,12 +1516,6 @@ ALTER TABLE `app_settings`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `buku_perpustakaan`
---
-ALTER TABLE `buku_perpustakaan`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT for table `dosen_penasihat`
 --
 ALTER TABLE `dosen_penasihat`
@@ -1480,6 +1558,12 @@ ALTER TABLE `keuangan`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `laporan_pertanggungjawaban`
+--
+ALTER TABLE `laporan_pertanggungjawaban`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `laporan_promosi`
 --
 ALTER TABLE `laporan_promosi`
@@ -1495,7 +1579,13 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=269;
+
+--
+-- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`
+--
+ALTER TABLE `mahasiswa_praktik_lapangan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `master_dana`
@@ -1540,6 +1630,12 @@ ALTER TABLE `penyusutan_inventaris`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
+-- AUTO_INCREMENT for table `perpustakaan`
+--
+ALTER TABLE `perpustakaan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `program_studi`
 --
 ALTER TABLE `program_studi`
@@ -1562,6 +1658,12 @@ ALTER TABLE `status_mahasiswa`
 --
 ALTER TABLE `surat_peringatan`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `surat_tugas_penelitian`
+--
+ALTER TABLE `surat_tugas_penelitian`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tagihan_mahasiswa`

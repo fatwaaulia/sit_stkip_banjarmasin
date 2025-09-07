@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BukuPerpustakaan extends Model
+class LaporanPertanggungjawaban extends Model
 {
-    protected $table         = 'buku_perpustakaan';
+    protected $table         = 'laporan_pertanggungjawaban';
     protected $protectFields = false;
     protected $useTimestamps = true;
 }

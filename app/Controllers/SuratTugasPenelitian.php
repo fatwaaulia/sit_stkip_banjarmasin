@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class BukuRusak extends BaseController
+class SuratTugasPenelitian extends BaseController
 {
     protected $base_name;
     protected $model_name;
@@ -10,8 +10,8 @@ class BukuRusak extends BaseController
 
     public function __construct()
     {
-        $this->base_name   = 'buku_rusak';
-        $this->model_name  = 'Perpustakaan';
+        $this->base_name   = 'surat_tugas_penelitian';
+        $this->model_name  = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->base_name)));
         $this->upload_path = dirUpload() . $this->base_name . '/';
     }
 
@@ -39,7 +39,7 @@ class BukuRusak extends BaseController
     public function index()
     {
         $select     = ['*'];
-        $base_query = model($this->model_name)->select($select)->where('kategori', 'BUKU RUSAK');
+        $base_query = model($this->model_name)->select($select);
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -60,13 +60,9 @@ class BukuRusak extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
-
-        $created_by = model('Users')->select(['id', 'nama'])->findAll();
-        $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
-            $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -94,7 +90,6 @@ class BukuRusak extends BaseController
 
         // Lolos Validasi
         $data = [
-            'kategori' => 'BUKU RUSAK',
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'created_by' => userSession('id'),

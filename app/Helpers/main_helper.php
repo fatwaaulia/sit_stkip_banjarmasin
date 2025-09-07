@@ -252,15 +252,15 @@ function menuSidebar()
 		],
 		[
 			'title'	=> 'Program Kerja',
-			'icon'	=> 'fa-solid fa-calendar',
+			'icon'	=> 'fa-solid fa-spinner',
 			'url'	=> base_url() . userSession('slug_role') . '/program-kerja',
 			'role'	=> [1, 17, 7],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Laporan Pertanggungjawaban',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url() . userSession('slug_role') . '/laporan-pertanggungjawbaan',
+			'icon'	=> 'fa-solid fa-file',
+			'url'	=> base_url() . userSession('slug_role') . '/laporan-pertanggungjawaban',
 			'role'	=> [1, 17, 7],
 			'type'	=> 'no-collapse',
 		],
@@ -401,7 +401,7 @@ function menuSidebar()
         ],
         [
 			'title'	=> 'Surat Tugas Penelitian',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url() . userSession('slug_role') . '/surat-tugas-penelitian',
 			'role'	=> [1, 17, 11],
 			'type'	=> 'no-collapse',
@@ -485,9 +485,9 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'Laporan Kegiatan Perpustakaan',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url(userSession('slug_role')) . '/laporan-kegiatan-perpustakaan',
+			'title'	=> 'Kegiatan Perpustakaan',
+			'icon'	=> 'fa-solid fa-book-open-reader',
+			'url'	=> base_url(userSession('slug_role')) . '/kegiatan-perpustakaan',
 			'role'	=> [1, 17, 13],
 			'type'	=> 'no-collapse',
 		],
@@ -498,9 +498,9 @@ function menuSidebar()
         ],
         [
 			'title'	=> 'Mahasiswa Praktik Lapangan',
-			'icon'	=> 'fa-solid fa-spinner',
+			'icon'	=> 'fa-solid fa-user-doctor',
 			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa-praktik-lapangan',
-			'role'	=> [1, 17, 15],
+			'role'	=> [1, 17, 3, 7, 9, 15],
 			'type'	=> 'no-collapse',
 		],
         [

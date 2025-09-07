@@ -72,8 +72,6 @@ $is_access = true;
                             <th>No.</th>
                             <th>Judul</th>
                             <th>Tautan</th>
-                            <th>Created At</th>
-                            <th>Created By</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -114,12 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
-            }, {
-                name: 'created_at',
-                data: 'created_at',
-            }, {
-                name: 'created_by',
-                data: 'created_by',
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,

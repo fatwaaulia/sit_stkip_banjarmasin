@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class BukuRusak extends BaseController
+class KegiatanPerpustakaan extends BaseController
 {
     protected $base_name;
     protected $model_name;
@@ -10,7 +10,7 @@ class BukuRusak extends BaseController
 
     public function __construct()
     {
-        $this->base_name   = 'buku_rusak';
+        $this->base_name   = 'kegiatan_perpustakaan';
         $this->model_name  = 'Perpustakaan';
         $this->upload_path = dirUpload() . $this->base_name . '/';
     }
@@ -39,7 +39,7 @@ class BukuRusak extends BaseController
     public function index()
     {
         $select     = ['*'];
-        $base_query = model($this->model_name)->select($select)->where('kategori', 'BUKU RUSAK');
+        $base_query = model($this->model_name)->select($select)->where('kategori', 'KEGIATAN PERPUSTAKAAN');
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -94,7 +94,7 @@ class BukuRusak extends BaseController
 
         // Lolos Validasi
         $data = [
-            'kategori' => 'BUKU RUSAK',
+            'kategori' => 'KEGIATAN PERPUSTAKAAN',
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'created_by' => userSession('id'),
