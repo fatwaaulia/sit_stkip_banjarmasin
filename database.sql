@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 07, 2025 at 06:33 AM
+-- Generation Time: Sep 07, 2025 at 11:29 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -564,7 +564,8 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (265, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-06 10:40:27', '2025-09-06 10:40:27'),
 (266, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-06 16:03:46', '2025-09-06 16:03:46'),
 (267, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 08:37:37', '2025-09-07 08:37:37'),
-(268, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 13:11:38', '2025-09-07 13:11:38');
+(268, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 13:11:38', '2025-09-07 13:11:38'),
+(269, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 18:05:03', '2025-09-07 18:05:03');
 
 -- --------------------------------------------------------
 
@@ -894,6 +895,31 @@ INSERT INTO `penyusutan_inventaris` (`id`, `id_kategori`, `nama_kategori`, `nama
 (106, 4, 'Perpustakaan', 'Buku Perpus', 15, '2022', 5, 7488000, '2025-08-27 12:25:32', '2025-08-27 12:25:32'),
 (107, 5, 'Laboratorium', 'karpet', 1, '2022', 5, 15675000, '2025-08-27 12:25:32', '2025-08-27 12:25:32'),
 (108, 5, 'Laboratorium', 'sound system microteaching', 1, '2022', 5, 2620000, '2025-08-27 12:25:32', '2025-08-27 12:25:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `perencanaan_pimpinan`
+--
+
+CREATE TABLE `perencanaan_pimpinan` (
+  `id` bigint NOT NULL,
+  `kategori` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `perencanaan_pimpinan`
+--
+
+INSERT INTO `perencanaan_pimpinan` (`id`, `kategori`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(6, 'RENCANA STRATEGIS', 'Membangung Gedung Aula Untuk Wisuda', 'https://fontawesome.com/icons/sheet-plastic?f=classic&s=solid', '2025-09-07 18:22:43', '2025-09-07 18:22:43', 1, 0),
+(7, 'PROGRAM KERJA', 'Pengembangan kurikulum berbasis MBKM (Merdeka Belajar Kampus Merdeka)', 'https://translate.google.com/', '2025-09-07 18:24:31', '2025-09-07 18:24:31', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1434,6 +1460,12 @@ ALTER TABLE `penyusutan_inventaris`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `perencanaan_pimpinan`
+--
+ALTER TABLE `perencanaan_pimpinan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `perpustakaan`
 --
 ALTER TABLE `perpustakaan`
@@ -1579,7 +1611,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=269;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`
@@ -1628,6 +1660,12 @@ ALTER TABLE `pengembangan_kompetensi`
 --
 ALTER TABLE `penyusutan_inventaris`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+
+--
+-- AUTO_INCREMENT for table `perencanaan_pimpinan`
+--
+ALTER TABLE `perencanaan_pimpinan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `perpustakaan`

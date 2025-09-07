@@ -229,6 +229,16 @@ if (array_intersect($id_roles, roleAccessByTitle('Status Bayar'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Perencanaan Pimpinan'))) {
+    $routes->get("$slug_role/perencanaan-pimpinan", 'PerencanaanPimpinan::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/perencanaan-pimpinan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PerencanaanPimpinan::index');
+        $routes->post('create', 'PerencanaanPimpinan::create');
+        $routes->post('update/(:segment)', 'PerencanaanPimpinan::update/$1');
+        $routes->post('delete/(:segment)', 'PerencanaanPimpinan::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Laporan Pertanggungjawaban'))) {
     $routes->get("$slug_role/laporan-pertanggungjawaban", 'LaporanPertanggungjawaban::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/laporan-pertanggungjawaban', ['filter' => 'EnsureLogin'], static function ($routes) {

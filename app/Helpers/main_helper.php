@@ -251,9 +251,9 @@ function menuSidebar()
 			'type'	=> 'heading',
 		],
 		[
-			'title'	=> 'Program Kerja',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url() . userSession('slug_role') . '/program-kerja',
+			'title'	=> 'Perencanaan Pimpinan',
+			'icon'	=> 'fa-solid fa-sheet-plastic',
+			'url'	=> base_url() . userSession('slug_role') . '/perencanaan-pimpinan',
 			'role'	=> [1, 17, 7],
 			'type'	=> 'no-collapse',
 		],
