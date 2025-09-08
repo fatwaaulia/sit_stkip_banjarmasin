@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 08, 2025 at 01:11 AM
+-- Generation Time: Sep 08, 2025 at 03:19 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -1271,6 +1271,31 @@ CREATE TABLE `tri_dharma` (
   `kategori` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
   `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_anggota_1` bigint NOT NULL,
+  `nama_anggota_1` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_anggota_1` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_role_anggota_1` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi_anggota_1` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_anggota_2` bigint NOT NULL,
+  `nama_anggota_2` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_anggota_2` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_role_anggota_2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi_anggota_2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_anggota_3` bigint NOT NULL,
+  `nama_anggota_3` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_anggota_3` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_role_anggota_3` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi_anggota_3` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_anggota_4` bigint NOT NULL,
+  `nama_anggota_4` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_anggota_4` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_role_anggota_4` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi_anggota_4` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_anggota_5` bigint NOT NULL,
+  `nama_anggota_5` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_anggota_5` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_role_anggota_5` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi_anggota_5` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -1824,7 +1849,7 @@ ALTER TABLE `tracer_studi`
 -- AUTO_INCREMENT for table `tri_dharma`
 --
 ALTER TABLE `tri_dharma`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

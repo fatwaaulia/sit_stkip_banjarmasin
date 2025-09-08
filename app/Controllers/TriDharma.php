@@ -97,11 +97,46 @@ class TriDharma extends BaseController
         }
 
         // Lolos Validasi
+        $anggota_2 = model('Users')->find($this->request->getVar('anggota_2'));
+        $anggota_3 = model('Users')->find($this->request->getVar('anggota_3'));
+        $anggota_4 = model('Users')->find($this->request->getVar('anggota_4'));
+        $anggota_5 = model('Users')->find($this->request->getVar('anggota_5'));
+
         $data = [
             'kategori' => $this->request->getVar('kategori'),
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'created_by' => userSession('id'),
+
+            'id_anggota_1'                 => userSession('id'),
+            'nama_anggota_1'               => userSession('nama'),
+            'nomor_identitas_anggota_1'    => userSession('nomor_identitas'),
+            'nama_role_anggota_1'          => userSession('nama_role'),
+            'nama_program_studi_anggota_1' => userSession('nama_program_studi'),
+
+            'id_anggota_2'                 => $anggota_2['id'],
+            'nama_anggota_2'               => $anggota_2['nama'],
+            'nomor_identitas_anggota_2'    => $anggota_2['nomor_identitas'],
+            'nama_role_anggota_2'          => $anggota_2['nama_role'],
+            'nama_program_studi_anggota_2' => $anggota_2['nama_program_studi'],
+
+            'id_anggota_3'                 => $anggota_3['id'],
+            'nama_anggota_3'               => $anggota_3['nama'],
+            'nomor_identitas_anggota_3'    => $anggota_3['nomor_identitas'],
+            'nama_role_anggota_3'          => $anggota_3['nama_role'],
+            'nama_program_studi_anggota_3' => $anggota_3['nama_program_studi'],
+
+            'id_anggota_4'                 => $anggota_4['id'],
+            'nama_anggota_4'               => $anggota_4['nama'],
+            'nomor_identitas_anggota_4'    => $anggota_4['nomor_identitas'],
+            'nama_role_anggota_4'          => $anggota_4['nama_role'],
+            'nama_program_studi_anggota_4' => $anggota_4['nama_program_studi'],
+
+            'id_anggota_5'                 => $anggota_5['id'],
+            'nama_anggota_5'               => $anggota_5['nama'],
+            'nomor_identitas_anggota_5'    => $anggota_5['nomor_identitas'],
+            'nama_role_anggota_5'          => $anggota_5['nama_role'],
+            'nama_program_studi_anggota_5' => $anggota_5['nama_program_studi'],
         ];
 
         model($this->model_name)->insert($data);

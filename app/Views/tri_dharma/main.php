@@ -3,10 +3,26 @@ $is_access = true;
 // if (array_intersect(userSession('id_roles'), [1, 17, 4])) {
 //     $is_access = true;
 // }
+
+
+$dosen = model('Users')
+->where('id_role', 4)
+->where('status_akun', 'ENABLE')
+->findAll();
+
+$mahasiswa = model('Users')
+->where('id_role', 5)
+->where('status', 'Aktif')
+->where('nomor_identitas !=', '')
+->findAll();
+
+$anggota = array_merge($dosen, $mahasiswa);
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/modules/datatables/css/dataTables.dataTables.min.css">
+<link rel="stylesheet" href="<?= base_url() ?>assets/modules/dselect/dselect.min.css">
+<script src="<?= base_url() ?>assets/modules/dselect/dselect.min.js"></script>
 
 <section class="container-fluid">
     <div class="row">
@@ -59,6 +75,51 @@ $is_access = true;
                                                     <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
                                                     <div class="invalid-feedback" id="invalid_tautan"></div>
                                                 </div>
+                                                <hr>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Anggota 1</label>
+                                                    <input type="text" class="form-control" value="<?= userSession('nomor_identitas') ?> - <?= userSession('nama') ?> - <?= userSession('nama_program_studi') ?>" disabled>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="anggota_2" class="form-label">Anggota 2 <span class="text-secondary">(Opsional)</span></label>
+                                                    <select class="form-select" id="anggota_2" name="anggota_2">
+                                                        <option value="">Pilih</option>
+                                                        <?php foreach ($anggota as $v) : ?>
+                                                        <option value="<?= $v['id'] ?>"><?= $v['nomor_identitas'] ?> - <?= $v['nama'] ?> - <?= $v['nama_program_studi'] ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_anggota_2"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="anggota_3" class="form-label">Anggota 3 <span class="text-secondary">(Opsional)</span></label>
+                                                    <select class="form-select" id="anggota_3" name="anggota_3">
+                                                        <option value="">Pilih</option>
+                                                        <?php foreach ($anggota as $v) : ?>
+                                                        <option value="<?= $v['id'] ?>"><?= $v['nomor_identitas'] ?> - <?= $v['nama'] ?> - <?= $v['nama_program_studi'] ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_anggota_3"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="anggota_4" class="form-label">Anggota 4 <span class="text-secondary">(Opsional)</span></label>
+                                                    <select class="form-select" id="anggota_4" name="anggota_4">
+                                                        <option value="">Pilih</option>
+                                                        <?php foreach ($anggota as $v) : ?>
+                                                        <option value="<?= $v['id'] ?>"><?= $v['nomor_identitas'] ?> - <?= $v['nama'] ?> - <?= $v['nama_program_studi'] ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_anggota_4"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="anggota_5" class="form-label">Anggota 5 <span class="text-secondary">(Opsional)</span></label>
+                                                    <select class="form-select" id="anggota_5" name="anggota_5">
+                                                        <option value="">Pilih</option>
+                                                        <?php foreach ($anggota as $v) : ?>
+                                                        <option value="<?= $v['id'] ?>"><?= $v['nomor_identitas'] ?> - <?= $v['nama'] ?> - <?= $v['nama_program_studi'] ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_anggota_5"></div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -98,6 +159,11 @@ $is_access = true;
 </section>
 
 <script>
+dselect(dom('#anggota_2'), { search: true, clearable: true });
+dselect(dom('#anggota_3'), { search: true, clearable: true });
+dselect(dom('#anggota_4'), { search: true, clearable: true });
+dselect(dom('#anggota_5'), { search: true, clearable: true });
+
 document.addEventListener('DOMContentLoaded', function() {
     new DataTable('#myTable', {
         ajax: '<?= $get_data ?>',
@@ -172,6 +238,27 @@ function renderOpsi(data) {
                             <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <label class="form-label">Anggota 1</label>
+                            <input type="text" class="form-control" value="${data.nomor_identitas_anggota_1} - ${data.nama_anggota_1} - ${data.nama_program_studi_anggota_1}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Anggota 2</label>
+                            <input type="text" class="form-control" value="${data.nomor_identitas_anggota_2} - ${data.nama_anggota_2} - ${data.nama_program_studi_anggota_2}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Anggota 3</label>
+                            <input type="text" class="form-control" value="${data.nomor_identitas_anggota_3} - ${data.nama_anggota_3} - ${data.nama_program_studi_anggota_3}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Anggota 4</label>
+                            <input type="text" class="form-control" value="${data.nomor_identitas_anggota_4} - ${data.nama_anggota_4} - ${data.nama_program_studi_anggota_4}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Anggota 5</label>
+                            <input type="text" class="form-control" value="${data.nomor_identitas_anggota_5} - ${data.nama_anggota_5} - ${data.nama_program_studi_anggota_5}" disabled>
                         </div>
                     </div>
                     <div class="modal-footer">
