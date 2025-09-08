@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 08, 2025 at 03:19 AM
+-- Generation Time: Sep 08, 2025 at 07:41 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -582,7 +582,13 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (267, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 08:37:37', '2025-09-07 08:37:37'),
 (268, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 13:11:38', '2025-09-07 13:11:38'),
 (269, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-07 18:05:03', '2025-09-07 18:05:03'),
-(270, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-08 05:17:46', '2025-09-08 05:17:46');
+(270, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-08 05:17:46', '2025-09-08 05:17:46'),
+(271, 40, 5, 'Mamad', '', '::1', 'Failed', '2025-09-08 13:06:16', '2025-09-08 13:06:16'),
+(272, 40, 5, 'Mamad', '', '::1', 'Failed', '2025-09-08 13:06:21', '2025-09-08 13:06:21'),
+(273, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-08 13:06:30', '2025-09-08 13:06:30'),
+(274, 40, 5, 'Mamad', '', '::1', 'Failed', '2025-09-08 13:11:00', '2025-09-08 13:11:00'),
+(275, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-08 13:12:58', '2025-09-08 13:12:58'),
+(276, 40, 5, 'Mamad', '', '::1', 'Success', '2025-09-08 13:16:20', '2025-09-08 13:16:20');
 
 -- --------------------------------------------------------
 
@@ -702,8 +708,9 @@ CREATE TABLE `pembayaran_mahasiswa` (
   `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
   `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `nominal` int NOT NULL,
-  `status` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `tahap` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tanggal_bayar` date NOT NULL,
+  `jumlah_bayar` int NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
@@ -714,8 +721,10 @@ CREATE TABLE `pembayaran_mahasiswa` (
 -- Dumping data for table `pembayaran_mahasiswa`
 --
 
-INSERT INTO `pembayaran_mahasiswa` (`id`, `id_tagihan_mahasiswa`, `jenis_tagihan_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `id_mahasiswa`, `nama_mahasiswa`, `nomor_identitas_mahasiswa`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `nominal`, `status`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(6, 7, 'PENDAFTARAN', 3, '2025/2026', 'Ganjil', 5, 'Fatwa Aulia', '362055401093', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 50000, 'Lunas', '2025-08-31 20:29:24', '2025-08-31 20:29:24', '1', '');
+INSERT INTO `pembayaran_mahasiswa` (`id`, `id_tagihan_mahasiswa`, `jenis_tagihan_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `id_mahasiswa`, `nama_mahasiswa`, `nomor_identitas_mahasiswa`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `tahap`, `tanggal_bayar`, `jumlah_bayar`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(8, 12, 'SPP', 18, '2025/2026', 'Ganjil', 40, 'Mamad', '1234567890', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '1', '2025-09-06', 200000, '2025-09-08 12:31:16', '2025-09-08 12:31:16', '1', ''),
+(9, 12, 'SPP', 18, '2025/2026', 'Ganjil', 40, 'Mamad', '1234567890', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2', '2025-09-08', 300000, '2025-09-08 12:35:21', '2025-09-08 12:35:21', '1', ''),
+(10, 13, 'LDKM', 18, '2025/2026', 'Ganjil', 40, 'Mamad', '1234567890', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '1', '2025-09-08', 200000, '2025-09-08 12:59:54', '2025-09-08 12:59:54', '1', '');
 
 -- --------------------------------------------------------
 
@@ -1168,7 +1177,9 @@ CREATE TABLE `tagihan_mahasiswa` (
 --
 
 INSERT INTO `tagihan_mahasiswa` (`id`, `kategori`, `jenis`, `json_id_mahasiswa`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `periode_mulai_tahun_akademik`, `periode_selesai_tahun_akademik`, `json_biaya`, `biaya_yudisium_wisuda`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(11, 'MABA', 'PENDAFTARAN', '', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-31', '[{\"id_program_studi\":\"1\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Bahasa Inggris\",\"biaya\":100000},{\"id_program_studi\":\"2\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Guru Sekolah Dasar\",\"biaya\":150000},{\"id_program_studi\":\"3\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Guru Pendidikan Anak Usia Dini\",\"biaya\":200000}]', 0, '2025-09-04 07:19:52', '2025-09-04 07:19:52', '1', '');
+(11, 'MABA', 'PENDAFTARAN', '', 3, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-31', '[{\"id_program_studi\":\"1\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Bahasa Inggris\",\"biaya\":100000},{\"id_program_studi\":\"2\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Guru Sekolah Dasar\",\"biaya\":150000},{\"id_program_studi\":\"3\",\"jenjang_program_studi\":\"S1\",\"nama_program_studi\":\"Pendidikan Guru Pendidikan Anak Usia Dini\",\"biaya\":200000}]', 0, '2025-09-04 07:19:52', '2025-09-04 07:19:52', '1', ''),
+(12, 'SEMESTER', 'SPP', '', 18, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-31', '[]', 0, '2025-09-08 10:47:34', '2025-09-08 10:47:34', '1', ''),
+(13, 'PERORANGAN', 'LDKM', '[\"40\"]', 18, '2025/2026', 'Ganjil', '2025-09-01', '2026-01-31', '[]', 0, '2025-09-08 12:54:54', '2025-09-08 12:54:54', '1', '');
 
 -- --------------------------------------------------------
 
@@ -1415,7 +1426,7 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `multi_role`, `n
 (37, 16, 'Tendik', 'tendik', '{\"13\":{\"nama_role\":\"Pustakawan\",\"slug_role\":\"pustakawan\"}}', 'Muhammad Juanda', '63710104108310004', 'juandapustaka@gmail.com', '$2y$10$8eCBtHvjmZF8IDvbhTJ3FuPO5RNHeYVuYfGW5EycNHBZZg7ilc2y6', '', '', 'Laki-laki', 'Jl. Gerilya Komp.Bumi Handayani 2', '08194101983', 'Pustakawan', 'Kepala Perpustakaan', 'Terus bersemangat', '63710104108310004', 'HSS', '1983-10-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-03 14:05:04', '2025-09-03 20:47:12'),
 (38, 5, 'Mahasiswa', 'mahasiswa', '', 'Fatwa Aulia', '', 'fatwaaulia.fy@gmail.com', '$2y$10$cin6517bAN0RdGpjv3nqFeScYMBZlgHKlQl5J3z3Tpqo2MBw0/YFu', '', '1756945406_3803e6dc3fbbe12930d9.jpg', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '082345566500', '', '', '', '', 'Banyuwangi', '2001-01-01', 'Islam', 'Belum Kawin', 'Indonesia', 'SMAN 2 GENTENG', '12123123123', '2019', '89.4', 'akdkoak', '9932790381923', 'qqjhdiq', 'kqjdq', '12313123', 'ajdoajo', '1jdjwd9j9d23', '93843424', 'mdjw', 'ajsdjoa', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 3, '2025/2026', 'Ganjil', 0, '', '', '1', 100000, 140000, 100000, 0, 6, 'Tarif 2', 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 0, 0, 'Aktif', NULL, NULL, '2025-09-04 07:23:26', '2025-09-04 07:24:38', '', '2025-09-04 07:23:26', '2025-09-04 07:39:33'),
 (39, 17, 'Admin Utama', 'admin-utama', '', 'Admin 2', 'admin2', '', '$2y$10$KzJsezFVq90.nd0v/FXRXORknd5gEzeHW36ejPNVKfoDVdzm1ecii', 'admin2', '', 'Perempuan', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 17:00:58', '2025-09-04 17:00:58'),
-(40, 5, 'Mahasiswa', 'mahasiswa', '', 'IUHUIHUI', '', 'fatwaaasdsadulia.fy@gmail.com', '$2y$10$p13/dzUA33XaXmiz1p.vH.W0D3Rp02q.Xfgce6FGnqtFeI7xzq8oi', '41412313131313123', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '41412313131313123', '', '', '', '979879789', 'ashdiahiu', '2023-12-31', 'Buddha', 'Kawin', 'Indonesia', 'asdawdq', '989h 9u9899nu9u', '2019', '33', 'sdcojsioj', '979798', 'jhbjhbj', 'jbjbjk', '8778678', 'jbjkb', 'kjbkjbkj', '8697', 'jbjh', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 4, '2018/2019', 'Ganjil', 0, '', '', '13', 0, 0, 0, 0, 6, 'Tarif 2', 3500000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 0, 0, 'Aktif', NULL, NULL, '2025-09-05 10:52:33', '2025-09-05 10:52:33', '', '2025-09-05 10:52:33', '2025-09-05 10:57:19');
+(40, 5, 'Mahasiswa', 'mahasiswa', '', 'Mamad', '', 'fatwaaasdsadulia.fy@gmail.com', '$2y$10$b2gIyvgQwyKVn5k9uWZQr.1tVoLvCiLcN7pKNRaz6hPDxwtKpGNIu', '1234567890', '', 'Laki-laki', 'Dsn. Lidah RT/RW 002/003 Desa Gambiran, Kec. Gambiran, Kab. Banyuwangi', '41412313131313123', '', '', '', '1234567890', 'ashdiahiu', '2023-12-31', 'Buddha', 'Kawin', 'Indonesia', 'asdawdq', '989h 9u9899nu9u', '2019', '33', 'sdcojsioj', '979798', 'jhbjhbj', 'jbjbjk', '8778678', 'jbjkb', 'kjbkjbkj', '8697', 'jbjh', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 4, '2018/2019', 'Ganjil', 0, '', '', '13', 0, 0, 0, 0, 6, 'Tarif 2', 3500000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 0, 0, 'Aktif', NULL, NULL, '2025-09-05 10:52:33', '2025-09-05 10:52:33', '', '2025-09-05 10:52:33', '2025-09-08 13:15:40');
 
 --
 -- Indexes for dumped tables
@@ -1717,7 +1728,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`
@@ -1741,7 +1752,7 @@ ALTER TABLE `mata_kuliah`
 -- AUTO_INCREMENT for table `pembayaran_mahasiswa`
 --
 ALTER TABLE `pembayaran_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pencatatan_surat`
@@ -1825,7 +1836,7 @@ ALTER TABLE `surat_tugas_penelitian`
 -- AUTO_INCREMENT for table `tagihan_mahasiswa`
 --
 ALTER TABLE `tagihan_mahasiswa`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tahun_akademik`

@@ -27,7 +27,11 @@ class PembayaranMahasiswa extends BaseController
         ];
 
         $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view($this->base_name . '/main', $data);
+        if (userSession('id_role') == 5) {
+            $view['content'] = view($this->base_name . '/mahasiswa', $data);
+        } else {
+            $view['content'] = view($this->base_name . '/main', $data);
+        }
         return view('dashboard/header', $view);
     }
 
@@ -73,8 +77,8 @@ class PembayaranMahasiswa extends BaseController
     public function create()
     {
         $rules = [
-            'id_tagihan_mahasiswa' => 'required',
-            'id_mahasiswa'         => 'required',
+            'tanggal_bayar' => 'required',
+            'jumlah_bayar'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -90,6 +94,14 @@ class PembayaranMahasiswa extends BaseController
         $tagihan_mahasiswa = model('TagihanMahasiswa')->find($this->request->getVar('id_tagihan_mahasiswa'));
         $mahasiswa = model('Users')->find($this->request->getVar('id_mahasiswa'));
 
+        $pembayaran_mahasiswa = model('PembayaranMahasiswa')
+        ->where([
+            'id_tagihan_mahasiswa' => $tagihan_mahasiswa['id'],
+            'id_mahasiswa' => $mahasiswa['id'],
+        ])->countAllResults();
+
+        $tahap = $pembayaran_mahasiswa + 1;
+
         $data = [
             'id_tagihan_mahasiswa'    => $tagihan_mahasiswa['id'],
             'jenis_tagihan_mahasiswa' => $tagihan_mahasiswa['jenis'],
@@ -103,8 +115,9 @@ class PembayaranMahasiswa extends BaseController
             'jenjang_program_studi'     => $mahasiswa['jenjang_program_studi'],
             'nama_program_studi'        => $mahasiswa['nama_program_studi'],
             'singkatan_program_studi'   => $mahasiswa['singkatan_program_studi'],
-            'nominal' => $this->request->getVar('nominal'),
-            'status'  => 'Lunas',
+            'tahap'  => $tahap,
+            'tanggal_bayar' => $this->request->getVar('tanggal_bayar'),
+            'jumlah_bayar' => $this->request->getVar('jumlah_bayar', FILTER_SANITIZE_NUMBER_INT),
             'created_by' => userSession('id'),
         ];
 
@@ -113,7 +126,7 @@ class PembayaranMahasiswa extends BaseController
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Berhasil konfirmasi pembayaran',
-            'route'   => $this->base_route . '?nim=' . $mahasiswa['nomor_identitas'],
+            'route'   => base_url(userSession('slug_role')) . '/status-bayar?tagihan_mahasiswa=' . $tagihan_mahasiswa['id'],
         ]);
     }
 }

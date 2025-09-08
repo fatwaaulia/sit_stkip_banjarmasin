@@ -235,14 +235,7 @@ function menuSidebar()
 			'title'	=> 'Pembayaran Mahasiswa',
 			'icon'	=> 'fa-solid fa-rupiah-sign',
 			'url'	=> base_url(userSession('slug_role')) . '/pembayaran-mahasiswa',
-			'role'	=> [1, 17, 2, 5],
-			'type'	=> 'no-collapse',
-		],
-        [
-			'title'	=> 'Status Bayar',
-			'icon'	=> 'fa-solid fa-hourglass-half',
-			'url'	=> base_url(userSession('slug_role')) . '/status-bayar',
-			'role'	=> [1, 17, 2, 7, 8],
+			'role'	=> [1, 17, 2, 5, 7, 8],
 			'type'	=> 'no-collapse',
 		],
         [

@@ -222,15 +222,6 @@ if (array_intersect($id_roles, roleAccessByTitle('Pembayaran Mahasiswa'))) {
     $routes->group("$slug_role/pembayaran-mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PembayaranMahasiswa::main');
     });
-    $routes->group('api/pembayaran-mahasiswa', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->post('create', 'PembayaranMahasiswa::create');
-    });
-}
-
-if (array_intersect($id_roles, roleAccessByTitle('Status Bayar'))) {
-    $routes->group("$slug_role/status-bayar", ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'StatusBayar::main');
-    });
 }
 
 if (array_intersect($id_roles, roleAccessByTitle('Perencanaan Pimpinan'))) {
