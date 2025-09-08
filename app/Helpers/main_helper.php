@@ -389,8 +389,8 @@ function menuSidebar()
 		],
         [
 			'title'	=> 'Standar PT',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url() . userSession('slug_role') . '/standar PT',
+			'icon'	=> 'fa-solid fa-file',
+			'url'	=> base_url() . userSession('slug_role') . '/standar-pt',
 			'role'	=> [1, 17, 10],
 			'type'	=> 'no-collapse',
 		],
@@ -404,13 +404,6 @@ function menuSidebar()
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url() . userSession('slug_role') . '/surat-tugas-penelitian',
 			'role'	=> [1, 17, 11],
-			'type'	=> 'no-collapse',
-		],
-        [
-			'title'	=> 'Standar PT',
-			'icon'	=> 'fa-solid fa-spinner',
-			'url'	=> base_url() . userSession('slug_role') . '/standar PT',
-			'role'	=> [1, 17, 10],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -444,6 +437,13 @@ function menuSidebar()
             'role'	=> [1, 17],
             'type'	=> 'heading',
         ],
+        [
+			'title'	=> 'Permintaan Legalisir',
+			'icon'	=> 'fa-solid fa-bell-concierge',
+			'url'	=> base_url(userSession('slug_role')) . '/permintaan-legalisir',
+			'role'	=> [1, 17, 12],
+			'type'	=> 'no-collapse',
+		],
         [
 			'title'	=> 'Surat Peringatan',
 			'icon'	=> 'fa-solid fa-file',

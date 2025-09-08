@@ -33,6 +33,46 @@ class FrontEnd extends BaseController
         return view('frontend/header', $view);
     }
 
+    public function permintaanLegalisir()
+    {
+        $data = [
+            'title'    => 'Permintaan Legalisir',
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/permintaan_legalisir', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
+
+    public function permintaanLegalisirDetail()
+    {
+        $email = $this->request->getVar('email', FILTER_SANITIZE_EMAIL);
+        $find_data = model('PermintaanLegalisir')->where('email', $email)->first();
+        if (! $find_data) {
+            return redirect()->to(base_url('permintaan-legalisir'))->with('message',
+            '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Permintaan tidak ditemukan!",
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+            });
+            </script>');
+        }
+
+        $data = [
+            'title' => 'Detail Permintaan Legalisir',
+            'data'  => $find_data,
+        ];
+
+        $view['navbar'] = view('frontend/components/navbar');
+        $view['content'] = view('frontend/detail_permintaan_legalisir', $data);
+        $view['footer'] = view('frontend/components/footer');
+        return view('frontend/header', $view);
+    }
+
     public function pendaftaranMahasiswa()
     {
         $data = [

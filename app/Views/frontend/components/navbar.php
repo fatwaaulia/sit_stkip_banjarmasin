@@ -34,7 +34,8 @@ $uri->setSilent(true);
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav w-100 pt-3 pb-2 py-md-0">
-                <a class="nav-link <?= ($uri->getSegment(1) == 'mendaftar-mahasiswa') ? 'nav-active' : '' ?>" href="<?= base_url() ?>mendaftar-mahasiswa">Mendaftar Mahasiswa</a>
+                <a class="nav-link <?= ($uri->getSegment(1) == 'pendaftaran-mahasiswa') ? 'nav-active' : '' ?>" href="<?= base_url() ?>pendaftaran-mahasiswa">Pendaftaran Mahasiswa</a>
+                <a class="nav-link <?= ($uri->getSegment(1) == 'permintaan-legalisir') ? 'nav-active' : '' ?>" href="<?= base_url() ?>permintaan-legalisir">Permintaan Legalisir</a>
             </div>
         </div>
     </div>

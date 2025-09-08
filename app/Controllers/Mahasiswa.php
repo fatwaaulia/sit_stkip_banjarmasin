@@ -185,10 +185,11 @@ class Mahasiswa extends BaseController
             $filename_foto = '';
         }
 
-        $password = trim($this->request->getVar('no_hp'));
+        $nomor_identitas = $this->request->getVar('nomor_identitas');
+        $password = trim($nomor_identitas);
         $data = [
-            'nomor_identitas' => $this->request->getVar('nomor_identitas'),
-            'username' => '',
+            'nomor_identitas' => $nomor_identitas,
+            'username' => $nomor_identitas,
             'password' => password_hash($password, PASSWORD_DEFAULT),
             'password_asli' => $password,
             'foto' => $filename_foto,

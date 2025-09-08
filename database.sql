@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 07, 2025 at 10:57 PM
+-- Generation Time: Sep 08, 2025 at 01:11 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -941,6 +941,30 @@ INSERT INTO `perencanaan_pimpinan` (`id`, `kategori`, `judul`, `tautan`, `create
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `permintaan_legalisir`
+--
+
+CREATE TABLE `permintaan_legalisir` (
+  `id` bigint NOT NULL,
+  `nama` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `no_hp` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `permintaan_legalisir`
+--
+
+INSERT INTO `permintaan_legalisir` (`id`, `nama`, `email`, `no_hp`, `tautan`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Fatwa Aulia', 'fatwaaulia.fy@gmail.com', '082345566500', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', 'Selesai', '2025-09-08 07:45:03', '2025-09-08 08:09:47');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `perpustakaan`
 --
 
@@ -1027,10 +1051,10 @@ INSERT INTO `role` (`id`, `nama`, `slug`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `spmi`
+-- Table structure for table `standar_pt`
 --
 
-CREATE TABLE `spmi` (
+CREATE TABLE `standar_pt` (
   `id` bigint NOT NULL,
   `judul` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -1505,6 +1529,12 @@ ALTER TABLE `perencanaan_pimpinan`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `permintaan_legalisir`
+--
+ALTER TABLE `permintaan_legalisir`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `perpustakaan`
 --
 ALTER TABLE `perpustakaan`
@@ -1523,9 +1553,9 @@ ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `spmi`
+-- Indexes for table `standar_pt`
 --
-ALTER TABLE `spmi`
+ALTER TABLE `standar_pt`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1719,6 +1749,12 @@ ALTER TABLE `perencanaan_pimpinan`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `permintaan_legalisir`
+--
+ALTER TABLE `permintaan_legalisir`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `perpustakaan`
 --
 ALTER TABLE `perpustakaan`
@@ -1737,10 +1773,10 @@ ALTER TABLE `role`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT for table `spmi`
+-- AUTO_INCREMENT for table `standar_pt`
 --
-ALTER TABLE `spmi`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `standar_pt`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `status_mahasiswa`

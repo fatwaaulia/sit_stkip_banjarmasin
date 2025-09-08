@@ -35,6 +35,10 @@ $routes->set404Override(
 --------------------------------------------------------------*/
 $routes->get('/', 'Auth::login');
 
+$routes->get('permintaan-legalisir', 'FrontEnd::permintaanLegalisir');
+$routes->post('api/permintaan-legalisir/create', 'PermintaanLegalisir::create');
+$routes->get('permintaan-legalisir/detail', 'FrontEnd::permintaanLegalisirDetail');
+
 $routes->get('pendaftaran-mahasiswa', 'FrontEnd::pendaftaranMahasiswa');
 $routes->post('api/pendaftar-mahasiswa/create', 'PendaftarMahasiswa::create');
 $routes->get('pendaftaran-mahasiswa/detail', 'FrontEnd::pendaftarMahasiswaDetail');
@@ -309,6 +313,16 @@ if (array_intersect($id_roles, roleAccessByTitle('LKPT'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Standar PT'))) {
+    $routes->get("$slug_role/standar-pt", 'StandarPt::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/standar-pt', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'StandarPt::index');
+        $routes->post('create', 'StandarPt::create');
+        $routes->post('update/(:segment)', 'StandarPt::update/$1');
+        $routes->post('delete/(:segment)', 'StandarPt::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Mata Kuliah'))) {
     $routes->get("$slug_role/mata-kuliah", 'MataKuliah::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/mata-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {
@@ -452,6 +466,15 @@ if (array_intersect($id_roles, roleAccessByTitle('Pengembangan Kompetensi'))) {
         $routes->post('create', 'PengembanganKompetensi::create');
         $routes->post('update/(:segment)', 'PengembanganKompetensi::update/$1');
         $routes->post('delete/(:segment)', 'PengembanganKompetensi::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Permintaan Legalisir'))) {
+    $routes->get("$slug_role/permintaan-legalisir", 'PermintaanLegalisir::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/permintaan-legalisir', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PermintaanLegalisir::index');
+        $routes->post('update/(:segment)', 'PermintaanLegalisir::update/$1');
+        $routes->post('delete/(:segment)', 'PermintaanLegalisir::delete/$1');
     });
 }
 
