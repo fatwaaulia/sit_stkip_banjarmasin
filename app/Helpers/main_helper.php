@@ -94,19 +94,30 @@ function numberOnly($str) {
     return (int) preg_replace('/\D/', '', $str);
 }
 
+
 /*--------------------------------------------------------------
   # Time Management
 --------------------------------------------------------------*/
-function userLocalTime($datetime) {
-    $date = new DateTime($datetime, new DateTimeZone('Asia/Jakarta'));
-    $timezone = session('timezone') ?? 'Asia/Jakarta';
-    $date->setTimezone(new DateTimeZone($timezone));
+function toUserTime($datetime) {
+    $user_timezone = session('timezone') ?? config(\Config\App::class)->appTimezone;
+    $system_timezone = config(\Config\App::class)->appTimezone;
+    $date = new DateTime($datetime, new DateTimeZone($system_timezone));
+    $date->setTimezone(new DateTimeZone($user_timezone));
     return $date->format('Y-m-d H:i:s');
 }
 
-function dateFormatter($tanggal, $format)
+function toSystemTime($datetime) {
+    $user_timezone = session('timezone') ?? config(\Config\App::class)->appTimezone;
+    $system_timezone = config(\Config\App::class)->appTimezone;
+    $date = new DateTime($datetime, new DateTimeZone($user_timezone));
+    $date->setTimezone(new DateTimeZone($system_timezone));
+    return $date->format('Y-m-d H:i:s');
+}
+
+function toIndonesianDate($tanggal, $format)
 {
-    $date = Time::parse($tanggal, 'Asia/Jakarta', 'id_ID');
+    $system_timezone = config(\Config\App::class)->appTimezone;
+    $date = Time::parse($tanggal, $system_timezone, 'id_ID');
     return $date->toLocalizedString($format); // cccc, d MMMM yyyy HH:mm:ss
 }
 

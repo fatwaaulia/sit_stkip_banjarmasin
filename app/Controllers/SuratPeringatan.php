@@ -68,7 +68,7 @@ class SuratPeringatan extends BaseController
         $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
-            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
+            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
             $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 

@@ -66,7 +66,7 @@ class TarifSpp extends BaseController
             $data[$key]['biaya_bimbingan_skripsi'] = formatRupiah($v['biaya_bimbingan_skripsi']);
             $data[$key]['biaya_seminar_proposal'] = formatRupiah($v['biaya_seminar_proposal']);
             $data[$key]['biaya_sidang_skripsi'] = formatRupiah($v['biaya_sidang_skripsi']);
-            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
+            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
         }
 
         return $this->response->setStatusCode(200)->setJSON([

@@ -92,8 +92,8 @@ class MahasiswaLulus extends BaseController
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
-            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
-            $data[$key]['mendaftar_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['mendaftar_at'])));
+            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
+            $data[$key]['mendaftar_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['mendaftar_at'])));
         }
 
         return $this->response->setStatusCode(200)->setJSON([

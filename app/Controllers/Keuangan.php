@@ -164,7 +164,7 @@ class Keuangan extends BaseController
             $total_nominal += $v['nominal'];
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['nominal'] = formatRupiah($v['nominal']);
-            $data[$key]['tanggal'] = date('d-m-Y H:i', strtotime(userLocalTime($v['tanggal'])));
+            $data[$key]['tanggal'] = date('d-m-Y H:i', strtotime(toUserTime($v['tanggal'])));
             $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
@@ -346,7 +346,7 @@ class Keuangan extends BaseController
             $total_pengeluaran += $pengeluaran;
             $data[] = [
                 'no_urut'     => $no_urut,
-                'periode'     => dateFormatter($periode, 'MMMM yyyy'),
+                'periode'     => toIndonesianDate($periode, 'MMMM yyyy'),
                 'pemasukan'   => formatRupiah($pemasukan),
                 'pengeluaran' => formatRupiah($pengeluaran),
                 'kas'         => formatRupiah($kas),
@@ -360,8 +360,8 @@ class Keuangan extends BaseController
             'recordsTotal'      => count($data),
             'recordsFiltered'   => count($data),
             'data'              => $data,
-            'periode_awal'      => dateFormatter($get_periode_awal, 'MMMM yyyy'),
-            'periode_akhir'     => dateFormatter($get_periode_akhir, 'MMMM yyyy'),
+            'periode_awal'      => toIndonesianDate($get_periode_awal, 'MMMM yyyy'),
+            'periode_akhir'     => toIndonesianDate($get_periode_akhir, 'MMMM yyyy'),
             'total_pemasukan'   => formatRupiah($total_pemasukan),
             'total_pengeluaran' => formatRupiah($total_pengeluaran),
             'total_kas'    => formatRupiah($total_pemasukan + $total_pengeluaran),

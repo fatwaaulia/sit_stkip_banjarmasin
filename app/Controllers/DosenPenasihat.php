@@ -40,6 +40,9 @@ class DosenPenasihat extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select)->where('kategori', 'DOSEN PENASIHAT');
+        if (userSession('id_role') == 5) {
+            $base_query->where('id_program_studi', userSession('id_program_studi'));
+        }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -65,7 +68,7 @@ class DosenPenasihat extends BaseController
         $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
-            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(userLocalTime($v['created_at'])));
+            $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
             $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
