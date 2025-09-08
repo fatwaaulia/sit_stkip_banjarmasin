@@ -11,10 +11,10 @@ $mahasiswa = model('Users')
 ->where([
     'id_role' => 5,
     'status'  => 'Aktif',
+    'nomor_identitas !=' => '',
 ])
 ->groupStart()
     ->where('nomor_identitas', $get_nim)
-    ->orWhere('email', $get_nim)
 ->groupEnd()
 ->first();
 
@@ -44,8 +44,8 @@ if ($mahasiswa) {
                         <form action="" method="get">
                             <div class="d-flex align-items-end gap-2 w-100">
                                 <div class="flex-grow-1">
-                                    <label for="nim" class="form-label">NIM / Email</label>
-                                    <input type="text" class="form-control" id="nim" name="nim" value="<?= $get_nim ?>" placeholder="Masukkan nim / email">
+                                    <label for="nim" class="form-label">NIM</label>
+                                    <input type="text" class="form-control" id="nim" name="nim" value="<?= $get_nim ?>" placeholder="Masukkan nim">
                                 </div>
                                 <button type="submit" class="btn btn-primary" title="Cari">
                                     <i class="fa-solid fa-search"></i>
