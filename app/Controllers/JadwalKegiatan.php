@@ -42,15 +42,7 @@ class JadwalKegiatan extends BaseController
         $base_query = model($this->model_name)->select($select);
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
-        $records_total   = $base_query->countAllResults(false);
-        // $array_query_key = ['kategori'];
-
-        // if (array_intersect(array_keys($_GET), $array_query_key)) {
-        //     $get_kategori = $this->request->getVar('kategori');
-        //     if ($get_kategori) {
-        //         $base_query->where('kategori', $get_kategori);
-        //     }
-        // }
+        $records_total = $base_query->countAllResults(false);
 
         // Datatables
         $columns = array_column($this->request->getVar('columns') ?? [], 'name');
@@ -68,12 +60,9 @@ class JadwalKegiatan extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
-        $created_by = model('Users')->select(['id', 'nama'])->findAll();
-        $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
-            $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -86,9 +75,8 @@ class JadwalKegiatan extends BaseController
     public function create()
     {
         $rules = [
-            'kategori' => 'required',
-            'judul'    => 'required',
-            'tautan'   => 'required|valid_url_strict',
+            'judul'  => 'required',
+            'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -102,9 +90,8 @@ class JadwalKegiatan extends BaseController
 
         // Lolos Validasi
         $data = [
-            'kategori' => $this->request->getVar('kategori'),
-            'judul'    => $this->request->getVar('judul'),
-            'tautan'   => $this->request->getVar('tautan'),
+            'judul'  => $this->request->getVar('judul'),
+            'tautan' => $this->request->getVar('tautan'),
             'created_by' => userSession('id'),
         ];
 
@@ -122,9 +109,8 @@ class JadwalKegiatan extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
-            'kategori' => 'required',
-            'judul'    => 'required',
-            'tautan'   => 'required|valid_url_strict',
+            'judul'  => 'required',
+            'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -138,9 +124,8 @@ class JadwalKegiatan extends BaseController
 
         // Lolos Validasi
         $data = [
-            'kategori' => $this->request->getVar('kategori'),
-            'judul'    => $this->request->getVar('judul'),
-            'tautan'   => $this->request->getVar('tautan'),
+            'judul'  => $this->request->getVar('judul'),
+            'tautan' => $this->request->getVar('tautan'),
             'updated_by' => userSession('id'),
         ];
 

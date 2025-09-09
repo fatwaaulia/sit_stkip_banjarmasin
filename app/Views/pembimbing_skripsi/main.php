@@ -1,5 +1,5 @@
 <?php
-$is_access = true;
+$is_access = false;
 if (array_intersect(userSession('id_roles'), [1, 17, 8])) {
     $is_access = true;
 }

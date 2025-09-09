@@ -284,7 +284,7 @@ function menuSidebar()
 			'title'	=> 'Jadwal Kegiatan',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kegiatan',
-			'role'	=> [1, 17, 3],
+			'role'	=> [1, 17, 3, 4, 5],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -362,14 +362,14 @@ function menuSidebar()
 			'title'	=> 'Pembimbing Skripsi',
 			'icon'	=> 'fa-solid fa-voicemail',
 			'url'	=> base_url() . userSession('slug_role') . '/pembimbing-skripsi',
-			'role'	=> [1, 17, 3, 4, 8, 10],
+			'role'	=> [1, 17, 3, 4, 5, 8, 10],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Dosen PL dan MBKM',
 			'icon'	=> 'fa-solid fa-voicemail',
 			'url'	=> base_url() . userSession('slug_role') . '/dosen-pl-mbkm',
-			'role'	=> [1, 17, 3, 4, 8, 10],
+			'role'	=> [1, 17, 3, 4, 5, 8, 10],
 			'type'	=> 'no-collapse',
 		],
         [
