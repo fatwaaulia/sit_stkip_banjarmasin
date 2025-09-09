@@ -185,7 +185,7 @@ class Profile extends BaseController
             'singkatan_program_studi' => $program_studi['singkatan'],
 
             'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
-            'password_asli' => $password != '' ? $password : $find_data['password'],
+            'password_asli' => $password != '' ? $password : $find_data['password_asli'],
         ];
 
         model($this->model_name)->update($id, $data);
@@ -257,7 +257,7 @@ class Profile extends BaseController
             'motto_kerja' => $this->request->getVar('motto_kerja'),
 
             'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
-            'password_asli' => $password != '' ? $password : $find_data['password'],
+            'password_asli' => $password != '' ? $password : $find_data['password_asli'],
         ];
 
         model($this->model_name)->update($id, $data);
@@ -302,7 +302,7 @@ class Profile extends BaseController
 
         $data = [
             'password' => password_hash($password, PASSWORD_DEFAULT),
-            'password_asli' => $password != '' ? $password : $find_data['password'],
+            'password_asli' => $password != '' ? $password : $find_data['password_asli'],
         ];
 
         model($this->model_name)->update($id, $data);

@@ -262,7 +262,7 @@ class Dosen extends BaseController
             'singkatan_program_studi' => $program_studi['singkatan'],
 
             'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
-            'password_asli' => $password != '' ? $password : $find_data['password'],
+            'password_asli' => $password != '' ? $password : $find_data['password_asli'],
 
             'status_akun' => $this->request->getVar('status_akun'),
         ];

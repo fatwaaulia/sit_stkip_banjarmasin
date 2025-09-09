@@ -244,7 +244,7 @@ if ($tahun_akademik_aktif) {
                                 <select class="form-select" id="tarif_spp" name="tarif_spp">
                                     <option value="">Pilih</option>
                                     <?php
-                                    $tarif_spp = model('TarifSPP')->findAll();
+                                    $tarif_spp = model('TarifSpp')->findAll();
                                     foreach ($tarif_spp as $v) :
                                     ?>
                                     <option value="<?= $v['id'] ?>"><?= $v['nama'] ?> - <?= formatRupiah($v['biaya']) ?></option>

@@ -22,7 +22,7 @@ table tr td { padding: 6px; }
                     <div class="row">
                         <div class="col-12 d-flex justify-content-between">
                             <h5 class="mb-0"><?= $tahun_akademik_aktif ?></h5>
-                            <h5 class="mb-0"><?= dateFormatter(date('d-m-Y'), 'cccc, d MMMM yyyy') ?></h5>
+                            <h5 class="mb-0"><?= toIndonesianDate(date('d-m-Y'), 'cccc, d MMMM yyyy') ?></h5>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -89,7 +89,7 @@ table tr td { padding: 6px; }
                         </tr>
                         <tr>
                             <td>Tanggal Lahir</td>
-                            <td>: <?= dateFormatter(userSession('tanggal_lahir'), 'd MMMM yyyy') ?></td>
+                            <td>: <?= toIndonesianDate(userSession('tanggal_lahir'), 'd MMMM yyyy') ?></td>
                         </tr>
                         <tr>
                             <td>Alamat</td>
