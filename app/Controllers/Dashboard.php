@@ -22,35 +22,22 @@ class Dashboard extends BaseController
         return view('dashboard/header', $view);
     }
 
-    public function keuangan()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/keuangan', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function wakaAkademik()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/waka_akademik', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function stafAkademik()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/staf_akademik', $data);
-        return view('dashboard/header', $view);
-    }
-
     public function dosen()
     {
+        $pertanyaan = model('Pertanyaan')->findAll();
+        foreach ($pertanyaan as $v) {
+            $responden = model('Responden')
+            ->where([
+                'id_pertanyaan' => $v['id'],
+                'id_user' => userSession('id'),
+            ])
+            ->first();
+            if (! $responden) {
+                $tautan_pertanyaan = base_url(userSession('slug_role')) . '/responden/new?pertanyaan=' . $v['slug'];
+                return redirect()->to($tautan_pertanyaan);
+            }
+        }
+
         $data['title'] = 'Dashboard';
 
         $view['sidebar'] = view('dashboard/sidebar');
@@ -67,89 +54,31 @@ class Dashboard extends BaseController
         return view('dashboard/header', $view);
     }
 
-    public function pimpinan()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/pimpinan', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function kaprodi()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/kaprodi', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function wakaKemahasiswaanKerjasama()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/waka_kemahasiswaan_kerjasama', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function lpm()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/lpm', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function lppm()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/lppm', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function stafAdministrasi()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/staf_administrasi', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function pustakawan()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/pustakawan', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function biroAlumni()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/biroalumni', $data);
-        return view('dashboard/header', $view);
-    }
-
-    public function uptPlp()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/uptplp', $data);
-        return view('dashboard/header', $view);
-    }
-
     public function tendik()
     {
+        $pertanyaan = model('Pertanyaan')->findAll();
+        foreach ($pertanyaan as $v) {
+            $responden = model('Responden')
+            ->where([
+                'id_pertanyaan' => $v['id'],
+                'id_user' => userSession('id'),
+            ])
+            ->first();
+            if (! $responden) {
+                $tautan_pertanyaan = base_url(userSession('slug_role')) . '/responden/new?pertanyaan=' . $v['slug'];
+                return redirect()->to($tautan_pertanyaan)->with('message',
+                '<script>
+                Swal.fire({
+                    icon: "info",
+                    title: "Silakan beri jawaban Anda",
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true,
+                });
+                </script>');
+            }
+        }
+
         $data['title'] = 'Dashboard';
 
         $view['sidebar'] = view('dashboard/sidebar');

@@ -40,7 +40,7 @@ if (!$tarif_spp || appSettings('buka_pendaftaran_mahasiswa') == 'Tutup') {
                                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Lacak Pendaftar Mahasiswa</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
-                                            <form action="<?= base_url() ?>mendaftar-mahasiswa/detail" method="get">
+                                            <form action="<?= base_url() ?>pendaftaran-mahasiswa/detail" method="get">
                                                 <div class="modal-body">
                                                     <div class="mb-3">
                                                         <label for="email" class="form-label">Email</label>

@@ -186,7 +186,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Tanggal Mendaftar</label>
-                                    <input type="text" class="form-control" value="<?= date('d-m-Y H:i:s', strtotime(userLocalTime($data['created_at']))) ?>" disabled>
+                                    <input type="text" class="form-control" value="<?= date('d-m-Y H:i:s', strtotime(toUserTime($data['created_at']))) ?>" disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Status Pendaftaran</label>

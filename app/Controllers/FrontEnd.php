@@ -86,6 +86,7 @@ class FrontEnd extends BaseController
     }
 
     public function pendaftaranMahasiswaDetail()
+    
     {
         $email = $this->request->getVar('email', FILTER_SANITIZE_EMAIL);
 
@@ -94,7 +95,7 @@ class FrontEnd extends BaseController
         ->whereIn('status', ['Menunggu Konfirmasi', 'Ditolak'])
         ->first();
         if (! $find_data) {
-            return redirect()->to(base_url('mendaftar-mahasiswa'))->with('message',
+            return redirect()->to(base_url('pendaftaran-mahasiswa'))->with('message',
             '<script>
             Swal.fire({
                 icon: "error",

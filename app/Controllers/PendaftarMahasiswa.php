@@ -308,7 +308,7 @@ class PendaftarMahasiswa extends BaseController
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Berhasil mendaftar',
-            'route'   => base_url() . 'mendaftar-mahasiswa/detail?email=' . $this->request->getVar('email'),
+            'route'   => base_url() . 'pendaftaran-mahasiswa/detail?email=' . $this->request->getVar('email'),
         ]);
     }
 

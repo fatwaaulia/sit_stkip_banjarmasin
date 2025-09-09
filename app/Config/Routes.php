@@ -41,7 +41,7 @@ $routes->get('permintaan-legalisir/detail', 'FrontEnd::permintaanLegalisirDetail
 
 $routes->get('pendaftaran-mahasiswa', 'FrontEnd::pendaftaranMahasiswa');
 $routes->post('api/pendaftar-mahasiswa/create', 'PendaftarMahasiswa::create');
-$routes->get('pendaftaran-mahasiswa/detail', 'FrontEnd::pendaftarMahasiswaDetail');
+$routes->get('pendaftaran-mahasiswa/detail', 'FrontEnd::pendaftaranMahasiswaDetail');
 
 $routes->get('register-dosen', 'FrontEnd::registerDosen');
 $routes->post('api/dosen/create', 'Dosen::create');
@@ -136,6 +136,31 @@ if (userSession('id_role') == 1) {
     $routes->group('api/log-login', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'LogLogin::index');
         $routes->post('delete/(:segment)', 'LogLogin::delete/$1');
+    });
+}
+
+if (in_array($id_role, [1, 17, 4, 16])) {
+    $routes->group("$slug_role/pertanyaan", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Pertanyaan::main');
+        $routes->get('new', 'Pertanyaan::new');
+        $routes->get('edit/(:segment)', 'Pertanyaan::edit/$1');
+    });
+    $routes->group('api/pertanyaan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Pertanyaan::index');
+        $routes->post('create', 'Pertanyaan::create');
+        $routes->post('update/(:segment)', 'Pertanyaan::update/$1');
+        $routes->post('delete/(:segment)', 'Pertanyaan::delete/$1');
+    });
+}
+
+if (in_array($id_role, [1, 17, 4, 16])) {
+    $routes->group("$slug_role/responden", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Responden::main');
+        $routes->get('new', 'Responden::new');
+    });
+    $routes->group('api/responden', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Responden::index');
+        $routes->post('create', 'Responden::create');
     });
 }
 

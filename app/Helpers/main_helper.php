@@ -181,13 +181,13 @@ function menuSidebar()
 			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 			'type'	=> 'no-collapse',
 		],
-		// [
-		// 	'title'	=> 'Beranda',
-		// 	'icon'	=> 'fa-solid fa-house',
-		// 	'url'	=> base_url('laman-akreditas'),
-		// 	'role'	=> [1, 17, 2, 3, 4, 5, 6],
-		// 	'type'	=> 'no-collapse',
-		// ],
+		[
+			'title'	=> 'Pertanyaan',
+			'icon'	=> 'fa-solid fa-question',
+			'url'	=> base_url(userSession('slug_role')) . '/pertanyaan',
+			'role'	=> [1, 17],
+			'type'	=> 'no-collapse',
+		],
         [
 			'title'	=> 'KEUANGAN',
 			'role'	=> [1, 17],

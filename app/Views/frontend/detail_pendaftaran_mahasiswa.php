@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <div class="col-12">
                             <h4>Status : <?= $data['status'] ?></h4>
-                            <p>Tanggal Mendaftar : <?= date('d-m-Y H:i:s', strtotime(userLocalTime($data['mendaftar_at']))) ?></p>
+                            <p>Tanggal Mendaftar : <?= date('d-m-Y H:i:s', strtotime(toUserTime($data['mendaftar_at']))) ?></p>
                             <hr style="border: 1px solid #eee">
                             <div class="mb-2">
                                 <span class="fw-600">Data Diri</span>
@@ -169,7 +169,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Tanggal Mendaftar</label>
-                                <input type="text" class="form-control" value="<?= date('d-m-Y H:i:s', strtotime(userLocalTime($data['mendaftar_at']))) ?>" disabled>
+                                <input type="text" class="form-control" value="<?= date('d-m-Y H:i:s', strtotime(toUserTime($data['mendaftar_at']))) ?>" disabled>
                             </div>
                         </div>
                     </div>
