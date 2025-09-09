@@ -284,7 +284,7 @@ function menuSidebar()
 			'title'	=> 'Jadwal Kegiatan',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kegiatan',
-			'role'	=> [1, 17, 3, 4, 5],
+			'role'	=> [1, 17, 3, 4, 5, 8],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -327,21 +327,21 @@ function menuSidebar()
 			'role'	=> [1, 17],
 			'type'	=> 'no-collapse',
 		],
-        [
-            'title'	=> 'WAKIL KETUA BIDANG KEMAHASISWAAN DAN KERJASAMA',
-            'role'	=> [1, 17],
-            'type'	=> 'heading',
-        ],
+        // [
+        //     'title'	=> 'WAKIL KETUA BIDANG KEMAHASISWAAN DAN KERJASAMA',
+        //     'role'	=> [1, 17],
+        //     'type'	=> 'heading',
+        // ],
         [
             'title'	=> 'KAPRODI',
             'role'	=> [1, 17],
             'type'	=> 'heading',
         ],
         [
-			'title'	=> 'Dosen Penasihat',
+			'title'	=> 'Dosen Pendamping',
 			'icon'	=> 'fa-solid fa-voicemail',
-			'url'	=> base_url(userSession('slug_role')) . '/dosen-penasihat',
-			'role'	=> [1, 17, 4, 5, 8],
+			'url'	=> base_url(userSession('slug_role')) . '/dosen-pendamping',
+			'role'	=> [1, 17, 3, 4, 5, 8, 10],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -356,20 +356,6 @@ function menuSidebar()
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kuliah',
 			'role'	=> [1, 17, 3, 4, 5, 8],
-			'type'	=> 'no-collapse',
-		],
-		[
-			'title'	=> 'Pembimbing Skripsi',
-			'icon'	=> 'fa-solid fa-voicemail',
-			'url'	=> base_url() . userSession('slug_role') . '/pembimbing-skripsi',
-			'role'	=> [1, 17, 3, 4, 5, 8, 10],
-			'type'	=> 'no-collapse',
-		],
-		[
-			'title'	=> 'Dosen PL dan MBKM',
-			'icon'	=> 'fa-solid fa-voicemail',
-			'url'	=> base_url() . userSession('slug_role') . '/dosen-pl-mbkm',
-			'role'	=> [1, 17, 3, 4, 5, 8, 10],
 			'type'	=> 'no-collapse',
 		],
         [

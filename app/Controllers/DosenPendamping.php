@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class DosenPenasihat extends BaseController
+class DosenPendamping extends BaseController
 {
     protected $base_name;
     protected $model_name;
@@ -10,7 +10,7 @@ class DosenPenasihat extends BaseController
 
     public function __construct()
     {
-        $this->base_name   = 'dosen_penasihat';
+        $this->base_name   = 'dosen_pendamping';
         $this->model_name  = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->base_name)));
         $this->upload_path = dirUpload() . $this->base_name . '/';
     }
@@ -39,10 +39,7 @@ class DosenPenasihat extends BaseController
     public function index()
     {
         $select     = ['*'];
-        $base_query = model($this->model_name)->select($select)->where('kategori', 'DOSEN PENASIHAT');
-        if (userSession('id_role') == 5) {
-            $base_query->where('id_program_studi', userSession('id_program_studi'));
-        }
+        $base_query = model($this->model_name)->select($select);
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -63,13 +60,9 @@ class DosenPenasihat extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
-
-        $created_by = model('Users')->select(['id', 'nama'])->findAll();
-        $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
-            $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -82,8 +75,7 @@ class DosenPenasihat extends BaseController
     public function create()
     {
         $rules = [
-            'dosen'  => 'required',
-            'tahun_akademik' => 'required',
+            'judul'  => 'required',
             'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
@@ -97,20 +89,9 @@ class DosenPenasihat extends BaseController
         }
 
         // Lolos Validasi
-        $dosen = model('Users')->find($this->request->getVar('dosen'));
-        $tahun_akademik = model('TahunAkademik')->find($this->request->getVar('tahun_akademik'));
         $data = [
-            'kategori' => 'DOSEN PENASIHAT',
+            'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
-            'id_dosen' => $dosen['id'],
-            'nama_dosen' => $dosen['nama'],
-            'id_program_studi' => $dosen['id_program_studi'],
-            'jenjang_program_studi' => $dosen['jenjang_program_studi'],
-            'nama_program_studi' => $dosen['nama_program_studi'],
-            'singkatan_program_studi' => $dosen['singkatan_program_studi'],
-            'id_tahun_akademik' => $tahun_akademik['id'],
-            'tahun_akademik' => $tahun_akademik['tahun_akademik'],
-            'tipe_tahun_akademik' => $tahun_akademik['tipe'],
             'created_by' => userSession('id'),
         ];
 
@@ -128,6 +109,7 @@ class DosenPenasihat extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
+            'judul'  => 'required',
             'tautan' => 'required|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
@@ -142,6 +124,7 @@ class DosenPenasihat extends BaseController
 
         // Lolos Validasi
         $data = [
+            'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'updated_by' => userSession('id'),
         ];

@@ -279,13 +279,13 @@ if (array_intersect($id_roles, roleAccessByTitle('Kalender Akademik'))) {
     });
 }
 
-if (array_intersect($id_roles, roleAccessByTitle('Dosen Penasihat'))) {
-    $routes->get("$slug_role/dosen-penasihat", 'DosenPenasihat::main', ['filter' => 'EnsureLogin']);
-    $routes->group('api/dosen-penasihat', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'DosenPenasihat::index');
-        $routes->post('create', 'DosenPenasihat::create');
-        $routes->post('update/(:segment)', 'DosenPenasihat::update/$1');
-        $routes->post('delete/(:segment)', 'DosenPenasihat::delete/$1');
+if (array_intersect($id_roles, roleAccessByTitle('Dosen Pendamping'))) {
+    $routes->get("$slug_role/dosen-pendamping", 'DosenPendamping::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/dosen-pendamping', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'DosenPendamping::index');
+        $routes->post('create', 'DosenPendamping::create');
+        $routes->post('update/(:segment)', 'DosenPendamping::update/$1');
+        $routes->post('delete/(:segment)', 'DosenPendamping::delete/$1');
     });
 }
 
@@ -296,26 +296,6 @@ if (array_intersect($id_roles, roleAccessByTitle('Pembimbing Skripsi'))) {
         $routes->post('create', 'PembimbingSkripsi::create');
         $routes->post('update/(:segment)', 'PembimbingSkripsi::update/$1');
         $routes->post('delete/(:segment)', 'PembimbingSkripsi::delete/$1');
-    });
-}
-
-if (array_intersect($id_roles, roleAccessByTitle('Dosen PL dan MBKM'))) {
-    $routes->get("$slug_role/dosen-pl-mbkm", 'DosenPlMbkm::main', ['filter' => 'EnsureLogin']);
-    $routes->group('api/dosen-pl-mbkm', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'DosenPlMbkm::index');
-        $routes->post('create', 'DosenPlMbkm::create');
-        $routes->post('update/(:segment)', 'DosenPlMbkm::update/$1');
-        $routes->post('delete/(:segment)', 'DosenPlMbkm::delete/$1');
-    });
-}
-
-if (array_intersect($id_roles, roleAccessByTitle('SPMI'))) {
-    $routes->get("$slug_role/spmi", 'Spmi::main', ['filter' => 'EnsureLogin']);
-    $routes->group('api/spmi', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Spmi::index');
-        $routes->post('create', 'Spmi::create');
-        $routes->post('update/(:segment)', 'Spmi::update/$1');
-        $routes->post('delete/(:segment)', 'Spmi::delete/$1');
     });
 }
 

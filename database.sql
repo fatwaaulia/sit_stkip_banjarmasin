@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 09, 2025 at 10:11 PM
+-- Generation Time: Sep 09, 2025 at 10:47 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -58,22 +58,13 @@ INSERT INTO `app_settings` (`id`, `nama_aplikasi`, `nama_perusahaan`, `deskripsi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dosen_penasihat`
+-- Table structure for table `dosen_pendamping`
 --
 
-CREATE TABLE `dosen_penasihat` (
+CREATE TABLE `dosen_pendamping` (
   `id` bigint NOT NULL,
-  `kategori` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `id_tahun_akademik` bigint NOT NULL,
-  `tahun_akademik` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipe_tahun_akademik` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_dosen` bigint NOT NULL,
-  `nama_dosen` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_program_studi` bigint NOT NULL,
-  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -81,14 +72,11 @@ CREATE TABLE `dosen_penasihat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dosen_penasihat`
+-- Dumping data for table `dosen_pendamping`
 --
 
-INSERT INTO `dosen_penasihat` (`id`, `kategori`, `tautan`, `id_tahun_akademik`, `tahun_akademik`, `tipe_tahun_akademik`, `id_dosen`, `nama_dosen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'DOSEN PENASIHAT', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', 18, '2025/2026', 'Ganjil', 29, 'Zulparis', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-09-06 09:17:00', '2025-09-06 09:17:00', 1, 0),
-(2, 'PEMBIMBING SKRIPSI', 'https://www.youtube.com/watch?v=f2fsCBVTm9Y', 18, '2025/2026', 'Ganjil', 28, 'Maulidha, M.Pd', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', '2025-09-06 11:21:00', '2025-09-06 11:21:16', 1, 1),
-(3, 'PL', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', 18, '2025/2026', 'Ganjil', 31, 'Rizki Nugerahani Ilise', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', '2025-09-06 14:01:41', '2025-09-06 14:01:41', 1, 0),
-(5, 'MBKM', 'https://hpanel.hostinger.com/', 18, '2025/2026', 'Ganjil', 27, 'Novi Suma Setyawati', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', '2025-09-06 14:03:42', '2025-09-06 14:03:42', 1, 0);
+INSERT INTO `dosen_pendamping` (`id`, `judul`, `tautan`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(2, 'Dosen Pembimbing Skripsi 2024/2025 Ganjil', 'https://www.researchgate.net/profile/Aceng-Wahid/publication/346397070_Analisis_Metode_Waterfall_Untuk_Pengembangan_Sistem_Informasi/links/5fbfa91092851c933f5d76b6/Analisis-Metode-Waterfall-Untuk-Pengembangan-Sistem-Informasi.pdf', '2025-09-01 10:09:28', '2025-09-10 05:44:32', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -1524,9 +1512,9 @@ ALTER TABLE `app_settings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `dosen_penasihat`
+-- Indexes for table `dosen_pendamping`
 --
-ALTER TABLE `dosen_penasihat`
+ALTER TABLE `dosen_pendamping`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1762,10 +1750,10 @@ ALTER TABLE `app_settings`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `dosen_penasihat`
+-- AUTO_INCREMENT for table `dosen_pendamping`
 --
-ALTER TABLE `dosen_penasihat`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `dosen_pendamping`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jadwal_kegiatan`

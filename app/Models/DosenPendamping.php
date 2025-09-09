@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DosenPenasihat extends Model
+class DosenPendamping extends Model
 {
-    protected $table         = 'dosen_penasihat';
+    protected $table         = 'dosen_pendamping';
     protected $protectFields = false;
     protected $useTimestamps = true;
 }
