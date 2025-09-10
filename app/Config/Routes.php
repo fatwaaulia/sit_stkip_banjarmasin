@@ -299,6 +299,16 @@ if (array_intersect($id_roles, roleAccessByTitle('Pembimbing Skripsi'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('SPMI'))) {
+    $routes->get("$slug_role/spmi", 'Spmi::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/spmi', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Spmi::index');
+        $routes->post('create', 'Spmi::create');
+        $routes->post('update/(:segment)', 'Spmi::update/$1');
+        $routes->post('delete/(:segment)', 'Spmi::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('LKPT'))) {
     $routes->get("$slug_role/lkpt", 'Lkpt::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/lkpt', ['filter' => 'EnsureLogin'], static function ($routes) {

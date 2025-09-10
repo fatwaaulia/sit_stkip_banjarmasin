@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
-            }, {
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,

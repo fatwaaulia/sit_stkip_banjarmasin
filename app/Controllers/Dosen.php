@@ -101,6 +101,7 @@ class Dosen extends BaseController
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['foto'] = webFile('image_user', 'users', $v['foto'], $v['updated_at']);
+            $data[$key]['password'] = '-';
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
         }
 
