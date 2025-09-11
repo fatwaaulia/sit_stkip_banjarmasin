@@ -113,7 +113,7 @@ if (! in_array($id_role, [4, 16])) {
 /*--------------------------------------------------------------
   # Menu Sidebar
 --------------------------------------------------------------*/
-if (userSession('id_role') == 1) {
+if (in_array(userSession('id_role'), [1, 17])) {
     $routes->group("$slug_role/app-settings", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'AppSettings::edit');
     });
@@ -122,7 +122,7 @@ if (userSession('id_role') == 1) {
     });
 }
 
-if (userSession('id_role') == 1) {
+if (in_array(userSession('id_role'), [1, 17])) {
     $routes->group("$slug_role/maintenance", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('email', 'Maintenance::email');
     });
@@ -131,7 +131,7 @@ if (userSession('id_role') == 1) {
     });
 }
 
-if (userSession('id_role') == 1) {
+if (in_array(userSession('id_role'), [1, 17])) {
     $routes->get("$slug_role/log-login", 'LogLogin::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/log-login', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'LogLogin::index');
