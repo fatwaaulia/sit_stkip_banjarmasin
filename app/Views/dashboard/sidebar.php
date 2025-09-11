@@ -78,12 +78,14 @@
 					<li>
 						<hr class="dropdown-divider">
 					</li>
+                    <?php if (userSession('id_role') != 5) : ?>
 					<li>
 						<a class="dropdown-item d-flex align-items-center" href="<?= base_url(userSession('slug_role')) . '/profile' ?>">
 							<i class="fa-solid fa-user" style="font-size:16px"></i>
 							<span>Profil</span>
 						</a>
 					</li>
+                    <?php endif; ?>
 					<li class="mb-2">
 						<a class="dropdown-item d-flex align-items-center" href="<?= base_url('logout') ?>">
 							<i class="fa-solid fa-arrow-right-from-bracket" style="font-size:16px"></i>
