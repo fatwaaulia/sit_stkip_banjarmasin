@@ -200,8 +200,8 @@ class Dosen extends BaseController
             'motto_kerja'       => 'required',
             'password' => 'permit_empty|min_length[3]|matches[passconf]',
             'passconf' => 'permit_empty|min_length[3]|matches[password]',
-            'email'    => "required|valid_email|is_unique[users.email,id,$id]",
-            'no_hp'    => 'required|numeric|min_length[10]|max_length[20]',
+            'email'    => "permit_empty|valid_email|is_unique[users.email,id,$id]",
+            'no_hp'    => 'permit_empty|numeric',
             'status_akun' => 'required',
         ];
         if (! $this->validate($rules)) {

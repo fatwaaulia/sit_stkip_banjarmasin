@@ -117,3 +117,20 @@
         </script>
     </div>
 </section>
+
+<script>
+function toggleVisibility(inputElement, eyeElement) {
+    const showIcon = "<?= base_url('assets/icons/show.png') ?>";
+    const hideIcon = "<?= base_url('assets/icons/hide.png') ?>";
+    inputElement.type = inputElement.type === 'password' ? 'text' : 'password';
+    eyeElement.src = inputElement.type === 'password' ? showIcon : hideIcon;
+}
+
+dom('#eye_password').addEventListener('click', () => {
+    toggleVisibility(dom('#password'), dom('#eye_password'));
+});
+
+dom('#eye_passconf').addEventListener('click', () => {
+    toggleVisibility(dom('#passconf'), dom('#eye_passconf'));
+});
+</script>
