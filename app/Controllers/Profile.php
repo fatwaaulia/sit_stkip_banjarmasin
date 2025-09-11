@@ -311,7 +311,7 @@ class Profile extends BaseController
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Password berhasil diubah. Silakan login kembali.',
-            'route'   => base_url('login/admin'),
+            'route'   => base_url('login'),
         ]);
     }
 
