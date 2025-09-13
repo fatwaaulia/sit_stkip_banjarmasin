@@ -40,7 +40,7 @@ class MataKuliah extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (userSession('id_role') == 5) {
+        if (userSession('id_role') == 4) {
             $base_query->where('id_program_studi', userSession('id_program_studi'));
         }
         $limit      = (int)$this->request->getVar('length');
@@ -63,9 +63,14 @@ class MataKuliah extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
+        $users = model('Users')->select(['id', 'nama'])->whereIn('id_role', [4])->findAll();
+        $nama_user_by_id = array_column($users, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['jam_mulai'] = date('H:i', strtotime(toUserTime($v['jam_mulai'])));
+            $data[$key]['jam_selesai'] = date('H:i', strtotime(toUserTime($v['jam_selesai'])));
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
+            $data[$key]['created_by'] = $nama_user_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -78,9 +83,12 @@ class MataKuliah extends BaseController
     public function create()
     {
         $rules = [
-            'program_studi' => 'required',
-            'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'tahun_akademik'  => 'required',
+            'nama_mata_kuliah'  => 'required',
+            'sks'  => 'required',
+            'hari'  => 'required',
+            'jam_mulai'  => 'required',
+            'jam_selesai'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -93,14 +101,21 @@ class MataKuliah extends BaseController
         }
 
         // Lolos Validasi
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+        $tahun_akademik = model('TahunAkademik')->find($this->request->getVar('tahun_akademik'));
         $data = [
-            'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
+            'nama_mata_kuliah'  => $this->request->getVar('nama_mata_kuliah'),
+            'sks'  => $this->request->getVar('sks'),
+            'hari'  => $this->request->getVar('hari'),
+            'jam_mulai'  => toSystemTime($this->request->getVar('jam_mulai')),
+            'jam_selesai'  => toSystemTime($this->request->getVar('jam_selesai')),
+            'id_program_studi'        => userSession('id_program_studi'),
+            'jenjang_program_studi'   => userSession('jenjang_program_studi'),
+            'nama_program_studi'      => userSession('nama_program_studi'),
+            'singkatan_program_studi' => userSession('singkatan_program_studi'),
+            'id_tahun_akademik' => $tahun_akademik['id'],
+            'tahun_akademik' => $tahun_akademik['tahun_akademik'],
+            'tipe_tahun_akademik' => $tahun_akademik['tipe'],
+            'created_by' => userSession('id'),
         ];
 
         model($this->model_name)->insert($data);
@@ -117,9 +132,11 @@ class MataKuliah extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
-            'program_studi' => 'required',
-            'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'nama_mata_kuliah'  => 'required',
+            'sks'  => 'required',
+            'hari'  => 'required',
+            'jam_mulai'  => 'required',
+            'jam_selesai'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -132,14 +149,13 @@ class MataKuliah extends BaseController
         }
 
         // Lolos Validasi
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $data = [
-            'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
+            'nama_mata_kuliah'  => $this->request->getVar('nama_mata_kuliah'),
+            'sks'  => $this->request->getVar('sks'),
+            'hari'  => $this->request->getVar('hari'),
+            'jam_mulai'  => toSystemTime($this->request->getVar('jam_mulai')),
+            'jam_selesai'  => toSystemTime($this->request->getVar('jam_selesai')),
+            'updated_by' => userSession('id'),
         ];
 
         model($this->model_name)->update($id, $data);

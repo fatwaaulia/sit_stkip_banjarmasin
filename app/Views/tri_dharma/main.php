@@ -75,6 +75,11 @@ $anggota = array_merge($dosen, $mahasiswa);
                                                     <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
                                                     <div class="invalid-feedback" id="invalid_tautan"></div>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="tanggal_publikasi" class="form-label">Tanggal Publikasi</label>
+                                                    <input type="date" class="form-control" id="tanggal_publikasi" name="tanggal_publikasi">
+                                                    <div class="invalid-feedback" id="invalid_tanggal_publikasi"></div>
+                                                </div>
                                                 <hr>
                                                 <div class="mb-3">
                                                     <label class="form-label">Anggota 1</label>
@@ -146,7 +151,13 @@ $anggota = array_merge($dosen, $mahasiswa);
                             <th>No.</th>
                             <th>Kategori</th>
                             <th>Judul</th>
+                            <th>Tanggal Publikasi</th>
                             <th>Tautan</th>
+                            <th>Anggota 1</th>
+                            <th>Anggota 2</th>
+                            <th>Anggota 3</th>
+                            <th>Anggota 4</th>
+                            <th>Anggota 5</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -193,8 +204,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: 'judul',
             }, {
                 name: '',
+                data: 'tanggal_publikasi',
+            }, {
+                name: '',
                 data: null,
                 render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.nomor_identitas_anggota_1} - ${data.nama_anggota_1} <br> ${data.nama_program_studi_anggota_1}`,
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.nomor_identitas_anggota_2} - ${data.nama_anggota_2} <br> ${data.nama_program_studi_anggota_2}`,
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.nomor_identitas_anggota_3} - ${data.nama_anggota_3} <br> ${data.nama_program_studi_anggota_3}`,
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.nomor_identitas_anggota_4} - ${data.nama_anggota_4} <br> ${data.nama_program_studi_anggota_4}`,
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.nomor_identitas_anggota_5} - ${data.nama_anggota_5} <br> ${data.nama_program_studi_anggota_5}`,
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -238,6 +272,11 @@ function renderOpsi(data) {
                             <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tanggal_publikasi" class="form-label">Tanggal Publikasi</label>
+                            <input type="date" class="form-control" id="tanggal_publikasi" name="tanggal_publikasi" value="${data.tanggal_publikasi}">
+                            <div class="invalid-feedback" id="invalid_tanggal_publikasi"></div>
                         </div>
                         <hr>
                         <div class="mb-3">

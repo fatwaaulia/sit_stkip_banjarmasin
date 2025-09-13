@@ -1,8 +1,8 @@
 <?php
-$is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
+// $is_access = false;
+// if (array_intersect(userSession('id_roles'), [4])) {
     $is_access = true;
-}
+// }
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -37,27 +37,59 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="mb-3">
-                                                    <label for="program_studi" class="form-label">Program Studi</label>
-                                                    <select class="form-select" id="program_studi" name="program_studi">
-                                                        <option value="">Pilih</option>
+                                                    <label class="form-label">Program Studi</label>
+                                                    <input type="text" class="form-control" value="<?= userSession('jenjang_program_studi') ?> - <?= userSession('nama_program_studi') ?>" disabled>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
+                                                    <select class="form-select" id="tahun_akademik" name="tahun_akademik">
                                                         <?php
-                                                        $program_studi = model('ProgramStudi')->findAll();
-                                                        foreach ($program_studi as $v) :
+                                                        $tahun_akademik = model('TahunAkademik')->limit(3)->orderBy('id DESC')->findAll();
+                                                        foreach ($tahun_akademik as $v) :
                                                         ?>
-                                                        <option value="<?= $v['id'] ?>"><?= $v['jenjang'] ?> - <?= $v['nama'] ?></option>
+                                                        <option value="<?= $v['id'] ?>"><?= $v['tahun_akademik'] ?> - <?= $v['tipe'] ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
-                                                    <div class="invalid-feedback" id="invalid_program_studi"></div>
+                                                    <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="judul" class="form-label">Judul</label>
-                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
-                                                    <div class="invalid-feedback" id="invalid_judul"></div>
+                                                    <label for="nama_mata_kuliah" class="form-label">Nama Mata Kuliah</label>
+                                                    <input type="text" class="form-control" id="nama_mata_kuliah" name="nama_mata_kuliah" placeholder="Masukkan nama mata kuliah">
+                                                    <div class="invalid-feedback" id="invalid_nama_mata_kuliah"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan</label>
-                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
-                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
+                                                    <label for="sks" class="form-label">SKS</label>
+                                                    <input type="number" class="form-control" id="sks" name="sks" placeholder="Masukkan sks">
+                                                    <div class="invalid-feedback" id="invalid_sks"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="hari" class="form-label">Hari</label>
+                                                    <select class="form-select" id="hari" name="hari">
+                                                        <option value="">Pilih</option>
+                                                        <?php
+                                                        $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                                                        foreach ($hari as $v) :
+                                                        ?>
+                                                        <option value="<?= $v ?>"><?= $v ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback" id="invalid_hari"></div>
+                                                </div>
+                                                <div class="row gx-2">
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="jam_mulai" class="form-label">Jam Mulai</label>
+                                                            <input type="time" class="form-control" id="jam_mulai" name="jam_mulai" placeholder="Masukkan jam mulai">
+                                                            <div class="invalid-feedback" id="invalid_jam_mulai"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="jam_selesai" class="form-label">Jam Selesai</label>
+                                                            <input type="time" class="form-control" id="jam_selesai" name="jam_selesai" placeholder="Masukkan jam selesai">
+                                                            <div class="invalid-feedback" id="invalid_jam_selesai"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,9 +115,12 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
+                            <th>Nama Mata Kuliah</th>
+                            <th>SKS</th>
+                            <th>Hari, Jam</th>
+                            <th>Dosen</th>
                             <th>Program Studi</th>
-                            <th>Judul</th>
-                            <th>Tautan</th>
+                            <th>Tahun Akademik</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -120,16 +155,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: 'nama_program_studi',
-                data: null,
-                render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
+                name: 'nama_mata_kuliah',
+                data: 'nama_mata_kuliah',
             }, {
-                name: 'judul',
-                data: 'judul',
+                name: '',
+                data: 'sks',
             }, {
                 name: '',
                 data: null,
-                render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+                render: data => `${data.hari}, ${data.jam_mulai} - ${data.jam_selesai}`,
+            }, {
+                name: '',
+                data: 'created_by',
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.tahun_akademik} - ${data.tipe_tahun_akademik}`,
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -141,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const program_studi = <?= json_encode($program_studi) ?>;
+    const hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -157,22 +202,48 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="program_studi_${data.id}" class="form-label">Program Studi</label>
-                            <select class="form-select" id="program_studi_${data.id}" name="program_studi">
-                                <option value="">Pilih</option>
-                                ${program_studi.map(item => `<option value="${item.id}" ${item.id == data.id ? 'selected' : ''}>${item.jenjang} - ${item.nama}</option>`).join('')}
-                            </select>
-                            <div class="invalid-feedback" id="invalid_program_studi"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="judul" class="form-label">Judul</label>
-                            <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
-                            <div class="invalid-feedback" id="invalid_judul"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan</label>
-                            <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
-                            <div class="invalid-feedback" id="invalid_tautan"></div>
+                            <div class="mb-3">
+                                <label class="form-label">Program Studi</label>
+                                <input type="text" class="form-control" value="<?= userSession('jenjang_program_studi') ?> - <?= userSession('nama_program_studi') ?>" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tahun Akademik</label>
+                                <input type="text" class="form-control" value="${data.tahun_akademik} - ${data.tipe_tahun_akademik}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nama_mata_kuliah" class="form-label">Nama Mata Kuliah</label>
+                                <input type="text" class="form-control" id="nama_mata_kuliah" name="nama_mata_kuliah" value="${data.nama_mata_kuliah}" placeholder="Masukkan nama mata kuliah">
+                                <div class="invalid-feedback" id="invalid_nama_mata_kuliah"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sks" class="form-label">SKS</label>
+                                <input type="number" class="form-control" id="sks" name="sks" value="${data.sks}" placeholder="Masukkan sks">
+                                <div class="invalid-feedback" id="invalid_sks"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hari" class="form-label">Hari</label>
+                                <select class="form-select" id="hari" name="hari">
+                                    <option value="">Pilih</option>
+                                    ${hari.map(item => `<option value="${item}" ${item == data.hari ? 'selected' : ''}>${item}</option>`).join('')}
+                                </select>
+                                <div class="invalid-feedback" id="invalid_hari"></div>
+                            </div>
+                            <div class="row gx-2">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="jam_mulai" class="form-label">Jam Mulai</label>
+                                        <input type="time" class="form-control" id="jam_mulai" name="jam_mulai" value="${data.jam_mulai}" placeholder="Masukkan jam mulai">
+                                        <div class="invalid-feedback" id="invalid_jam_mulai"></div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="jam_selesai" class="form-label">Jam Selesai</label>
+                                        <input type="time" class="form-control" id="jam_selesai" name="jam_selesai" value="${data.jam_selesai}" placeholder="Masukkan jam selesai">
+                                        <div class="invalid-feedback" id="invalid_jam_selesai"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -40,9 +40,6 @@ class TriDharma extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (userSession('id_role') == 4 && empty(userSession('multi_role'))) {
-            $base_query->where('created_by', userSession('id'));
-        }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -68,6 +65,7 @@ class TriDharma extends BaseController
         $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['tanggal_publikasi'] = date('d-m-Y', strtotime(toUserTime($v['tanggal_publikasi'])));
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
             $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
@@ -85,6 +83,7 @@ class TriDharma extends BaseController
             'kategori' => 'required',
             'judul'  => 'required',
             'tautan' => 'required|valid_url_strict',
+            'tanggal_publikasi'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -106,6 +105,7 @@ class TriDharma extends BaseController
             'kategori' => $this->request->getVar('kategori'),
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
+            'tanggal_publikasi' => toSystemTime($this->request->getVar('tanggal_publikasi')),
             'created_by' => userSession('id'),
 
             'id_anggota_1'                 => userSession('id'),
@@ -114,29 +114,29 @@ class TriDharma extends BaseController
             'nama_role_anggota_1'          => userSession('nama_role'),
             'nama_program_studi_anggota_1' => userSession('nama_program_studi'),
 
-            'id_anggota_2'                 => $anggota_2['id'],
+            'id_anggota_2'                 => $anggota_2['id'] ?? '',
             'nama_anggota_2'               => $anggota_2['nama'],
-            'nomor_identitas_anggota_2'    => $anggota_2['nomor_identitas'],
-            'nama_role_anggota_2'          => $anggota_2['nama_role'],
-            'nama_program_studi_anggota_2' => $anggota_2['nama_program_studi'],
+            'nomor_identitas_anggota_2'    => $anggota_2['nomor_identitas'] ?? '',
+            'nama_role_anggota_2'          => $anggota_2['nama_role'] ?? '',
+            'nama_program_studi_anggota_2' => $anggota_2['nama_program_studi'] ?? '',
 
-            'id_anggota_3'                 => $anggota_3['id'],
-            'nama_anggota_3'               => $anggota_3['nama'],
-            'nomor_identitas_anggota_3'    => $anggota_3['nomor_identitas'],
-            'nama_role_anggota_3'          => $anggota_3['nama_role'],
-            'nama_program_studi_anggota_3' => $anggota_3['nama_program_studi'],
+            'id_anggota_3'                 => $anggota_3['id'] ?? '',
+            'nama_anggota_3'               => $anggota_3['nama'] ?? '',
+            'nomor_identitas_anggota_3'    => $anggota_3['nomor_identitas'] ?? '',
+            'nama_role_anggota_3'          => $anggota_3['nama_role'] ?? '',
+            'nama_program_studi_anggota_3' => $anggota_3['nama_program_studi'] ?? '',
 
-            'id_anggota_4'                 => $anggota_4['id'],
-            'nama_anggota_4'               => $anggota_4['nama'],
-            'nomor_identitas_anggota_4'    => $anggota_4['nomor_identitas'],
-            'nama_role_anggota_4'          => $anggota_4['nama_role'],
-            'nama_program_studi_anggota_4' => $anggota_4['nama_program_studi'],
+            'id_anggota_4'                 => $anggota_4['id'] ?? '',
+            'nama_anggota_4'               => $anggota_4['nama'] ?? '',
+            'nomor_identitas_anggota_4'    => $anggota_4['nomor_identitas'] ?? '',
+            'nama_role_anggota_4'          => $anggota_4['nama_role'] ?? '',
+            'nama_program_studi_anggota_4' => $anggota_4['nama_program_studi'] ?? '',
 
-            'id_anggota_5'                 => $anggota_5['id'],
-            'nama_anggota_5'               => $anggota_5['nama'],
-            'nomor_identitas_anggota_5'    => $anggota_5['nomor_identitas'],
-            'nama_role_anggota_5'          => $anggota_5['nama_role'],
-            'nama_program_studi_anggota_5' => $anggota_5['nama_program_studi'],
+            'id_anggota_5'                 => $anggota_5['id'] ?? '',
+            'nama_anggota_5'               => $anggota_5['nama'] ?? '',
+            'nomor_identitas_anggota_5'    => $anggota_5['nomor_identitas'] ?? '',
+            'nama_role_anggota_5'          => $anggota_5['nama_role'] ?? '',
+            'nama_program_studi_anggota_5' => $anggota_5['nama_program_studi'] ?? '',
         ];
 
         model($this->model_name)->insert($data);
@@ -156,6 +156,7 @@ class TriDharma extends BaseController
             'kategori'  => 'required',
             'judul'  => 'required',
             'tautan' => 'required|valid_url_strict',
+            'tanggal_publikasi'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -172,6 +173,7 @@ class TriDharma extends BaseController
             'kategori' => $this->request->getVar('kategori'),
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
+            'tanggal_publikasi' => toSystemTime($this->request->getVar('tanggal_publikasi')),
             'updated_by' => userSession('id'),
         ];
 
