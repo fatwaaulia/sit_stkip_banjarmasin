@@ -68,6 +68,7 @@ class PerencanaanPimpinan extends BaseController
         $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
             $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
@@ -84,7 +85,7 @@ class PerencanaanPimpinan extends BaseController
         $rules = [
             'kategori' => 'required',
             'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'dokumen' => 'max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -97,10 +98,18 @@ class PerencanaanPimpinan extends BaseController
         }
 
         // Lolos Validasi
+        $dokumen = $this->request->getFile('dokumen');
+        if ($dokumen->isValid()) {
+            $filename_dokumen = $dokumen->getRandomName();
+            $dokumen->move($this->upload_path, $filename_dokumen);
+        } else {
+            $filename_dokumen = '';
+        }
+
         $data = [
             'kategori' => $this->request->getVar('kategori'),
             'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
+            'dokumen' => $filename_dokumen,
             'created_by' => userSession('id'),
         ];
 
@@ -120,7 +129,7 @@ class PerencanaanPimpinan extends BaseController
         $rules = [
             'kategori'  => 'required',
             'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -133,10 +142,19 @@ class PerencanaanPimpinan extends BaseController
         }
 
         // Lolos Validasi
+        $dokumen = $this->request->getFile('dokumen');
+        if ($dokumen && $dokumen->isValid()) {
+            if (is_file($this->upload_path . $find_data['dokumen'])) unlink($this->upload_path . $find_data['dokumen']);
+            $filename_dokumen = $dokumen->getRandomName();
+            $dokumen->move($this->upload_path, $filename_dokumen);
+        } else {
+            $filename_dokumen = $find_data['dokumen'];
+        }
+
         $data = [
             'kategori' => $this->request->getVar('kategori'),
             'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
+            'dokumen' => $filename_dokumen,
             'updated_by' => userSession('id'),
         ];
 
@@ -151,6 +169,11 @@ class PerencanaanPimpinan extends BaseController
 
     public function delete($id = null)
     {
+        $find_data = model($this->model_name)->find($id);
+
+        $dokumen = $this->upload_path . $find_data['dokumen'];
+        if (is_file($dokumen)) unlink($dokumen);
+
         model($this->model_name)->delete($id);
 
         return $this->response->setStatusCode(200)->setJSON([

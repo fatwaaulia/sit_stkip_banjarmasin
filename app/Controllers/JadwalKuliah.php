@@ -65,6 +65,7 @@ class JadwalKuliah extends BaseController
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
         }
 
@@ -80,7 +81,7 @@ class JadwalKuliah extends BaseController
         $rules = [
             'program_studi' => 'required',
             'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'dokumen' => 'uploaded[dokumen]|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -93,10 +94,18 @@ class JadwalKuliah extends BaseController
         }
 
         // Lolos Validasi
+        $dokumen = $this->request->getFile('dokumen');
+        if ($dokumen->isValid()) {
+            $filename_dokumen = $dokumen->getRandomName();
+            $dokumen->move($this->upload_path, $filename_dokumen);
+        } else {
+            $filename_dokumen = '';
+        }
+
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $data = [
             'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
+            'dokumen' => $filename_dokumen,
             'id_program_studi'        => $program_studi['id'],
             'jenjang_program_studi'   => $program_studi['jenjang'],
             'nama_program_studi'      => $program_studi['nama'],
@@ -112,47 +121,13 @@ class JadwalKuliah extends BaseController
         ]);
     }
 
-    public function update($id = null)
+    public function delete($id = null)
     {
         $find_data = model($this->model_name)->find($id);
 
-        $rules = [
-            'program_studi' => 'required',
-            'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
-        ];
-        if (! $this->validate($rules)) {
-            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
+        $dokumen = $this->upload_path . $find_data['dokumen'];
+        if (is_file($dokumen)) unlink($dokumen);
 
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => 'error',
-                'message' => 'Data yang dimasukkan tidak valid!',
-                'errors'  => $errors,
-            ]);
-        }
-
-        // Lolos Validasi
-        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
-        $data = [
-            'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
-            'id_program_studi'        => $program_studi['id'],
-            'jenjang_program_studi'   => $program_studi['jenjang'],
-            'nama_program_studi'      => $program_studi['nama'],
-            'singkatan_program_studi' => $program_studi['singkatan'],
-        ];
-
-        model($this->model_name)->update($id, $data);
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'status'  => 'success',
-            'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
-        ]);
-    }
-
-    public function delete($id = null)
-    {
         model($this->model_name)->delete($id);
 
         return $this->response->setStatusCode(200)->setJSON([

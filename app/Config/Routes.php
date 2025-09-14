@@ -329,22 +329,11 @@ if (array_intersect($id_roles, roleAccessByTitle('Standar PT'))) {
     });
 }
 
-if (array_intersect($id_roles, roleAccessByTitle('Mata Kuliah'))) {
-    $routes->get("$slug_role/mata-kuliah", 'MataKuliah::main', ['filter' => 'EnsureLogin']);
-    $routes->group('api/mata-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'MataKuliah::index');
-        $routes->post('create', 'MataKuliah::create');
-        $routes->post('update/(:segment)', 'MataKuliah::update/$1');
-        $routes->post('delete/(:segment)', 'MataKuliah::delete/$1');
-    });
-}
-
 if (array_intersect($id_roles, roleAccessByTitle('Jadwal Kuliah'))) {
     $routes->get("$slug_role/jadwal-kuliah", 'JadwalKuliah::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/jadwal-kuliah', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'JadwalKuliah::index');
         $routes->post('create', 'JadwalKuliah::create');
-        $routes->post('update/(:segment)', 'JadwalKuliah::update/$1');
         $routes->post('delete/(:segment)', 'JadwalKuliah::delete/$1');
     });
 }
@@ -569,7 +558,6 @@ if (array_intersect($id_roles, roleAccessByTitle('Laporan Promosi'))) {
     $routes->group('api/laporan-promosi', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'LaporanPromosi::index');
         $routes->post('create', 'LaporanPromosi::create');
-        $routes->post('update/(:segment)', 'LaporanPromosi::update/$1');
         $routes->post('delete/(:segment)', 'LaporanPromosi::delete/$1');
     });
 }

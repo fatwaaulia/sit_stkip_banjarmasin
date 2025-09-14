@@ -231,6 +231,7 @@ class Dosen extends BaseController
 
         $foto = $this->request->getFile('foto');
         if ($foto->isValid()) {
+            if (is_file($this->upload_path . $find_data['foto'])) unlink($this->upload_path . $find_data['foto']);
             $filename_foto = $foto->getRandomName();
             if ($foto->getExtension() != 'jpg') {
                 $filename_foto = str_replace($foto->getExtension(), 'jpg', $filename_foto);

@@ -40,8 +40,8 @@ class Pengajaran extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (userSession('id_role') == 4 && empty(userSession('multi_role'))) {
-            $base_query->where('created_by', userSession('id'));
+        if (userSession('id_role') == 4) {
+            $base_query->where('id_program_studi', userSession('id_program_studi'));
         }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
@@ -63,13 +63,14 @@ class Pengajaran extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
-
-        $created_by = model('Users')->select(['id', 'nama'])->findAll();
-        $created_by_by_id = array_column($created_by, 'nama', 'id');
+        $users = model('Users')->select(['id', 'nama'])->whereIn('id_role', [4])->findAll();
+        $nama_user_by_id = array_column($users, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['jam_mulai'] = date('H:i', strtotime(toUserTime($v['jam_mulai'])));
+            $data[$key]['jam_selesai'] = date('H:i', strtotime(toUserTime($v['jam_selesai'])));
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
-            $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
+            $data[$key]['created_by'] = $nama_user_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -82,8 +83,14 @@ class Pengajaran extends BaseController
     public function create()
     {
         $rules = [
-            'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'tahun_akademik'  => 'required',
+            'kode'  => 'required',
+            'nama_mata_kuliah'  => 'required',
+            'sks'  => 'required',
+            'hari'  => 'required',
+            'jam_mulai'  => 'required',
+            'jam_selesai'  => 'required',
+            'ruangan'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -97,8 +104,19 @@ class Pengajaran extends BaseController
 
         // Lolos Validasi
         $data = [
-            'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
+            'kode'  => $this->request->getVar('kode'),
+            'nama_mata_kuliah'  => $this->request->getVar('nama_mata_kuliah'),
+            'sks'  => $this->request->getVar('sks'),
+            'hari'  => $this->request->getVar('hari'),
+            'jam_mulai'  => toSystemTime($this->request->getVar('jam_mulai')),
+            'jam_selesai'  => toSystemTime($this->request->getVar('jam_selesai')),
+            'ruangan'  => $this->request->getVar('ruangan'),
+            'id_program_studi'        => userSession('id_program_studi'),
+            'jenjang_program_studi'   => userSession('jenjang_program_studi'),
+            'nama_program_studi'      => userSession('nama_program_studi'),
+            'singkatan_program_studi' => userSession('singkatan_program_studi'),
+            'tahun_akademik' => $this->request->getVar('tahun_akademik'),
+            'dosen_pengampu' => userSession('nama'),
             'created_by' => userSession('id'),
         ];
 
@@ -116,8 +134,13 @@ class Pengajaran extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
-            'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'kode'  => 'required',
+            'nama_mata_kuliah'  => 'required',
+            'sks'  => 'required',
+            'hari'  => 'required',
+            'jam_mulai'  => 'required',
+            'jam_selesai'  => 'required',
+            'ruangan'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -131,8 +154,13 @@ class Pengajaran extends BaseController
 
         // Lolos Validasi
         $data = [
-            'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
+            'kode'  => $this->request->getVar('kode'),
+            'nama_mata_kuliah'  => $this->request->getVar('nama_mata_kuliah'),
+            'sks'  => $this->request->getVar('sks'),
+            'hari'  => $this->request->getVar('hari'),
+            'jam_mulai'  => toSystemTime($this->request->getVar('jam_mulai')),
+            'jam_selesai'  => toSystemTime($this->request->getVar('jam_selesai')),
+            'ruangan'  => $this->request->getVar('ruangan'),
             'updated_by' => userSession('id'),
         ];
 

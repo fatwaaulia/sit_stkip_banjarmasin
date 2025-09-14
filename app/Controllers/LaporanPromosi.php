@@ -62,6 +62,7 @@ class LaporanPromosi extends BaseController
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
         }
 
@@ -75,8 +76,9 @@ class LaporanPromosi extends BaseController
     public function create()
     {
         $rules = [
-            'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'tempat'  => 'required',
+            'menemui_siapa'  => 'required',
+            'dokumen' => 'uploaded[dokumen]|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -89,9 +91,18 @@ class LaporanPromosi extends BaseController
         }
 
         // Lolos Validasi
+        $dokumen = $this->request->getFile('dokumen');
+        if ($dokumen->isValid()) {
+            $filename_dokumen = $dokumen->getRandomName();
+            $dokumen->move($this->upload_path, $filename_dokumen);
+        } else {
+            $filename_dokumen = '';
+        }
+
         $data = [
-            'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
+            'tempat'  => $this->request->getVar('tempat'),
+            'menemui_siapa'  => $this->request->getVar('menemui_siapa'),
+            'dokumen' => $filename_dokumen,
             'created_by' => userSession('id'),
         ];
 
@@ -104,42 +115,13 @@ class LaporanPromosi extends BaseController
         ]);
     }
 
-    public function update($id = null)
+    public function delete($id = null)
     {
         $find_data = model($this->model_name)->find($id);
 
-        $rules = [
-            'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
-        ];
-        if (! $this->validate($rules)) {
-            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
+        $dokumen = $this->upload_path . $find_data['dokumen'];
+        if (is_file($dokumen)) unlink($dokumen);
 
-            return $this->response->setStatusCode(400)->setJSON([
-                'status'  => 'error',
-                'message' => 'Data yang dimasukkan tidak valid!',
-                'errors'  => $errors,
-            ]);
-        }
-
-        // Lolos Validasi
-        $data = [
-            'judul'  => $this->request->getVar('judul'),
-            'tautan' => $this->request->getVar('tautan'),
-            'updated_by' => userSession('id'),
-        ];
-
-        model($this->model_name)->update($id, $data);
-
-        return $this->response->setStatusCode(200)->setJSON([
-            'status'  => 'success',
-            'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
-        ]);
-    }
-
-    public function delete($id = null)
-    {
         model($this->model_name)->delete($id);
 
         return $this->response->setStatusCode(200)->setJSON([

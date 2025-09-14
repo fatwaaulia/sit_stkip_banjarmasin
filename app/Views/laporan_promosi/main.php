@@ -37,14 +37,22 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3, 7, 9, 14])) {
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <div class="mb-3">
-                                                    <label for="judul" class="form-label">Judul</label>
-                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
-                                                    <div class="invalid-feedback" id="invalid_judul"></div>
+                                                    <label for="tempat" class="form-label">Tempat</label>
+                                                    <input type="text" class="form-control" id="tempat" name="tempat" placeholder="Masukkan tempat">
+                                                    <div class="invalid-feedback" id="invalid_tempat"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan</label>
-                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
-                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
+                                                    <label for="menemui_siapa" class="form-label">Menemui Siapa</label>
+                                                    <input type="text" class="form-control" id="menemui_siapa" name="menemui_siapa" placeholder="Masukkan menemui siapa">
+                                                    <div class="invalid-feedback" id="invalid_menemui_siapa"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="dokumen" class="form-label">Dokumen</label>
+                                                    <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
+                                                    <div class="form-text">
+                                                        Maksimal 1 mb, pdf
+                                                    </div>
+                                                    <div class="invalid-feedback" id="invalid_dokumen"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,8 +78,9 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3, 7, 9, 14])) {
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Judul</th>
-                            <th>Tautan</th>
+                            <th>Tempat</th>
+                            <th>Menemui Siapa</th>
+                            <th>Dokumen</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -106,12 +115,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
-                name: 'judul',
-                data: 'judul',
+                name: 'tempat',
+                data: 'tempat',
+            }, {
+                name: 'menemui_siapa',
+                data: 'menemui_siapa',
             }, {
                 name: '',
                 data: null,
-                render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+                render: data => `<a href="${data.dokumen}" target="_blank">Buka</a>`,
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -125,37 +137,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function renderOpsi(data) {
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
-    <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
-        <i class="fa-regular fa-pen-to-square fa-lg"></i>
-    </a>
-    <div class="modal fade" id="edit${data.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit <?= isset($title) ? $title : '' ?></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="form_${data.id}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="judul" class="form-label">Judul</label>
-                            <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
-                            <div class="invalid-feedback" id="invalid_judul"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan</label>
-                            <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
-                            <div class="invalid-feedback" id="invalid_tautan"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary float-end">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
         <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
     </a>`;
@@ -163,19 +144,6 @@ function renderOpsi(data) {
     setTimeout(() => actionEdit(data.id), 0);
 
     return html;
-}
-
-function actionEdit(id) {
-    const form = dom(`#form_${id}`);
-
-    if (! form.dataset.isInitialized) {
-        form.dataset.isInitialized = true;
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const endpoint = `<?= $base_api ?>update/${id}`;
-            submitData(form, endpoint);
-        });
-    }
 }
 <?php endif; ?>
 </script>

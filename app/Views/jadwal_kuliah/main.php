@@ -1,6 +1,6 @@
 <?php
 $is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
+if (array_intersect(userSession('id_roles'), [1, 17, 3, 8])) {
     $is_access = true;
 }
 ?>
@@ -55,9 +55,12 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                                                     <div class="invalid-feedback" id="invalid_judul"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan</label>
-                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
-                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
+                                                    <label for="dokumen" class="form-label">Dokumen</label>
+                                                    <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
+                                                    <div class="form-text">
+                                                        Maksimal 1 mb, pdf
+                                                    </div>
+                                                    <div class="invalid-feedback" id="invalid_dokumen"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -85,7 +88,7 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3])) {
                             <th>No.</th>
                             <th>Program Studi</th>
                             <th>Judul</th>
-                            <th>Tautan</th>
+                            <th>Dokumen</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -129,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
-                render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+                render: data => `<a href="${data.dokumen}" target="_blank">Buka</a>`,
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -141,48 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const program_studi = <?= json_encode($program_studi) ?>;
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
-    <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
-        <i class="fa-regular fa-pen-to-square fa-lg"></i>
-    </a>
-    <div class="modal fade" id="edit${data.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit <?= isset($title) ? $title : '' ?></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="form_${data.id}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="program_studi_${data.id}" class="form-label">Program Studi</label>
-                            <select class="form-select" id="program_studi_${data.id}" name="program_studi">
-                                <option value="">Pilih</option>
-                                ${program_studi.map(item => `<option value="${item.id}" ${item.id == data.id ? 'selected' : ''}>${item.jenjang} - ${item.nama}</option>`).join('')}
-                            </select>
-                            <div class="invalid-feedback" id="invalid_program_studi"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="judul" class="form-label">Judul</label>
-                            <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
-                            <div class="invalid-feedback" id="invalid_judul"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan</label>
-                            <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
-                            <div class="invalid-feedback" id="invalid_tautan"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary float-end">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
         <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
     </a>`;
@@ -190,19 +153,6 @@ function renderOpsi(data) {
     setTimeout(() => actionEdit(data.id), 0);
 
     return html;
-}
-
-function actionEdit(id) {
-    const form = dom(`#form_${id}`);
-
-    if (! form.dataset.isInitialized) {
-        form.dataset.isInitialized = true;
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const endpoint = `<?= $base_api ?>update/${id}`;
-            submitData(form, endpoint);
-        });
-    }
 }
 <?php endif; ?>
 </script>

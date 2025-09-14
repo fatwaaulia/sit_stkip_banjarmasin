@@ -344,13 +344,6 @@ function menuSidebar()
 			'role'	=> [1, 17, 3, 4, 5, 8, 10],
 			'type'	=> 'no-collapse',
 		],
-        [
-			'title'	=> 'Mata Kuliah',
-			'icon'	=> 'fa-solid fa-calendar',
-			'url'	=> base_url(userSession('slug_role')) . '/mata-kuliah',
-			'role'	=> [1, 17, 3, 4, 7, 8, 9],
-			'type'	=> 'no-collapse',
-		],
 		[
 			'title'	=> 'Jadwal Kuliah',
 			'icon'	=> 'fa-solid fa-calendar',
