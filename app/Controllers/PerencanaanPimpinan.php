@@ -86,6 +86,7 @@ class PerencanaanPimpinan extends BaseController
             'kategori' => 'required',
             'judul'  => 'required',
             'dokumen' => 'max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'tautan' => 'permit_empty|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -109,6 +110,7 @@ class PerencanaanPimpinan extends BaseController
         $data = [
             'kategori' => $this->request->getVar('kategori'),
             'judul'  => $this->request->getVar('judul'),
+            'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
             'created_by' => userSession('id'),
         ];
@@ -130,6 +132,7 @@ class PerencanaanPimpinan extends BaseController
             'kategori'  => 'required',
             'judul'  => 'required',
             'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'tautan' => 'permit_empty|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -154,6 +157,7 @@ class PerencanaanPimpinan extends BaseController
         $data = [
             'kategori' => $this->request->getVar('kategori'),
             'judul'  => $this->request->getVar('judul'),
+            'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
             'updated_by' => userSession('id'),
         ];

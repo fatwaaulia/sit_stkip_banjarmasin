@@ -44,6 +44,7 @@ if (array_intersect(userSession('id_roles'), [1, 17])) {
                             <th>No.</th>
                             <th>Judul</th>
                             <th>Responden</th>
+                            <th>Created At</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -82,6 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: data => `<a href="<?= base_url(userSession('slug_role')) ?>/responden?pertanyaan=${data.slug}">Lihat (${data.jumlah_responden})</a>`,
+            }, {
+                name: '',
+                data: 'created_at',
             }, {
                 name: '',
                 data: null,

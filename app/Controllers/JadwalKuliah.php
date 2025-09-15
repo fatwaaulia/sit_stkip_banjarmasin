@@ -82,6 +82,7 @@ class JadwalKuliah extends BaseController
             'program_studi' => 'required',
             'judul'  => 'required',
             'dokumen' => 'uploaded[dokumen]|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'tautan' => 'permit_empty|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -105,6 +106,7 @@ class JadwalKuliah extends BaseController
         $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
         $data = [
             'judul'  => $this->request->getVar('judul'),
+            'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
             'id_program_studi'        => $program_studi['id'],
             'jenjang_program_studi'   => $program_studi['jenjang'],
