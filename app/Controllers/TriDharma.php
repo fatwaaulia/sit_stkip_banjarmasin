@@ -50,19 +50,6 @@ class TriDharma extends BaseController
     {
         $find_data = model($this->model_name)->find($id);
 
-        // if ($find_data['id_anggota_1'] != userSession('id') || !in_array(userSession('id'), [1, 17])) {
-        //    return redirect()->to($this->base_route)->with('message',
-        //     '<script>
-        //     Swal.fire({
-        //         icon: "error",
-        //         title: "Anda tidak memiliki akses edit!",
-        //         showConfirmButton: false,
-        //         timer: 2500,
-        //         timerProgressBar: true,
-        //     });
-        //     </script>');
-        // }
-
         $data = [
             'base_route' => $this->base_route,
             'base_api'   => $this->base_api,

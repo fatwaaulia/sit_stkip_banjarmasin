@@ -1,8 +1,27 @@
 <?php
 $is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 17, 3, 8])) {
+if (array_intersect(userSession('id_roles'), [8])) {
     $is_access = true;
 }
+
+$dosen = model('Users')
+->where('id_role', 4)
+->where('id_program_studi', userSession('id_program_studi'))
+->where('status_akun', 'ENABLE')
+->findAll();
+
+// foreach (model('DosenPendamping')->findAll() as $v) {
+//     $user = model('Users')->find($v['created_by']);
+
+//     $data = [
+//         'id_program_studi'  => $user['id_program_studi'],
+//         'jenjang_program_studi'  => $user['jenjang_program_studi'],
+//         'nama_program_studi'  => $user['nama_program_studi'],
+//         'singkatan_program_studi'  => $user['singkatan_program_studi'],
+//     ];
+
+//     model('DosenPendamping')->update($v['id'], $data);
+// }
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -23,54 +42,9 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3, 8])) {
                         <!--  -->
                     </div>
                     <div class="col-12 col-md-6 col-lg-7 col-xl-8 d-flex justify-content-end align-items-end">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
+                        <a href="<?= $base_route ?>new" class="btn btn-primary">
                             <i class="fa-solid fa-plus fa-sm"></i> New
-                        </button>
-                        <div class="modal fade" id="new" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5">Add <?= isset($title) ? $title : '' ?></h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <form id="form">
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <div class="mb-3">
-                                                    <label for="judul" class="form-label">Judul</label>
-                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
-                                                    <div class="invalid-feedback" id="invalid_judul"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan</label>
-                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
-                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="dokumen" class="form-label">Dokumen</label>
-                                                    <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                                                    <div class="form-text">
-                                                        Maksimal 1 mb, pdf
-                                                    </div>
-                                                    <div class="invalid-feedback" id="invalid_dokumen"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-primary float-end">Tambahkan</button>
-                                        </div>
-                                    </form>
-                                    <script>
-                                    dom('#form').addEventListener('submit', function(event) {
-                                        event.preventDefault();
-                                        const endpoint = '<?= $base_api ?>create';
-                                        submitData(dom('#form'), endpoint);
-                                    });
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <?php endif; ?>
@@ -81,6 +55,10 @@ if (array_intersect(userSession('id_roles'), [1, 17, 3, 8])) {
                             <th>Judul</th>
                             <th>Tautan</th>
                             <th>Dokumen</th>
+                            <!-- <th>Created By</th> -->
+                            <th>Program Studi</th>
+                            <th>Dosen 1</th>
+                            <th>Dosen 2</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -125,6 +103,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: data => data.dokumen ? `<a href="${data.dokumen}" target="_blank">Buka</a>` : '-',
+            }, {
+            //     name: 'created_by',
+            //     data: 'created_by',
+            // }, {
+                name: 'singkatan_program_studi',
+                data: 'singkatan_program_studi',
+            }, {
+                name: 'nama_dosen_1',
+                data: 'nama_dosen_1',
+            }, {
+                name: 'nama_dosen_2',
+                data: 'nama_dosen_2',
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -136,67 +126,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
+    let endpoint_edit_data = `<?= $base_route ?>edit/${data.id}`;
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
-    let html = `
-    <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
+    
+    return `
+    <a href="${endpoint_edit_data}" class="me-2" title="Edit">
         <i class="fa-regular fa-pen-to-square fa-lg"></i>
     </a>
-    <div class="modal fade" id="edit${data.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit <?= isset($title) ? $title : '' ?></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="form_${data.id}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="judul" class="form-label">Judul</label>
-                            <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
-                            <div class="invalid-feedback" id="invalid_judul"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan</label>
-                            <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
-                            <div class="invalid-feedback" id="invalid_tautan"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="dokumen" class="form-label">Dokumen</label>
-                            <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                            <div class="form-text">
-                                Maksimal 1 mb, pdf
-                            </div>
-                            <div class="invalid-feedback" id="invalid_dokumen"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary float-end">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
         <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
     </a>`;
-
-    setTimeout(() => actionEdit(data.id), 0);
-
-    return html;
-}
-
-function actionEdit(id) {
-    const form = dom(`#form_${id}`);
-
-    if (! form.dataset.isInitialized) {
-        form.dataset.isInitialized = true;
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const endpoint = `<?= $base_api ?>update/${id}`;
-            submitData(form, endpoint);
-        });
-    }
 }
 <?php endif; ?>
 </script>

@@ -251,6 +251,11 @@ function menuSidebar()
             'type'	=> 'heading',
         ],
         [
+            'title'	=> 'LPM',
+            'role'	=> [10],
+            'type'	=> 'heading',
+        ],
+        [
             'title'	=> 'PUSTAKAWAN',
             'role'	=> [13],
             'type'	=> 'heading',

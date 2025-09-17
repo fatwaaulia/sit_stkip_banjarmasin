@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 17, 2025 at 01:09 AM
+-- Generation Time: Sep 17, 2025 at 03:20 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.33
 
@@ -66,6 +66,14 @@ CREATE TABLE `dosen_pendamping` (
   `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
   `dokumen` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi` bigint NOT NULL,
+  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_dosen_1` bigint NOT NULL,
+  `nama_dosen_1` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_dosen_2` bigint NOT NULL,
+  `nama_dosen_2` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -76,13 +84,13 @@ CREATE TABLE `dosen_pendamping` (
 -- Dumping data for table `dosen_pendamping`
 --
 
-INSERT INTO `dosen_pendamping` (`id`, `judul`, `tautan`, `dokumen`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(2, 'Dosen Pembimbing Skripsi 2024/2025 Ganjil', 'https://www.researchgate.net/profile/Aceng-Wahid/publication/346397070_Analisis_Metode_Waterfall_Untuk_Pengembangan_Sistem_Informasi/links/5fbfa91092851c933f5d76b6/Analisis-Metode-Waterfall-Untuk-Pengembangan-Sistem-Informasi.pdf', '', '2025-09-01 10:09:28', '2025-09-10 05:44:32', 4, 1),
-(3, 'sk skripsi', '', '1757992605_cc5df18fb93477af738b.pdf', '2025-09-16 10:16:45', '2025-09-16 10:16:45', 28, 0),
-(4, 'Dosen Pembimbing Akademik', '', '', '2025-09-16 11:01:48', '2025-09-16 11:01:48', 32, 0),
-(5, 'DOSEN PEMBIMBING AKADEMIK', '', '1757995317_99e5309fc3ec880c6046.pdf', '2025-09-16 11:01:57', '2025-09-16 11:01:57', 33, 0),
-(6, 'Dosen Pembimbing Skripsi', '', '', '2025-09-16 11:02:09', '2025-09-16 11:02:09', 32, 0),
-(7, 'DOSEN PEMBIMBING AKADEMIK', '', '1757995357_893936256c9f7f2b8a4d.pdf', '2025-09-16 11:02:37', '2025-09-16 11:02:37', 28, 0);
+INSERT INTO `dosen_pendamping` (`id`, `judul`, `tautan`, `dokumen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `id_dosen_1`, `nama_dosen_1`, `id_dosen_2`, `nama_dosen_2`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(3, 'sk skripsi', '', '1757992605_cc5df18fb93477af738b.pdf', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', 0, '', '2025-09-16 10:16:45', '2025-09-17 08:43:23', 28, 0),
+(4, 'Dosen Pembimbing Akademik', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', 0, '', '2025-09-16 11:01:48', '2025-09-17 08:43:23', 32, 0),
+(5, 'DOSEN PEMBIMBING AKADEMIK', '', '1757995317_99e5309fc3ec880c6046.pdf', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', 0, '', '2025-09-16 11:01:57', '2025-09-17 08:43:23', 33, 0),
+(6, 'Dosen Pembimbing Skripsi', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', 0, '', '2025-09-16 11:02:09', '2025-09-17 08:43:23', 32, 0),
+(7, 'DOSEN PEMBIMBING AKADEMIK', '', '1757995357_893936256c9f7f2b8a4d.pdf', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', 0, '', '2025-09-16 11:02:37', '2025-09-17 08:43:23', 28, 0),
+(11, 'wwqqqqqqygyug', 'https://www.linkedin.com/feed/', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 27, 'Novi Suma Setyawati', 40, 'Muhammad Agus Safrian Nur', '2025-09-17 09:27:08', '2025-09-17 09:30:10', 28, 28);
 
 -- --------------------------------------------------------
 
@@ -926,7 +934,8 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (625, 1, 1, 'Superadmin', 'superadmin', '139.162.113.228', 'Success', '2025-09-17 04:55:19', '2025-09-17 04:55:19'),
 (626, 28, 4, 'Maulidha, M.Pd', '1129099003', '::1', 'Success', '2025-09-17 05:56:50', '2025-09-17 05:56:50'),
 (627, 31, 4, 'Rizki Nugerahani Ilise', '1129049101', '::1', 'Success', '2025-09-17 06:37:08', '2025-09-17 06:37:08'),
-(628, 28, 4, 'Maulidha, M.Pd', '1129099003', '::1', 'Success', '2025-09-17 07:21:12', '2025-09-17 07:21:12');
+(628, 28, 4, 'Maulidha, M.Pd', '1129099003', '::1', 'Success', '2025-09-17 07:21:12', '2025-09-17 07:21:12'),
+(629, 27, 4, 'Novi Suma Setyawati', '1111128501', '::1', 'Success', '2025-09-17 09:31:13', '2025-09-17 09:31:13');
 
 -- --------------------------------------------------------
 
@@ -2133,7 +2142,7 @@ ALTER TABLE `app_settings`
 -- AUTO_INCREMENT for table `dosen_pendamping`
 --
 ALTER TABLE `dosen_pendamping`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `jadwal_kegiatan`
@@ -2199,7 +2208,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=629;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=630;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`

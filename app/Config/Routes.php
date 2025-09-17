@@ -280,7 +280,11 @@ if (array_intersect($id_roles, roleAccessByTitle('Kalender Akademik'))) {
 }
 
 if (array_intersect($id_roles, roleAccessByTitle('Dosen Pendamping'))) {
-    $routes->get("$slug_role/dosen-pendamping", 'DosenPendamping::main', ['filter' => 'EnsureLogin']);
+    $routes->group("$slug_role/dosen-pendamping", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'DosenPendamping::main');
+        $routes->get('new', 'DosenPendamping::new');
+        $routes->get('edit/(:segment)', 'DosenPendamping::edit/$1');
+    });
     $routes->group('api/dosen-pendamping', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'DosenPendamping::index');
         $routes->post('create', 'DosenPendamping::create');

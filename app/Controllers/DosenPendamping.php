@@ -33,6 +33,36 @@ class DosenPendamping extends BaseController
         return view('dashboard/header', $view);
     }
 
+    public function new()
+    {
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/new', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function edit($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
+
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => $find_data,
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/edit', $data);
+        return view('dashboard/header', $view);
+    }
+
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
@@ -40,6 +70,14 @@ class DosenPendamping extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
+        if (in_array(userSession('id'), [1, 17])) {
+            // 
+        } elseif (in_array(8, userSession('id_roles')) || userSession('id_role') == 5) {
+            $base_query->where('id_program_studi', userSession('id_program_studi'));
+        } elseif (userSession('id_role') == 4 && !in_array(8, userSession('id_roles'))) {
+            $base_query->where('id_dosen_1', userSession('id'))
+            ->orWhere('id_dosen_2', userSession('id'));
+        }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -60,10 +98,13 @@ class DosenPendamping extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
+        $users = model('Users')->select(['id', 'nama'])->findAll();
+        $nama_user_by_id = array_column($users, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
+            $data[$key]['created_by'] = $nama_user_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -99,7 +140,19 @@ class DosenPendamping extends BaseController
             $filename_dokumen = '';
         }
 
+        $dosen_1 = model('Users')->find($this->request->getVar('dosen_1'));
+        $dosen_2 = model('Users')->find($this->request->getVar('dosen_2'));
         $data = [
+            'id_dosen_1' => $dosen_1['id'] ?? '',
+            'nama_dosen_1' => $dosen_1['nama'] ?? '',
+            'id_dosen_2' => $dosen_2['id'] ?? '',
+            'nama_dosen_2' => $dosen_2['nama'] ?? '',
+
+            'id_program_studi'        => userSession('id_program_studi'),
+            'jenjang_program_studi'   => userSession('jenjang_program_studi'),
+            'nama_program_studi'      => userSession('nama_program_studi'),
+            'singkatan_program_studi' => userSession('singkatan_program_studi'),
+
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
@@ -144,7 +197,14 @@ class DosenPendamping extends BaseController
             $filename_dokumen = $find_data['dokumen'];
         }
 
+        $dosen_1 = model('Users')->find($this->request->getVar('dosen_1'));
+        $dosen_2 = model('Users')->find($this->request->getVar('dosen_2'));
         $data = [
+            'id_dosen_1' => $dosen_1['id'] ?? '',
+            'nama_dosen_1' => $dosen_1['nama'] ?? '',
+            'id_dosen_2' => $dosen_2['id'] ?? '',
+            'nama_dosen_2' => $dosen_2['nama'] ?? '',
+
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,

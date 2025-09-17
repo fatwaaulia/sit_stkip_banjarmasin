@@ -159,7 +159,6 @@ function renderOpsi(data) {
     } else {
         return '';
     }
-
 }
 <?php endif; ?>
 </script>
