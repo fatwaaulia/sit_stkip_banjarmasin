@@ -40,7 +40,7 @@ class JadwalKuliah extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (userSession('id_role') == 5) {
+        if (in_array(userSession('id_role'), [4, 5])) {
             $base_query->where('id_program_studi', userSession('id_program_studi'));
         }
         $limit      = (int)$this->request->getVar('length');

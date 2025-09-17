@@ -71,8 +71,14 @@ $anggota = array_merge($dosen, $mahasiswa);
                         </div>
                         <hr>
                         <div class="mb-3">
-                            <label class="form-label">Anggota 1</label>
-                            <input type="text" class="form-control" value="<?= userSession('nomor_identitas') ?> - <?= userSession('nama') ?> - <?= userSession('nama_program_studi') ?>" disabled>
+                            <label for="anggota_1" class="form-label">Anggota 1</label>
+                            <select class="form-select" id="anggota_1" name="anggota_1">
+                                <option value="">Pilih</option>
+                                <?php foreach ($anggota as $v) : ?>
+                                <option value="<?= $v['id'] ?>"><?= $v['nomor_identitas'] ?> - <?= $v['nama'] ?> - <?= $v['nama_program_studi'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="invalid-feedback" id="invalid_anggota_1"></div>
                         </div>
                         <div class="mb-3">
                             <label for="anggota_2" class="form-label">Anggota 2 <span class="text-secondary">(Opsional)</span></label>
@@ -147,6 +153,7 @@ $(document).ready(function() {
     });
 });
 
+dselect(dom('#anggota_1'), { search: true, clearable: true });
 dselect(dom('#anggota_2'), { search: true, clearable: true });
 dselect(dom('#anggota_3'), { search: true, clearable: true });
 dselect(dom('#anggota_4'), { search: true, clearable: true });

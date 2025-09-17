@@ -9,19 +9,6 @@ $dosen = model('Users')
 ->where('id_program_studi', userSession('id_program_studi'))
 ->where('status_akun', 'ENABLE')
 ->findAll();
-
-// foreach (model('DosenPendamping')->findAll() as $v) {
-//     $user = model('Users')->find($v['created_by']);
-
-//     $data = [
-//         'id_program_studi'  => $user['id_program_studi'],
-//         'jenjang_program_studi'  => $user['jenjang_program_studi'],
-//         'nama_program_studi'  => $user['nama_program_studi'],
-//         'singkatan_program_studi'  => $user['singkatan_program_studi'],
-//     ];
-
-//     model('DosenPendamping')->update($v['id'], $data);
-// }
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>

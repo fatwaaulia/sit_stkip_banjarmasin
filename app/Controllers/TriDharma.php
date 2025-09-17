@@ -70,10 +70,35 @@ class TriDharma extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (in_array(8, userSession('id_roles'))) { // Kaprodi
-            $base_query->where('id_program_studi_anggota_1', userSession('id_program_studi'));
+
+        if (in_array(userSession('id'), [1, 17])) {
+            $get_dosen = $this->request->getVar('dosen');
+            if ($get_dosen) {
+                $base_query->where('id_anggota_1', $get_dosen)
+                ->orWhere('id_anggota_2', $get_dosen)
+                ->orWhere('id_anggota_3', $get_dosen)
+                ->orWhere('id_anggota_4', $get_dosen)
+                ->orWhere('id_anggota_5', $get_dosen);
+            } else {
+                $base_query->where('id_program_studi_anggota_1', userSession('id_program_studi'));
+            }
+        } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
+            $get_dosen = $this->request->getVar('dosen');
+            if ($get_dosen) {
+                $base_query->where('id_anggota_1', $get_dosen)
+                ->orWhere('id_anggota_2', $get_dosen)
+                ->orWhere('id_anggota_3', $get_dosen)
+                ->orWhere('id_anggota_4', $get_dosen)
+                ->orWhere('id_anggota_5', $get_dosen);
+            } else {
+                $base_query->where('id_program_studi_anggota_1', userSession('id_program_studi'));
+            }
         } else if (userSession('id_role') == 4) { // Dosen
-            $base_query->where('created_by', userSession('id'));
+            $base_query->where('id_anggota_1', userSession('id'))
+            ->orWhere('id_anggota_2', userSession('id'))
+            ->orWhere('id_anggota_3', userSession('id'))
+            ->orWhere('id_anggota_4', userSession('id'))
+            ->orWhere('id_anggota_5', userSession('id'));
         }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
@@ -96,14 +121,14 @@ class TriDharma extends BaseController
         $data       = $base_query->findAll($limit, $offset);
 
 
-        $created_by = model('Users')->select(['id', 'nama'])->findAll();
-        $created_by_by_id = array_column($created_by, 'nama', 'id');
+        // $created_by = model('Users')->select(['id', 'nama'])->findAll();
+        // $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['tanggal_publikasi'] = date('d-m-Y', strtotime(toUserTime($v['tanggal_publikasi'])));
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
-            $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
+            // $data[$key]['created_by_nama'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -122,6 +147,7 @@ class TriDharma extends BaseController
             'tautan_gdrive' => 'permit_empty|valid_url_strict',
             'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tanggal_publikasi'  => 'required',
+            'anggota_1'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -134,6 +160,7 @@ class TriDharma extends BaseController
         }
 
         // Lolos Validasi
+        $anggota_1 = model('Users')->find($this->request->getVar('anggota_1'));
         $anggota_2 = model('Users')->find($this->request->getVar('anggota_2'));
         $anggota_3 = model('Users')->find($this->request->getVar('anggota_3'));
         $anggota_4 = model('Users')->find($this->request->getVar('anggota_4'));
@@ -157,12 +184,11 @@ class TriDharma extends BaseController
             'tanggal_publikasi' => toSystemTime($this->request->getVar('tanggal_publikasi')),
             'created_by' => userSession('id'),
 
-            'id_anggota_1'                 => userSession('id'),
-            'nama_anggota_1'               => userSession('nama'),
-            'nomor_identitas_anggota_1'    => userSession('nomor_identitas'),
-            'nama_role_anggota_1'          => userSession('nama_role'),
-            'id_program_studi_anggota_1'   => userSession('id_program_studi'),
-            'nama_program_studi_anggota_1' => userSession('nama_program_studi'),
+            'id_anggota_1'                 => $anggota_1['id'] ?? '',
+            'nama_anggota_1'               => $anggota_1['nama'] ?? '',
+            'nomor_identitas_anggota_1'    => $anggota_1['nomor_identitas'] ?? '',
+            'nama_role_anggota_1'          => $anggota_1['nama_role'] ?? '',
+            'nama_program_studi_anggota_1' => $anggota_1['nama_program_studi'] ?? '',
 
             'id_anggota_2'                 => $anggota_2['id'] ?? '',
             'nama_anggota_2'               => $anggota_2['nama'] ?? '',
@@ -193,10 +219,14 @@ class TriDharma extends BaseController
 
         model($this->model_name)->insert($data);
 
+        $query_kaprodi = '';
+        if (in_array(8, userSession('id_roles'))) {
+            $query_kaprodi = '?dosen=' . userSession('id');
+        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Data berhasil ditambahkan',
-            'route'   => $this->base_route,
+            'route'   => $this->base_route . $query_kaprodi,
         ]);
     }
 
@@ -246,10 +276,14 @@ class TriDharma extends BaseController
 
         model($this->model_name)->update($id, $data);
 
+        $query_kaprodi = '';
+        if (in_array(8, userSession('id_roles'))) {
+            $query_kaprodi = '?dosen=' . userSession('id');
+        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
+            'route'   => $this->base_route . $query_kaprodi,
         ]);
     }
 

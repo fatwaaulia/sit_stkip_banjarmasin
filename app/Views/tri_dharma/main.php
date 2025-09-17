@@ -1,8 +1,10 @@
 <?php
-// $is_access = false;
-// if (array_intersect(userSession('id_roles'), [1, 17, 4])) {
+$is_access = false;
+if (array_intersect(userSession('id_roles'), [4])) {
     $is_access = true;
-// }
+}
+
+$get_dosen = $_GET['dosen'] ?? '';
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -28,18 +30,52 @@
     <div class="row">
         <div class="col-12">
             <div class="card p-3">
-                <?php if ($is_access) : ?>
                 <div class="row g-3 mb-3">
-                    <div class="col-12 col-md-6 col-lg-5 col-xl-4">
-                        <!--  -->
+                    <div class="col-12 col-lg-10 col-xl-11">
+                        <?php if (array_intersect([1, 17, 8])) : ?>
+                        <form action="" method="get">
+                            <div class="row gx-2 gy-3">
+                                <div class="col-6 col-md-5 col-lg-4 col-xl-3">
+
+                                    <label for="dosen" class="form-label">Dosen</label>
+                                    <select id="dosen" name="dosen">
+                                        <option value="">Pilih</option>
+                                        <?php
+                                        $dosen = model('Users')->where('id_role', 4)->findAll();
+                                        foreach ($dosen as $v) :
+                                            $selected = ($v['id'] == $get_dosen) ? 'selected' : '';
+                                        ?>
+                                        <option value="<?= $v['id'] ?>" <?= $selected ?>>
+                                            <?= $v['nomor_identitas'] ?> - <?= $v['nama'] ?> - <?= $v['nama_program_studi'] ?>
+                                        </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-2 col-lg-2 col-xl-2 d-flex justify-content-start align-items-end">
+                                    <button type="submit" class="btn btn-primary me-2 w-100" title="Filter">
+                                        <i class="fa-solid fa-filter"></i>
+                                        <span class="ms-1 d-md-none">Filter</span>
+                                    </button>
+                                    <a href="<?= $base_route ?>" class="btn btn-outline-danger w-100" title="Reset">
+                                        <i class="fa-solid fa-filter-circle-xmark"></i>
+                                        <span class="ms-1 d-md-none">Reset</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                        <script>
+                        dselect(dom('#dosen'), { search: true, });
+                        </script>
+                        <?php endif; ?>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-7 col-xl-8 d-flex justify-content-end align-items-end">
+                    <div class="col-12 col-lg-2 col-xl-1 d-flex justify-content-end align-items-end">
+                        <?php if ($is_access) : ?>
                         <a href="<?= $base_route ?>new" class="btn btn-primary">
                             <i class="fa-solid fa-plus fa-sm"></i> New
                         </a>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <?php endif; ?>
                 <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                     <thead class="bg-primary-subtle">
                         <tr>
@@ -112,23 +148,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: null,
                 render: data => data.dokumen ? `<a href="${data.dokumen}" target="_blank">Buka</a>` : '-',
             }, {
-                name: '',
+                name: 'nama_anggota_1',
                 data: null,
                 render: data => `${data.nomor_identitas_anggota_1} - ${data.nama_anggota_1} <br> ${data.nama_program_studi_anggota_1}`,
             }, {
-                name: '',
+                name: 'nama_anggota_2',
                 data: null,
                 render: data => `${data.nomor_identitas_anggota_2} - ${data.nama_anggota_2} <br> ${data.nama_program_studi_anggota_2}`,
             }, {
-                name: '',
+                name: 'nama_anggota_3',
                 data: null,
                 render: data => `${data.nomor_identitas_anggota_3} - ${data.nama_anggota_3} <br> ${data.nama_program_studi_anggota_3}`,
             }, {
-                name: '',
+                name: 'nama_anggota_4',
                 data: null,
                 render: data => `${data.nomor_identitas_anggota_4} - ${data.nama_anggota_4} <br> ${data.nama_program_studi_anggota_4}`,
             }, {
-                name: '',
+                name: 'nama_anggota_5',
                 data: null,
                 render: data => `${data.nomor_identitas_anggota_5} - ${data.nama_anggota_5} <br> ${data.nama_program_studi_anggota_5}`,
             }, {
@@ -148,7 +184,7 @@ function renderOpsi(data) {
     let endpoint_edit_data = `<?= $base_route ?>edit/${data.id}`;
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     
-    if (data.id_anggota_1 == '<?= userSession('id') ?>') {
+    if (data.created_by == '<?= userSession('id') ?>') {
         return `
         <a href="${endpoint_edit_data}" class="me-2" title="Edit">
             <i class="fa-regular fa-pen-to-square fa-lg"></i>
