@@ -453,7 +453,11 @@ if (array_intersect($id_roles, roleAccessByTitle('Tri Dharma'))) {
 }
 
 if (array_intersect($id_roles, roleAccessByTitle('Pengajaran'))) {
-    $routes->get("$slug_role/pengajaran", 'Pengajaran::main', ['filter' => 'EnsureLogin']);
+    $routes->group("$slug_role/pengajaran", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Pengajaran::main');
+        $routes->get('new', 'Pengajaran::new');
+        $routes->get('edit/(:segment)', 'Pengajaran::edit/$1');
+    });
     $routes->group('api/pengajaran', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Pengajaran::index');
         $routes->post('create', 'Pengajaran::create');

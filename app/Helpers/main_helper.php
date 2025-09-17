@@ -98,24 +98,44 @@ function numberOnly($str) {
 /*--------------------------------------------------------------
   # Time Management
 --------------------------------------------------------------*/
-function toUserTime($datetime) {
+function toUserTime($datetime, $format = '') {
     $user_timezone = session('timezone') ?? config(\Config\App::class)->appTimezone;
     $system_timezone = config(\Config\App::class)->appTimezone;
     $date = new DateTime($datetime, new DateTimeZone($system_timezone));
     $date->setTimezone(new DateTimeZone($user_timezone));
 
-    $input_format = (strlen($datetime) > 10) ? 'Y-m-d H:i:s' : 'Y-m-d';
-    return $date->format($input_format);
+    if (!empty($format)) {
+        $date_format = $format;
+    } elseif (strlen($datetime) == 19) {
+        $date_format = 'Y-m-d H:i:s';
+    } elseif (strlen($datetime) == 10) {
+        $date_format = 'Y-m-d';
+    } elseif (strlen($datetime) == 8) {
+        $date_format = 'H:i:s';
+    } elseif (strlen($datetime) == 5) {
+        $date_format = 'H:i';
+    }
+    return $date->format($date_format);
 }
 
-function toSystemTime($datetime) {
+function toSystemTime($datetime, $format = '') {
     $user_timezone = session('timezone') ?? config(\Config\App::class)->appTimezone;
     $system_timezone = config(\Config\App::class)->appTimezone;
     $date = new DateTime($datetime, new DateTimeZone($user_timezone));
     $date->setTimezone(new DateTimeZone($system_timezone));
 
-    $input_format = (strlen($datetime) > 10) ? 'Y-m-d H:i:s' : 'Y-m-d';
-    return $date->format($input_format);
+    if (!empty($format)) {
+        $date_format = $format;
+    } elseif (strlen($datetime) == 19) {
+        $date_format = 'Y-m-d H:i:s';
+    } elseif (strlen($datetime) == 10) {
+        $date_format = 'Y-m-d';
+    } elseif (strlen($datetime) == 8) {
+        $date_format = 'H:i:s';
+    } elseif (strlen($datetime) == 5) {
+        $date_format = 'H:i';
+    }
+    return $date->format($date_format);
 }
 
 function toIndonesianDate($tanggal, $format)
@@ -208,7 +228,7 @@ function menuSidebar()
 			'title'	=> 'Pengajaran',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url(userSession('slug_role')) . '/pengajaran',
-			'role'	=> [1, 17, 4],
+			'role'	=> [1, 17, 3, 4, 7, 8],
 			'type'	=> 'no-collapse',
 		],
         [

@@ -1,8 +1,8 @@
 <?php
-// $is_access = false;
-// if (array_intersect(userSession('id_roles'), [4])) {
+$is_access = false;
+if (userSession('id_role') == 4) {
     $is_access = true;
-// }
+}
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -14,6 +14,15 @@
             <h4 class="my-4"><?= isset($title) ? $title : '' ?></h4>
         </div>
     </div>
+    <?php if (in_array(8, userSession('id_roles'))) : ?>
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-primary">
+                Sebagai Kaprodi, Anda dapat melihat semua data dosen <span class="fw-500"><?= userSession('nama_program_studi') ?></span>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
     <div class="row">
         <div class="col-12">
             <div class="card p-3">
@@ -23,98 +32,9 @@
                         <!--  -->
                     </div>
                     <div class="col-12 col-md-6 col-lg-7 col-xl-8 d-flex justify-content-end align-items-end">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
+                        <a href="<?= $base_route ?>new" class="btn btn-primary">
                             <i class="fa-solid fa-plus fa-sm"></i> New
-                        </button>
-                        <div class="modal fade" id="new" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5">Add <?= isset($title) ? $title : '' ?></h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <form id="form">
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Program Studi</label>
-                                                    <input type="text" class="form-control" value="<?= userSession('jenjang_program_studi') ?> - <?= userSession('nama_program_studi') ?>" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
-                                                    <input type="text" class="form-control" id="tahun_akademik" name="tahun_akademik" placeholder="Cth. 2024/2025">
-                                                    <div class="invalid-feedback" id="invalid_tahun_akademik"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="kode" class="form-label">Kode</label>
-                                                    <input type="text" class="form-control" id="kode" name="kode" placeholder="Masukkan kode">
-                                                    <div class="invalid-feedback" id="invalid_kode"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="nama_mata_kuliah" class="form-label">Nama Mata Kuliah</label>
-                                                    <input type="text" class="form-control" id="nama_mata_kuliah" name="nama_mata_kuliah" placeholder="Masukkan nama mata kuliah">
-                                                    <div class="invalid-feedback" id="invalid_nama_mata_kuliah"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="sks" class="form-label">SKS</label>
-                                                    <input type="text" class="form-control" id="sks" name="sks" placeholder="Masukkan sks">
-                                                    <div class="invalid-feedback" id="invalid_sks"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="hari" class="form-label">Hari</label>
-                                                    <select class="form-select" id="hari" name="hari">
-                                                        <option value="">Pilih</option>
-                                                        <?php
-                                                        $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                                                        foreach ($hari as $v) :
-                                                        ?>
-                                                        <option value="<?= $v ?>"><?= $v ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                    <div class="invalid-feedback" id="invalid_hari"></div>
-                                                </div>
-                                                <div class="row gx-2">
-                                                    <div class="col-6">
-                                                        <div class="mb-3">
-                                                            <label for="jam_mulai" class="form-label">Jam Mulai</label>
-                                                            <input type="time" class="form-control" id="jam_mulai" name="jam_mulai" placeholder="Masukkan jam mulai">
-                                                            <div class="invalid-feedback" id="invalid_jam_mulai"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="mb-3">
-                                                            <label for="jam_selesai" class="form-label">Jam Selesai</label>
-                                                            <input type="time" class="form-control" id="jam_selesai" name="jam_selesai" placeholder="Masukkan jam selesai">
-                                                            <div class="invalid-feedback" id="invalid_jam_selesai"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="ruangan" class="form-label">Ruangan</label>
-                                                    <input type="text" class="form-control" id="ruangan" name="ruangan" placeholder="Masukkan ruangan">
-                                                    <div class="invalid-feedback" id="invalid_ruangan"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Dosen Pengampu</label>
-                                                    <input type="text" class="form-control" value="<?= userSession('nama') ?>" disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-primary float-end">Tambahkan</button>
-                                        </div>
-                                    </form>
-                                    <script>
-                                    dom('#form').addEventListener('submit', function(event) {
-                                        event.preventDefault();
-                                        const endpoint = '<?= $base_api ?>create';
-                                        submitData(dom('#form'), endpoint);
-                                    });
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <?php endif; ?>
@@ -128,6 +48,8 @@
                             <th>Hari, Jam</th>
                             <th>Ruangan</th>
                             <th>Dosen Pengampu</th>
+                            <th>Tautan</th>
+                            <th>Dokumen</th>
                             <th>Program Studi</th>
                             <th>Tahun Akademik</th>
                             <?php if ($is_access) : ?>
@@ -185,6 +107,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
+                render: data => data.tautan ? `<a href="${data.tautan}" target="_blank">Buka</a>` : '-',
+            }, {
+                name: '',
+                data: null,
+                render: data => data.dokumen ? `<a href="${data.dokumen}" target="_blank">Buka</a>` : '-',
+            }, {
+                name: '',
+                data: null,
                 render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
             }, {
                 name: 'tahun_akademik',
@@ -200,107 +130,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    let endpoint_edit_data = `<?= $base_route ?>edit/${data.id}`;
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
-    let html = `
-    <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
-        <i class="fa-regular fa-pen-to-square fa-lg"></i>
-    </a>
-    <div class="modal fade" id="edit${data.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit <?= isset($title) ? $title : '' ?></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="form_${data.id}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <div class="mb-3">
-                                <label class="form-label">Program Studi</label>
-                                <input type="text" class="form-control" value="<?= userSession('jenjang_program_studi') ?> - <?= userSession('nama_program_studi') ?>" disabled>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Tahun Akademik</label>
-                                <input type="text" class="form-control" value="${data.tahun_akademik}" disabled>
-                            </div>
-                            <div class="mb-3">
-                                <label for="kode" class="form-label">Kode</label>
-                                <input type="text" class="form-control" id="kode" name="kode" value="${data.kode}" placeholder="Masukkan kode">
-                                <div class="invalid-feedback" id="invalid_kode"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nama_mata_kuliah" class="form-label">Nama Mata Kuliah</label>
-                                <input type="text" class="form-control" id="nama_mata_kuliah" name="nama_mata_kuliah" value="${data.nama_mata_kuliah}" placeholder="Masukkan nama mata kuliah">
-                                <div class="invalid-feedback" id="invalid_nama_mata_kuliah"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="sks" class="form-label">SKS</label>
-                                <input type="text" class="form-control" id="sks" name="sks" value="${data.sks}" placeholder="Masukkan sks">
-                                <div class="invalid-feedback" id="invalid_sks"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="hari" class="form-label">Hari</label>
-                                <select class="form-select" id="hari" name="hari">
-                                    <option value="">Pilih</option>
-                                    ${hari.map(item => `<option value="${item}" ${item == data.hari ? 'selected' : ''}>${item}</option>`).join('')}
-                                </select>
-                                <div class="invalid-feedback" id="invalid_hari"></div>
-                            </div>
-                            <div class="row gx-2">
-                                <div class="col-6">
-                                    <div class="mb-3">
-                                        <label for="jam_mulai" class="form-label">Jam Mulai</label>
-                                        <input type="time" class="form-control" id="jam_mulai" name="jam_mulai" value="${data.jam_mulai}" placeholder="Masukkan jam mulai">
-                                        <div class="invalid-feedback" id="invalid_jam_mulai"></div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="mb-3">
-                                        <label for="jam_selesai" class="form-label">Jam Selesai</label>
-                                        <input type="time" class="form-control" id="jam_selesai" name="jam_selesai" value="${data.jam_selesai}" placeholder="Masukkan jam selesai">
-                                        <div class="invalid-feedback" id="invalid_jam_selesai"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="ruangan" class="form-label">Nama Ruangan</label>
-                                <input type="text" class="form-control" id="ruangan" name="ruangan" value="${data.ruangan}" placeholder="Masukkan ruangan">
-                                <div class="invalid-feedback" id="invalid_ruangan"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Dosen Pengampu</label>
-                                <input type="text" class="form-control" value="${data.dosen_pengampu}" disabled>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary float-end">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
-        <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
-    </a>`;
-
-    setTimeout(() => actionEdit(data.id), 0);
-
-    return html;
-}
-
-function actionEdit(id) {
-    const form = dom(`#form_${id}`);
-
-    if (! form.dataset.isInitialized) {
-        form.dataset.isInitialized = true;
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const endpoint = `<?= $base_api ?>update/${id}`;
-            submitData(form, endpoint);
-        });
+    
+    if (data.created_by == '<?= userSession('id') ?>') {
+        return `
+        <a href="${endpoint_edit_data}" class="me-2" title="Edit">
+            <i class="fa-regular fa-pen-to-square fa-lg"></i>
+        </a>
+        <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
+            <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
+        </a>`;
+    } else {
+        return '';
     }
 }
 <?php endif; ?>

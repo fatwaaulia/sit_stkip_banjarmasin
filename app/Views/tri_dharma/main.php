@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-12">
             <div class="alert alert-primary">
-                Sebagai Kaprodi, Anda dapat melihat semua publikasi dosen <span class="fw-500"><?= userSession('nama_program_studi') ?></span>
+                Sebagai Kaprodi, Anda dapat melihat semua data dosen <span class="fw-500"><?= userSession('nama_program_studi') ?></span>
             </div>
         </div>
     </div>

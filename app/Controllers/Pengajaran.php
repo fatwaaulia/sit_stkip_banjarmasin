@@ -33,6 +33,36 @@ class Pengajaran extends BaseController
         return view('dashboard/header', $view);
     }
 
+    public function new()
+    {
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/new', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function edit($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
+
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => $find_data,
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/edit', $data);
+        return view('dashboard/header', $view);
+    }
+
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
@@ -40,8 +70,12 @@ class Pengajaran extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (userSession('id_role') == 4) {
+        if (in_array(userSession('id'), [1, 17])) {
+            // 
+        } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
             $base_query->where('id_program_studi', userSession('id_program_studi'));
+        } elseif (userSession('id_role') == 4 && !in_array(8, userSession('id_roles'))) { // Dosen Tanpa Jabatan
+            $base_query->where('created_by', userSession('id'));
         }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
@@ -63,14 +97,15 @@ class Pengajaran extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
-        $users = model('Users')->select(['id', 'nama'])->whereIn('id_role', [4])->findAll();
-        $nama_user_by_id = array_column($users, 'nama', 'id');
+        // $users = model('Users')->select(['id', 'nama'])->whereIn('id_role', [4])->findAll();
+        // $nama_user_by_id = array_column($users, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['jam_mulai'] = date('H:i', strtotime(toUserTime($v['jam_mulai'])));
             $data[$key]['jam_selesai'] = date('H:i', strtotime(toUserTime($v['jam_selesai'])));
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
-            $data[$key]['created_by'] = $nama_user_by_id[$v['created_by']] ?? '-';
+            $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
+            // $data[$key]['created_by_nama'] = $nama_user_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -91,6 +126,8 @@ class Pengajaran extends BaseController
             'jam_mulai'  => 'required',
             'jam_selesai'  => 'required',
             'ruangan'  => 'required',
+            'tautan' => 'permit_empty|valid_url_strict',
+            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -103,7 +140,18 @@ class Pengajaran extends BaseController
         }
 
         // Lolos Validasi
+        $dokumen = $this->request->getFile('dokumen');
+        if ($dokumen->isValid()) {
+            $filename_dokumen = $dokumen->getRandomName();
+            $dokumen->move($this->upload_path, $filename_dokumen);
+        } else {
+            $filename_dokumen = '';
+        }
+
         $data = [
+            'tautan' => $this->request->getVar('tautan'),
+            'dokumen' => $filename_dokumen,
+
             'kode'  => $this->request->getVar('kode'),
             'nama_mata_kuliah'  => $this->request->getVar('nama_mata_kuliah'),
             'sks'  => $this->request->getVar('sks'),
@@ -141,6 +189,8 @@ class Pengajaran extends BaseController
             'jam_mulai'  => 'required',
             'jam_selesai'  => 'required',
             'ruangan'  => 'required',
+            'tautan' => 'permit_empty|valid_url_strict',
+            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -153,7 +203,19 @@ class Pengajaran extends BaseController
         }
 
         // Lolos Validasi
+        $dokumen = $this->request->getFile('dokumen');
+        if ($dokumen && $dokumen->isValid()) {
+            if (is_file($this->upload_path . $find_data['dokumen'])) unlink($this->upload_path . $find_data['dokumen']);
+            $filename_dokumen = $dokumen->getRandomName();
+            $dokumen->move($this->upload_path, $filename_dokumen);
+        } else {
+            $filename_dokumen = $find_data['dokumen'];
+        }
+
         $data = [
+            'tautan' => $this->request->getVar('tautan'),
+            'dokumen' => $filename_dokumen,
+
             'kode'  => $this->request->getVar('kode'),
             'nama_mata_kuliah'  => $this->request->getVar('nama_mata_kuliah'),
             'sks'  => $this->request->getVar('sks'),

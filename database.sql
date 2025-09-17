@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 17, 2025 at 03:20 AM
+-- Generation Time: Sep 17, 2025 at 06:59 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.33
 
@@ -935,7 +935,10 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (626, 28, 4, 'Maulidha, M.Pd', '1129099003', '::1', 'Success', '2025-09-17 05:56:50', '2025-09-17 05:56:50'),
 (627, 31, 4, 'Rizki Nugerahani Ilise', '1129049101', '::1', 'Success', '2025-09-17 06:37:08', '2025-09-17 06:37:08'),
 (628, 28, 4, 'Maulidha, M.Pd', '1129099003', '::1', 'Success', '2025-09-17 07:21:12', '2025-09-17 07:21:12'),
-(629, 27, 4, 'Novi Suma Setyawati', '1111128501', '::1', 'Success', '2025-09-17 09:31:13', '2025-09-17 09:31:13');
+(629, 27, 4, 'Novi Suma Setyawati', '1111128501', '::1', 'Success', '2025-09-17 09:31:13', '2025-09-17 09:31:13'),
+(630, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-17 11:04:38', '2025-09-17 11:04:38'),
+(631, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-17 13:04:32', '2025-09-17 13:04:32'),
+(632, 29, 4, 'Zulparis', '1111078702', '::1', 'Success', '2025-09-17 13:28:48', '2025-09-17 13:28:48');
 
 -- --------------------------------------------------------
 
@@ -1090,6 +1093,8 @@ CREATE TABLE `pengajaran` (
   `jam_mulai` time NOT NULL,
   `jam_selesai` time NOT NULL,
   `ruangan` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `id_program_studi` bigint NOT NULL,
   `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
   `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
@@ -1106,9 +1111,11 @@ CREATE TABLE `pengajaran` (
 -- Dumping data for table `pengajaran`
 --
 
-INSERT INTO `pengajaran` (`id`, `kode`, `nama_mata_kuliah`, `sks`, `hari`, `jam_mulai`, `jam_selesai`, `ruangan`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `tahun_akademik`, `dosen_pengampu`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(6, 'KI24104', 'Introduction to Writing', '4-2', 'Senin', '08:30:00', '10:10:00', 'PB1', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', '2024/2025', 'Armin Fani', '2025-09-14 16:43:05', '2025-09-14 16:53:44', 32, 32),
-(8, 'KD24101', 'BAHASA INDONESIA', '2', 'Selasa', '08:30:00', '10:00:00', 'A', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-2026', 'Novi Nurdian', '2025-09-16 10:31:54', '2025-09-16 10:31:54', 33, 0);
+INSERT INTO `pengajaran` (`id`, `kode`, `nama_mata_kuliah`, `sks`, `hari`, `jam_mulai`, `jam_selesai`, `ruangan`, `tautan`, `dokumen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `tahun_akademik`, `dosen_pengampu`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(6, 'KI24104', 'Introduction to Writing', '4-2', 'Senin', '08:30:00', '10:10:00', 'PB1', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', '2024/2025', 'Armin Fani', '2025-09-14 16:43:05', '2025-09-14 16:53:44', 32, 32),
+(8, 'KD24101', 'BAHASA INDONESIA', '2', 'Selasa', '08:00:00', '10:10:00', 'A', 'https://drive.google.com/drive/folders/1tP5AQUEyD488eFOWr_3_dz8fVm1iuZgD', '1758088041_5982fb7576651262a648.pdf', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-2026', 'Novi Nurdian', '2025-09-16 10:31:54', '2025-09-17 13:11:08', 33, 33),
+(9, 'JH9JJ9', 'qwkjejqie', '3', 'Rabu', '07:00:00', '09:10:00', 'TH2', 'https://www.linkedin.com/feed/', '1758090278_b2780da3871d1d152fac.pdf', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025/2026', 'Novi Nurdian', '2025-09-17 13:24:38', '2025-09-17 13:24:38', 33, 0),
+(10, '89ihde', 'ajknsdknad', '1', 'Jumat', '07:00:00', '08:59:00', 'A', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025/2026', 'Zulparis', '2025-09-17 13:29:42', '2025-09-17 13:29:42', 29, 0);
 
 -- --------------------------------------------------------
 
@@ -2208,7 +2215,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=630;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=633;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`
@@ -2238,7 +2245,7 @@ ALTER TABLE `pencatatan_surat`
 -- AUTO_INCREMENT for table `pengajaran`
 --
 ALTER TABLE `pengajaran`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pengembangan_kompetensi`
