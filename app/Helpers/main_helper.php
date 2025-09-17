@@ -103,7 +103,9 @@ function toUserTime($datetime) {
     $system_timezone = config(\Config\App::class)->appTimezone;
     $date = new DateTime($datetime, new DateTimeZone($system_timezone));
     $date->setTimezone(new DateTimeZone($user_timezone));
-    return $date->format('Y-m-d H:i:s');
+
+    $input_format = (strlen($datetime) > 10) ? 'Y-m-d H:i:s' : 'Y-m-d';
+    return $date->format($input_format);
 }
 
 function toSystemTime($datetime) {
@@ -111,7 +113,9 @@ function toSystemTime($datetime) {
     $system_timezone = config(\Config\App::class)->appTimezone;
     $date = new DateTime($datetime, new DateTimeZone($user_timezone));
     $date->setTimezone(new DateTimeZone($system_timezone));
-    return $date->format('Y-m-d H:i:s');
+
+    $input_format = (strlen($datetime) > 10) ? 'Y-m-d H:i:s' : 'Y-m-d';
+    return $date->format($input_format);
 }
 
 function toIndonesianDate($tanggal, $format)
@@ -188,6 +192,81 @@ function menuSidebar()
 			'role'	=> [1, 17],
 			'type'	=> 'no-collapse',
 		],
+                [
+            'title'	=> 'Dosen / Tendik',
+            'role'	=> [1, 17, 4],
+            'type'	=> 'heading',
+        ],
+        [
+			'title'	=> 'Tri Dharma',
+			'icon'	=> 'fa-solid fa-flask',
+			'url'	=> base_url(userSession('slug_role')) . '/tri-dharma',
+			'role'	=> [1, 17, 3, 4, 7, 8, 11],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Pengajaran',
+			'icon'	=> 'fa-solid fa-calendar',
+			'url'	=> base_url(userSession('slug_role')) . '/pengajaran',
+			'role'	=> [1, 17, 4],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Pengembangan Kompetensi',
+			'icon'	=> 'fa-solid fa-flask',
+			'url'	=> base_url(userSession('slug_role')) . '/pengembangan-kompetensi',
+			'role'	=> [1, 17, 4, 7, 3, 9, 10, 11, 12],
+			'type'	=> 'no-collapse',
+		],
+
+        // HEADING
+        [
+			'title'	=> 'KEUANGAN',
+			'role'	=> [2],
+			'type'	=> 'heading',
+		],
+        [
+            'title'	=> 'KETUA',
+            'role'	=> [7],
+            'type'	=> 'heading',
+        ],
+        [
+			'title'	=> 'WAKA AKADEMIK',
+			'role'	=> [3],
+			'type'	=> 'heading',
+		],
+        [
+			'title'	=> 'WAKA KEMAHASISWAAN DAN KERJASAMA',
+			'role'	=> [9],
+			'type'	=> 'heading',
+		],
+        [
+			'title'	=> 'STAF AKADEMIK',
+			'role'	=> [6],
+			'type'	=> 'heading',
+		],
+        [
+            'title'	=> 'KAPRODI',
+            'role'	=> [8],
+            'type'	=> 'heading',
+        ],
+        [
+            'title'	=> 'PUSTAKAWAN',
+            'role'	=> [13],
+            'type'	=> 'heading',
+        ],
+        [
+            'title'	=> 'UPT PLP',
+            'role'	=> [15],
+            'type'	=> 'heading',
+        ],
+        [
+            'title'	=> 'BIRO ALUMNI',
+            'role'	=> [14],
+            'type'	=> 'heading',
+        ],
+        // END - HEADING
+
         [
 			'title'	=> 'KEUANGAN',
 			'role'	=> [1, 17],
@@ -250,7 +329,7 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'PIMPINAN',
+			'title'	=> 'KETUA',
 			'role'	=> [1, 17],
 			'type'	=> 'heading',
 		],
@@ -269,7 +348,7 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'WAKIL KETUA BIDANG AKADEMIK',
+			'title'	=> 'WAKA AKADEMIK / KEMAHASISWAAN DAN KERJASAMA',
 			'role'	=> [1, 17],
 			'type'	=> 'heading',
 		],
@@ -327,11 +406,6 @@ function menuSidebar()
 			'role'	=> [1, 17],
 			'type'	=> 'no-collapse',
 		],
-        // [
-        //     'title'	=> 'WAKIL KETUA BIDANG KEMAHASISWAAN DAN KERJASAMA',
-        //     'role'	=> [1, 17],
-        //     'type'	=> 'heading',
-        // ],
         [
             'title'	=> 'KAPRODI',
             'role'	=> [1, 17],
@@ -387,32 +461,6 @@ function menuSidebar()
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url() . userSession('slug_role') . '/surat-tugas-penelitian',
 			'role'	=> [1, 17, 11],
-			'type'	=> 'no-collapse',
-		],
-        [
-            'title'	=> 'Dosen',
-            'role'	=> [1, 17],
-            'type'	=> 'heading',
-        ],
-        [
-			'title'	=> 'Tri Dharma',
-			'icon'	=> 'fa-solid fa-flask',
-			'url'	=> base_url(userSession('slug_role')) . '/tri-dharma',
-			'role'	=> [1, 17, 4, 7, 3, 9, 10, 11, 12],
-			'type'	=> 'no-collapse',
-		],
-        [
-			'title'	=> 'Pengajaran',
-			'icon'	=> 'fa-solid fa-calendar',
-			'url'	=> base_url(userSession('slug_role')) . '/pengajaran',
-			'role'	=> [1, 17, 4],
-			'type'	=> 'no-collapse',
-		],
-        [
-			'title'	=> 'Pengembangan Kompetensi',
-			'icon'	=> 'fa-solid fa-flask',
-			'url'	=> base_url(userSession('slug_role')) . '/pengembangan-kompetensi',
-			'role'	=> [1, 17, 4, 7, 3, 9, 10, 11, 12],
 			'type'	=> 'no-collapse',
 		],
         [

@@ -57,7 +57,7 @@ table tr td { padding: 6px; }
                     <hr>
                     <table>
                         <tr>
-                            <td>Jabatan Lainnya</td>
+                            <td>Jabatan Aktif</td>
                             <td>:
                                 <?php
                                 $multi_role = json_decode(userSession('multi_role'), true);

@@ -62,7 +62,7 @@
 						<div class="my-3">
 							<h5><?= $nama ?></h5>
 							<div><?= userSession('nama_role') ?></div>
-                            <p>
+                            <p class="mb-0">
                             <?php
                             $multi_role = json_decode(userSession('multi_role'), true);
                             if (!empty($multi_role)) {
@@ -73,6 +73,7 @@
                             }
                             ?>
                             </p>
+                            <div><?= userSession('nama_program_studi') ?></div>
 						</div>
 					</li>
 					<li>

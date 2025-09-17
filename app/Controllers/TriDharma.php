@@ -33,6 +33,49 @@ class TriDharma extends BaseController
         return view('dashboard/header', $view);
     }
 
+    public function new()
+    {
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/new', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function edit($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
+
+        // if ($find_data['id_anggota_1'] != userSession('id') || !in_array(userSession('id'), [1, 17])) {
+        //    return redirect()->to($this->base_route)->with('message',
+        //     '<script>
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "Anda tidak memiliki akses edit!",
+        //         showConfirmButton: false,
+        //         timer: 2500,
+        //         timerProgressBar: true,
+        //     });
+        //     </script>');
+        // }
+
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => $find_data,
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/edit', $data);
+        return view('dashboard/header', $view);
+    }
+
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
@@ -40,6 +83,11 @@ class TriDharma extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
+        if (in_array(8, userSession('id_roles'))) { // Kaprodi
+            $base_query->where('id_program_studi_anggota_1', userSession('id_program_studi'));
+        } else if (userSession('id_role') == 4) { // Dosen
+            $base_query->where('created_by', userSession('id'));
+        }
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -65,6 +113,7 @@ class TriDharma extends BaseController
         $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['tanggal_publikasi'] = date('d-m-Y', strtotime(toUserTime($v['tanggal_publikasi'])));
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
             $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
@@ -82,7 +131,9 @@ class TriDharma extends BaseController
         $rules = [
             'kategori' => 'required',
             'judul'  => 'required',
-            'tautan' => 'required|valid_url_strict',
+            'tautan' => 'permit_empty|valid_url_strict',
+            'tautan_gdrive' => 'permit_empty|valid_url_strict',
+            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tanggal_publikasi'  => 'required',
         ];
         if (! $this->validate($rules)) {
@@ -101,7 +152,18 @@ class TriDharma extends BaseController
         $anggota_4 = model('Users')->find($this->request->getVar('anggota_4'));
         $anggota_5 = model('Users')->find($this->request->getVar('anggota_5'));
 
+        $dokumen = $this->request->getFile('dokumen');
+        if ($dokumen->isValid()) {
+            $filename_dokumen = $dokumen->getRandomName();
+            $dokumen->move($this->upload_path, $filename_dokumen);
+        } else {
+            $filename_dokumen = '';
+        }
+
         $data = [
+            'tautan_gdrive' => $this->request->getVar('tautan_gdrive'),
+            'dokumen' => $filename_dokumen,
+
             'kategori' => $this->request->getVar('kategori'),
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
@@ -112,10 +174,11 @@ class TriDharma extends BaseController
             'nama_anggota_1'               => userSession('nama'),
             'nomor_identitas_anggota_1'    => userSession('nomor_identitas'),
             'nama_role_anggota_1'          => userSession('nama_role'),
+            'id_program_studi_anggota_1'   => userSession('id_program_studi'),
             'nama_program_studi_anggota_1' => userSession('nama_program_studi'),
 
             'id_anggota_2'                 => $anggota_2['id'] ?? '',
-            'nama_anggota_2'               => $anggota_2['nama'],
+            'nama_anggota_2'               => $anggota_2['nama'] ?? '',
             'nomor_identitas_anggota_2'    => $anggota_2['nomor_identitas'] ?? '',
             'nama_role_anggota_2'          => $anggota_2['nama_role'] ?? '',
             'nama_program_studi_anggota_2' => $anggota_2['nama_program_studi'] ?? '',
@@ -137,6 +200,8 @@ class TriDharma extends BaseController
             'nomor_identitas_anggota_5'    => $anggota_5['nomor_identitas'] ?? '',
             'nama_role_anggota_5'          => $anggota_5['nama_role'] ?? '',
             'nama_program_studi_anggota_5' => $anggota_5['nama_program_studi'] ?? '',
+
+            'anggota_beda_kampus' => $this->request->getVar('anggota_beda_kampus'),
         ];
 
         model($this->model_name)->insert($data);
@@ -148,17 +213,21 @@ class TriDharma extends BaseController
         ]);
     }
 
+
     public function update($id = null)
     {
         $find_data = model($this->model_name)->find($id);
 
         $rules = [
-            'kategori'  => 'required',
             'judul'  => 'required',
             'tautan' => 'required|valid_url_strict',
+            
+            'tautan' => 'permit_empty|valid_url_strict',
+            'tautan_gdrive' => 'permit_empty|valid_url_strict',
+            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tanggal_publikasi'  => 'required',
         ];
-        if (! $this->validate($rules)) {
+        if (!$this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
 
             return $this->response->setStatusCode(400)->setJSON([
@@ -169,8 +238,19 @@ class TriDharma extends BaseController
         }
 
         // Lolos Validasi
+        $dokumen = $this->request->getFile('dokumen');
+        if ($dokumen && $dokumen->isValid()) {
+            if (is_file($this->upload_path . $find_data['dokumen'])) unlink($this->upload_path . $find_data['dokumen']);
+            $filename_dokumen = $dokumen->getRandomName();
+            $dokumen->move($this->upload_path, $filename_dokumen);
+        } else {
+            $filename_dokumen = $find_data['dokumen'];
+        }
+
         $data = [
-            'kategori' => $this->request->getVar('kategori'),
+            'tautan_gdrive' => $this->request->getVar('tautan_gdrive'),
+            'dokumen' => $filename_dokumen,
+
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'tanggal_publikasi' => toSystemTime($this->request->getVar('tanggal_publikasi')),

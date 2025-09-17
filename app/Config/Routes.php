@@ -435,7 +435,11 @@ if (array_intersect($id_roles, roleAccessByTitle('Surat Tugas Penelitian'))) {
 }
 
 if (array_intersect($id_roles, roleAccessByTitle('Tri Dharma'))) {
-    $routes->get("$slug_role/tri-dharma", 'TriDharma::main', ['filter' => 'EnsureLogin']);
+    $routes->group("$slug_role/tri-dharma", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'TriDharma::main');
+        $routes->get('new', 'TriDharma::new');
+        $routes->get('edit/(:segment)', 'TriDharma::edit/$1');
+    });
     $routes->group('api/tri-dharma', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'TriDharma::index');
         $routes->post('create', 'TriDharma::create');
