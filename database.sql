@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 17, 2025 at 06:59 AM
+-- Generation Time: Sep 18, 2025 at 12:17 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.33
 
@@ -938,7 +938,12 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (629, 27, 4, 'Novi Suma Setyawati', '1111128501', '::1', 'Success', '2025-09-17 09:31:13', '2025-09-17 09:31:13'),
 (630, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-17 11:04:38', '2025-09-17 11:04:38'),
 (631, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-17 13:04:32', '2025-09-17 13:04:32'),
-(632, 29, 4, 'Zulparis', '1111078702', '::1', 'Success', '2025-09-17 13:28:48', '2025-09-17 13:28:48');
+(632, 29, 4, 'Zulparis', '1111078702', '::1', 'Success', '2025-09-17 13:28:48', '2025-09-17 13:28:48'),
+(633, 34, 4, 'Vebrianti Umar, M.Pd', '1108029104', '::1', 'Success', '2025-09-17 16:03:00', '2025-09-17 16:03:00'),
+(634, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-18 05:06:27', '2025-09-18 05:06:27'),
+(635, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-18 05:07:27', '2025-09-18 05:07:27'),
+(636, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-18 06:20:12', '2025-09-18 06:20:12'),
+(637, 29, 4, 'Zulparis', '1111078702', '::1', 'Success', '2025-09-18 06:22:12', '2025-09-18 06:22:12');
 
 -- --------------------------------------------------------
 
@@ -1064,7 +1069,7 @@ CREATE TABLE `pencatatan_surat` (
   `nomor_surat` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `perihal` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
-  `pencatatan_surat` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -1075,7 +1080,7 @@ CREATE TABLE `pencatatan_surat` (
 -- Dumping data for table `pencatatan_surat`
 --
 
-INSERT INTO `pencatatan_surat` (`id`, `jenis`, `nomor_surat`, `perihal`, `tautan`, `pencatatan_surat`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+INSERT INTO `pencatatan_surat` (`id`, `jenis`, `nomor_surat`, `perihal`, `tautan`, `dokumen`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (1, 'MASUK', 'SK/MP2025/00123', 'Surat Kunjungan Presiden', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', '2025-09-04 10:34:03', '2025-09-04 10:34:03', 33, 0);
 
 -- --------------------------------------------------------
@@ -1115,7 +1120,8 @@ INSERT INTO `pengajaran` (`id`, `kode`, `nama_mata_kuliah`, `sks`, `hari`, `jam_
 (6, 'KI24104', 'Introduction to Writing', '4-2', 'Senin', '08:30:00', '10:10:00', 'PB1', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', '2024/2025', 'Armin Fani', '2025-09-14 16:43:05', '2025-09-14 16:53:44', 32, 32),
 (8, 'KD24101', 'BAHASA INDONESIA', '2', 'Selasa', '08:00:00', '10:10:00', 'A', 'https://drive.google.com/drive/folders/1tP5AQUEyD488eFOWr_3_dz8fVm1iuZgD', '1758088041_5982fb7576651262a648.pdf', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-2026', 'Novi Nurdian', '2025-09-16 10:31:54', '2025-09-17 13:11:08', 33, 33),
 (9, 'JH9JJ9', 'qwkjejqie', '3', 'Rabu', '07:00:00', '09:10:00', 'TH2', 'https://www.linkedin.com/feed/', '1758090278_b2780da3871d1d152fac.pdf', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025/2026', 'Novi Nurdian', '2025-09-17 13:24:38', '2025-09-17 13:24:38', 33, 0),
-(10, '89ihde', 'ajknsdknad', '1', 'Jumat', '07:00:00', '08:59:00', 'A', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025/2026', 'Zulparis', '2025-09-17 13:29:42', '2025-09-17 13:29:42', 29, 0);
+(10, '89ihde', 'ajknsdknad', '1', 'Jumat', '07:00:00', '08:59:00', 'A', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025/2026', 'Zulparis', '2025-09-17 13:29:42', '2025-09-17 13:29:42', 29, 0),
+(11, 'yd98yq8', 'ashdiad', '1', 'Jumat', '11:30:00', '12:30:00', 'c2', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025/2026', 'Zulparis', '2025-09-18 06:42:56', '2025-09-18 06:42:56', 29, 0);
 
 -- --------------------------------------------------------
 
@@ -1128,6 +1134,12 @@ CREATE TABLE `pengembangan_kompetensi` (
   `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
   `dokumen` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_dosen` bigint NOT NULL,
+  `nama_dosen` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi` bigint NOT NULL,
+  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -1138,8 +1150,8 @@ CREATE TABLE `pengembangan_kompetensi` (
 -- Dumping data for table `pengembangan_kompetensi`
 --
 
-INSERT INTO `pengembangan_kompetensi` (`id`, `judul`, `tautan`, `dokumen`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'iawiai', 'https://www.researchgate.net/profile/Aceng-Wahid/publication/346397070_Analisis_Metode_Waterfall_Untuk_Pengembangan_Sistem_Informasi/links/5fbfa91092851c933f5d76b6/Analisis-Metode-Waterfall-Untuk-Pengembangan-Sistem-Informasi.pdf', '', '2025-09-03 14:17:57', '2025-09-03 14:17:57', 1, 0);
+INSERT INTO `pengembangan_kompetensi` (`id`, `judul`, `tautan`, `dokumen`, `id_dosen`, `nama_dosen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(3, 'Bos Putin Mampir ke Poliwangi  Bersama Jajaran Kabinet Stalinium', 'https://www.youtube.com/', '', 29, 'Zulparis', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-09-18 07:11:45', '2025-09-18 07:11:45', 29, 0);
 
 -- --------------------------------------------------------
 
@@ -1748,21 +1760,25 @@ CREATE TABLE `tri_dharma` (
   `nama_anggota_2` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `nomor_identitas_anggota_2` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
   `nama_role_anggota_2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_program_studi_anggota_2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi_anggota_2` bigint NOT NULL,
+  `id_program_studi_anggota_5` bigint NOT NULL,
   `id_anggota_3` bigint NOT NULL,
-  `nama_anggota_3` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `nomor_identitas_anggota_3` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_role_anggota_3` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_program_studi_anggota_3` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_anggota_3` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_anggota_3` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_role_anggota_3` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi_anggota_3` bigint NOT NULL,
+  `nama_program_studi_anggota_3` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_anggota_4` bigint NOT NULL,
-  `nama_anggota_4` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `nomor_identitas_anggota_4` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_role_anggota_4` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_program_studi_anggota_4` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_anggota_4` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_anggota_4` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_role_anggota_4` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi_anggota_4` bigint NOT NULL,
+  `nama_program_studi_anggota_4` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_anggota_5` bigint NOT NULL,
-  `nama_anggota_5` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `nomor_identitas_anggota_5` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_role_anggota_5` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_anggota_5` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_anggota_5` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_role_anggota_5` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi_anggota_2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `nama_program_studi_anggota_5` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `anggota_beda_kampus` text COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
@@ -1775,13 +1791,17 @@ CREATE TABLE `tri_dharma` (
 -- Dumping data for table `tri_dharma`
 --
 
-INSERT INTO `tri_dharma` (`id`, `kategori`, `judul`, `tautan`, `tautan_gdrive`, `dokumen`, `tanggal_publikasi`, `id_anggota_1`, `nama_anggota_1`, `nomor_identitas_anggota_1`, `nama_role_anggota_1`, `id_program_studi_anggota_1`, `nama_program_studi_anggota_1`, `id_anggota_2`, `nama_anggota_2`, `nomor_identitas_anggota_2`, `nama_role_anggota_2`, `nama_program_studi_anggota_2`, `id_anggota_3`, `nama_anggota_3`, `nomor_identitas_anggota_3`, `nama_role_anggota_3`, `nama_program_studi_anggota_3`, `id_anggota_4`, `nama_anggota_4`, `nomor_identitas_anggota_4`, `nama_role_anggota_4`, `nama_program_studi_anggota_4`, `id_anggota_5`, `nama_anggota_5`, `nomor_identitas_anggota_5`, `nama_role_anggota_5`, `nama_program_studi_anggota_5`, `anggota_beda_kampus`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(5, 'ARTIKEL PUBLIKASI', 'Parenting Class: Studi Naratif Pelibatan Orangtua Pada Pendidikan Anak Usia Dini Di Kota Banjarmasin', 'https://ejournal.ummuba.ac.id/index.php/mp/article/view/2937', '', '', '2025-06-29', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 40, 'Muhammad Agus Safrian Nur', '0158768669130093', 'Dosen', 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', '', '2025-09-15 08:09:08', '2025-09-15 08:09:08', 31, 0),
-(6, 'ARTIKEL PUBLIKASI', 'Digital Parenting: Pola Asuh Orang Tua Mendidik Anak Usia Dini di Era Digital', 'https://journal.iaisambas.ac.id/index.php/prymerly/article/view/3120', '', '', '2024-08-21', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 27, 'Novi Suma Setyawati', '1111128501', 'Dosen', 'Pendidikan Guru Pendidikan Anak Usia Dini', 33, 'Novi Nurdian', '1109119201', 'Dosen', 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', '', 0, '', '', '', '', '', '2025-09-15 08:10:41', '2025-09-15 08:10:41', 31, 0),
-(7, 'ARTIKEL PUBLIKASI', 'Strategi Guru Mengelola Kelas untuk Meningkatkan Disiplin dan Motivasi Belajar Siswa di Sekolah Dasar', 'https://journal.umg.ac.id/index.php/didaktika/article/view/9470', '', '', '2025-01-31', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 25, 'Muhammad Supian Sauri', '4333774675130243', 'Dosen', 'Pendidikan Guru Sekolah Dasar', 32, 'arminfani@stkipismbjm.ac.id', '1112098702', 'Dosen', 'Pendidikan Bahasa Inggris', 0, '', '', '', '', 0, '', '', '', '', '', '2025-09-15 13:11:00', '2025-09-15 13:21:08', 33, 33),
-(8, 'ARTIKEL PUBLIKASI', 'Pendidikan Muatan Lokal Sebagai Penanaman Karakter Cinta Tanah Air', 'https://ejournal.undiksha.ac.id/index.php/JJPGSD/article/view/36414', 'https://ejournal.undiksha.ac.id/index.php/wkwkw', '1758070376_afa50e3d29c8a903bf28.pdf', '2021-06-30', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', '', '2025-09-15 13:13:40', '2025-09-17 07:52:56', 33, 1),
-(10, 'ARTIKEL PUBLIKASI', 'Implementasi Keterampilan Dasar Mengajar Mahasiswa PGSD dalam Praktik Manajemen Kelas', 'https://www.putrapublisher.org/ojs/index.php/jspaud/article/view/986', '', '', '2025-07-20', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 27, 'Novi Suma Setyawati', '1111128501', 'Dosen', 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', '', '2025-09-15 13:22:47', '2025-09-17 07:04:18', 33, 1),
-(11, 'PENELITIAN', 'jaosdoisad', 'https://wkkwk.com/asjdiq', '', '', '2025-08-30', 28, 'Maulidha, M.Pd', '1129099003', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', '<p>oijoisd ojj osdjfoisf j<br>sdfsdfs<br>Sdfsfsdf</p>', '2025-09-17 07:23:35', '2025-09-17 07:23:35', 28, 0);
+INSERT INTO `tri_dharma` (`id`, `kategori`, `judul`, `tautan`, `tautan_gdrive`, `dokumen`, `tanggal_publikasi`, `id_anggota_1`, `nama_anggota_1`, `nomor_identitas_anggota_1`, `nama_role_anggota_1`, `id_program_studi_anggota_1`, `nama_program_studi_anggota_1`, `id_anggota_2`, `nama_anggota_2`, `nomor_identitas_anggota_2`, `nama_role_anggota_2`, `id_program_studi_anggota_2`, `id_program_studi_anggota_5`, `id_anggota_3`, `nama_anggota_3`, `nomor_identitas_anggota_3`, `nama_role_anggota_3`, `id_program_studi_anggota_3`, `nama_program_studi_anggota_3`, `id_anggota_4`, `nama_anggota_4`, `nomor_identitas_anggota_4`, `nama_role_anggota_4`, `id_program_studi_anggota_4`, `nama_program_studi_anggota_4`, `id_anggota_5`, `nama_anggota_5`, `nomor_identitas_anggota_5`, `nama_role_anggota_5`, `nama_program_studi_anggota_2`, `nama_program_studi_anggota_5`, `anggota_beda_kampus`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(5, 'ARTIKEL PUBLIKASI', 'Parenting Class: Studi Naratif Pelibatan Orangtua Pada Pendidikan Anak Usia Dini Di Kota Banjarmasin', 'https://ejournal.ummuba.ac.id/index.php/mp/article/view/2937', '', '', '2025-06-29', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 40, 'Muhammad Agus Safrian Nur', '0158768669130093', 'Dosen', 3, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-15 08:09:08', '2025-09-18 05:30:35', 31, 0),
+(6, 'ARTIKEL PUBLIKASI', 'Digital Parenting: Pola Asuh Orang Tua Mendidik Anak Usia Dini di Era Digital', 'https://journal.iaisambas.ac.id/index.php/prymerly/article/view/3120', '', '', '2024-08-21', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 27, 'Novi Suma Setyawati', '1111128501', 'Dosen', 3, 0, 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-15 08:10:41', '2025-09-18 05:30:35', 31, 0),
+(7, 'ARTIKEL PUBLIKASI', 'Strategi Guru Mengelola Kelas untuk Meningkatkan Disiplin dan Motivasi Belajar Siswa di Sekolah Dasar', 'https://journal.umg.ac.id/index.php/didaktika/article/view/9470', '', '', '2025-01-31', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 25, 'Muhammad Supian Sauri', '4333774675130243', 'Dosen', 2, 0, 32, 'arminfani@stkipismbjm.ac.id', '1112098702', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Sekolah Dasar', '', '', '2025-09-15 13:11:00', '2025-09-18 05:30:35', 33, 33),
+(8, 'ARTIKEL PUBLIKASI', 'Pendidikan Muatan Lokal Sebagai Penanaman Karakter Cinta Tanah Air', 'https://ejournal.undiksha.ac.id/index.php/JJPGSD/article/view/36414', 'https://ejournal.undiksha.ac.id/index.php/wkwkw', '1758070376_afa50e3d29c8a903bf28.pdf', '2021-06-30', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-15 13:13:40', '2025-09-18 05:30:35', 33, 1),
+(10, 'ARTIKEL PUBLIKASI', 'Implementasi Keterampilan Dasar Mengajar Mahasiswa PGSD dalam Praktik Manajemen Kelas', 'https://www.putrapublisher.org/ojs/index.php/jspaud/article/view/986', '', '', '2025-07-20', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 27, 'Novi Suma Setyawati', '1111128501', 'Dosen', 3, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-15 13:22:47', '2025-09-18 05:30:35', 33, 1),
+(11, 'PENELITIAN', 'jaosdoisad', 'https://wkkwk.com/asjdiq', '', '', '2025-08-30', 28, 'Maulidha, M.Pd', '1129099003', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', 0, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', '', '', '<p>oijoisd ojj osdjfoisf j<br>sdfsdfs<br>Sdfsfsdf</p>', '2025-09-17 07:23:35', '2025-09-18 05:30:35', 28, 0),
+(12, 'PENGABDIAN', 'wkwkw', 'https://translate.google.com/?sl=en&tl=id&text=teknologi%20rekayasa%20perangkatan%20lunak%20terapan%20sistem&op=translate', '', '', '2024-12-29', 34, 'Vebrianti Umar, M.Pd', '1108029104', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-17 16:01:53', '2025-09-18 05:30:35', 1, 0),
+(13, 'PENGABDIAN', 'qweqe', '', '', '', '2024-10-29', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', '', '', '', '2025-09-17 17:12:57', '2025-09-18 05:30:35', 33, 0),
+(15, 'PENGABDIAN', 'qweqe', '', 'https://wkwdw.casda', '', '2023-11-30', 32, 'Armin Fani', '1112098702', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 0, '', '', '', 0, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', '', '', '', '2025-09-18 05:54:28', '2025-09-18 05:54:28', 32, 0),
+(16, 'PENELITIAN', 'Selamat Pagi UB', 'https://www.youtube.com/', '', '', '2024-09-28', 29, 'Zulparis', '1111078702', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', '', '', '', '2025-09-18 06:29:06', '2025-09-18 06:29:06', 29, 0);
 
 -- --------------------------------------------------------
 
@@ -2215,7 +2235,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=633;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=638;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`
@@ -2245,13 +2265,13 @@ ALTER TABLE `pencatatan_surat`
 -- AUTO_INCREMENT for table `pengajaran`
 --
 ALTER TABLE `pengajaran`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pengembangan_kompetensi`
 --
 ALTER TABLE `pengembangan_kompetensi`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `penyusutan_inventaris`
@@ -2359,7 +2379,7 @@ ALTER TABLE `tracer_studi`
 -- AUTO_INCREMENT for table `tri_dharma`
 --
 ALTER TABLE `tri_dharma`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`

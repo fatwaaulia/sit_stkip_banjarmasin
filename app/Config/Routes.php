@@ -467,7 +467,11 @@ if (array_intersect($id_roles, roleAccessByTitle('Pengajaran'))) {
 }
 
 if (array_intersect($id_roles, roleAccessByTitle('Pengembangan Kompetensi'))) {
-    $routes->get("$slug_role/pengembangan-kompetensi", 'PengembanganKompetensi::main', ['filter' => 'EnsureLogin']);
+    $routes->group("$slug_role/pengembangan-kompetensi", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PengembanganKompetensi::main');
+        $routes->get('new', 'PengembanganKompetensi::new');
+        $routes->get('edit/(:segment)', 'PengembanganKompetensi::edit/$1');
+    });
     $routes->group('api/pengembangan-kompetensi', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PengembanganKompetensi::index');
         $routes->post('create', 'PengembanganKompetensi::create');

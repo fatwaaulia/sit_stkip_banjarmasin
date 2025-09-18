@@ -186,7 +186,7 @@ body.modal-open .header { padding: 0 20px!important; }
     color: var(--main-color)!important;
 }
 
-:not(input[type="checkbox"]) + .btn-outline-primary:hover {
+:not(:has(> input[type="checkbox"])) > .btn-outline-primary:hover {
     background-color: var(--main-color)!important;
     border-color: var(--main-color)!important;
     color: var(--light-color)!important;

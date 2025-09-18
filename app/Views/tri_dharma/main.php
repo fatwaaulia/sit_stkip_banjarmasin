@@ -32,16 +32,20 @@ $get_dosen = $_GET['dosen'] ?? '';
             <div class="card p-3">
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-lg-10 col-xl-11">
-                        <?php if (array_intersect([1, 17, 8])) : ?>
+                        <?php if (array_intersect(userSession('id_roles'), [1, 17, 7, 8])) : ?>
                         <form action="" method="get">
                             <div class="row gx-2 gy-3">
-                                <div class="col-6 col-md-5 col-lg-4 col-xl-3">
-
+                                <div class="col-12 col-md-5 col-lg-5 col-xl-4">
                                     <label for="dosen" class="form-label">Dosen</label>
                                     <select id="dosen" name="dosen">
                                         <option value="">Pilih</option>
                                         <?php
-                                        $dosen = model('Users')->where('id_role', 4)->findAll();
+                                        $dosen = [];
+                                        if (in_array(userSession('id'), [1, 17, 7])) {
+                                            $dosen = model('Users')->where('id_role', 4)->findAll();
+                                        } elseif (in_array(8, userSession('id_roles'))) {
+                                            $dosen = model('Users')->where('id_program_studi', userSession('id_program_studi'))->findAll();
+                                        }
                                         foreach ($dosen as $v) :
                                             $selected = ($v['id'] == $get_dosen) ? 'selected' : '';
                                         ?>
@@ -61,10 +65,19 @@ $get_dosen = $_GET['dosen'] ?? '';
                                         <span class="ms-1 d-md-none">Reset</span>
                                     </a>
                                 </div>
+                                <?php if (in_array(8, userSession('id_roles'))) : ?>
+                                <div class="col-6 col-md-5 col-lg-4 col-xl-3 d-flex justify-content-bottom align-items-end">
+                                    <?php if ($get_dosen != userSession('id')) : ?>
+                                    <a href="<?= $base_route ?>?dosen=<?= userSession('id') ?>" class="btn btn-primary">Lihat Data Saya</a>
+                                    <?php else : ?>
+                                    <a href="<?= $base_route ?>" class="btn btn-primary">Lihat Semua Data Dosen</a>
+                                    <?php endif; ?>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </form>
                         <script>
-                        dselect(dom('#dosen'), { search: true, });
+                        dselect(dom('#dosen'), { search: true, clearable: true });
                         </script>
                         <?php endif; ?>
                     </div>

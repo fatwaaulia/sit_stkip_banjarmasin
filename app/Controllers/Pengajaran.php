@@ -70,13 +70,25 @@ class Pengajaran extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (in_array(userSession('id'), [1, 17])) {
-            // 
+
+        if (in_array(userSession('id'), [1, 17, 7])) {
+            $get_dosen = $this->request->getVar('dosen');
+            if ($get_dosen) {
+                $base_query->where('created_by', $get_dosen);
+            } else {
+                // 
+            }
         } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
-            $base_query->where('id_program_studi', userSession('id_program_studi'));
-        } elseif (userSession('id_role') == 4 && !in_array(8, userSession('id_roles'))) { // Dosen Tanpa Jabatan
+            $get_dosen = $this->request->getVar('dosen');
+            if ($get_dosen) {
+                $base_query->where('created_by', $get_dosen);
+            } else {
+                $base_query->where('id_program_studi', userSession('id_program_studi'));
+            }
+        } else if (userSession('id_role') == 4) { // Dosen
             $base_query->where('created_by', userSession('id'));
         }
+
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -148,6 +160,7 @@ class Pengajaran extends BaseController
             $filename_dokumen = '';
         }
 
+        $tahun_akademik = str_replace('-', '/', $this->request->getVar('tahun_akademik'));
         $data = [
             'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
@@ -163,17 +176,21 @@ class Pengajaran extends BaseController
             'jenjang_program_studi'   => userSession('jenjang_program_studi'),
             'nama_program_studi'      => userSession('nama_program_studi'),
             'singkatan_program_studi' => userSession('singkatan_program_studi'),
-            'tahun_akademik' => $this->request->getVar('tahun_akademik'),
+            'tahun_akademik' => $tahun_akademik,
             'dosen_pengampu' => userSession('nama'),
             'created_by' => userSession('id'),
         ];
 
         model($this->model_name)->insert($data);
 
+        $query_kaprodi = '';
+        if (in_array(8, userSession('id_roles'))) {
+            $query_kaprodi = '?dosen=' . userSession('id');
+        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Data berhasil ditambahkan',
-            'route'   => $this->base_route,
+            'route'   => $this->base_route . $query_kaprodi,
         ]);
     }
 
@@ -228,10 +245,14 @@ class Pengajaran extends BaseController
 
         model($this->model_name)->update($id, $data);
 
+        $query_kaprodi = '';
+        if (in_array(8, userSession('id_roles'))) {
+            $query_kaprodi = '?dosen=' . userSession('id');
+        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
+            'route'   => $this->base_route . $query_kaprodi,
         ]);
     }
 

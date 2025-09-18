@@ -71,7 +71,7 @@ class TriDharma extends BaseController
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
 
-        if (in_array(userSession('id'), [1, 17])) {
+        if (in_array(userSession('id'), [1, 17, 7])) {
             $get_dosen = $this->request->getVar('dosen');
             if ($get_dosen) {
                 $base_query->where('id_anggota_1', $get_dosen)
@@ -80,7 +80,7 @@ class TriDharma extends BaseController
                 ->orWhere('id_anggota_4', $get_dosen)
                 ->orWhere('id_anggota_5', $get_dosen);
             } else {
-                $base_query->where('id_program_studi_anggota_1', userSession('id_program_studi'));
+                // 
             }
         } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
             $get_dosen = $this->request->getVar('dosen');
@@ -91,7 +91,11 @@ class TriDharma extends BaseController
                 ->orWhere('id_anggota_4', $get_dosen)
                 ->orWhere('id_anggota_5', $get_dosen);
             } else {
-                $base_query->where('id_program_studi_anggota_1', userSession('id_program_studi'));
+                $base_query->where('id_program_studi_anggota_1', userSession('id_program_studi'))
+                ->orWhere('id_program_studi_anggota_2', userSession('id_program_studi'))
+                ->orWhere('id_program_studi_anggota_3', userSession('id_program_studi'))
+                ->orWhere('id_program_studi_anggota_4', userSession('id_program_studi'))
+                ->orWhere('id_program_studi_anggota_5', userSession('id_program_studi'));
             }
         } else if (userSession('id_role') == 4) { // Dosen
             $base_query->where('id_anggota_1', userSession('id'))
@@ -100,6 +104,7 @@ class TriDharma extends BaseController
             ->orWhere('id_anggota_4', userSession('id'))
             ->orWhere('id_anggota_5', userSession('id'));
         }
+
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -188,30 +193,35 @@ class TriDharma extends BaseController
             'nama_anggota_1'               => $anggota_1['nama'] ?? '',
             'nomor_identitas_anggota_1'    => $anggota_1['nomor_identitas'] ?? '',
             'nama_role_anggota_1'          => $anggota_1['nama_role'] ?? '',
+            'id_program_studi_anggota_1'   => $anggota_1['id_program_studi'] ?? '',
             'nama_program_studi_anggota_1' => $anggota_1['nama_program_studi'] ?? '',
 
             'id_anggota_2'                 => $anggota_2['id'] ?? '',
             'nama_anggota_2'               => $anggota_2['nama'] ?? '',
             'nomor_identitas_anggota_2'    => $anggota_2['nomor_identitas'] ?? '',
             'nama_role_anggota_2'          => $anggota_2['nama_role'] ?? '',
+            'id_program_studi_anggota_2'   => $anggota_2['id_program_studi'] ?? '',
             'nama_program_studi_anggota_2' => $anggota_2['nama_program_studi'] ?? '',
 
             'id_anggota_3'                 => $anggota_3['id'] ?? '',
             'nama_anggota_3'               => $anggota_3['nama'] ?? '',
             'nomor_identitas_anggota_3'    => $anggota_3['nomor_identitas'] ?? '',
             'nama_role_anggota_3'          => $anggota_3['nama_role'] ?? '',
+            'id_program_studi_anggota_3'   => $anggota_3['id_program_studi'] ?? '',
             'nama_program_studi_anggota_3' => $anggota_3['nama_program_studi'] ?? '',
 
             'id_anggota_4'                 => $anggota_4['id'] ?? '',
             'nama_anggota_4'               => $anggota_4['nama'] ?? '',
             'nomor_identitas_anggota_4'    => $anggota_4['nomor_identitas'] ?? '',
             'nama_role_anggota_4'          => $anggota_4['nama_role'] ?? '',
+            'id_program_studi_anggota_4'   => $anggota_4['id_program_studi'] ?? '',
             'nama_program_studi_anggota_4' => $anggota_4['nama_program_studi'] ?? '',
 
             'id_anggota_5'                 => $anggota_5['id'] ?? '',
             'nama_anggota_5'               => $anggota_5['nama'] ?? '',
             'nomor_identitas_anggota_5'    => $anggota_5['nomor_identitas'] ?? '',
             'nama_role_anggota_5'          => $anggota_5['nama_role'] ?? '',
+            'id_program_studi_anggota_5'   => $anggota_5['id_program_studi'] ?? '',
             'nama_program_studi_anggota_5' => $anggota_5['nama_program_studi'] ?? '',
 
             'anggota_beda_kampus' => $this->request->getVar('anggota_beda_kampus'),

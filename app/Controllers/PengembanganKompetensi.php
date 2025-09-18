@@ -33,6 +33,36 @@ class PengembanganKompetensi extends BaseController
         return view('dashboard/header', $view);
     }
 
+    public function new()
+    {
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/new', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function edit($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
+
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => $find_data,
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/edit', $data);
+        return view('dashboard/header', $view);
+    }
+
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
@@ -40,9 +70,25 @@ class PengembanganKompetensi extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        // if (userSession('id_roles') == 4) {
-        //     $base_query->where('created_by', userSession('id'));
-        // }
+
+        if (in_array(userSession('id'), [1, 17, 7])) {
+            $get_dosen = $this->request->getVar('dosen');
+            if ($get_dosen) {
+                $base_query->where('created_by', $get_dosen);
+            } else {
+                // 
+            }
+        } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
+            $get_dosen = $this->request->getVar('dosen');
+            if ($get_dosen) {
+                $base_query->where('created_by', $get_dosen);
+            } else {
+                $base_query->where('id_program_studi', userSession('id_program_studi'));
+            }
+        } else if (userSession('id_role') == 4) { // Dosen
+            $base_query->where('created_by', userSession('id'));
+        }
+        
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -63,14 +109,10 @@ class PengembanganKompetensi extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
-
-        $created_by = model('Users')->select(['id', 'nama'])->findAll();
-        $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
-            $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -111,14 +153,25 @@ class PengembanganKompetensi extends BaseController
             'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
             'created_by' => userSession('id'),
+            
+            'id_dosen'   => userSession('id'),
+            'nama_dosen' => userSession('nama'),
+            'id_program_studi'        => userSession('id_program_studi'),
+            'jenjang_program_studi'   => userSession('jenjang_program_studi'),
+            'nama_program_studi'      => userSession('nama_program_studi'),
+            'singkatan_program_studi' => userSession('singkatan_program_studi'),
         ];
 
         model($this->model_name)->insert($data);
 
+        $query_kaprodi = '';
+        if (in_array(8, userSession('id_roles'))) {
+            $query_kaprodi = '?dosen=' . userSession('id');
+        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Data berhasil ditambahkan',
-            'route'   => $this->base_route,
+            'route'   => $this->base_route . $query_kaprodi,
         ]);
     }
 
@@ -160,10 +213,14 @@ class PengembanganKompetensi extends BaseController
 
         model($this->model_name)->update($id, $data);
 
+        $query_kaprodi = '';
+        if (in_array(8, userSession('id_roles'))) {
+            $query_kaprodi = '?dosen=' . userSession('id');
+        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
+            'route'   => $this->base_route . $query_kaprodi,
         ]);
     }
 
