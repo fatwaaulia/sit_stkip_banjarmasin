@@ -116,13 +116,17 @@ function renderOpsi(data) {
     let endpoint_edit_data = `<?= $base_route ?>edit/${data.id}`;
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     
-    return `
-    <a href="${endpoint_edit_data}" class="me-2" title="Edit">
-        <i class="fa-regular fa-pen-to-square fa-lg"></i>
-    </a>
-    <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
-        <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
-    </a>`;
+    if (data.created_by == '<?= userSession('id') ?>') {
+        return `
+        <a href="${endpoint_edit_data}" class="me-2" title="Edit">
+            <i class="fa-regular fa-pen-to-square fa-lg"></i>
+        </a>
+        <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
+            <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
+        </a>`;
+    } else {
+        return '';
+    }
 }
 <?php endif; ?>
 </script>

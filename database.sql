@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 18, 2025 at 12:17 AM
+-- Generation Time: Sep 18, 2025 at 01:09 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.33
 
@@ -1070,6 +1070,10 @@ CREATE TABLE `pencatatan_surat` (
   `perihal` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
   `dokumen` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi` bigint NOT NULL,
+  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -1080,8 +1084,9 @@ CREATE TABLE `pencatatan_surat` (
 -- Dumping data for table `pencatatan_surat`
 --
 
-INSERT INTO `pencatatan_surat` (`id`, `jenis`, `nomor_surat`, `perihal`, `tautan`, `dokumen`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'MASUK', 'SK/MP2025/00123', 'Surat Kunjungan Presiden', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', '2025-09-04 10:34:03', '2025-09-04 10:34:03', 33, 0);
+INSERT INTO `pencatatan_surat` (`id`, `jenis`, `nomor_surat`, `perihal`, `tautan`, `dokumen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'MASUK', 'SK/MP2025/00123', 'Surat Kunjungan Presiden', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', 0, '', '', '', '2025-09-04 10:34:03', '2025-09-04 10:34:03', 33, 0),
+(3, 'MASUK', '9237492', 'iqjwoqd', 'https://www.linkedin.com/feed/', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-09-18 07:50:36', '2025-09-18 07:50:36', 33, 0);
 
 -- --------------------------------------------------------
 
@@ -2259,7 +2264,7 @@ ALTER TABLE `pembayaran_mahasiswa`
 -- AUTO_INCREMENT for table `pencatatan_surat`
 --
 ALTER TABLE `pencatatan_surat`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pengajaran`

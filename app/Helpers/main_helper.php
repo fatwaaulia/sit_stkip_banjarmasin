@@ -511,7 +511,7 @@ function menuSidebar()
 			'title'	=> 'Pencatatan Surat',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url(userSession('slug_role')) . '/pencatatan-surat',
-			'role'	=> [1, 17, 3, 7, 8, 9, 10, 11, 12],
+			'role'	=> [1, 17, 3, 4, 7, 8, 9, 10, 11, 12],
 			'type'	=> 'no-collapse',
 		],
         [

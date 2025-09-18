@@ -40,9 +40,15 @@ class PencatatanSurat extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        // if (userSession('id_roles') == 4) {
-        //     $base_query->where('created_by', userSession('id'));
-        // }
+
+        if (in_array(userSession('id'), [1, 17, 3, 7, 9, 10, 11, 12])) {
+            // 
+        } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
+            $base_query->where('id_program_studi', userSession('id_program_studi'));
+        } else if (userSession('id_role') == 4) { // Dosen
+            $base_query->where('id_program_studi', userSession('id_program_studi'));
+        }
+
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
@@ -115,6 +121,11 @@ class PencatatanSurat extends BaseController
             'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
             'created_by' => userSession('id'),
+
+            'id_program_studi'        => (in_array(8, userSession('id_roles'))) ? userSession('id_program_studi') : '',
+            'jenjang_program_studi'   => (in_array(8, userSession('id_roles'))) ? userSession('jenjang_program_studi') : '',
+            'nama_program_studi'      => (in_array(8, userSession('id_roles'))) ? userSession('nama_program_studi') : '',
+            'singkatan_program_studi' => (in_array(8, userSession('id_roles'))) ? userSession('singkatan_program_studi') : '',
         ];
 
         model($this->model_name)->insert($data);
