@@ -269,6 +269,16 @@ if (array_intersect($id_roles, roleAccessByTitle('Laporan Pertanggungjawaban')))
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Rencana dan Penetapan Keuangan'))) {
+    $routes->get("$slug_role/rencana-penetapan-keuangan", 'RencanaPenetapanKeuangan::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/rencana-penetapan-keuangan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'RencanaPenetapanKeuangan::index');
+        $routes->post('create', 'RencanaPenetapanKeuangan::create');
+        $routes->post('update/(:segment)', 'RencanaPenetapanKeuangan::update/$1');
+        $routes->post('delete/(:segment)', 'RencanaPenetapanKeuangan::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Kalender Akademik'))) {
     $routes->get("$slug_role/kalender-akademik", 'KalenderAkademik::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/kalender-akademik', ['filter' => 'EnsureLogin'], static function ($routes) {

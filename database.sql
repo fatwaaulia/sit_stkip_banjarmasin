@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 18, 2025 at 01:09 AM
+-- Generation Time: Sep 18, 2025 at 05:53 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.33
 
@@ -943,7 +943,10 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (634, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-18 05:06:27', '2025-09-18 05:06:27'),
 (635, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-18 05:07:27', '2025-09-18 05:07:27'),
 (636, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-18 06:20:12', '2025-09-18 06:20:12'),
-(637, 29, 4, 'Zulparis', '1111078702', '::1', 'Success', '2025-09-18 06:22:12', '2025-09-18 06:22:12');
+(637, 29, 4, 'Zulparis', '1111078702', '::1', 'Success', '2025-09-18 06:22:12', '2025-09-18 06:22:12'),
+(638, 25, 4, 'Muhammad Supian Sauri', '4333774675130243', '::1', 'Success', '2025-09-18 08:20:00', '2025-09-18 08:20:00'),
+(639, 41, 16, 'Halima Chairia', '6371015011800013', '::1', 'Success', '2025-09-18 12:20:26', '2025-09-18 12:20:26'),
+(640, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-18 12:27:31', '2025-09-18 12:27:31');
 
 -- --------------------------------------------------------
 
@@ -967,7 +970,7 @@ CREATE TABLE `mahasiswa_praktik_lapangan` (
 --
 
 INSERT INTO `mahasiswa_praktik_lapangan` (`id`, `judul`, `tautan`, `dokumen`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(6, '2024/2025 ganjil', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', '2025-09-07 08:57:28', '2025-09-07 08:57:28', 1, 0);
+(6, '2024/2025 Genap', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', '2025-09-07 08:57:28', '2025-09-18 08:33:02', 1, 25);
 
 -- --------------------------------------------------------
 
@@ -1410,6 +1413,34 @@ INSERT INTO `program_studi` (`id`, `jenjang`, `nama`, `singkatan`, `created_at`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rencana_penetapan_keuangan`
+--
+
+CREATE TABLE `rencana_penetapan_keuangan` (
+  `id` bigint NOT NULL,
+  `kategori` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rencana_penetapan_keuangan`
+--
+
+INSERT INTO `rencana_penetapan_keuangan` (`id`, `kategori`, `judul`, `tautan`, `dokumen`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(9, 'PERENCANAAN KEUANGAN', 'Selamat Pagi UB wkwkw', 'https://drive.google.com/drive/folders/1tP5AQUEyD488eFOWr_3_dz8fVm1iuZgD', '', '2025-09-18 12:26:49', '2025-09-18 12:26:49', 41, 0),
+(10, 'SK PENETAPAN', 'Bos Putin Mampir ke Poliwangi  Bersama Jajaran Kabinet Stalinium', '', '1758173959_47a7f073ee506d3f0ce6.pdf', '2025-09-18 12:39:19', '2025-09-18 12:39:19', 41, 0),
+(11, 'PERENCANAAN KEUANGAN', 'Indonesia Juara Dunia FIFA World Cup 2026', 'https://drive.google.com/drive/folders/1tP5AQUEyD488eFOWr_3_dz8fVm1iuZgD', '', '2025-09-18 12:40:16', '2025-09-18 12:40:16', 41, 0),
+(12, 'PERENCANAAN KEUANGAN', 'qweqe', '', '', '2025-09-18 12:41:29', '2025-09-18 12:41:29', 41, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `responden`
 --
 
@@ -1500,7 +1531,8 @@ INSERT INTO `role` (`id`, `nama`, `slug`) VALUES
 (14, 'Biro Alumni', 'biro-alumni'),
 (15, 'UTP PLP', 'upt-plp'),
 (16, 'Tendik', 'tendik'),
-(17, 'Admin Utama', 'admin-utama');
+(17, 'Admin Utama', 'admin-utama'),
+(18, 'Waka Administrasi dan Keuangan', 'waka-administrasi-keuangan');
 
 -- --------------------------------------------------------
 
@@ -1920,7 +1952,7 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `multi_role`, `n
 (37, 16, 'Tendik', 'tendik', '{\"12\":{\"nama_role\":\"Staf Administrasi\",\"slug_role\":\"staf-administrasi\"},\"13\":{\"nama_role\":\"Pustakawan\",\"slug_role\":\"pustakawan\"}}', 'Muhammad Juanda', '63710104108310004', 'juandapustaka@gmail.com', '$2y$10$XQpOqiGVHpBZ5aTg03HDcO03J7Ckus4EWo9LGH7Y91OyPSkZaup7q', '63710104108310004', '1758023507_9927ba31262032ce898a.jpg', 'Laki-laki', 'Jl. Gerilya Komp.Bumi Handayani 2', '08194101983', 'Pustakawan', 'Kepala Perpustakaan', 'Semangat, kerja keras dan kebersamaan', '63710104108310004', 'HSS', '1983-10-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-03 14:05:04', '2025-09-16 18:51:47'),
 (39, 16, 'Tendik', 'tendik', '', 'Nurul Fitriyani, SE., MA.', '6371056409780006', 'nurulfitriyani241979@gmail.com', '$2y$10$lf5VWBi7vrjQ0/urDDZo0uie0DvgusUAgaudJt9Rtge6zfyFW9I4u', '6371056409780006', '1758025571_b6d6dbcaa485a111eb7f.jpg', 'Perempuan', 'Jl. Kacapiring II No.26 Rt.002 Rw.001 Kel. Kertak Baru Ilir Kec. Banjarmasin Tengah Banjarmasin 70111', '081251805567', '-', 'Kepala Administrasi Akademik dan Kemahasiswaan', 'Bekerja optimal, tampilkan sis yang terbaik dari diri', '6371056409780006', 'Bandung', '1978-09-24', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 12:58:24', '2025-09-16 19:26:11'),
 (40, 4, 'Dosen', 'dosen', '', 'Muhammad Agus Safrian Nur', '0158768669130093', 'agus@stkipismbjm.ac.id', '$2y$10$w9KShDVMZd7uvN8eJG81OOIVgqIS9ZD/afLWm5YwX5IMah5McMdHC', '00000000', '1757903155_5888b0e0e7b289cd1c57.jpg', 'Laki-laki', 'Jalan Veteran Km. 5.5 Gang Mujahidin No. 74 Rt. 024, Kelurahan Sungai Lulut, Kecamatan Banjarmasin Timur.', '085390556813', '-', '-', '\" Fokus pada tujuan, capai kesuksesan \"', '0158768669130093', 'Banjarmasin', '1990-08-26', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 13:57:57', '2025-09-15 09:25:55'),
-(41, 16, 'Tendik', 'tendik', '{\"2\":{\"nama_role\":\"Keuangan\",\"slug_role\":\"keuangan\"}}', 'Halima Chairia', '6371015011800013', 'halimachairia7@gmail.com', '$2y$10$qfxU9i2p65274dH4ihbz6.Ff2aoms2t8xhW7hXr30.dx4IL3tkfci', '6371015011800013', '', 'Perempuan', 'Komplek Banjar Indah Permai jl. Sintuk II No. 183 RT. 13 Banjarmasin', '085251626793', '', 'Kabag. Administrasi Umum dan Keuangan', 'Sesulit apa pun pekerjaanmu pasti ada penyelesaiannya', '6371015011800013', 'Banjarmasin', '1980-11-10', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 14:31:38', '2025-09-11 18:12:53'),
+(41, 16, 'Tendik', 'tendik', '{\"2\":{\"nama_role\":\"Keuangan\",\"slug_role\":\"keuangan\"},\"18\":{\"nama_role\":\"Waka Administrasi dan Keuangan\",\"slug_role\":\"waka-administrasi-keuangan\"}}', 'Halima Chairia', '6371015011800013', 'halimachairia7@gmail.com', '$2y$10$qfxU9i2p65274dH4ihbz6.Ff2aoms2t8xhW7hXr30.dx4IL3tkfci', '6371015011800013', '', 'Perempuan', 'Komplek Banjar Indah Permai jl. Sintuk II No. 183 RT. 13 Banjarmasin', '085251626793', '', 'Kabag. Administrasi Umum dan Keuangan', 'Sesulit apa pun pekerjaanmu pasti ada penyelesaiannya', '6371015011800013', 'Banjarmasin', '1980-11-10', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 14:31:38', '2025-09-18 12:19:46'),
 (42, 17, 'Admin Utama', 'admin-utama', '', 'Admin 2', 'adminvisioner', '', '$2y$10$/fsqlu/uCBgrdC9PuB4jlu5QbvShxNG1A7LpvvH0I6OdipVPkZSB.', 'senyumdulu', '', 'Perempuan', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 17:03:42', '2025-09-11 19:22:24'),
 (43, 4, 'Dosen', 'dosen', '', 'Tati Akhbaryah, S.S., S.Pd., M.Pd.', '0', 'tatiahatta27@gmail.com', '$2y$10$vfM0PjUE9UFhyzXdcenqaOj/ccPHOR19oH776YF9Ukl9Ro3yZ5r3a', 'tatia2711', '', 'Perempuan', 'Kompleks Pembanginan I jl. Sebatung no 10 Banjarmasin', '081347693805', 'Dosen', '-', 'Diam, Amati, Kerjakan', '0', 'Jakarta', '1968-11-27', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 18:41:51', '2025-09-04 18:41:51'),
 (46, 4, 'Dosen', 'dosen', '', 'Abdul Aziz', '1110079002', 'aziz@stkipismbjm.ac.id', '$2y$10$jPB/8.a.qfFePjOayeNWiuxARGWUie12iVLG/34GsHjAtf5eBaZd.', '1110079002', '1757902115_b01898028ec94e9e6376.jpg', 'Laki-laki', 'Jalan AMD, Komplek Ar Raudah, no 44', '082250582011', 'tidak ada', 'tidak ada', 'Berani berimajinasi, berani berdedikasi', '1110079002', 'Sungai Pinang', '1990-09-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 12:04:50', '2025-09-15 09:08:35'),
@@ -2083,6 +2115,12 @@ ALTER TABLE `program_studi`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `rencana_penetapan_keuangan`
+--
+ALTER TABLE `rencana_penetapan_keuangan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `responden`
 --
 ALTER TABLE `responden`
@@ -2240,7 +2278,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=638;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=641;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`
@@ -2315,6 +2353,12 @@ ALTER TABLE `program_studi`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `rencana_penetapan_keuangan`
+--
+ALTER TABLE `rencana_penetapan_keuangan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `responden`
 --
 ALTER TABLE `responden`
@@ -2324,7 +2368,7 @@ ALTER TABLE `responden`
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `spmi`

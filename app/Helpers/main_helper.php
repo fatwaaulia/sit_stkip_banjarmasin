@@ -270,26 +270,6 @@ function menuSidebar()
             'role'	=> [8],
             'type'	=> 'heading',
         ],
-        [
-            'title'	=> 'LPM',
-            'role'	=> [10],
-            'type'	=> 'heading',
-        ],
-        [
-            'title'	=> 'PUSTAKAWAN',
-            'role'	=> [13],
-            'type'	=> 'heading',
-        ],
-        [
-            'title'	=> 'UPT PLP',
-            'role'	=> [15],
-            'type'	=> 'heading',
-        ],
-        [
-            'title'	=> 'BIRO ALUMNI',
-            'role'	=> [14],
-            'type'	=> 'heading',
-        ],
         // END - HEADING
 
         [
@@ -452,7 +432,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'LPM',
-            'role'	=> [1, 17],
+            'role'	=> [1, 17, 10],
             'type'	=> 'heading',
         ],
         [
@@ -478,7 +458,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'LPPM',
-            'role'	=> [1, 17],
+            'role'	=> [1, 17, 11],
             'type'	=> 'heading',
         ],
         [
@@ -490,7 +470,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'STAF ADMINISTRASI',
-            'role'	=> [1, 17],
+            'role'	=> [1, 17, 12],
             'type'	=> 'heading',
         ],
         [
@@ -515,8 +495,20 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
+			'title'	=> 'WAKA ADMINISTRASI DAN KEUANGAN',
+			'role'	=> [1, 17, 18],
+			'type'	=> 'heading',
+		],
+		[
+			'title'	=> 'Rencana dan Penetapan Keuangan',
+			'icon'	=> 'fa-solid fa-file',
+			'url'	=> base_url() . userSession('slug_role') . '/rencana-penetapan-keuangan',
+			'role'	=> [1, 17, 2, 3, 7, 8, 9, 18],
+			'type'	=> 'no-collapse',
+		],
+        [
             'title'	=> 'PUSTAKAWAN',
-            'role'	=> [1, 17],
+            'role'	=> [1, 17, 13],
             'type'	=> 'heading',
         ],
         [
@@ -549,7 +541,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'UPT PLP',
-            'role'	=> [1, 17],
+            'role'	=> [1, 17, 15],
             'type'	=> 'heading',
         ],
         [
@@ -561,7 +553,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'BIRO ALUMNI',
-            'role'	=> [1, 17],
+            'role'	=> [1, 17, 14],
             'type'	=> 'heading',
         ],
         [
