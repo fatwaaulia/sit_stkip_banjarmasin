@@ -24,7 +24,7 @@ class Dashboard extends BaseController
 
     public function dosen()
     {
-        $pertanyaan = model('Pertanyaan')->findAll();
+        $pertanyaan = model('Pertanyaan')->where('created_at >', userSession('created_at'))->findAll();
         foreach ($pertanyaan as $v) {
             $responden = model('Responden')
             ->where([
@@ -56,7 +56,7 @@ class Dashboard extends BaseController
 
     public function tendik()
     {
-        $pertanyaan = model('Pertanyaan')->findAll();
+        $pertanyaan = model('Pertanyaan')->where('created_at >', userSession('created_at'))->findAll();
         foreach ($pertanyaan as $v) {
             $responden = model('Responden')
             ->where([

@@ -269,6 +269,15 @@ if (array_intersect($id_roles, roleAccessByTitle('Laporan Pertanggungjawaban')))
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Kinerja Dosen'))) {
+    $routes->get("$slug_role/kinerja-dosen", 'KinerjaDosen::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/kinerja-dosen', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('tri-dharma', 'KinerjaDosen::indexTriDharma');
+        $routes->get('pengajaran', 'KinerjaDosen::indexPengajaran');
+        $routes->get('pengembangan-kompetensi', 'KinerjaDosen::indexPengembanganKompetensi');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Rencana dan Penetapan Keuangan'))) {
     $routes->get("$slug_role/rencana-penetapan-keuangan", 'RencanaPenetapanKeuangan::main', ['filter' => 'EnsureLogin']);
     $routes->group('api/rencana-penetapan-keuangan', ['filter' => 'EnsureLogin'], static function ($routes) {

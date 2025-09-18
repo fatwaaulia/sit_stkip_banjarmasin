@@ -101,7 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: 'nomor_identitas',
             }, {
                 name: 'nama',
-                data: 'nama',
+                data: null,
+                render: data => `<a href="<?= base_url(userSession('slug_role')) ?>/kinerja-dosen?dosen=${data.id}" target="_blank">${data.nama}</a>`,
             }, {
                 name: '',
                 data: 'password_asli',

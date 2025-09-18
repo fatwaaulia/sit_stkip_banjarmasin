@@ -352,6 +352,13 @@ function menuSidebar()
 			'role'	=> [1, 17, 7],
 			'type'	=> 'no-collapse',
 		],
+		[
+			'title'	=> 'Kinerja Dosen',
+			'icon'	=> 'fa-solid fa-file',
+			'url'	=> base_url() . userSession('slug_role') . '/kinerja-dosen',
+			'role'	=> [1, 17, 7],
+			'type'	=> 'no-collapse',
+		],
         [
 			'title'	=> 'WAKA AKADEMIK / KEMAHASISWAAN DAN KERJASAMA',
 			'role'	=> [1, 17],
