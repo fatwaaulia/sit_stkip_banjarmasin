@@ -371,6 +371,26 @@ if (array_intersect($id_roles, roleAccessByTitle('Jadwal Kegiatan'))) {
     });
 }
 
+if (array_intersect($id_roles, roleAccessByTitle('Dokumen Template'))) {
+    $routes->get("$slug_role/dokumen-template", 'DokumenTemplate::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/dokumen-template', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'DokumenTemplate::index');
+        $routes->post('create', 'DokumenTemplate::create');
+        $routes->post('update/(:segment)', 'DokumenTemplate::update/$1');
+        $routes->post('delete/(:segment)', 'DokumenTemplate::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Dokumen Kemahasiswaan'))) {
+    $routes->get("$slug_role/dokumen-kemahasiswaan", 'DokumenKemahasiswaan::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/dokumen-kemahasiswaan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'DokumenKemahasiswaan::index');
+        $routes->post('create', 'DokumenKemahasiswaan::create');
+        $routes->post('update/(:segment)', 'DokumenKemahasiswaan::update/$1');
+        $routes->post('delete/(:segment)', 'DokumenKemahasiswaan::delete/$1');
+    });
+}
+
 if (array_intersect($id_roles, roleAccessByTitle('Pendaftar Mahasiswa'))) {
     $routes->group("$slug_role/pendaftar-mahasiswa", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PendaftarMahasiswa::main');

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 18, 2025 at 05:53 AM
+-- Generation Time: Sep 19, 2025 at 10:07 AM
 -- Server version: 8.0.30
--- PHP Version: 7.4.33
+-- PHP Version: 8.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -54,6 +54,51 @@ CREATE TABLE `app_settings` (
 
 INSERT INTO `app_settings` (`id`, `nama_aplikasi`, `nama_perusahaan`, `deskripsi`, `logo`, `favicon`, `no_hp`, `alamat`, `maps`, `ts_2_tanggal_awal`, `ts_2_tanggal_akhir`, `ts_1_tanggal_awal`, `ts_1_tanggal_akhir`, `ts_tanggal_awal`, `ts_tanggal_akhir`, `buka_pendaftaran_mahasiswa`, `created_at`, `updated_at`) VALUES
 (1, 'STKIP ISM Banjarmasin', 'Humasoft Studio Teknologi', 'Kampus Visioner STKIP ISM Banjarmasin', 'logo.png', 'favicon.png', '0', 'Jl. Malkon Temon Jl. Sultan Adam No.12, RT.23, Surgi Mufti, Kec. Banjarmasin Utara, Kota Banjarmasin, Kalimantan Selatan 70122', '', '2024-09-08', '2025-03-04', '2025-03-05', '2025-07-23', '2025-07-24', '2026-03-17', 'Buka', '2024-09-17 13:06:51', '2025-09-09 18:53:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dokumen_kemahasiswaan`
+--
+
+CREATE TABLE `dokumen_kemahasiswaan` (
+  `id` bigint NOT NULL,
+  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `sub_judul` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dokumen_template`
+--
+
+CREATE TABLE `dokumen_template` (
+  `id` bigint NOT NULL,
+  `kategori` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `sub_judul` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dokumen_template`
+--
+
+INSERT INTO `dokumen_template` (`id`, `kategori`, `judul`, `sub_judul`, `tautan`, `dokumen`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'SELURUH DOSEN', 'e3e23e dqwd qw', 'PBI', 'https://www.researchgate.net/profile/Aceng-Wahid/publication/346397070_Analisis_Metode_Waterfall_Untuk_Pengembangan_Sistem_Informasi/links/5fbfa91092851c933f5d76b6/Analisis-Metode-Waterfall-Untuk-Pengembangan-Sistem-Informasi.pdf', '1758274321_da98967dd75c0fd5ae02.pdf', '2025-09-19 16:32:01', '2025-09-19 16:32:01', 1, 0),
+(2, 'STRUKTURAL', 'Kalender Akademik Semester Ganjil Tahun 2025-2026', '', 'https://translate.google.com/?sl=en&tl=id&text=teknologi%20rekayasa%20perangkatan%20lunak%20terapan%20sistem&op=translate', '', '2025-09-19 16:50:10', '2025-09-19 16:50:10', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -946,7 +991,11 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (637, 29, 4, 'Zulparis', '1111078702', '::1', 'Success', '2025-09-18 06:22:12', '2025-09-18 06:22:12'),
 (638, 25, 4, 'Muhammad Supian Sauri', '4333774675130243', '::1', 'Success', '2025-09-18 08:20:00', '2025-09-18 08:20:00'),
 (639, 41, 16, 'Halima Chairia', '6371015011800013', '::1', 'Success', '2025-09-18 12:20:26', '2025-09-18 12:20:26'),
-(640, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-18 12:27:31', '2025-09-18 12:27:31');
+(640, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-18 12:27:31', '2025-09-18 12:27:31'),
+(641, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-19 10:32:32', '2025-09-19 10:32:32'),
+(642, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-19 13:03:07', '2025-09-19 13:03:07'),
+(643, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-19 16:16:58', '2025-09-19 16:16:58'),
+(644, 29, 4, 'Zulparis', '1111078702', '::1', 'Success', '2025-09-19 16:48:50', '2025-09-19 16:48:50');
 
 -- --------------------------------------------------------
 
@@ -1971,6 +2020,18 @@ ALTER TABLE `app_settings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `dokumen_kemahasiswaan`
+--
+ALTER TABLE `dokumen_kemahasiswaan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dokumen_template`
+--
+ALTER TABLE `dokumen_template`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `dosen_pendamping`
 --
 ALTER TABLE `dosen_pendamping`
@@ -2209,6 +2270,18 @@ ALTER TABLE `app_settings`
   MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `dokumen_kemahasiswaan`
+--
+ALTER TABLE `dokumen_kemahasiswaan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `dokumen_template`
+--
+ALTER TABLE `dokumen_template`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `dosen_pendamping`
 --
 ALTER TABLE `dosen_pendamping`
@@ -2278,7 +2351,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=641;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=645;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`

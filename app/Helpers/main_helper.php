@@ -378,6 +378,20 @@ function menuSidebar()
 			'role'	=> [1, 17, 3, 4, 5, 8],
 			'type'	=> 'no-collapse',
 		],
+		[
+			'title'	=> 'Dokumen Template',
+			'icon'	=> 'fa-solid fa-file',
+			'url'	=> base_url() . userSession('slug_role') . '/dokumen-template',
+			'role'	=> [1, 17, 3, 4, 7, 8, 9],
+			'type'	=> 'no-collapse',
+		],
+		[
+			'title'	=> 'Dokumen Kemahasiswaan',
+			'icon'	=> 'fa-solid fa-people-group',
+			'url'	=> base_url() . userSession('slug_role') . '/dokumen-kemahasiswaan',
+			'role'	=> [1, 17, 3, 7, 8, 9],
+			'type'	=> 'no-collapse',
+		],
         [
 			'title'	=> 'STAF AKADEMIK',
 			'role'	=> [1, 17],
