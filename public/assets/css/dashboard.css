@@ -94,6 +94,8 @@
     }
 
     .text-dark { color: var(--dark-theme-white-color)!important; }
+
+    hr { color: var(--dark-theme-white-color) }
 }
 
 /*--------------------------------------------------------------

@@ -54,7 +54,8 @@ class Role extends BaseController
         // End | Datatables
 
         $total_rows = $base_query->countAllResults(false);
-        $data       = $base_query->findAll($limit, $offset);
+        // $data       = $base_query->findAll($limit, $offset);
+        $data       = $base_query->findAll();
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;

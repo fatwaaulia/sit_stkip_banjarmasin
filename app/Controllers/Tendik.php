@@ -241,7 +241,7 @@ class Tendik extends BaseController
             'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
             'motto_kerja' => $this->request->getVar('motto_kerja'),
-            'multi_role'    => $multi_role ? json_encode($data_multi_role) : $find_data['multi_role'],
+            'multi_role'    => json_encode($data_multi_role),
 
             'password'      => $password != '' ? password_hash($password, PASSWORD_DEFAULT) : $find_data['password'],
             'password_asli' => $password != '' ? $password : $find_data['password_asli'],

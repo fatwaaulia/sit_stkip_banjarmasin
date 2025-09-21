@@ -71,21 +71,21 @@ class Pengajaran extends BaseController
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
 
-        if (in_array(userSession('id'), [1, 17, 7])) {
+        if (array_intersect(userSession('id_roles'), [1, 17, 7])) {
             $get_dosen = $this->request->getVar('dosen');
             if ($get_dosen) {
                 $base_query->where('created_by', $get_dosen);
             } else {
                 // 
             }
-        } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
+        } elseif (userSession('id_role_aktif') == 8) { // Kaprodi
             $get_dosen = $this->request->getVar('dosen');
             if ($get_dosen) {
                 $base_query->where('created_by', $get_dosen);
             } else {
                 $base_query->where('id_program_studi', userSession('id_program_studi'));
             }
-        } else if (userSession('id_role') == 4) { // Dosen
+        } elseif (userSession('id_role_aktif') == 4) { // Dosen
             $base_query->where('created_by', userSession('id'));
         }
 
@@ -183,14 +183,10 @@ class Pengajaran extends BaseController
 
         model($this->model_name)->insert($data);
 
-        $query_kaprodi = '';
-        if (in_array(8, userSession('id_roles'))) {
-            $query_kaprodi = '?dosen=' . userSession('id');
-        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Data berhasil ditambahkan',
-            'route'   => $this->base_route . $query_kaprodi,
+            'route'   => $this->base_route,
         ]);
     }
 
@@ -245,14 +241,10 @@ class Pengajaran extends BaseController
 
         model($this->model_name)->update($id, $data);
 
-        $query_kaprodi = '';
-        if (in_array(8, userSession('id_roles'))) {
-            $query_kaprodi = '?dosen=' . userSession('id');
-        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route . $query_kaprodi,
+            'route'   => $this->base_route,
         ]);
     }
 

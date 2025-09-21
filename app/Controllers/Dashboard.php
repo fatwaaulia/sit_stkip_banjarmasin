@@ -13,15 +13,6 @@ class Dashboard extends BaseController
         return view('dashboard/header', $view);
     }
 
-    public function adminUtama()
-    {
-        $data['title'] = 'Dashboard';
-
-        $view['sidebar'] = view('dashboard/sidebar');
-        $view['content'] = view('dashboard/superadmin', $data);
-        return view('dashboard/header', $view);
-    }
-
     public function dosen()
     {
         $pertanyaan = model('Pertanyaan')->where('created_at >', userSession('created_at'))->findAll();

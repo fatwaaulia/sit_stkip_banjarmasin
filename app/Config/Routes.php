@@ -80,6 +80,8 @@ $id_role   = userSession('id_role');
 $id_roles   = userSession('id_roles') ?: [];
 $slug_role = userSession('slug_role');
 
+$routes->post('api/users/update/(:segment)/role-aktif', 'Users::updateRoleAktif/$1', ['filter' => 'EnsureLogin']);
+
 if (userSession()) {
     $camelcase_slug_role = lcfirst(str_replace(' ', '', ucwords(str_replace('-', ' ', strtolower($slug_role)))));
     $routes->get("$slug_role/dashboard", "Dashboard::$camelcase_slug_role", ['filter' => 'EnsureLogin']);
@@ -368,6 +370,14 @@ if (array_intersect($id_roles, roleAccessByTitle('Jadwal Kegiatan'))) {
         $routes->post('create', 'JadwalKegiatan::create');
         $routes->post('update/(:segment)', 'JadwalKegiatan::update/$1');
         $routes->post('delete/(:segment)', 'JadwalKegiatan::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Operator'))) {
+    $routes->get("$slug_role/operator", 'Operator::main', ['filter' => 'EnsureLogin']);
+    $routes->group('api/operator', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'Operator::index');
+        $routes->post('update', 'Operator::update');
     });
 }
 

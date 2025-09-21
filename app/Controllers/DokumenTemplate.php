@@ -41,7 +41,7 @@ class DokumenTemplate extends BaseController
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
 
-        if (!array_intersect(userSession('id_roles'), [1, 17, 3, 7, 8, 9])) {
+        if (userSession('id_role_aktif') == 4) {
             $base_query->where('kategori', 'SELURUH DOSEN');
         }
 

@@ -202,7 +202,7 @@ function menuSidebar()
 			'title'	=> 'Dashboard',
 			'icon'	=> 'fa-solid fa-chart-line',
 			'url'	=> base_url(userSession('slug_role')) . '/dashboard',
-			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -212,11 +212,6 @@ function menuSidebar()
 			'role'	=> [1, 17],
 			'type'	=> 'no-collapse',
 		],
-                [
-            'title'	=> 'Dosen / Tendik',
-            'role'	=> [1, 17, 4],
-            'type'	=> 'heading',
-        ],
         [
 			'title'	=> 'Tri Dharma',
 			'icon'	=> 'fa-solid fa-flask',
@@ -238,40 +233,6 @@ function menuSidebar()
 			'role'	=> [1, 17, 4, 7, 3, 9, 10, 11, 12],
 			'type'	=> 'no-collapse',
 		],
-
-        // HEADING
-        [
-			'title'	=> 'KEUANGAN',
-			'role'	=> [2],
-			'type'	=> 'heading',
-		],
-        [
-            'title'	=> 'KETUA',
-            'role'	=> [7],
-            'type'	=> 'heading',
-        ],
-        [
-			'title'	=> 'WAKA AKADEMIK',
-			'role'	=> [3],
-			'type'	=> 'heading',
-		],
-        [
-			'title'	=> 'WAKA KEMAHASISWAAN DAN KERJASAMA',
-			'role'	=> [9],
-			'type'	=> 'heading',
-		],
-        [
-			'title'	=> 'STAF AKADEMIK',
-			'role'	=> [6],
-			'type'	=> 'heading',
-		],
-        [
-            'title'	=> 'KAPRODI',
-            'role'	=> [8],
-            'type'	=> 'heading',
-        ],
-        // END - HEADING
-
         [
 			'title'	=> 'KEUANGAN',
 			'role'	=> [1, 17],
@@ -379,17 +340,24 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
 		[
+			'title'	=> 'Operator',
+			'icon'	=> 'fa-solid fa-user-tie',
+			'url'	=> base_url() . userSession('slug_role') . '/operator',
+			'role'	=> [1, 17, 9],
+			'type'	=> 'no-collapse',
+		],
+		[
 			'title'	=> 'Dokumen Template',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url() . userSession('slug_role') . '/dokumen-template',
-			'role'	=> [1, 17, 3, 4, 7, 8, 9],
+			'role'	=> [1, 17, 3, 4, 7, 8, 9, 19],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Dokumen Kemahasiswaan',
 			'icon'	=> 'fa-solid fa-people-group',
 			'url'	=> base_url() . userSession('slug_role') . '/dokumen-kemahasiswaan',
-			'role'	=> [1, 17, 3, 7, 8, 9],
+			'role'	=> [1, 17, 3, 7, 8, 9, 20],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -453,7 +421,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'LPM',
-            'role'	=> [1, 17, 10],
+            'role'	=> [1, 17],
             'type'	=> 'heading',
         ],
         [
@@ -479,7 +447,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'LPPM',
-            'role'	=> [1, 17, 11],
+            'role'	=> [1, 17],
             'type'	=> 'heading',
         ],
         [
@@ -491,7 +459,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'STAF ADMINISTRASI',
-            'role'	=> [1, 17, 12],
+            'role'	=> [1, 17],
             'type'	=> 'heading',
         ],
         [
@@ -517,7 +485,7 @@ function menuSidebar()
 		],
         [
 			'title'	=> 'WAKA ADMINISTRASI DAN KEUANGAN',
-			'role'	=> [1, 17, 18],
+			'role'	=> [1, 17],
 			'type'	=> 'heading',
 		],
 		[
@@ -529,7 +497,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'PUSTAKAWAN',
-            'role'	=> [1, 17, 13],
+            'role'	=> [1, 17],
             'type'	=> 'heading',
         ],
         [
@@ -562,7 +530,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'UPT PLP',
-            'role'	=> [1, 17, 15],
+            'role'	=> [1, 17],
             'type'	=> 'heading',
         ],
         [
@@ -574,7 +542,7 @@ function menuSidebar()
 		],
         [
             'title'	=> 'BIRO ALUMNI',
-            'role'	=> [1, 17, 14],
+            'role'	=> [1, 17],
             'type'	=> 'heading',
         ],
         [
@@ -640,7 +608,7 @@ function menuSidebar()
 		],
 		[
 			'title'	=> 'AKUN',
-			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
 			'type'	=> 'heading',
 		],
         [
@@ -654,14 +622,14 @@ function menuSidebar()
 			'title'	=> 'Profil',
 			'icon'	=> 'fa-solid fa-user',
 			'url'	=> base_url(userSession('slug_role')) . '/profile',
-			'role'	=> [1, 17, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Keluar',
 			'icon'	=> 'fa-solid fa-arrow-right-from-bracket',
 			'url'	=> base_url('logout'),
-			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
 			'type'	=> 'no-collapse',
 		],
 	];

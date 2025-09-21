@@ -254,7 +254,7 @@ class Users extends BaseController
             'id_role'       => $role['id'],
             'nama_role'     => $role['nama'],
             'slug_role'     => $role['slug'],
-            'multi_role'    => $multi_role ? json_encode($data_multi_role) : $find_data['multi_role'],
+            'multi_role'    => json_encode($data_multi_role),
             'nama'          => ucwords($this->request->getVar('nama')),
             'username'      => strtolower($this->request->getVar('username')),
             'email'         => $this->request->getVar('email', FILTER_SANITIZE_EMAIL),
@@ -310,6 +310,42 @@ class Users extends BaseController
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Foto berhasil dihapus',
+        ]);
+    }
+
+    public function updateRoleAktif($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
+
+        $rules = [
+            'id_role'  => [ 'label' => 'role', 'rules' => 'required' ],
+        ];
+        if (!$this->validate($rules)) {
+            $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
+
+            return $this->response->setStatusCode(400)->setJSON([
+                'status'  => 'error',
+                'message' => 'Data yang dimasukkan tidak valid!',
+                'errors'  => $errors,
+            ]);
+        }
+
+        // Lolos Validasi
+        $id_role = $this->request->getVar('id_role');
+        $role = model('Role')->find($id_role);
+
+        $data = [
+            'id_role_aktif'   => $role['id'],
+            'nama_role_aktif' => $role['nama'],
+            'slug_role_aktif' => $role['slug'],
+        ];
+
+        model($this->model_name)->update($id, $data);
+
+        return $this->response->setStatusCode(200)->setJSON([
+            'status'  => 'success',
+            'message' => 'Berhasil jadi ' . $role['nama'],
+            'route'   => base_url(userSession('slug_role')) . '/dashboard',
         ]);
     }
 }

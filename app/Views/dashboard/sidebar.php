@@ -101,6 +101,70 @@
 
 <aside id="sidebar" class="sidebar">
 	<ul class="sidebar-nav" id="sidebar-nav">
+        <?php if (in_array(userSession('id_role'), [4, 16])) : ?>
+        <div class="mb-3">
+            <select class="form-select bg-primary-subtle" onchange="gantiRole(this.value)">
+                <option value="<?= userSession('id_role') ?>" <?= (userSession('id_role') == userSession('id_role_aktif')) ? 'selected' : '' ?>><?= userSession('nama_role') ?></option>
+                <?php
+                $multi_role = userSession('multi_role');
+                $multi_role = !empty($multi_role) ? json_decode($multi_role, true) : [];
+                foreach ($multi_role as $k => $v) :
+                    $selected = ($k == userSession('id_role_aktif')) ? 'selected' : '';
+                ?>
+                <option value="<?= $k ?>" <?= $selected ?>><?= $v['nama_role'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <script>
+        async function gantiRole(id_role) {
+            dom('#loading').innerHTML = `<div class="full-transparent"> <div class="spinner"> </div> </div>`;
+            try {
+                const endpoint = '<?= base_url() ?>api/users/update/<?= userSession('id') ?>/role-aktif';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({id_role: id_role}),
+                });
+                const data = await response.json();
+
+                dom('#loading').innerHTML = ``;
+
+                // console.log(data);
+                // return;
+
+                if (['success', 'error'].includes(data.status)) {
+                    await Swal.fire({
+                        icon: data.status,
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true,
+                    });
+                    data.route && (window.location.href = data.route);
+                } else {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: data.message,
+                        showConfirmButton: false,
+                    });
+                }
+            } catch (error) {
+                dom('#loading').innerHTML = ``;
+
+                console.error(error);
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Oops! Terjadi kesalahan',
+                    text: 'Silakan coba lagi nanti.',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true,
+                });
+            }
+        }
+        </script>
+        <hr>
+        <?php endif; ?>
 		<?php
 		$menu = menuSidebar();
 
@@ -119,7 +183,12 @@
 
 		foreach ($menu as $v) :
 			if (! isset($v['title'])) continue;
-			if (array_intersect(userSession('id_roles'), $v['role'])) : // Tampilkan Menu Sesuai Role
+            if (in_array(userSession('id_role'), [4, 16])) { // Role Dosen / Tendik
+                $id_role = userSession('id_role_aktif');
+            } else {
+                $id_role = userSession('id_role');
+            }
+			if (in_array($id_role, $v['role'])) : // Tampilkan Menu Sesuai Role
 			if ($v['type'] == 'no-collapse') :
 				$collapsed = ($base_route == $v['url']) ? '' : 'collapsed';
 		?>

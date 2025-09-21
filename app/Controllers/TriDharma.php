@@ -71,7 +71,7 @@ class TriDharma extends BaseController
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
 
-        if (in_array(userSession('id'), [1, 17, 7])) {
+        if (array_intersect(userSession('id_roles'), [1, 17, 7])) {
             $get_dosen = $this->request->getVar('dosen');
             if ($get_dosen) {
                 $base_query->where('id_anggota_1', $get_dosen)
@@ -82,7 +82,7 @@ class TriDharma extends BaseController
             } else {
                 // 
             }
-        } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
+        } elseif (userSession('id_role_aktif') == 8) { // Kaprodi
             $get_dosen = $this->request->getVar('dosen');
             if ($get_dosen) {
                 $base_query->where('id_anggota_1', $get_dosen)
@@ -97,7 +97,7 @@ class TriDharma extends BaseController
                 ->orWhere('id_program_studi_anggota_4', userSession('id_program_studi'))
                 ->orWhere('id_program_studi_anggota_5', userSession('id_program_studi'));
             }
-        } else if (userSession('id_role') == 4) { // Dosen
+        } elseif (userSession('id_role_aktif') == 4) { // Dosen
             $base_query->where('id_anggota_1', userSession('id'))
             ->orWhere('id_anggota_2', userSession('id'))
             ->orWhere('id_anggota_3', userSession('id'))
@@ -229,14 +229,10 @@ class TriDharma extends BaseController
 
         model($this->model_name)->insert($data);
 
-        $query_kaprodi = '';
-        if (in_array(8, userSession('id_roles'))) {
-            $query_kaprodi = '?dosen=' . userSession('id');
-        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Data berhasil ditambahkan',
-            'route'   => $this->base_route . $query_kaprodi,
+            'route'   => $this->base_route,
         ]);
     }
 
@@ -286,14 +282,10 @@ class TriDharma extends BaseController
 
         model($this->model_name)->update($id, $data);
 
-        $query_kaprodi = '';
-        if (in_array(8, userSession('id_roles'))) {
-            $query_kaprodi = '?dosen=' . userSession('id');
-        }
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route . $query_kaprodi,
+            'route'   => $this->base_route,
         ]);
     }
 

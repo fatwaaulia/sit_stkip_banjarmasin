@@ -1,6 +1,6 @@
 <?php
 $is_access = false;
-if (array_intersect(userSession('id_roles'), [4])) {
+if (in_array(userSession('id_role_aktif'), [4])) {
     $is_access = true;
 }
 
@@ -18,15 +18,6 @@ $get_dosen = $_GET['dosen'] ?? '';
             <h4 class="my-4"><?= isset($title) ? $title : '' ?></h4>
         </div>
     </div>
-    <?php if (in_array(8, userSession('id_roles'))) : ?>
-    <div class="row">
-        <div class="col-12">
-            <div class="alert alert-primary">
-                Sebagai Kaprodi, Anda dapat melihat semua data dosen <span class="fw-500"><?= userSession('nama_program_studi') ?></span>
-            </div>
-        </div>
-    </div>
-    <?php endif; ?>
     <div class="row">
         <div class="col-12">
             <div class="card p-3">
@@ -40,12 +31,11 @@ $get_dosen = $_GET['dosen'] ?? '';
                                     <select id="dosen" name="dosen">
                                         <option value="">Pilih</option>
                                         <?php
-                                        $dosen = [];
-                                        if (in_array(userSession('id'), [1, 17, 7])) {
-                                            $dosen = model('Users')->where('id_role', 4)->findAll();
-                                        } elseif (in_array(8, userSession('id_roles'))) {
-                                            $dosen = model('Users')->where('id_program_studi', userSession('id_program_studi'))->findAll();
+                                        $dosen = model('Users', false)->where('id_role', 4);
+                                        if (userSession('id_role_aktif') == 8) {
+                                            $dosen->where('id_program_studi', userSession('id_program_studi'));
                                         }
+                                        $dosen = $dosen->findAll();
                                         foreach ($dosen as $v) :
                                             $selected = ($v['id'] == $get_dosen) ? 'selected' : '';
                                         ?>
@@ -65,15 +55,6 @@ $get_dosen = $_GET['dosen'] ?? '';
                                         <span class="ms-1 d-md-none">Reset</span>
                                     </a>
                                 </div>
-                                <?php if (in_array(8, userSession('id_roles'))) : ?>
-                                <div class="col-6 col-md-5 col-lg-4 col-xl-3 d-flex justify-content-bottom align-items-end">
-                                    <?php if ($get_dosen != userSession('id')) : ?>
-                                    <a href="<?= $base_route ?>?dosen=<?= userSession('id') ?>" class="btn btn-primary">Lihat Data Saya</a>
-                                    <?php else : ?>
-                                    <a href="<?= $base_route ?>" class="btn btn-primary">Lihat Semua Data Dosen</a>
-                                    <?php endif; ?>
-                                </div>
-                                <?php endif; ?>
                             </div>
                         </form>
                         <script>

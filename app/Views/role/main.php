@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         processing: true,
         serverSide: true,
         order: [],
+        pageLength: -1,
         initComplete: function (settings, json) {
             $('#myTable').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');
         },

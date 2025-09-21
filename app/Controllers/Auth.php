@@ -91,7 +91,7 @@ class Auth extends BaseController
         $password = trim($this->request->getVar('password'));
 
         $user = model($this->model_name)
-        ->select(['id', 'id_role', 'nama', 'username', 'password', 'status', 'status_akun'])
+        ->select(['id', 'id_role', 'nama_role', 'slug_role', 'nama', 'username', 'password', 'status', 'status_akun'])
         ->groupStart()
             ->where('username', $username)
             // ->orWhere('email', $username)
@@ -134,6 +134,14 @@ class Auth extends BaseController
             ];
             session()->set($session);
             $role = model('Role')->where('id', $user['id_role'])->first();
+
+            if (in_array($user['id_role'], [4, 16])) { // Dosen / Tendik
+                model('Users')->update($user['id'], [
+                    'id_role_aktif' => $user['id_role'],
+                    'nama_role_aktif' => $user['nama_role'],
+                    'slug_role_aktif' => $user['slug_role'],
+                ]);
+            }
 
             return $this->response->setStatusCode(200)->setJSON([
                 'status'  => 'success',
