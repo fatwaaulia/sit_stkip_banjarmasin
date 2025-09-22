@@ -77,8 +77,14 @@ class KinerjaDosen extends BaseController
         }
         // End | Datatables
 
-        $total_rows = $base_query->countAllResults(false);
-        $data       = $base_query->findAll($limit, $offset);
+        if ($get_dosen) {
+            $total_rows = $base_query->countAllResults(false);
+            $data       = $base_query->findAll($limit, $offset);
+        } else {
+            $records_total = 0;
+            $total_rows = 0;
+            $data       = [];
+        }
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;

@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         order: [],
         searching: false,
         initComplete: function (settings, json) {
-            $('#myTriDharma').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');
+            $('#myTableTriDharma').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');
         },
         drawCallback: function () {
             new LazyLoad({
