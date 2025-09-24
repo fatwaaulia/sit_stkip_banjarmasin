@@ -77,6 +77,7 @@ $get_dosen = $_GET['dosen'] ?? '';
                             <th>Kode</th>
                             <th>Nama Mata Kuliah</th>
                             <th>SKS</th>
+                            <th>Semester</th>
                             <th>Hari, Jam</th>
                             <th>Ruangan</th>
                             <th>Dosen Pengampu</th>
@@ -126,6 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: 'sks',
+            }, {
+                name: '',
+                data: 'semester',
             }, {
                 name: '',
                 data: null,

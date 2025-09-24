@@ -1,6 +1,6 @@
 <?php
 $is_access = false;
-if (in_array(userSession('id_role_aktif'), [4])) {
+if (in_array(userSession('id_role'), [1, 17]) || in_array(userSession('id_role_aktif'), [4])) {
     $is_access = true;
 }
 
@@ -177,6 +177,141 @@ document.addEventListener('DOMContentLoaded', function() {
 function renderOpsi(data) {
     let endpoint_edit_data = `<?= $base_route ?>edit/${data.id}`;
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
+    
+    if (data.created_by == '<?= userSession('id') ?>') {
+        return `
+        <a href="${endpoint_edit_data}" class="me-2" title="Edit">
+            <i class="fa-regular fa-pen-to-square fa-lg"></i>
+        </a>
+        <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
+            <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
+        </a>`;
+    } else {
+        return '';
+    }
+}
+<?php endif; ?>
+</script>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="my-4">Pengajaran</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card p-3">
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-lg-10 col-xl-11">
+                        <!--  -->
+                    </div>
+                    <div class="col-12 col-lg-2 col-xl-1 d-flex justify-content-end align-items-end">
+                        <?php if ($is_access) : ?>
+                        <a href="<?= $base_route_pengajaran ?>new" class="btn btn-primary">
+                            <i class="fa-solid fa-plus fa-sm"></i> New
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover table-bordered text-nowrap" id="myTablePengajaran">
+                    <thead class="bg-primary-subtle">
+                        <tr>
+                            <th>No.</th>
+                            <th>Kode</th>
+                            <th>Nama Mata Kuliah</th>
+                            <th>SKS</th>
+                            <th>Semester</th>
+                            <th>Hari, Jam</th>
+                            <th>Ruangan</th>
+                            <th>Dosen Pengampu</th>
+                            <th>Tautan</th>
+                            <th>Dokumen</th>
+                            <th>Program Studi</th>
+                            <th>Tahun Akademik</th>
+                            <?php if ($is_access) : ?>
+                            <th>Opsi</th>
+                            <?php endif; ?>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    new DataTable('#myTablePengajaran', {
+        ajax: '<?= $get_data_pengajaran ?>',
+        processing: true,
+        serverSide: true,
+        order: [],
+        initComplete: function (settings, json) {
+            $('#myTablePengajaran').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');
+        },
+        drawCallback: function () {
+            new LazyLoad({
+                elements_selector: '.lazy-shimmer',
+                callback_loaded: (el) => {
+                    el.classList.remove('lazy-shimmer');
+                }
+            });
+        },
+        columns: [
+            {
+                name: '',
+                data: 'no_urut',
+            }, {
+                name: 'kode',
+                data: 'kode',
+            }, {
+                name: 'nama_mata_kuliah',
+                data: 'nama_mata_kuliah',
+            }, {
+                name: '',
+                data: 'sks',
+            }, {
+                name: '',
+                data: 'semester',
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.hari}, ${data.jam_mulai} - ${data.jam_selesai}`,
+            }, {
+                name: 'ruangan',
+                data: 'ruangan',
+            }, {
+                name: 'dosen_pengampu',
+                data: 'dosen_pengampu',
+            }, {
+                name: '',
+                data: null,
+                render: data => data.tautan ? `<a href="${data.tautan}" target="_blank">Buka</a>` : '-',
+            }, {
+                name: '',
+                data: null,
+                render: data => data.dokumen ? `<a href="${data.dokumen}" target="_blank">Buka</a>` : '-',
+            }, {
+                name: '',
+                data: null,
+                render: data => `${data.jenjang_program_studi} - ${data.nama_program_studi}`,
+            }, {
+                name: 'tahun_akademik',
+                data: 'tahun_akademik',
+            }, <?php if ($is_access) : ?> {
+                name: '',
+                data: null,
+                render: renderOpsi,
+            }, <?php endif; ?>
+        ].map(col => ({ ...col, orderable: col.name !== '' })),
+    });
+});
+
+<?php if ($is_access) : ?>
+function renderOpsi(data) {
+    let endpoint_edit_data = `<?= $base_route_pengajaran ?>edit/${data.id}`;
+    let endpoint_hapus_data = `<?= $base_api_pengajaran ?>delete/${data.id}`;
     
     if (data.created_by == '<?= userSession('id') ?>') {
         return `

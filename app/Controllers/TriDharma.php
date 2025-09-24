@@ -25,6 +25,11 @@ class TriDharma extends BaseController
             'get_data'   => $this->base_api . $query,
             'base_route' => $this->base_route,
             'base_api'   => $this->base_api,
+            
+            'get_data_pengajaran' => base_url('api/pengajaran') . $query,
+            'base_route_pengajaran' => base_url(userSession('slug_role')) . '/pengajaran/',
+            'base_api_pengajaran'   => base_url() . 'api/pengajaran/',
+
             'title'      => ucwords(str_replace('_', ' ', $this->base_name)),
         ];
 

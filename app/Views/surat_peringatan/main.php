@@ -1,8 +1,8 @@
 <?php
-$is_access = true;
-// if (array_intersect(userSession('id_roles'), [1, 4])) {
-//     $is_access = true;
-// }
+$is_access = false;
+if (in_array(userSession('id_role'), [1, 17]) || in_array(userSession('id_role_aktif'), [2, 3, 7, 9, 12])) {
+    $is_access = true;
+}
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>

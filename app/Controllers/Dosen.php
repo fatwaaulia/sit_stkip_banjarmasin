@@ -256,7 +256,7 @@ class Dosen extends BaseController
             'jabatan_fungsional' => $this->request->getVar('jabatan_fungsional'),
             'jabatan_struktural' => $this->request->getVar('jabatan_struktural'),
             'motto_kerja' => $this->request->getVar('motto_kerja'),
-            'multi_role'    => json_encode($data_multi_role),
+            'multi_role'    => $data_multi_role ? json_encode($data_multi_role) : '',
 
             'id_program_studi'        => $program_studi['id'],
             'jenjang_program_studi'   => $program_studi['jenjang'],

@@ -8,11 +8,8 @@ if ($tahun_akademik_aktif) {
 }
 ?>
 
-<style>
-table tr { font-weight: 600; }
-
-table tr td { padding: 6px; }
-</style>
+<script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+<link rel="stylesheet" href="<?= base_url() ?>assets/modules/datatables/css/dataTables.dataTables.min.css">
 
 <div class="container-fluid">
     <div class="row">
@@ -47,6 +44,56 @@ table tr td { padding: 6px; }
         </div>
     </div>
 </div>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Publikasi Tri Dharma Terbaru</h5>
+                    <table class="display nowrap" id="table_tri_dharma">
+                        <thead class="bg-primary-subtle">
+                            <tr>
+                                <th>No.</th>
+                                <th>Kategori</th>
+                                <th>Judul</th>
+                                <th>Tanggal Publikasi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $tri_dharma = model('TriDharma')->orderBy('tanggal_publikasi DESC')->findAll(10);
+                            foreach ($tri_dharma as $k => $v) :
+                            ?>
+                            <tr>
+                                <td><?= $k+1 ?></td>
+                                <td><?= $v['kategori'] ?></td>
+                                <td><?= $v['judul'] ?></td>
+                                <td><?= date('d-m-Y', strtotime(toUserTime($v['tanggal_publikasi']))) ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    new DataTable('#table_tri_dharma', {
+        searching: false,
+        lengthChange: false,
+        ordering: false,
+        initComplete: function (settings, json) {
+            $('#table_tri_dharma').wrap('<div style="overflow: auto; width: 100%; position: relative;"></div>');
+        },
+    });
+});
+</script>
+
+<script src="<?= base_url() ?>assets/modules/datatables/js/dataTables.min.js"></script>
 
 <?php
 $kas_bulan_ini = model('Keuangan')

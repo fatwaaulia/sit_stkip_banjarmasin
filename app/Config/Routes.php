@@ -373,13 +373,13 @@ if (array_intersect($id_roles, roleAccessByTitle('Jadwal Kegiatan'))) {
     });
 }
 
-if (array_intersect($id_roles, roleAccessByTitle('Operator'))) {
-    $routes->get("$slug_role/operator", 'Operator::main', ['filter' => 'EnsureLogin']);
-    $routes->group('api/operator', ['filter' => 'EnsureLogin'], static function ($routes) {
-        $routes->get('/', 'Operator::index');
-        $routes->post('update', 'Operator::update');
-    });
-}
+// if (array_intersect($id_roles, roleAccessByTitle('Operator'))) {
+//     $routes->get("$slug_role/operator", 'Operator::main', ['filter' => 'EnsureLogin']);
+//     $routes->group('api/operator', ['filter' => 'EnsureLogin'], static function ($routes) {
+//         $routes->get('/', 'Operator::index');
+//         $routes->post('update', 'Operator::update');
+//     });
+// }
 
 if (array_intersect($id_roles, roleAccessByTitle('Dokumen Template'))) {
     $routes->get("$slug_role/dokumen-template", 'DokumenTemplate::main', ['filter' => 'EnsureLogin']);
@@ -501,7 +501,7 @@ if (array_intersect($id_roles, roleAccessByTitle('Tri Dharma'))) {
     });
 }
 
-if (array_intersect($id_roles, roleAccessByTitle('Pengajaran'))) {
+// if (array_intersect($id_roles, roleAccessByTitle('Pengajaran'))) {
     $routes->group("$slug_role/pengajaran", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Pengajaran::main');
         $routes->get('new', 'Pengajaran::new');
@@ -513,7 +513,7 @@ if (array_intersect($id_roles, roleAccessByTitle('Pengajaran'))) {
         $routes->post('update/(:segment)', 'Pengajaran::update/$1');
         $routes->post('delete/(:segment)', 'Pengajaran::delete/$1');
     });
-}
+// }
 
 if (array_intersect($id_roles, roleAccessByTitle('Pengembangan Kompetensi'))) {
     $routes->group("$slug_role/pengembangan-kompetensi", ['filter' => 'EnsureLogin'], static function ($routes) {

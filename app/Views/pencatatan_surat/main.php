@@ -1,6 +1,6 @@
 <?php
 $is_access = false;
-if (in_array(userSession('id_role_aktif'), [8, 12])) {
+if (in_array(userSession('id_role'), [1, 17]) || in_array(userSession('id_role_aktif'), [8, 11, 12])) {
     $is_access = true;
 }
 ?>

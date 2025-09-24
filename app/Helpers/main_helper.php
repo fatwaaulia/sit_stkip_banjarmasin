@@ -28,13 +28,33 @@ function userSession($field = null)
         if ($field == 'id_roles') {
             if (!empty($user['multi_role'])) {
                 $id_role = [$user['id_role']];
-                $multi_role = array_keys(json_decode($user['multi_role'], true));
+                $multi_role = json_decode($user['multi_role'], true);
+                if (isset($multi_role[19])) { // Operator Kerja == Waka Akademik
+                    $multi_role[3] = $multi_role[19];
+                    unset($multi_role[19]);
+                }
+                if (isset($multi_role[20])) { // Operator Kemahasiswaan == Waka Kemahasiswaan
+                    $multi_role[9] = $multi_role[20];
+                    unset($multi_role[20]);
+                }
+                $multi_role = array_keys($multi_role);
             } else {
                 $id_role = [$user['id_role']];
                 $multi_role = [];
             }
             $user_session = array_merge($id_role, $multi_role);
         } else {
+            $multi_role = json_decode($user['multi_role'], true);
+            if (isset($multi_role[19])) { // Operator Kerja == Waka Akademik
+                    $multi_role[3] = $multi_role[19];
+                    unset($multi_role[19]);
+            }
+            if (isset($multi_role[20])) { // Operator Kemahasiswaan == Waka Kemahasiswaan
+                $multi_role[9] = $multi_role[20];
+                unset($multi_role[20]);
+            }
+            $user['multi_role'] = json_encode($multi_role);
+
             $user_session = $user[$field];
         }
     } else {
@@ -202,7 +222,7 @@ function menuSidebar()
 			'title'	=> 'Dashboard',
 			'icon'	=> 'fa-solid fa-chart-line',
 			'url'	=> base_url(userSession('slug_role')) . '/dashboard',
-			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
+			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -219,13 +239,13 @@ function menuSidebar()
 			'role'	=> [1, 17, 3, 4, 7, 8, 11],
 			'type'	=> 'no-collapse',
 		],
-        [
-			'title'	=> 'Pengajaran',
-			'icon'	=> 'fa-solid fa-calendar',
-			'url'	=> base_url(userSession('slug_role')) . '/pengajaran',
-			'role'	=> [1, 17, 3, 4, 7, 8],
-			'type'	=> 'no-collapse',
-		],
+        // [
+		// 	'title'	=> 'Pengajaran',
+		// 	'icon'	=> 'fa-solid fa-calendar',
+		// 	'url'	=> base_url(userSession('slug_role')) . '/pengajaran',
+		// 	'role'	=> [1, 17, 3, 4, 7, 8],
+		// 	'type'	=> 'no-collapse',
+		// ],
         [
 			'title'	=> 'Pengembangan Kompetensi',
 			'icon'	=> 'fa-solid fa-flask',
@@ -321,7 +341,7 @@ function menuSidebar()
 			'type'	=> 'no-collapse',
 		],
         [
-			'title'	=> 'WAKA AKADEMIK / KEMAHASISWAAN DAN KERJASAMA',
+			'title'	=> 'WAKA AKADEMIK',
 			'role'	=> [1, 17],
 			'type'	=> 'heading',
 		],
@@ -329,35 +349,40 @@ function menuSidebar()
 			'title'	=> 'Kalender Akademik',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/kalender-akademik',
-			'role'	=> [1, 17, 3],
+			'role'	=> [1, 17, 3, 4, 5, 16, 21],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Jadwal Kegiatan',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kegiatan',
-			'role'	=> [1, 17, 3, 4, 5, 8],
+			'role'	=> [1, 17, 3, 4, 5, 8, 21],
 			'type'	=> 'no-collapse',
 		],
-		[
-			'title'	=> 'Operator',
-			'icon'	=> 'fa-solid fa-user-tie',
-			'url'	=> base_url() . userSession('slug_role') . '/operator',
-			'role'	=> [1, 17, 9],
-			'type'	=> 'no-collapse',
+        [
+			'title'	=> 'WAKA KEMAHASISWAAN DAN KERJASAMA',
+			'role'	=> [1, 17],
+			'type'	=> 'heading',
 		],
+		// [
+		// 	'title'	=> 'Operator',
+		// 	'icon'	=> 'fa-solid fa-user-tie',
+		// 	'url'	=> base_url() . userSession('slug_role') . '/operator',
+		// 	'role'	=> [1, 17, 9],
+		// 	'type'	=> 'no-collapse',
+		// ],
 		[
 			'title'	=> 'Dokumen Template',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url() . userSession('slug_role') . '/dokumen-template',
-			'role'	=> [1, 17, 3, 4, 7, 8, 9, 19],
+			'role'	=> [1, 17, 3, 4, 7, 8, 9],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Dokumen Kemahasiswaan',
 			'icon'	=> 'fa-solid fa-people-group',
 			'url'	=> base_url() . userSession('slug_role') . '/dokumen-kemahasiswaan',
-			'role'	=> [1, 17, 3, 7, 8, 9, 20],
+			'role'	=> [1, 17, 3, 7, 8, 9],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -409,14 +434,14 @@ function menuSidebar()
 			'title'	=> 'Dosen Pendamping',
 			'icon'	=> 'fa-solid fa-voicemail',
 			'url'	=> base_url(userSession('slug_role')) . '/dosen-pendamping',
-			'role'	=> [1, 17, 3, 4, 5, 8, 10],
+			'role'	=> [1, 17, 3, 4, 5, 8, 10, 21],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Jadwal Kuliah',
 			'icon'	=> 'fa-solid fa-calendar',
 			'url'	=> base_url() . userSession('slug_role') . '/jadwal-kuliah',
-			'role'	=> [1, 17, 3, 4, 5, 8],
+			'role'	=> [1, 17, 3, 4, 5, 8, 21],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -454,7 +479,7 @@ function menuSidebar()
 			'title'	=> 'Surat Tugas Penelitian',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url() . userSession('slug_role') . '/surat-tugas-penelitian',
-			'role'	=> [1, 17, 11],
+			'role'	=> [1, 17, 4, 11],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -473,14 +498,14 @@ function menuSidebar()
 			'title'	=> 'Surat Peringatan',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url(userSession('slug_role')) . '/surat-peringatan',
-			'role'	=> [1, 17, 2, 3, 7, 9, 12],
+			'role'	=> [1, 17, 2, 3, 7, 9, 12, 21],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Pencatatan Surat',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url(userSession('slug_role')) . '/pencatatan-surat',
-			'role'	=> [1, 17, 3, 4, 7, 8, 9, 10, 11, 12],
+			'role'	=> [1, 17, 3, 4, 7, 8, 9, 10, 11, 12, 21],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -492,7 +517,7 @@ function menuSidebar()
 			'title'	=> 'Rencana dan Penetapan Keuangan',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url() . userSession('slug_role') . '/rencana-penetapan-keuangan',
-			'role'	=> [1, 17, 2, 3, 7, 8, 9, 18],
+			'role'	=> [1, 17, 2, 3, 7, 9, 18],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -537,7 +562,7 @@ function menuSidebar()
 			'title'	=> 'Mahasiswa Praktik Lapangan',
 			'icon'	=> 'fa-solid fa-user-doctor',
 			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa-praktik-lapangan',
-			'role'	=> [1, 17, 3, 7, 9, 15],
+			'role'	=> [1, 17, 3, 7, 9, 15, 21],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -556,14 +581,14 @@ function menuSidebar()
 			'title'	=> 'Tracer Studi',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url(userSession('slug_role')) . '/tracer-studi',
-			'role'	=> [1, 17, 3, 7, 9, 14],
+			'role'	=> [1, 17, 3, 7, 9, 14, 21],
 			'type'	=> 'no-collapse',
 		],
         [
 			'title'	=> 'Laporan Promosi',
 			'icon'	=> 'fa-solid fa-file',
 			'url'	=> base_url(userSession('slug_role')) . '/laporan-promosi',
-			'role'	=> [1, 17, 7, 9, 14],
+			'role'	=> [1, 17, 7, 9, 14, 21],
 			'type'	=> 'no-collapse',
 		],
 		[
@@ -608,7 +633,7 @@ function menuSidebar()
 		],
 		[
 			'title'	=> 'AKUN',
-			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
+			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21],
 			'type'	=> 'heading',
 		],
         [
@@ -622,14 +647,14 @@ function menuSidebar()
 			'title'	=> 'Profil',
 			'icon'	=> 'fa-solid fa-user',
 			'url'	=> base_url(userSession('slug_role')) . '/profile',
-			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
+			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21],
 			'type'	=> 'no-collapse',
 		],
 		[
 			'title'	=> 'Keluar',
 			'icon'	=> 'fa-solid fa-arrow-right-from-bracket',
 			'url'	=> base_url('logout'),
-			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
+			'role'	=> [1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21],
 			'type'	=> 'no-collapse',
 		],
 	];

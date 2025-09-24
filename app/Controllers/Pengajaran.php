@@ -7,12 +7,14 @@ class Pengajaran extends BaseController
     protected $base_name;
     protected $model_name;
     protected $upload_path;
+    protected $base_route_2;
 
     public function __construct()
     {
         $this->base_name   = 'pengajaran';
         $this->model_name  = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->base_name)));
         $this->upload_path = dirUpload() . $this->base_name . '/';
+        $this->base_route_2 = base_url(userSession('slug_role')) . '/tri-dharma/';
     }
 
     /*--------------------------------------------------------------
@@ -23,7 +25,7 @@ class Pengajaran extends BaseController
         $query = $_SERVER['QUERY_STRING'] ? ('?' . $_SERVER['QUERY_STRING']) : '';
         $data = [
             'get_data'   => $this->base_api . $query,
-            'base_route' => $this->base_route,
+            'base_route' => $this->base_route_2,
             'base_api'   => $this->base_api,
             'title'      => ucwords(str_replace('_', ' ', $this->base_name)),
         ];
@@ -36,7 +38,7 @@ class Pengajaran extends BaseController
     public function new()
     {
         $data = [
-            'base_route' => $this->base_route,
+            'base_route' => $this->base_route_2,
             'base_api'   => $this->base_api,
             'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
         ];
@@ -51,7 +53,7 @@ class Pengajaran extends BaseController
         $find_data = model($this->model_name)->find($id);
 
         $data = [
-            'base_route' => $this->base_route,
+            'base_route' => $this->base_route_2,
             'base_api'   => $this->base_api,
             'base_name'  => $this->base_name,
             'data'       => $find_data,
@@ -134,6 +136,7 @@ class Pengajaran extends BaseController
             'kode'  => 'required',
             'nama_mata_kuliah'  => 'required',
             'sks'  => 'required',
+            'semester'  => 'required',
             'hari'  => 'required',
             'jam_mulai'  => 'required',
             'jam_selesai'  => 'required',
@@ -168,6 +171,7 @@ class Pengajaran extends BaseController
             'kode'  => $this->request->getVar('kode'),
             'nama_mata_kuliah'  => $this->request->getVar('nama_mata_kuliah'),
             'sks'  => $this->request->getVar('sks'),
+            'semester'  => $this->request->getVar('semester'),
             'hari'  => $this->request->getVar('hari'),
             'jam_mulai'  => toSystemTime($this->request->getVar('jam_mulai')),
             'jam_selesai'  => toSystemTime($this->request->getVar('jam_selesai')),
@@ -186,7 +190,7 @@ class Pengajaran extends BaseController
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Data berhasil ditambahkan',
-            'route'   => $this->base_route,
+            'route'   => $this->base_route_2,
         ]);
     }
 
@@ -198,6 +202,7 @@ class Pengajaran extends BaseController
             'kode'  => 'required',
             'nama_mata_kuliah'  => 'required',
             'sks'  => 'required',
+            'semester'  => 'required',
             'hari'  => 'required',
             'jam_mulai'  => 'required',
             'jam_selesai'  => 'required',
@@ -232,6 +237,7 @@ class Pengajaran extends BaseController
             'kode'  => $this->request->getVar('kode'),
             'nama_mata_kuliah'  => $this->request->getVar('nama_mata_kuliah'),
             'sks'  => $this->request->getVar('sks'),
+            'semester'  => $this->request->getVar('semester'),
             'hari'  => $this->request->getVar('hari'),
             'jam_mulai'  => toSystemTime($this->request->getVar('jam_mulai')),
             'jam_selesai'  => toSystemTime($this->request->getVar('jam_selesai')),
@@ -244,7 +250,7 @@ class Pengajaran extends BaseController
         return $this->response->setStatusCode(200)->setJSON([
             'status'  => 'success',
             'message' => 'Perubahan disimpan',
-            'route'   => $this->base_route,
+            'route'   => $this->base_route_2,
         ]);
     }
 

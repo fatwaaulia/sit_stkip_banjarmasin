@@ -35,6 +35,11 @@
                                 <div class="invalid-feedback" id="invalid_sks"></div>
                             </div>
                             <div class="mb-3">
+                                <label for="semester" class="form-label">Semester</label>
+                                <input type="text" class="form-control" id="semester" name="semester" placeholder="Masukkan semester">
+                                <div class="invalid-feedback" id="invalid_semester"></div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="hari" class="form-label">Hari</label>
                                 <select class="form-select" id="hari" name="hari">
                                     <option value="">Pilih</option>

@@ -91,7 +91,7 @@ class Auth extends BaseController
         $password = trim($this->request->getVar('password'));
 
         $user = model($this->model_name)
-        ->select(['id', 'id_role', 'nama_role', 'slug_role', 'nama', 'username', 'password', 'status', 'status_akun'])
+        ->select(['id', 'id_role', 'nama_role', 'slug_role', 'multi_role', 'nama', 'username', 'password', 'status', 'status_akun'])
         ->groupStart()
             ->where('username', $username)
             // ->orWhere('email', $username)
@@ -135,12 +135,31 @@ class Auth extends BaseController
             session()->set($session);
             $role = model('Role')->where('id', $user['id_role'])->first();
 
-            if (in_array($user['id_role'], [4, 16])) { // Dosen / Tendik
+            if ($user['id_role'] == 4) { // Dosen
                 model('Users')->update($user['id'], [
                     'id_role_aktif' => $user['id_role'],
                     'nama_role_aktif' => $user['nama_role'],
                     'slug_role_aktif' => $user['slug_role'],
                 ]);
+            }
+
+            if ($user['id_role'] == 16) { // Tendik
+                if (!empty($user['multi_role'])) {
+                    $multi_role = json_decode($user['multi_role'], true);
+                    $first_multi_role = array_key_first($multi_role);
+
+                    model('Users')->update($user['id'], [
+                        'id_role_aktif' => $first_multi_role,
+                        'nama_role_aktif' => $multi_role[$first_multi_role]['nama_role'],
+                        'slug_role_aktif' => $multi_role[$first_multi_role]['slug_role'],
+                    ]);
+                } else {
+                    model('Users')->update($user['id'], [
+                        'id_role_aktif' => $user['id_role'],
+                        'nama_role_aktif' => $user['nama_role'],
+                        'slug_role_aktif' => $user['slug_role'],
+                    ]);
+                }
             }
 
             return $this->response->setStatusCode(200)->setJSON([
