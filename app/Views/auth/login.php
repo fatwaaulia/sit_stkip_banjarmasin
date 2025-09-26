@@ -28,7 +28,7 @@ body { overflow: hidden; }
                         <hr>
                         <form id="form">
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="username / nomor identitas">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="nomor identitas">
                                 <div class="invalid-feedback" id="invalid_username"></div>
                             </div>
                             <div class="mb-3">

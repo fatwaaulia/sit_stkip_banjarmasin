@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class Lkpt extends BaseController
+class PengumpulanLaporan extends BaseController
 {
     protected $base_name;
     protected $model_name;
@@ -10,7 +10,7 @@ class Lkpt extends BaseController
 
     public function __construct()
     {
-        $this->base_name   = 'lkpt';
+        $this->base_name   = 'pengumpulan_laporan';
         $this->model_name  = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->base_name)));
         $this->upload_path = dirUpload() . $this->base_name . '/';
     }
@@ -25,11 +25,41 @@ class Lkpt extends BaseController
             'get_data'   => $this->base_api . $query,
             'base_route' => $this->base_route,
             'base_api'   => $this->base_api,
-            'title'      => 'LKPT',
+            'title'      => ucwords(str_replace('_', ' ', $this->base_name)),
         ];
 
         $view['sidebar'] = view('dashboard/sidebar');
         $view['content'] = view($this->base_name . '/main', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function new()
+    {
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/new', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function edit($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
+
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => $find_data,
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/edit', $data);
         return view('dashboard/header', $view);
     }
 
@@ -40,9 +70,27 @@ class Lkpt extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
+
+        if (array_intersect(userSession('id_roles'), [1, 17]) || userSession('id_role_aktif') == 7) {
+            $get_program_studi = $this->request->getVar('program_studi');
+            if ($get_program_studi) {
+                $base_query->where('id_program_studi', $get_program_studi);
+            }
+        } elseif (userSession('id_role_aktif') == 8) { // Kaprodi
+            $base_query->where('id_program_studi', userSession('id_program_studi'));
+        }
+
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
+        $array_query_key = ['program_studi'];
+
+        if (array_intersect(array_keys($_GET), $array_query_key)) {
+            $get_program_studi = $this->request->getVar('program_studi');
+            if ($get_program_studi) {
+                $base_query->where('id_program_studi', $get_program_studi);
+            }
+        }
 
         // Datatables
         $columns = array_column($this->request->getVar('columns') ?? [], 'name');
@@ -62,6 +110,7 @@ class Lkpt extends BaseController
 
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
+            $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
         }
 
@@ -98,10 +147,18 @@ class Lkpt extends BaseController
             $filename_dokumen = '';
         }
 
+        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+
         $data = [
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
+
+            'id_program_studi' => $program_studi['id'] ?? '',
+            'jenjang_program_studi' => $program_studi['jenjang'] ?? '',
+            'nama_program_studi' => $program_studi['nama'] ?? '',
+            'singkatan_program_studi' => $program_studi['singkatan'] ?? '',
+
             'created_by' => userSession('id'),
         ];
 

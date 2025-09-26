@@ -250,7 +250,7 @@ function menuSidebar()
 			'title'	=> 'Pengembangan Kompetensi',
 			'icon'	=> 'fa-solid fa-flask',
 			'url'	=> base_url(userSession('slug_role')) . '/pengembangan-kompetensi',
-			'role'	=> [1, 17, 4, 7, 3, 9, 10, 11, 12],
+			'role'	=> [1, 17, 4, 7, 9, 10, 11, 12],
 			'type'	=> 'no-collapse',
 		],
         [
@@ -562,7 +562,14 @@ function menuSidebar()
 			'title'	=> 'Mahasiswa Praktik Lapangan',
 			'icon'	=> 'fa-solid fa-user-doctor',
 			'url'	=> base_url(userSession('slug_role')) . '/mahasiswa-praktik-lapangan',
-			'role'	=> [1, 17, 3, 7, 9, 15, 21],
+			'role'	=> [1, 17, 3, 4, 7, 9, 15, 21],
+			'type'	=> 'no-collapse',
+		],
+        [
+			'title'	=> 'Pengumpulan Laporan',
+			'icon'	=> 'fa-solid fa-file',
+			'url'	=> base_url(userSession('slug_role')) . '/pengumpulan-laporan',
+			'role'	=> [1, 17, 7, 8, 15],
 			'type'	=> 'no-collapse',
 		],
         [

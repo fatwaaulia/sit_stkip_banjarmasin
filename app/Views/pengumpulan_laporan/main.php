@@ -62,9 +62,6 @@ if (in_array(userSession('id_role'), [1, 17]) || in_array(userSession('id_role_a
                             <th>Judul</th>
                             <th>Tautan</th>
                             <th>Dokumen</th>
-                            <th>Dosen 1</th>
-                            <th>Dosen 2</th>
-                            <th>Dosen 3</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -113,18 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: null,
                 render: data => data.dokumen ? `<a href="${data.dokumen}" target="_blank">Buka</a>` : '-',
-            }, {
-                name: 'nama_dosen_1',
-                data: null,
-                render: data => `${data.nomor_identitas_dosen_1} - ${data.nama_dosen_1} <br> ${data.nama_program_studi_dosen_1}`,
-            }, {
-                name: 'nama_dosen_2',
-                data: null,
-                render: data => `${data.nomor_identitas_dosen_2} - ${data.nama_dosen_2} <br> ${data.nama_program_studi_dosen_2}`,
-            }, {
-                name: 'nama_dosen_3',
-                data: null,
-                render: data => `${data.nomor_identitas_dosen_3} - ${data.nama_dosen_3} <br> ${data.nama_program_studi_dosen_3}`,
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,

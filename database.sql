@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 24, 2025 at 09:00 AM
+-- Generation Time: Sep 26, 2025 at 09:15 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -131,11 +131,10 @@ CREATE TABLE `dosen_pendamping` (
 
 INSERT INTO `dosen_pendamping` (`id`, `judul`, `tautan`, `dokumen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `id_dosen_1`, `nama_dosen_1`, `id_dosen_2`, `nama_dosen_2`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (3, 'sk skripsi', '', '1757992605_cc5df18fb93477af738b.pdf', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', 0, '', '2025-09-16 10:16:45', '2025-09-17 08:43:23', 28, 0),
-(4, 'Dosen Pembimbing Akademik', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', 0, '', '2025-09-16 11:01:48', '2025-09-17 08:43:23', 32, 0),
 (5, 'DOSEN PEMBIMBING AKADEMIK', '', '1757995317_99e5309fc3ec880c6046.pdf', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', 0, '', '2025-09-16 11:01:57', '2025-09-17 08:43:23', 33, 0),
-(6, 'Dosen Pembimbing Skripsi', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', 0, '', '2025-09-16 11:02:09', '2025-09-17 08:43:23', 32, 0),
 (7, 'DOSEN PEMBIMBING AKADEMIK', '', '1757995357_893936256c9f7f2b8a4d.pdf', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', 0, '', '2025-09-16 11:02:37', '2025-09-17 08:43:23', 28, 0),
-(11, 'wwqqqqqqygyug', 'https://www.linkedin.com/feed/', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 27, 'Novi Suma Setyawati', 40, 'Muhammad Agus Safrian Nur', '2025-09-17 09:27:08', '2025-09-17 09:30:10', 28, 28);
+(11, 'wwqqqqqqygyug', 'https://www.linkedin.com/feed/', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 27, 'Novi Suma Setyawati', 40, 'Muhammad Agus Safrian Nur', '2025-09-17 09:27:08', '2025-09-17 09:30:10', 28, 28),
+(13, 'sadaojdoa', 'https://www.youtube.com/watch?v=sWeVcbGhBv0&list=RDsWeVcbGhBv0&start_radio=1', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', 46, 'Abdul Aziz', '2025-09-26 13:49:32', '2025-09-26 13:49:32', 32, 0);
 
 -- --------------------------------------------------------
 
@@ -289,7 +288,8 @@ CREATE TABLE `keuangan` (
 
 INSERT INTO `keuangan` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`, `nominal`, `id_sumber_dana`, `nama_sumber_dana`, `catatan`, `tanggal`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (9, 'Masuk', 1, 'Mahasiswa', 1000000, 1, 'SPP', 'Pembayaran SPP mahasiswa', '2025-08-02 13:59:00', '2025-09-16 14:01:04', '2025-09-16 14:01:04', 41, 0),
-(10, 'Masuk', 1, 'Mahasiswa', 200000, 3, 'Lain-lain', 'Pembayaran biaya PMB a.n Yully Yana Istikomah PGSD TA 2025/2026', '2025-08-08 14:03:00', '2025-09-16 14:04:39', '2025-09-16 14:04:39', 41, 0);
+(10, 'Masuk', 1, 'Mahasiswa', 200000, 3, 'Lain-lain', 'Pembayaran biaya PMB a.n Yully Yana Istikomah PGSD TA 2025/2026', '2025-08-08 14:03:00', '2025-09-16 14:04:39', '2025-09-16 14:04:39', 41, 0),
+(12, 'Masuk', 1, 'Mahasiswa', 5000000, 1, 'SPP', 'tunai spp', '2025-09-22 13:06:00', '2025-09-25 13:07:23', '2025-09-25 13:07:23', 41, 0);
 
 -- --------------------------------------------------------
 
@@ -333,6 +333,7 @@ CREATE TABLE `lkpt` (
   `id` bigint NOT NULL,
   `judul` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -1074,7 +1075,27 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (720, 49, 16, 'Noor Ermiliyawati Nazemi., Amd.Kom.', '6371044111040002', '::1', 'Success', '2025-09-24 12:55:51', '2025-09-24 12:55:51'),
 (721, 34, 4, 'Vebrianti Umar, M.Pd', '1108029104', '::1', 'Success', '2025-09-24 13:00:51', '2025-09-24 13:00:51'),
 (722, 35, 4, 'Yuliana Nurhayati, M.Pd.', '1109079302', '::1', 'Success', '2025-09-24 13:18:24', '2025-09-24 13:18:24'),
-(723, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-24 13:24:39', '2025-09-24 13:24:39');
+(723, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-24 13:24:39', '2025-09-24 13:24:39'),
+(724, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-25 11:56:35', '2025-09-25 11:56:35'),
+(725, 41, 16, 'Halima Chairia', '6371015011800013', '::1', 'Success', '2025-09-25 12:39:51', '2025-09-25 12:39:51'),
+(726, 34, 4, 'Vebrianti Umar, M.Pd', '1108029104', '::1', 'Success', '2025-09-25 15:41:17', '2025-09-25 15:41:17'),
+(727, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-25 16:21:51', '2025-09-25 16:21:51'),
+(728, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-26 05:08:59', '2025-09-26 05:08:59'),
+(729, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-26 05:35:26', '2025-09-26 05:35:26'),
+(730, 27, 4, 'Novi Suma Setyawati', '1111128501', '::1', 'Success', '2025-09-26 05:36:22', '2025-09-26 05:36:22'),
+(731, 25, 4, 'Muhammad Supian Sauri', '4333774675130243', '::1', 'Success', '2025-09-26 07:00:39', '2025-09-26 07:00:39'),
+(732, 25, 4, 'Muhammad Supian Sauri', '4333774675130243', '::1', 'Success', '2025-09-26 07:01:09', '2025-09-26 07:01:09'),
+(733, 34, 4, 'Vebrianti Umar, M.Pd', '1108029104', '::1', 'Success', '2025-09-26 08:58:26', '2025-09-26 08:58:26'),
+(734, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-26 10:40:32', '2025-09-26 10:40:32'),
+(735, 33, 4, 'Novi Nurdian', '1109119201', '::1', 'Success', '2025-09-26 11:03:45', '2025-09-26 11:03:45'),
+(736, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-26 11:05:05', '2025-09-26 11:05:05'),
+(737, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-26 13:39:04', '2025-09-26 13:39:04'),
+(738, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-26 13:40:31', '2025-09-26 13:40:31'),
+(739, 46, 4, 'Abdul Aziz', '1110079002', '::1', 'Success', '2025-09-26 13:41:02', '2025-09-26 13:41:02'),
+(740, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-26 13:44:50', '2025-09-26 13:44:50'),
+(741, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-26 13:45:44', '2025-09-26 13:45:44'),
+(742, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-26 13:46:03', '2025-09-26 13:46:03'),
+(743, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-26 16:14:50', '2025-09-26 16:14:50');
 
 -- --------------------------------------------------------
 
@@ -1087,6 +1108,25 @@ CREATE TABLE `mahasiswa_praktik_lapangan` (
   `judul` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
   `dokumen` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi` bigint NOT NULL,
+  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_dosen_1` bigint NOT NULL,
+  `nama_dosen_1` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_dosen_1` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi_dosen_1` bigint NOT NULL,
+  `nama_program_studi_dosen_1` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_dosen_2` bigint NOT NULL,
+  `nama_dosen_2` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_dosen_2` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi_dosen_2` bigint NOT NULL,
+  `nama_program_studi_dosen_2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_dosen_3` bigint NOT NULL,
+  `nama_dosen_3` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_identitas_dosen_3` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi_dosen_3` bigint NOT NULL,
+  `nama_program_studi_dosen_3` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -1097,8 +1137,10 @@ CREATE TABLE `mahasiswa_praktik_lapangan` (
 -- Dumping data for table `mahasiswa_praktik_lapangan`
 --
 
-INSERT INTO `mahasiswa_praktik_lapangan` (`id`, `judul`, `tautan`, `dokumen`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(6, '2024/2025 Genap', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', '2025-09-07 08:57:28', '2025-09-18 08:33:02', 1, 25);
+INSERT INTO `mahasiswa_praktik_lapangan` (`id`, `judul`, `tautan`, `dokumen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `id_dosen_1`, `nama_dosen_1`, `nomor_identitas_dosen_1`, `id_program_studi_dosen_1`, `nama_program_studi_dosen_1`, `id_dosen_2`, `nama_dosen_2`, `nomor_identitas_dosen_2`, `id_program_studi_dosen_2`, `nama_program_studi_dosen_2`, `id_dosen_3`, `nama_dosen_3`, `nomor_identitas_dosen_3`, `id_program_studi_dosen_3`, `nama_program_studi_dosen_3`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(6, '2024/2025 Genap', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', 0, '', '', '', 0, '', '', 0, '', 0, '', '', 0, '', 0, '', '', 0, '', '2025-09-07 08:57:28', '2025-09-18 08:33:02', 1, 25),
+(7, 'jaosdoisad', 'https://www.linkedin.com/feed/', '1758851816_d32507a3931f8c093ac3.pdf', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 31, 'Rizki Nugerahani Ilise', '1129049101', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 35, 'Yuliana Nurhayati, M.Pd.', '1109079302', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 32, 'Armin Fani', '1112098702', 1, 'Pendidikan Bahasa Inggris', '2025-09-26 08:11:20', '2025-09-26 08:56:56', 25, 25),
+(8, 'aksjoidiqoiweq', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', 34, 'Vebrianti Umar, M.Pd', '1108029104', 1, 'Pendidikan Bahasa Inggris', 0, '', '', 0, '', '2025-09-26 08:57:47', '2025-09-26 08:57:47', 25, 0);
 
 -- --------------------------------------------------------
 
@@ -1131,9 +1173,9 @@ INSERT INTO `master_dana` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dan
 (6, 'Masuk', 2, 'Kementerian/ Yayasan', 'Hibah Penelitian', '2025-08-30 06:01:47', '2025-08-30 05:50:03', 0, 0),
 (7, 'Masuk', 2, 'Kementerian/ Yayasan', 'Hibah PKM', '2025-08-30 06:01:52', '2025-08-30 05:50:20', 0, 0),
 (8, 'Masuk', 2, 'Kementerian/ Yayasan', 'Lain-lain', '2025-08-30 06:01:57', '2025-08-30 05:50:36', 0, 0),
-(9, 'Masuk', 3, 'PT Sendiri', 'Jasa Layanan Profesi dan Keahl', '2025-08-30 06:02:01', '2025-08-30 05:51:13', 0, 0),
+(9, 'Masuk', 3, 'PT Sendiri', 'Jasa layanan profesi\ndan/atau keahlian', '2025-08-30 06:02:01', '2025-08-30 05:51:13', 0, 0),
 (10, 'Masuk', 3, 'PT Sendiri', 'Produk Institusi', '2025-08-30 06:02:05', '2025-08-30 05:51:26', 0, 0),
-(11, 'Masuk', 3, 'PT Sendiri', 'Kerjasama Kelembagaan (Pemerin', '2025-08-30 06:02:08', '2025-08-30 05:51:38', 0, 0),
+(11, 'Masuk', 3, 'PT Sendiri', 'Kerjasama kelembagaan\n(pemerintah atau swasta)', '2025-08-30 06:02:08', '2025-08-30 05:51:38', 0, 0),
 (12, 'Masuk', 3, 'PT Sendiri', 'Lain-lain', '2025-08-30 06:02:17', '2025-08-30 05:51:55', 0, 0),
 (13, 'Masuk', 4, 'Sumber Lain (Dalam dan Luar Negeri)', 'Hibah', '2025-08-30 06:02:13', '2025-08-30 05:52:07', 0, 0),
 (14, 'Masuk', 4, 'Sumber Lain (Dalam dan Luar Negeri)', 'Dana Lestari dan Filantropis', '2025-08-30 06:02:20', '2025-08-30 05:52:24', 0, 0),
@@ -1197,6 +1239,8 @@ INSERT INTO `pembayaran_mahasiswa` (`id`, `id_tagihan_mahasiswa`, `jenis_tagihan
 CREATE TABLE `pencatatan_surat` (
   `id` bigint NOT NULL,
   `jenis` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `penerima` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `tujuan` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `nomor_surat` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `perihal` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
@@ -1215,9 +1259,10 @@ CREATE TABLE `pencatatan_surat` (
 -- Dumping data for table `pencatatan_surat`
 --
 
-INSERT INTO `pencatatan_surat` (`id`, `jenis`, `nomor_surat`, `perihal`, `tautan`, `dokumen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'MASUK', 'SK/MP2025/00123', 'Surat Kunjungan Presiden', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', 0, '', '', '', '2025-09-04 10:34:03', '2025-09-04 10:34:03', 33, 0),
-(3, 'MASUK', '9237492', 'iqjwoqd', 'https://www.linkedin.com/feed/', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-09-18 07:50:36', '2025-09-18 07:50:36', 33, 0);
+INSERT INTO `pencatatan_surat` (`id`, `jenis`, `penerima`, `tujuan`, `nomor_surat`, `perihal`, `tautan`, `dokumen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'MASUK', '', '', 'SK/MP2025/00123', 'Surat Kunjungan Presiden', 'https://mail.google.com/mail/u/0/?usp=installed_webapp', '', 0, '', '', '', '2025-09-04 10:34:03', '2025-09-04 10:34:03', 33, 0),
+(3, 'MASUK', '', '', '9237492', 'iqjwoqd', 'https://www.linkedin.com/feed/', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-09-18 07:50:36', '2025-09-18 07:50:36', 33, 0),
+(4, 'KELUAR', 'Mr. Beans', 'Kampus Terbukaas', '0iw/wda-2123', 'pengajuan kerjasama', 'https://www.linkedin.com/feed/', '1758793849_8f4332b193b256c147a0.pdf', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', '2025-09-25 16:50:49', '2025-09-25 16:54:31', 32, 32);
 
 -- --------------------------------------------------------
 
@@ -1289,6 +1334,34 @@ CREATE TABLE `pengembangan_kompetensi` (
 
 INSERT INTO `pengembangan_kompetensi` (`id`, `judul`, `tautan`, `dokumen`, `id_dosen`, `nama_dosen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (3, 'Bos Putin Mampir ke Poliwangi  Bersama Jajaran Kabinet Stalinium', 'https://www.youtube.com/', '', 29, 'Zulparis', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', '2025-09-18 07:11:45', '2025-09-18 07:11:45', 29, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pengumpulan_laporan`
+--
+
+CREATE TABLE `pengumpulan_laporan` (
+  `id` bigint NOT NULL,
+  `judul` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tautan` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi` bigint NOT NULL,
+  `jenjang_program_studi` varchar(2) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_program_studi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `singkatan_program_studi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_by` bigint NOT NULL,
+  `updated_by` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pengumpulan_laporan`
+--
+
+INSERT INTO `pengumpulan_laporan` (`id`, `judul`, `tautan`, `dokumen`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'sadaojdoa', 'https://www.linkedin.com/feed/', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', '2025-09-26 11:01:30', '2025-09-26 11:01:30', 25, 0);
 
 -- --------------------------------------------------------
 
@@ -1658,7 +1731,7 @@ INSERT INTO `role` (`id`, `nama`, `slug`) VALUES
 (12, 'Staf Administrasi', 'staf-administrasi'),
 (13, 'Pustakawan', 'pustakawan'),
 (14, 'Biro Alumni', 'biro-alumni'),
-(15, 'UTP PLP', 'upt-plp'),
+(15, 'UPT PLP', 'upt-plp'),
 (16, 'Tendik', 'tendik'),
 (17, 'Admin Utama', 'admin-utama'),
 (18, 'Waka Administrasi dan Keuangan', 'waka-administrasi-keuangan'),
@@ -1674,8 +1747,10 @@ INSERT INTO `role` (`id`, `nama`, `slug`) VALUES
 
 CREATE TABLE `spmi` (
   `id` bigint NOT NULL,
+  `kategori` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `judul` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -1692,6 +1767,7 @@ CREATE TABLE `standar_pt` (
   `id` bigint NOT NULL,
   `judul` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tautan` varchar(2048) COLLATE utf8mb4_general_ci NOT NULL,
+  `dokumen` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` bigint NOT NULL,
@@ -1930,7 +2006,7 @@ CREATE TABLE `tri_dharma` (
   `nomor_identitas_anggota_2` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
   `nama_role_anggota_2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `id_program_studi_anggota_2` bigint NOT NULL,
-  `id_program_studi_anggota_5` bigint NOT NULL,
+  `nama_program_studi_anggota_2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_anggota_3` bigint NOT NULL,
   `nama_anggota_3` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nomor_identitas_anggota_3` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -1947,7 +2023,7 @@ CREATE TABLE `tri_dharma` (
   `nama_anggota_5` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nomor_identitas_anggota_5` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nama_role_anggota_5` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_program_studi_anggota_2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_program_studi_anggota_5` bigint NOT NULL,
   `nama_program_studi_anggota_5` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `anggota_beda_kampus` text COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
@@ -1960,17 +2036,17 @@ CREATE TABLE `tri_dharma` (
 -- Dumping data for table `tri_dharma`
 --
 
-INSERT INTO `tri_dharma` (`id`, `kategori`, `judul`, `tautan`, `tautan_gdrive`, `dokumen`, `tanggal_publikasi`, `id_anggota_1`, `nama_anggota_1`, `nomor_identitas_anggota_1`, `nama_role_anggota_1`, `id_program_studi_anggota_1`, `nama_program_studi_anggota_1`, `id_anggota_2`, `nama_anggota_2`, `nomor_identitas_anggota_2`, `nama_role_anggota_2`, `id_program_studi_anggota_2`, `id_program_studi_anggota_5`, `id_anggota_3`, `nama_anggota_3`, `nomor_identitas_anggota_3`, `nama_role_anggota_3`, `id_program_studi_anggota_3`, `nama_program_studi_anggota_3`, `id_anggota_4`, `nama_anggota_4`, `nomor_identitas_anggota_4`, `nama_role_anggota_4`, `id_program_studi_anggota_4`, `nama_program_studi_anggota_4`, `id_anggota_5`, `nama_anggota_5`, `nomor_identitas_anggota_5`, `nama_role_anggota_5`, `nama_program_studi_anggota_2`, `nama_program_studi_anggota_5`, `anggota_beda_kampus`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(5, 'ARTIKEL PUBLIKASI', 'Parenting Class: Studi Naratif Pelibatan Orangtua Pada Pendidikan Anak Usia Dini Di Kota Banjarmasin', 'https://ejournal.ummuba.ac.id/index.php/mp/article/view/2937', '', '', '2025-06-29', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 40, 'Muhammad Agus Safrian Nur', '0158768669130093', 'Dosen', 3, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-15 08:09:08', '2025-09-18 05:30:35', 31, 0),
-(6, 'ARTIKEL PUBLIKASI', 'Digital Parenting: Pola Asuh Orang Tua Mendidik Anak Usia Dini di Era Digital', 'https://journal.iaisambas.ac.id/index.php/prymerly/article/view/3120', '', '', '2024-08-21', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 27, 'Novi Suma Setyawati', '1111128501', 'Dosen', 3, 0, 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-15 08:10:41', '2025-09-18 05:30:35', 31, 0),
-(7, 'ARTIKEL PUBLIKASI', 'Strategi Guru Mengelola Kelas untuk Meningkatkan Disiplin dan Motivasi Belajar Siswa di Sekolah Dasar', 'https://journal.umg.ac.id/index.php/didaktika/article/view/9470', '', '', '2025-01-31', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 25, 'Muhammad Supian Sauri', '4333774675130243', 'Dosen', 2, 0, 32, 'arminfani@stkipismbjm.ac.id', '1112098702', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Sekolah Dasar', '', '', '2025-09-15 13:11:00', '2025-09-18 05:30:35', 33, 33),
-(8, 'ARTIKEL PUBLIKASI', 'Pendidikan Muatan Lokal Sebagai Penanaman Karakter Cinta Tanah Air', 'https://ejournal.undiksha.ac.id/index.php/JJPGSD/article/view/36414', 'https://ejournal.undiksha.ac.id/index.php/wkwkw', '1758070376_afa50e3d29c8a903bf28.pdf', '2021-06-30', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-15 13:13:40', '2025-09-18 05:30:35', 33, 1),
-(10, 'ARTIKEL PUBLIKASI', 'Implementasi Keterampilan Dasar Mengajar Mahasiswa PGSD dalam Praktik Manajemen Kelas', 'https://www.putrapublisher.org/ojs/index.php/jspaud/article/view/986', '', '', '2025-07-20', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 27, 'Novi Suma Setyawati', '1111128501', 'Dosen', 3, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-15 13:22:47', '2025-09-18 05:30:35', 33, 1),
-(11, 'PENELITIAN', 'jaosdoisad', 'https://wkkwk.com/asjdiq', '', '', '2025-08-30', 28, 'Maulidha, M.Pd', '1129099003', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', 0, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', '', '', '<p>oijoisd ojj osdjfoisf j<br>sdfsdfs<br>Sdfsfsdf</p>', '2025-09-17 07:23:35', '2025-09-18 05:30:35', 28, 0),
-(12, 'PENGABDIAN', 'wkwkw', 'https://translate.google.com/?sl=en&tl=id&text=teknologi%20rekayasa%20perangkatan%20lunak%20terapan%20sistem&op=translate', '', '', '2024-12-29', 34, 'Vebrianti Umar, M.Pd', '1108029104', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 'Pendidikan Guru Pendidikan Anak Usia Dini', '', '', '2025-09-17 16:01:53', '2025-09-18 05:30:35', 1, 0),
-(13, 'PENGABDIAN', 'qweqe', '', '', '', '2024-10-29', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', '', '', '', '2025-09-17 17:12:57', '2025-09-18 05:30:35', 33, 0),
-(15, 'PENGABDIAN', 'qweqe', '', 'https://wkwdw.casda', '', '2023-11-30', 32, 'Armin Fani', '1112098702', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 0, '', '', '', 0, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', '', '', '', '2025-09-18 05:54:28', '2025-09-18 05:54:28', 32, 0),
-(16, 'PENELITIAN', 'Selamat Pagi UB', 'https://www.youtube.com/', '', '', '2024-09-28', 29, 'Zulparis', '1111078702', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, 0, 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', '', '', '', '2025-09-18 06:29:06', '2025-09-18 06:29:06', 29, 0);
+INSERT INTO `tri_dharma` (`id`, `kategori`, `judul`, `tautan`, `tautan_gdrive`, `dokumen`, `tanggal_publikasi`, `id_anggota_1`, `nama_anggota_1`, `nomor_identitas_anggota_1`, `nama_role_anggota_1`, `id_program_studi_anggota_1`, `nama_program_studi_anggota_1`, `id_anggota_2`, `nama_anggota_2`, `nomor_identitas_anggota_2`, `nama_role_anggota_2`, `id_program_studi_anggota_2`, `nama_program_studi_anggota_2`, `id_anggota_3`, `nama_anggota_3`, `nomor_identitas_anggota_3`, `nama_role_anggota_3`, `id_program_studi_anggota_3`, `nama_program_studi_anggota_3`, `id_anggota_4`, `nama_anggota_4`, `nomor_identitas_anggota_4`, `nama_role_anggota_4`, `id_program_studi_anggota_4`, `nama_program_studi_anggota_4`, `id_anggota_5`, `nama_anggota_5`, `nomor_identitas_anggota_5`, `nama_role_anggota_5`, `id_program_studi_anggota_5`, `nama_program_studi_anggota_5`, `anggota_beda_kampus`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(5, 'ARTIKEL PUBLIKASI', 'Parenting Class: Studi Naratif Pelibatan Orangtua Pada Pendidikan Anak Usia Dini Di Kota Banjarmasin', 'https://ejournal.ummuba.ac.id/index.php/mp/article/view/2937', '', '', '2025-06-29', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 40, 'Muhammad Agus Safrian Nur', '0158768669130093', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-15 08:09:08', '2025-09-18 05:30:35', 31, 0),
+(6, 'ARTIKEL PUBLIKASI', 'Digital Parenting: Pola Asuh Orang Tua Mendidik Anak Usia Dini di Era Digital', 'https://journal.iaisambas.ac.id/index.php/prymerly/article/view/3120', '', '', '2024-08-21', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 27, 'Novi Suma Setyawati', '1111128501', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-15 08:10:41', '2025-09-18 05:30:35', 31, 0),
+(7, 'ARTIKEL PUBLIKASI', 'Strategi Guru Mengelola Kelas untuk Meningkatkan Disiplin dan Motivasi Belajar Siswa di Sekolah Dasar', 'https://journal.umg.ac.id/index.php/didaktika/article/view/9470', '', '', '2025-01-31', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 25, 'Muhammad Supian Sauri', '4333774675130243', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 32, 'arminfani@stkipismbjm.ac.id', '1112098702', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-15 13:11:00', '2025-09-18 05:30:35', 33, 33),
+(8, 'ARTIKEL PUBLIKASI', 'Pendidikan Muatan Lokal Sebagai Penanaman Karakter Cinta Tanah Air', 'https://ejournal.undiksha.ac.id/index.php/JJPGSD/article/view/36414', 'https://ejournal.undiksha.ac.id/index.php/wkwkw', '1758070376_afa50e3d29c8a903bf28.pdf', '2021-06-30', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-15 13:13:40', '2025-09-18 05:30:35', 33, 1),
+(10, 'ARTIKEL PUBLIKASI', 'Implementasi Keterampilan Dasar Mengajar Mahasiswa PGSD dalam Praktik Manajemen Kelas', 'https://www.putrapublisher.org/ojs/index.php/jspaud/article/view/986', '', '', '2025-07-20', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 27, 'Novi Suma Setyawati', '1111128501', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-15 13:22:47', '2025-09-18 05:30:35', 33, 1),
+(11, 'PENELITIAN', 'jaosdoisad', 'https://wkkwk.com/asjdiq', '', '', '2025-08-30', 28, 'Maulidha, M.Pd', '1129099003', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '<p>oijoisd ojj osdjfoisf j<br>sdfsdfs<br>Sdfsfsdf</p>', '2025-09-17 07:23:35', '2025-09-18 05:30:35', 28, 0),
+(12, 'PENGABDIAN', 'wkwkw', 'https://translate.google.com/?sl=en&tl=id&text=teknologi%20rekayasa%20perangkatan%20lunak%20terapan%20sistem&op=translate', '', '', '2024-12-29', 34, 'Vebrianti Umar, M.Pd', '1108029104', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 31, 'Rizki Nugerahani Ilise', '1129049101', 'Dosen', 3, 'Pendidikan Guru Pendidikan Anak Usia Dini', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-17 16:01:53', '2025-09-18 05:30:35', 1, 0),
+(13, 'PENGABDIAN', 'qweqe', '', '', '', '2024-10-29', 33, 'Novi Nurdian', '1109119201', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-17 17:12:57', '2025-09-18 05:30:35', 33, 0),
+(15, 'PENGABDIAN', 'qweqe', '', 'https://wkwdw.casda', '', '2023-11-30', 32, 'Armin Fani', '1112098702', 'Dosen', 1, 'Pendidikan Bahasa Inggris', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-18 05:54:28', '2025-09-18 05:54:28', 32, 0),
+(16, 'PENELITIAN', 'Selamat Pagi UB', 'https://www.youtube.com/', '', '', '2024-09-28', 29, 'Zulparis', '1111078702', 'Dosen', 2, 'Pendidikan Guru Sekolah Dasar', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', 0, '', '', '', 0, '', '', '2025-09-18 06:29:06', '2025-09-18 06:29:06', 29, 0);
 
 -- --------------------------------------------------------
 
@@ -2062,23 +2138,23 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `multi_role`, `id_role_aktif`, `nama_role_aktif`, `slug_role_aktif`, `nama`, `username`, `email`, `password`, `password_asli`, `foto`, `jenis_kelamin`, `alamat`, `no_hp`, `jabatan_fungsional`, `jabatan_struktural`, `motto_kerja`, `nomor_identitas`, `tempat_lahir`, `tanggal_lahir`, `agama`, `status_perkawinan`, `kewarganegaraan`, `asal_sekolah`, `nomor_ijazah`, `tahun_ijazah`, `nilai_rata_rata`, `nama_ayah`, `no_hp_ayah`, `pekerjaan_ayah`, `nama_ibu`, `no_hp_ibu`, `pekerjaan_ibu`, `nama_wali`, `no_hp_wali`, `pekerjaan_wali`, `sumber_informasi`, `id_program_studi`, `jenjang_program_studi`, `nama_program_studi`, `singkatan_program_studi`, `id_tahun_akademik_diterima`, `tahun_akademik_diterima`, `tipe_tahun_akademik`, `id_tahun_akademik_lulus`, `tahun_akademik_lulus`, `tipe_tahun_akademik_lulus`, `semester`, `biaya_pendaftaran`, `biaya_almamater`, `biaya_ktm`, `biaya_uang_gedung`, `id_spp`, `nama_spp`, `biaya_spp`, `biaya_uts`, `biaya_uas`, `biaya_ldkm`, `biaya_mbkm`, `biaya_bimbingan_skripsi`, `biaya_seminar_proposal`, `biaya_sidang_skripsi`, `biaya_yudisium`, `biaya_wisuda`, `status`, `token_reset_password`, `token_reset_password_at`, `mendaftar_at`, `diterima_at`, `status_akun`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Superadmin', 'superadmin', '', 0, '', '', 'Superadmin', 'superadmin', '', '$2y$10$mVEvojJB5S6yx0DpBklmYOFSmvI6k8WqqKuAZxLu7w3dFGBXxXLqa', '', '1701744923_ef8be205f9a3eefa1576.jpg', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', NULL, NULL, NULL, 'ENABLE', '2022-10-21 14:14:28', '2025-08-30 20:29:56'),
-(25, 4, 'Dosen', 'dosen', '{\"15\":{\"nama_role\":\"UTP PLP\",\"slug_role\":\"upt-plp\"}}', 15, 'UTP PLP', 'upt-plp', 'Muhammad Supian Sauri', '4333774675130243', 'Supian@stkipismbjm.ac.id', '$2y$10$k8ZUv95Owici3U9BtA3mY.TS1gwuwNg6xFTn14XlbhQXdktv4mJAy', '4333774675130243', '', 'Laki-laki', 'Jl. Cemara Raya No 13, Banjarmasin', '082140282996', '-', 'Dosen', 'Menuntut ilmu tidak pernah mengenal waktu', '4333774675130243', 'Kelua', '1996-10-01', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:00:25', '2025-09-24 12:42:25'),
-(27, 4, 'Dosen', 'dosen', '{\"10\":{\"nama_role\":\"LPM\",\"slug_role\":\"lpm\"}}', 0, '', '', 'Novi Suma Setyawati', '1111128501', 'novisuma@stkipismbjm.ac.id', '$2y$10$ggFdbebvxO4Lx6toFpk/T.4ZRHoH6sRwp2sQhp7lbfCoqFEzZYinW', '1111128501', '1758023427_c0bc96ba3bdeb77a7038.jpg', 'Perempuan', 'Jln Karang Anyar II blok j/2 Banjarbaru Utara', '085171511851', 'Asisten Ahli', 'LPM', 'Kerja Cepat, Kerja Cerdas dan bertanggung jawab', '1111128501', 'Banjarmasin', '1985-12-11', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:01:09', '2025-09-16 18:50:46'),
+(25, 4, 'Dosen', 'dosen', '{\"15\":{\"nama_role\":\"UTP PLP\",\"slug_role\":\"upt-plp\"}}', 15, 'UTP PLP', 'upt-plp', 'Muhammad Supian Sauri', '4333774675130243', 'Supian@stkipismbjm.ac.id', '$2y$10$k8ZUv95Owici3U9BtA3mY.TS1gwuwNg6xFTn14XlbhQXdktv4mJAy', '4333774675130243', '', 'Laki-laki', 'Jl. Cemara Raya No 13, Banjarmasin', '082140282996', '-', 'Dosen', 'Menuntut ilmu tidak pernah mengenal waktu', '4333774675130243', 'Kelua', '1996-10-01', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:00:25', '2025-09-26 07:35:33'),
+(27, 4, 'Dosen', 'dosen', '{\"10\":{\"nama_role\":\"LPM\",\"slug_role\":\"lpm\"}}', 10, 'LPM', 'lpm', 'Novi Suma Setyawati', '1111128501', 'novisuma@stkipismbjm.ac.id', '$2y$10$ggFdbebvxO4Lx6toFpk/T.4ZRHoH6sRwp2sQhp7lbfCoqFEzZYinW', '1111128501', '1758023427_c0bc96ba3bdeb77a7038.jpg', 'Perempuan', 'Jln Karang Anyar II blok j/2 Banjarbaru Utara', '085171511851', 'Asisten Ahli', 'LPM', 'Kerja Cepat, Kerja Cerdas dan bertanggung jawab', '1111128501', 'Banjarmasin', '1985-12-11', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:01:09', '2025-09-26 05:36:33'),
 (28, 4, 'Dosen', 'dosen', '{\"8\":{\"nama_role\":\"Kaprodi\",\"slug_role\":\"kaprodi\"}}', 0, '', '', 'Maulidha, M.Pd', '1129099003', 'maulidha@stkipismbjm.ac.id', '$2y$10$U.7k/i9POhFlNBTxcOMcieoP4FH5gTuccc24hiICitEggWni6kcVe', '1129099003', '', 'Perempuan', 'Jl sungai lulut km 7, 1 komplek graha sejahtera blok A1 no 52', '085654545320', '-', 'Ketua Prodi PAUD', 'Lakukan yang terbaik dan jangan pernah menunda kegiatan', '1129099003', 'Banjarmasin', '1990-09-29', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:01:23', '2025-09-11 18:12:08'),
 (29, 4, 'Dosen', 'dosen', '[]', 4, 'Dosen', 'dosen', 'Zulparis', '1111078702', '', '$2y$10$.ysbjVAxX/Dc.u.GK1N5S.XrVVr6asiW0BuXhV.J2IL74pAe6xvlK', '1111078702', '', 'Laki-laki', 'Komplek Annisa tahap 4 blok A nomor 15', '', 'Asisten Ahli', 'Dosen', 'Jangan takut mengcoba', '1111078702', 'Kuripan,Kec Kuripan Kabupaten Barito Kuala', '1987-07-10', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:03:50', '2025-09-21 11:39:52'),
 (31, 4, 'Dosen', 'dosen', '{\"11\":{\"nama_role\":\"LPPM\",\"slug_role\":\"lppm\"}}', 11, 'LPPM', 'lppm', 'Rizki Nugerahani Ilise', '1129049101', 'rizkinugerahani@gmail.com', '$2y$10$U9OpdgodiIPqNJ8kt775.ObFWS/YcJjSdkboJ0fLD.amYE1Fnv8ki', '1129049101', '', 'Perempuan', 'Jl Trans Kalimantan RT 17', '085345673542', 'Asisten Ahli', 'Kepala lppm', 'Semangat berkarya visioners dan tunjukkan kreativitas diri', '1129049101', 'Berangas Barat', '1991-04-29', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:10:02', '2025-09-24 12:35:58'),
-(32, 4, 'Dosen', 'dosen', '{\"8\":{\"nama_role\":\"Kaprodi\",\"slug_role\":\"kaprodi\"},\"19\":{\"nama_role\":\"Operator Kerja\",\"slug_role\":\"operator-kerja\"}}', 4, 'Dosen', 'dosen', 'Armin Fani', '1112098702', 'arminfani@stkipismbjm.ac.id', '$2y$10$GOdlXKQ4yDfiA4/4eFV0RuSv6KHvpsAIlv6w6GEmtd9oqiYohnH3W', '1112098702', '', 'Laki-laki', 'Jl. Bumi mas Raya Komplek Bumi Mas 5 no 80 Banjarmasin Selatan.', '082143161285', 'Asisten Ahli', 'Ketua Program Studi Pendidikan Bahasa Inggris', 'Inspiring minds, shaping the future.', '1112098702', 'arminfani@stkipismbjm.ac.id', '1987-09-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:34:15', '2025-09-24 14:35:38'),
-(33, 4, 'Dosen', 'dosen', '{\"8\":{\"nama_role\":\"Kaprodi\",\"slug_role\":\"kaprodi\"}}', 0, '', '', 'Novi Nurdian', '1109119201', 'novi@stkipism.ac.id', '$2y$10$XxUEQUNg5vdBVobnc9XwmuzAHEOfYrlRDz/pLk8eSrtKQ42VVVbEi', '1109119201', '1757902439_a586ea7df903d09cad2f.jpg', 'Perempuan', 'Komplek griya rosela blok A-15, guntung manggis, kota banjarbaru', '085348484565', 'Asisten ahli', 'Ketua Prodi PGSD', 'Berbagi ilmu itu keren! Terus semangat belajar dan berkarya, karena ilmu yang bermanfaat adalah penghargaan paling berharga.', '1109119201', 'Sidoarjo', '1992-11-09', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:57:57', '2025-09-16 10:54:20'),
-(34, 4, 'Dosen', 'dosen', '{\"3\":{\"nama_role\":\"Waka Akademik\",\"slug_role\":\"waka-akademik\"}}', 3, 'Waka Akademik', 'waka-akademik', 'Vebrianti Umar, M.Pd', '1108029104', 'umar@humasoftstudio.com', '$2y$10$zETDeNwp0czQDkmZPny2wO/6MHTD9UWrveQQDE63H4eqcgZqVkOm6', '1108029104', '', 'Perempuan', 'Jl. Subur Makmur 2, Landasan Ulin', '0895803196062', 'Asisten Ahli', 'Wakil Ketua Bidang Akademik', 'Niatkan untuk bekerja dengan penuh tanggung jawab, harus punya target dan harus selesai tepat waktu.', '1108029104', 'Bitung', '1991-02-08', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:59:56', '2025-09-24 13:12:14'),
+(32, 4, 'Dosen', 'dosen', '{\"8\":{\"nama_role\":\"Kaprodi\",\"slug_role\":\"kaprodi\"},\"19\":{\"nama_role\":\"Operator Kerja\",\"slug_role\":\"operator-kerja\"}}', 4, 'Dosen', 'dosen', 'Armin Fani', '1112098702', 'arminfani@stkipismbjm.ac.id', '$2y$10$GOdlXKQ4yDfiA4/4eFV0RuSv6KHvpsAIlv6w6GEmtd9oqiYohnH3W', '1112098702', '', 'Laki-laki', 'Jl. Bumi mas Raya Komplek Bumi Mas 5 no 80 Banjarmasin Selatan.', '082143161285', 'Asisten Ahli', 'Ketua Program Studi Pendidikan Bahasa Inggris', 'Inspiring minds, shaping the future.', '1112098702', 'arminfani@stkipismbjm.ac.id', '1987-09-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:34:15', '2025-09-26 13:59:02'),
+(33, 4, 'Dosen', 'dosen', '{\"8\":{\"nama_role\":\"Kaprodi\",\"slug_role\":\"kaprodi\"}}', 8, 'Kaprodi', 'kaprodi', 'Novi Nurdian', '1109119201', 'novi@stkipism.ac.id', '$2y$10$XxUEQUNg5vdBVobnc9XwmuzAHEOfYrlRDz/pLk8eSrtKQ42VVVbEi', '1109119201', '1757902439_a586ea7df903d09cad2f.jpg', 'Perempuan', 'Komplek griya rosela blok A-15, guntung manggis, kota banjarbaru', '085348484565', 'Asisten ahli', 'Ketua Prodi PGSD', 'Berbagi ilmu itu keren! Terus semangat belajar dan berkarya, karena ilmu yang bermanfaat adalah penghargaan paling berharga.', '1109119201', 'Sidoarjo', '1992-11-09', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:57:57', '2025-09-26 11:03:56'),
+(34, 4, 'Dosen', 'dosen', '{\"3\":{\"nama_role\":\"Waka Akademik\",\"slug_role\":\"waka-akademik\"}}', 4, 'Dosen', 'dosen', 'Vebrianti Umar, M.Pd', '1108029104', 'umar@humasoftstudio.com', '$2y$10$zETDeNwp0czQDkmZPny2wO/6MHTD9UWrveQQDE63H4eqcgZqVkOm6', '1108029104', '', 'Perempuan', 'Jl. Subur Makmur 2, Landasan Ulin', '0895803196062', 'Asisten Ahli', 'Wakil Ketua Bidang Akademik', 'Niatkan untuk bekerja dengan penuh tanggung jawab, harus punya target dan harus selesai tepat waktu.', '1108029104', 'Bitung', '1991-02-08', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:59:56', '2025-09-26 08:58:39'),
 (35, 4, 'Dosen', 'dosen', '{\"9\":{\"nama_role\":\"Waka Kemahasiswaan dan Kerja Sama\",\"slug_role\":\"waka-kemahasiswaan-kerjasama\"},\"17\":{\"nama_role\":\"Admin Utama\",\"slug_role\":\"admin-utama\"}}', 9, 'Waka Kemahasiswaan dan Kerja Sama', 'waka-kemahasiswaan-kerjasama', 'Yuliana Nurhayati, M.Pd.', '1109079302', 'ana@stkipismbjm.ac.id', '$2y$10$yh5KJUWVvGC38EjXI6c02eKgBwid8nLD3z/mWFckPOy9uh7C3AQxO', '1109079302', '', 'Perempuan', 'Jl.Dharma Bakti 2 Komplek budair permai Blok B /66', '081258026807', 'Belum Ada', 'Wakil Ketua Bidang Kerjasama dan Kemahasiswaan', '\" Jika Lelah Menjalani Profesimu Maka Istirahatlah Sejenak dan Lanjutkan dengan Ide Barumu\"', '1109079302', 'Ponorogo', '1993-07-09', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 13:20:13', '2025-09-24 13:19:32'),
 (36, 17, 'Admin Utama', 'admin-utama', '', 0, '', '', 'Admin Utama', 'adminutama', '', '$2y$10$9DYUNHjLRKoy6MxfnjapUOPDG3KZa3QfBcoY2gE4N0Vws4fMWI6H6', '', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-02 14:10:27', '2025-09-02 14:10:27'),
 (37, 16, 'Tendik', 'tendik', '{\"12\":{\"nama_role\":\"Staf Administrasi\",\"slug_role\":\"staf-administrasi\"},\"13\":{\"nama_role\":\"Pustakawan\",\"slug_role\":\"pustakawan\"}}', 12, 'Staf Administrasi', 'staf-administrasi', 'Muhammad Juanda', '63710104108310004', 'juandapustaka@gmail.com', '$2y$10$XQpOqiGVHpBZ5aTg03HDcO03J7Ckus4EWo9LGH7Y91OyPSkZaup7q', '63710104108310004', '1758023507_9927ba31262032ce898a.jpg', 'Laki-laki', 'Jl. Gerilya Komp.Bumi Handayani 2', '08194101983', 'Pustakawan', 'Kepala Perpustakaan', 'Semangat, kerja keras dan kebersamaan', '63710104108310004', 'HSS', '1983-10-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-03 14:05:04', '2025-09-24 11:25:17'),
 (39, 16, 'Tendik', 'tendik', '', 0, '', '', 'Nurul Fitriyani, SE., MA.', '6371056409780006', 'nurulfitriyani241979@gmail.com', '$2y$10$lf5VWBi7vrjQ0/urDDZo0uie0DvgusUAgaudJt9Rtge6zfyFW9I4u', '6371056409780006', '1758025571_b6d6dbcaa485a111eb7f.jpg', 'Perempuan', 'Jl. Kacapiring II No.26 Rt.002 Rw.001 Kel. Kertak Baru Ilir Kec. Banjarmasin Tengah Banjarmasin 70111', '081251805567', '-', 'Kepala Administrasi Akademik dan Kemahasiswaan', 'Bekerja optimal, tampilkan sis yang terbaik dari diri', '6371056409780006', 'Bandung', '1978-09-24', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 12:58:24', '2025-09-16 19:26:11'),
 (40, 4, 'Dosen', 'dosen', '', 0, '', '', 'Muhammad Agus Safrian Nur', '0158768669130093', 'agus@stkipismbjm.ac.id', '$2y$10$w9KShDVMZd7uvN8eJG81OOIVgqIS9ZD/afLWm5YwX5IMah5McMdHC', '00000000', '1757903155_5888b0e0e7b289cd1c57.jpg', 'Laki-laki', 'Jalan Veteran Km. 5.5 Gang Mujahidin No. 74 Rt. 024, Kelurahan Sungai Lulut, Kecamatan Banjarmasin Timur.', '085390556813', '-', '-', '\" Fokus pada tujuan, capai kesuksesan \"', '0158768669130093', 'Banjarmasin', '1990-08-26', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 13:57:57', '2025-09-15 09:25:55'),
-(41, 16, 'Tendik', 'tendik', '{\"2\":{\"nama_role\":\"Keuangan\",\"slug_role\":\"keuangan\"},\"18\":{\"nama_role\":\"Waka Administrasi dan Keuangan\",\"slug_role\":\"waka-administrasi-keuangan\"}}', 18, 'Waka Administrasi dan Keuangan', 'waka-administrasi-keuangan', 'Halima Chairia', '6371015011800013', 'halimachairia7@gmail.com', '$2y$10$qfxU9i2p65274dH4ihbz6.Ff2aoms2t8xhW7hXr30.dx4IL3tkfci', '6371015011800013', '', 'Perempuan', 'Komplek Banjar Indah Permai jl. Sintuk II No. 183 RT. 13 Banjarmasin', '085251626793', '', 'Kabag. Administrasi Umum dan Keuangan', 'Sesulit apa pun pekerjaanmu pasti ada penyelesaiannya', '6371015011800013', 'Banjarmasin', '1980-11-10', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 14:31:38', '2025-09-20 08:14:30'),
+(41, 16, 'Tendik', 'tendik', '{\"2\":{\"nama_role\":\"Keuangan\",\"slug_role\":\"keuangan\"},\"18\":{\"nama_role\":\"Waka Administrasi dan Keuangan\",\"slug_role\":\"waka-administrasi-keuangan\"}}', 2, 'Keuangan', 'keuangan', 'Halima Chairia', '6371015011800013', 'halimachairia7@gmail.com', '$2y$10$qfxU9i2p65274dH4ihbz6.Ff2aoms2t8xhW7hXr30.dx4IL3tkfci', '6371015011800013', '', 'Perempuan', 'Komplek Banjar Indah Permai jl. Sintuk II No. 183 RT. 13 Banjarmasin', '085251626793', '', 'Kabag. Administrasi Umum dan Keuangan', 'Sesulit apa pun pekerjaanmu pasti ada penyelesaiannya', '6371015011800013', 'Banjarmasin', '1980-11-10', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 14:31:38', '2025-09-25 12:39:51'),
 (42, 17, 'Admin Utama', 'admin-utama', '', 0, '', '', 'Admin 2', 'adminvisioner', '', '$2y$10$/fsqlu/uCBgrdC9PuB4jlu5QbvShxNG1A7LpvvH0I6OdipVPkZSB.', 'senyumdulu', '', 'Perempuan', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 17:03:42', '2025-09-11 19:22:24'),
 (43, 4, 'Dosen', 'dosen', '', 0, '', '', 'Tati Akhbaryah, S.S., S.Pd., M.Pd.', '0', 'tatiahatta27@gmail.com', '$2y$10$vfM0PjUE9UFhyzXdcenqaOj/ccPHOR19oH776YF9Ukl9Ro3yZ5r3a', 'tatia2711', '', 'Perempuan', 'Kompleks Pembanginan I jl. Sebatung no 10 Banjarmasin', '081347693805', 'Dosen', '-', 'Diam, Amati, Kerjakan', '0', 'Jakarta', '1968-11-27', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 18:41:51', '2025-09-04 18:41:51'),
-(46, 4, 'Dosen', 'dosen', '', 0, '', '', 'Abdul Aziz', '1110079002', 'aziz@stkipismbjm.ac.id', '$2y$10$jPB/8.a.qfFePjOayeNWiuxARGWUie12iVLG/34GsHjAtf5eBaZd.', '1110079002', '1757902115_b01898028ec94e9e6376.jpg', 'Laki-laki', 'Jalan AMD, Komplek Ar Raudah, no 44', '082250582011', 'tidak ada', 'tidak ada', 'Berani berimajinasi, berani berdedikasi', '1110079002', 'Sungai Pinang', '1990-09-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 12:04:50', '2025-09-15 09:08:35'),
+(46, 4, 'Dosen', 'dosen', '', 4, 'Dosen', 'dosen', 'Abdul Aziz', '1110079002', 'aziz@stkipismbjm.ac.id', '$2y$10$jPB/8.a.qfFePjOayeNWiuxARGWUie12iVLG/34GsHjAtf5eBaZd.', '1110079002', '1757902115_b01898028ec94e9e6376.jpg', 'Laki-laki', 'Jalan AMD, Komplek Ar Raudah, no 44', '082250582011', 'tidak ada', 'tidak ada', 'Berani berimajinasi, berani berdedikasi', '1110079002', 'Sungai Pinang', '1990-09-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 12:04:50', '2025-09-26 13:41:02'),
 (48, 4, 'Dosen', 'dosen', '', 0, '', '', 'Norhayati K', '1234', 'norhayati.dr25@gmail.com', '$2y$10$HY5oabGAUDeLW/FGgDs7JuH0Eotqq33QDjQmuGwTp9pjsBqwImgci', 'Lulusberkah25', '', 'Perempuan', 'Komplek Citra Persada Asri, Lestari 1 no 32 Sungai besar, Banjarbaru', '082154244276', '-', '-', 'Tetapkan tenang, senang dan sukses', '1234', 'Tumpung Laung', '1993-12-25', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 14:21:58', '2025-09-20 20:52:22'),
 (49, 16, 'Tendik', 'tendik', '{\"21\":{\"nama_role\":\"Operator IT\",\"slug_role\":\"operator-it\"}}', 21, 'Operator IT', 'operator-it', 'Noor Ermiliyawati Nazemi., Amd.Kom.', '6371044111040002', 'nazemi6879@gmail.com', '$2y$10$pCidU2H51dMscv6ie7TOhu26g04DGs2ykvRfh1ZW/iZIdgRa.I0T2', 'Mili789?', '', 'Perempuan', 'Jl. Malkon temon Komp. Buana permai Rt. 10 Kota Banjarmasin, kalimantan selatan', '081250134883', '-', 'Operator IT', 'Bekerja adalah energi harapan dan musuh kegagalan', '6371044111040002', 'Banjarmasin', '2004-11-01', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 14:27:59', '2025-09-24 13:02:58'),
 (50, 16, 'Tendik', 'tendik', '', 0, '', '', 'Nurul Fitriyani, SE., MA.', 'Dyandra 1503', 'noufysabilal@yahoo.co.id', '$2y$10$wSZVj0nc6osDl5yiEcfVQumDwctzCw541OEGEff79bESRz34zv5hW', 'Dyandra1503', '', 'Perempuan', 'Jl KACAPIRING 2 NO.26 RT.002 RW.001 KEL. KERTAK BARU ILIR KEC.BANJARMASIN TENGAH BANJARMASIN 70111', '081251805567', '-', 'Kepala Administrasi Akademik dan Kemahasiswaan', 'Bekerja Optimal, lakukan yang terbaik', 'Dyandra 1503', 'Bandung', '1978-09-24', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-15 14:58:30', '2025-09-15 14:58:30');
@@ -2211,6 +2287,12 @@ ALTER TABLE `pengajaran`
 -- Indexes for table `pengembangan_kompetensi`
 --
 ALTER TABLE `pengembangan_kompetensi`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pengumpulan_laporan`
+--
+ALTER TABLE `pengumpulan_laporan`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2359,7 +2441,7 @@ ALTER TABLE `dokumen_template`
 -- AUTO_INCREMENT for table `dosen_pendamping`
 --
 ALTER TABLE `dosen_pendamping`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `jadwal_kegiatan`
@@ -2395,7 +2477,7 @@ ALTER TABLE `kategori_penyusutan_inventaris`
 -- AUTO_INCREMENT for table `keuangan`
 --
 ALTER TABLE `keuangan`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `laporan_pertanggungjawaban`
@@ -2425,13 +2507,13 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=724;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=744;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`
 --
 ALTER TABLE `mahasiswa_praktik_lapangan`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `master_dana`
@@ -2449,7 +2531,7 @@ ALTER TABLE `pembayaran_mahasiswa`
 -- AUTO_INCREMENT for table `pencatatan_surat`
 --
 ALTER TABLE `pencatatan_surat`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pengajaran`
@@ -2462,6 +2544,12 @@ ALTER TABLE `pengajaran`
 --
 ALTER TABLE `pengembangan_kompetensi`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `pengumpulan_laporan`
+--
+ALTER TABLE `pengumpulan_laporan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `penyusutan_inventaris`
@@ -2521,7 +2609,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `spmi`
 --
 ALTER TABLE `spmi`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `standar_pt`

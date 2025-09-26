@@ -70,14 +70,15 @@ class DosenPendamping extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
-        if (in_array(userSession('id'), [1, 17])) {
-            // 
-        } elseif (in_array(8, userSession('id_roles')) || userSession('id_role') == 5) {
-            $base_query->where('id_program_studi', userSession('id_program_studi'));
-        } elseif (userSession('id_role') == 4 && !in_array(8, userSession('id_roles'))) {
+
+        if (userSession('id_role_aktif') == 8) { // Kaprodi
+            $base_query->where('id_program_studi', userSession('id_program_studi'))
+            ->orWhere('id_program_studi', userSession('id_program_studi'));
+        } elseif (userSession('id_role_aktif') == 4) { // Dosen
             $base_query->where('id_dosen_1', userSession('id'))
             ->orWhere('id_dosen_2', userSession('id'));
         }
+
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);

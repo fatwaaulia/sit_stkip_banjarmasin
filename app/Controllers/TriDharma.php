@@ -76,7 +76,7 @@ class TriDharma extends BaseController
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
 
-        if (array_intersect(userSession('id_roles'), [1, 17, 7])) {
+        if (array_intersect(userSession('id_roles'), [1, 17]) || userSession('id_role_aktif') == 7) {
             $get_dosen = $this->request->getVar('dosen');
             if ($get_dosen) {
                 $base_query->where('id_anggota_1', $get_dosen)
@@ -157,7 +157,6 @@ class TriDharma extends BaseController
             'tautan_gdrive' => 'permit_empty|valid_url_strict',
             'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tanggal_publikasi'  => 'required',
-            'anggota_1'  => 'required',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());

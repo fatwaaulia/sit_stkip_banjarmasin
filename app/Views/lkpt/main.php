@@ -46,6 +46,14 @@ $is_access = true;
                                                     <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
                                                     <div class="invalid-feedback" id="invalid_tautan"></div>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="dokumen" class="form-label">Dokumen</label>
+                                                    <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
+                                                    <div class="form-text">
+                                                        Maksimal 1 mb, pdf
+                                                    </div>
+                                                    <div class="invalid-feedback" id="invalid_dokumen"></div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -72,6 +80,7 @@ $is_access = true;
                             <th>No.</th>
                             <th>Judul</th>
                             <th>Tautan</th>
+                            <th>Dokumen</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -111,7 +120,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
-                render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+                render: data => data.tautan ? `<a href="${data.tautan}" target="_blank">Buka</a>` : '-',
+            }, {
+                name: '',
+                data: null,
+                render: data => data.dokumen ? `<a href="${data.dokumen}" target="_blank">Buka</a>` : '-',
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -146,6 +159,14 @@ function renderOpsi(data) {
                             <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dokumen" class="form-label">Dokumen</label>
+                            <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
+                            <div class="form-text">
+                                Maksimal 1 mb, pdf
+                            </div>
+                            <div class="invalid-feedback" id="invalid_dokumen"></div>
                         </div>
                     </div>
                     <div class="modal-footer">

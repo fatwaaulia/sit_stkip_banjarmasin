@@ -33,6 +33,36 @@ class MahasiswaPraktikLapangan extends BaseController
         return view('dashboard/header', $view);
     }
 
+    public function new()
+    {
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/new', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function edit($id = null)
+    {
+        $find_data = model($this->model_name)->find($id);
+
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => $find_data,
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/edit', $data);
+        return view('dashboard/header', $view);
+    }
+
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
@@ -40,9 +70,44 @@ class MahasiswaPraktikLapangan extends BaseController
     {
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
+
+        if (array_intersect(userSession('id_roles'), [1, 17]) || userSession('id_role_aktif') == 7) {
+            $get_dosen = $this->request->getVar('dosen');
+            if ($get_dosen) {
+                $base_query->where('id_dosen_1', $get_dosen)
+                ->orWhere('id_dosen_2', $get_dosen)
+                ->orWhere('id_dosen_3', $get_dosen);
+            } else {
+                // 
+            }
+        } elseif (userSession('id_role_aktif') == 8) { // Kaprodi
+            $get_dosen = $this->request->getVar('dosen');
+            if ($get_dosen) {
+                $base_query->where('id_dosen_1', $get_dosen)
+                ->orWhere('id_dosen_2', $get_dosen)
+                ->orWhere('id_dosen_3', $get_dosen);
+            } else {
+                $base_query->where('id_program_studi_dosen_1', userSession('id_program_studi'))
+                ->orWhere('id_program_studi_dosen_2', userSession('id_program_studi'))
+                ->orWhere('id_program_studi_dosen_3', userSession('id_program_studi'));
+            }
+        } elseif (userSession('id_role_aktif') == 4) { // Dosen
+            $base_query->where('id_dosen_1', userSession('id'))
+            ->orWhere('id_dosen_2', userSession('id'))
+            ->orWhere('id_dosen_3', userSession('id'));
+        }
+
         $limit      = (int)$this->request->getVar('length');
         $offset     = (int)$this->request->getVar('start');
         $records_total = $base_query->countAllResults(false);
+        $array_query_key = ['program_studi'];
+
+        if (array_intersect(array_keys($_GET), $array_query_key)) {
+            $get_program_studi = $this->request->getVar('program_studi');
+            if ($get_program_studi) {
+                $base_query->where('id_program_studi', $get_program_studi);
+            }
+        }
 
         // Datatables
         $columns = array_column($this->request->getVar('columns') ?? [], 'name');
@@ -99,10 +164,39 @@ class MahasiswaPraktikLapangan extends BaseController
             $filename_dokumen = '';
         }
 
+        $program_studi = model('ProgramStudi')->find($this->request->getVar('program_studi'));
+        $dosen_1 = model('Users')->find($this->request->getVar('dosen_1'));
+        $dosen_2 = model('Users')->find($this->request->getVar('dosen_2'));
+        $dosen_3 = model('Users')->find($this->request->getVar('dosen_3'));
+
         $data = [
             'judul'  => $this->request->getVar('judul'),
             'tautan' => $this->request->getVar('tautan'),
             'dokumen' => $filename_dokumen,
+
+            'id_program_studi' => $program_studi['id'] ?? '',
+            'jenjang_program_studi' => $program_studi['jenjang'] ?? '',
+            'nama_program_studi' => $program_studi['nama'] ?? '',
+            'singkatan_program_studi' => $program_studi['singkatan'] ?? '',
+
+            'id_dosen_1'                 => $dosen_1['id'] ?? '',
+            'nama_dosen_1'               => $dosen_1['nama'] ?? '',
+            'nomor_identitas_dosen_1'    => $dosen_1['nomor_identitas'] ?? '',
+            'id_program_studi_dosen_1'   => $dosen_1['id_program_studi'] ?? '',
+            'nama_program_studi_dosen_1' => $dosen_1['nama_program_studi'] ?? '',
+
+            'id_dosen_2'                 => $dosen_2['id'] ?? '',
+            'nama_dosen_2'               => $dosen_2['nama'] ?? '',
+            'nomor_identitas_dosen_2'    => $dosen_2['nomor_identitas'] ?? '',
+            'id_program_studi_dosen_2'   => $dosen_2['id_program_studi'] ?? '',
+            'nama_program_studi_dosen_2' => $dosen_2['nama_program_studi'] ?? '',
+
+            'id_dosen_3'                 => $dosen_3['id'] ?? '',
+            'nama_dosen_3'               => $dosen_3['nama'] ?? '',
+            'nomor_identitas_dosen_3'    => $dosen_3['nomor_identitas'] ?? '',
+            'id_program_studi_dosen_3'   => $dosen_3['id_program_studi'] ?? '',
+            'nama_program_studi_dosen_3' => $dosen_3['nama_program_studi'] ?? '',
+
             'created_by' => userSession('id'),
         ];
 

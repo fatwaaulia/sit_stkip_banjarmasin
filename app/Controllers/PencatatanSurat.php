@@ -33,6 +33,34 @@ class PencatatanSurat extends BaseController
         return view('dashboard/header', $view);
     }
 
+    public function new()
+    {
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'title'      => 'Add ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/new', $data);
+        return view('dashboard/header', $view);
+    }
+
+    public function edit($id = null)
+    {
+        $data = [
+            'base_route' => $this->base_route,
+            'base_api'   => $this->base_api,
+            'base_name'  => $this->base_name,
+            'data'       => model($this->model_name)->find($id),
+            'title'      => 'Edit ' . ucwords(str_replace('_', ' ', $this->base_name)),
+        ];
+        
+        $view['sidebar'] = view('dashboard/sidebar');
+        $view['content'] = view($this->base_name . '/edit', $data);
+        return view('dashboard/header', $view);
+    }
+
     /*--------------------------------------------------------------
     # API
     --------------------------------------------------------------*/
@@ -41,11 +69,7 @@ class PencatatanSurat extends BaseController
         $select     = ['*'];
         $base_query = model($this->model_name)->select($select);
 
-        if (in_array(userSession('id'), [1, 17, 3, 7, 9, 10, 11, 12])) {
-            // 
-        } elseif (in_array(8, userSession('id_roles'))) { // Kaprodi
-            $base_query->where('id_program_studi', userSession('id_program_studi'));
-        } else if (userSession('id_role') == 4) { // Dosen
+        if (in_array(userSession('id_role_aktif'), [4, 8])) { // Dosen dan Kaprodi
             $base_query->where('id_program_studi', userSession('id_program_studi'));
         }
 
@@ -69,14 +93,10 @@ class PencatatanSurat extends BaseController
         $total_rows = $base_query->countAllResults(false);
         $data       = $base_query->findAll($limit, $offset);
 
-
-        $created_by = model('Users')->select(['id', 'nama'])->findAll();
-        $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['dokumen'] = $v['dokumen'] ? webFile('', $this->base_name, $v['dokumen'], $v['updated_at']) : '';
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
-            $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
 
         return $this->response->setStatusCode(200)->setJSON([
@@ -92,7 +112,7 @@ class PencatatanSurat extends BaseController
             'jenis'  => 'required',
             'nomor_surat' => 'required',
             'perihal'  => 'required',
-            'dokumen' => 'max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tautan' => 'permit_empty|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
@@ -116,6 +136,8 @@ class PencatatanSurat extends BaseController
 
         $data = [
             'jenis' => $this->request->getVar('jenis'),
+            'tujuan' => $this->request->getVar('tujuan'),
+            'penerima' => $this->request->getVar('penerima'),
             'nomor_surat' => $this->request->getVar('nomor_surat'),
             'perihal'  => $this->request->getVar('perihal'),
             'tautan' => $this->request->getVar('tautan'),
@@ -170,6 +192,8 @@ class PencatatanSurat extends BaseController
 
         $data = [
             'jenis' => $this->request->getVar('jenis'),
+            'tujuan' => $this->request->getVar('tujuan'),
+            'penerima' => $this->request->getVar('penerima'),
             'nomor_surat' => $this->request->getVar('nomor_surat'),
             'perihal'  => $this->request->getVar('perihal'),
             'tautan' => $this->request->getVar('tautan'),

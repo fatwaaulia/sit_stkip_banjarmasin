@@ -23,72 +23,9 @@ if (in_array(userSession('id_role'), [1, 17]) || in_array(userSession('id_role_a
                         <!--  -->
                     </div>
                     <div class="col-12 col-md-6 col-lg-7 col-xl-8 d-flex justify-content-end align-items-end">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
+                        <a href="<?= $base_route ?>new" class="btn btn-primary">
                             <i class="fa-solid fa-plus fa-sm"></i> New
-                        </button>
-                        <div class="modal fade" id="new" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5">Add <?= isset($title) ? $title : '' ?></h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <form id="form">
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <div class="mb-3">
-                                                    <label for="jenis" class="form-label">Jenis</label>
-                                                    <select class="form-select" id="jenis" name="jenis">
-                                                        <option value="">Pilih</option>
-                                                        <?php
-                                                        $jenis = ['MASUK', 'KELUAR'];
-                                                        foreach ($jenis as $v) :
-                                                        ?>
-                                                        <option value="<?= $v ?>"><?= $v ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                    <div class="invalid-feedback" id="invalid_jenis"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="nomor_surat" class="form-label">Nomor Surat</label>
-                                                    <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" placeholder="Masukkan nomor surat">
-                                                    <div class="invalid-feedback" id="invalid_nomor_surat"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="perihal" class="form-label">Perihal</label>
-                                                    <input type="text" class="form-control" id="perihal" name="perihal" placeholder="Masukkan perihal">
-                                                    <div class="invalid-feedback" id="invalid_perihal"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan</label>
-                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
-                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="dokumen" class="form-label">Dokumen</label>
-                                                    <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                                                    <div class="form-text">
-                                                        Maksimal 1 mb, pdf
-                                                    </div>
-                                                    <div class="invalid-feedback" id="invalid_dokumen"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-primary float-end">Tambahkan</button>
-                                        </div>
-                                    </form>
-                                    <script>
-                                    dom('#form').addEventListener('submit', function(event) {
-                                        event.preventDefault();
-                                        const endpoint = '<?= $base_api ?>create';
-                                        submitData(dom('#form'), endpoint);
-                                    });
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <?php endif; ?>
@@ -97,6 +34,8 @@ if (in_array(userSession('id_role'), [1, 17]) || in_array(userSession('id_role_a
                         <tr>
                             <th>No.</th>
                             <th>Jenis</th>
+                            <th>Tujuan</th>
+                            <th>Penerima</th>
                             <th>Nomor</th>
                             <th>Perihal</th>
                             <th>Tautan</th>
@@ -138,6 +77,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: 'jenis',
                 data: 'jenis',
             }, {
+                name: 'tujuan',
+                data: 'tujuan',
+            }, {
+                name: 'penerima',
+                data: 'penerima',
+            }, {
                 name: 'nomor_surat',
                 data: 'nomor_surat',
             }, {
@@ -162,81 +107,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
-    const jenis = ['MASUK', 'KELUAR'];
+    let endpoint_edit_data = `<?= $base_route ?>edit/${data.id}`;
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
-    let html = `
-    <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
+    
+    return `
+    <a href="${endpoint_edit_data}" class="me-2" title="Edit">
         <i class="fa-regular fa-pen-to-square fa-lg"></i>
     </a>
-    <div class="modal fade" id="edit${data.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit <?= isset($title) ? $title : '' ?></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="form_${data.id}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="jenis" class="form-label">Jenis</label>
-                            <select class="form-select" id="jenis" name="jenis">
-                                <option value="">Pilih</option>
-                                ${jenis.map(item => `<option value="${item}" ${item == data.jenis ? 'selected' : ''}>${item}</option>`).join('')}
-                            </select>
-                            <div class="invalid-feedback" id="invalid_jenis"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nomor_surat" class="form-label">Nomor Surat</label>
-                            <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="${data.nomor_surat}" placeholder="Masukkan nomor surat">
-                            <div class="invalid-feedback" id="invalid_nomor_surat"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="perihal" class="form-label">Perihal</label>
-                            <input type="text" class="form-control" id="perihal" name="perihal" value="${data.perihal}" placeholder="Masukkan perihal">
-                            <div class="invalid-feedback" id="invalid_perihal"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tautan" class="form-label">Tautan</label>
-                            <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
-                            <div class="invalid-feedback" id="invalid_tautan"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="dokumen" class="form-label">Dokumen</label>
-                            <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                            <div class="form-text">
-                                Maksimal 1 mb, pdf
-                            </div>
-                            <div class="invalid-feedback" id="invalid_dokumen"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary float-end">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <a onclick="deleteData('${endpoint_hapus_data}')" title="Delete">
         <i class="fa-regular fa-trash-can fa-lg text-danger"></i>
     </a>`;
-
-    setTimeout(() => actionEdit(data.id), 0);
-
-    return html;
-}
-
-function actionEdit(id) {
-    const form = dom(`#form_${id}`);
-
-    if (! form.dataset.isInitialized) {
-        form.dataset.isInitialized = true;
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const endpoint = `<?= $base_api ?>update/${id}`;
-            submitData(form, endpoint);
-        });
-    }
 }
 <?php endif; ?>
 </script>

@@ -1,5 +1,8 @@
 <?php
-$contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
+$is_access = false;
+if (in_array(userSession('id_role'), [1, 17])) {
+    $is_access = true;
+}
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -14,6 +17,7 @@ $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
     <div class="row">
         <div class="col-12">
             <div class="card p-3">
+                <?php if ($is_access) : ?>
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-md-6 col-lg-5 col-xl-4">
                         <!--  -->
@@ -72,6 +76,7 @@ $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
                 <table class="table table-striped table-hover table-bordered text-nowrap" id="myTable">
                     <thead class="bg-primary-subtle">
                         <tr>
@@ -79,7 +84,9 @@ $contoh_tahun_akademik = date('Y') . '/' . (date('Y') + 1);
                             <th>Jenjang</th>
                             <th>Nama</th>
                             <th>Singkatan</th>
+                            <?php if ($is_access) : ?>
                             <th>Opsi</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                 </table>
@@ -112,15 +119,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: 'singkatan',
-            }, {
+            }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
                 render: renderOpsi,
-            },
+            }, <?php endif; ?>
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });
 });
 
+<?php if ($is_access) : ?>
 function renderOpsi(data) {
     const jenjang = ['S1'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
@@ -185,6 +193,7 @@ function actionEdit(id) {
         });
     }
 }
+<?php endif; ?>
 </script>
 
 <script src="<?= base_url() ?>assets/modules/datatables/js/dataTables.min.js"></script>

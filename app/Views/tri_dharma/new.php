@@ -4,13 +4,13 @@ $dosen = model('Users')
 ->where('status_akun', 'ENABLE')
 ->findAll();
 
-$mahasiswa = model('Users')
-->where('id_role', 5)
-->where('status', 'Aktif')
-->where('nomor_identitas !=', '')
-->findAll();
+// $mahasiswa = model('Users')
+// ->where('id_role', 5)
+// ->where('status', 'Aktif')
+// ->where('nomor_identitas !=', '')
+// ->findAll();
 
-$anggota = array_merge($dosen, $mahasiswa);
+$anggota = array_merge($dosen);
 ?>
 
 <link href="<?= base_url() ?>assets/modules/summernote/summernote-lite.min.css" rel="stylesheet">
@@ -71,7 +71,7 @@ $anggota = array_merge($dosen, $mahasiswa);
                         </div>
                         <hr>
                         <div class="mb-3">
-                            <label for="anggota_1" class="form-label">Anggota 1</label>
+                            <label for="anggota_1" class="form-label">Anggota 1 <span class="text-secondary">(Opsional)</span></label>
                             <select class="form-select" id="anggota_1" name="anggota_1">
                                 <option value="">Pilih</option>
                                 <?php foreach ($anggota as $v) : ?>

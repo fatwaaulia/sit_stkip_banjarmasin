@@ -549,7 +549,11 @@ if (array_intersect($id_roles, roleAccessByTitle('Surat Peringatan'))) {
 }
 
 if (array_intersect($id_roles, roleAccessByTitle('Pencatatan Surat'))) {
-    $routes->get("$slug_role/pencatatan-surat", 'PencatatanSurat::main', ['filter' => 'EnsureLogin']);
+    $routes->group("$slug_role/pencatatan-surat", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PencatatanSurat::main');
+        $routes->get('new', 'PencatatanSurat::new');
+        $routes->get('edit/(:segment)', 'PencatatanSurat::edit/$1');
+    });
     $routes->group('api/pencatatan-surat', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'PencatatanSurat::index');
         $routes->post('create', 'PencatatanSurat::create');
@@ -599,12 +603,30 @@ if (array_intersect($id_roles, roleAccessByTitle('Kegiatan Perpustakaan'))) {
 }
 
 if (array_intersect($id_roles, roleAccessByTitle('Mahasiswa Praktik Lapangan'))) {
-    $routes->get("$slug_role/mahasiswa-praktik-lapangan", 'MahasiswaPraktikLapangan::main', ['filter' => 'EnsureLogin']);
+    $routes->group("$slug_role/mahasiswa-praktik-lapangan", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'MahasiswaPraktikLapangan::main');
+        $routes->get('new', 'MahasiswaPraktikLapangan::new');
+        $routes->get('edit/(:segment)', 'MahasiswaPraktikLapangan::edit/$1');
+    });
     $routes->group('api/mahasiswa-praktik-lapangan', ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'MahasiswaPraktikLapangan::index');
         $routes->post('create', 'MahasiswaPraktikLapangan::create');
         $routes->post('update/(:segment)', 'MahasiswaPraktikLapangan::update/$1');
         $routes->post('delete/(:segment)', 'MahasiswaPraktikLapangan::delete/$1');
+    });
+}
+
+if (array_intersect($id_roles, roleAccessByTitle('Pengumpulan Laporan'))) {
+    $routes->group("$slug_role/pengumpulan-laporan", ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PengumpulanLaporan::main');
+        $routes->get('new', 'PengumpulanLaporan::new');
+        $routes->get('edit/(:segment)', 'PengumpulanLaporan::edit/$1');
+    });
+    $routes->group('api/pengumpulan-laporan', ['filter' => 'EnsureLogin'], static function ($routes) {
+        $routes->get('/', 'PengumpulanLaporan::index');
+        $routes->post('create', 'PengumpulanLaporan::create');
+        $routes->post('update/(:segment)', 'PengumpulanLaporan::update/$1');
+        $routes->post('delete/(:segment)', 'PengumpulanLaporan::delete/$1');
     });
 }
 

@@ -20,7 +20,16 @@ $is_access = true;
                 <?php if ($is_access) : ?>
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-md-6 col-lg-5 col-xl-4">
-                        <!--  -->
+                        <select class="form-select" id="kategori" onchange="location = this.value;">
+                            <option value="<?= current_url() ?>">Semua Kategori</option>
+                            <?php
+                            $kategori = ['PENETAPAN', 'PELAKSANAAN', 'EVALUASI', 'PENGENDALIAN', 'PENINGKATAN'];
+                            foreach ($kategori as $v) :
+                                $selected = (($_GET['kategori'] ?? '') == $v) ? 'selected' : '';
+                            ?>
+                            <option value="<?= current_url() ?>?kategori=<?= $v ?>" <?= $selected ?>><?= $v ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="col-12 col-md-6 col-lg-7 col-xl-8 d-flex justify-content-end align-items-end">
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
@@ -36,16 +45,35 @@ $is_access = true;
                                     <form id="form">
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <div class="mb-3">
-                                                    <label for="judul" class="form-label">Judul</label>
-                                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
-                                                    <div class="invalid-feedback" id="invalid_judul"></div>
+                                                <label for="kategori" class="form-label">Kategori</label>
+                                                <select class="form-select" id="kategori" name="kategori">
+                                                    <option value="">Pilih</option>
+                                                    <?php
+                                                    $kategori = ['PENETAPAN', 'PELAKSANAAN', 'EVALUASI', 'PENGENDALIAN', 'PENINGKATAN'];
+                                                    foreach ($kategori as $v) :
+                                                    ?>
+                                                    <option value="<?= $v ?>"><?= $v ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <div class="invalid-feedback" id="invalid_kategori"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="judul" class="form-label">Judul</label>
+                                                <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul">
+                                                <div class="invalid-feedback" id="invalid_judul"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tautan" class="form-label">Tautan</label>
+                                                <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
+                                                <div class="invalid-feedback" id="invalid_tautan"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="dokumen" class="form-label">Dokumen</label>
+                                                <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
+                                                <div class="form-text">
+                                                    Maksimal 1 mb, pdf
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="tautan" class="form-label">Tautan</label>
-                                                    <input type="text" class="form-control" id="tautan" name="tautan" placeholder="Masukkan tautan">
-                                                    <div class="invalid-feedback" id="invalid_tautan"></div>
-                                                </div>
+                                                <div class="invalid-feedback" id="invalid_dokumen"></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -70,8 +98,10 @@ $is_access = true;
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
+                            <th>Kategori</th>
                             <th>Judul</th>
                             <th>Tautan</th>
+                            <th>Dokumen</th>
                             <?php if ($is_access) : ?>
                             <th>Opsi</th>
                             <?php endif; ?>
@@ -106,12 +136,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: '',
                 data: 'no_urut',
             }, {
+                name: 'kategori',
+                data: 'kategori',
+            }, {
                 name: 'judul',
                 data: 'judul',
             }, {
                 name: '',
                 data: null,
-                render: data => `<a href="${data.tautan}" target="_blank">Buka</a>`,
+                render: data => data.tautan ? `<a href="${data.tautan}" target="_blank">Buka</a>` : '-',
+            }, {
+                name: '',
+                data: null,
+                render: data => data.dokumen ? `<a href="${data.dokumen}" target="_blank">Buka</a>` : '-',
             }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
@@ -123,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
+    const kategori = ['PENETAPAN', 'PELAKSANAAN', 'EVALUASI', 'PENGENDALIAN', 'PENINGKATAN'];
     let endpoint_hapus_data = `<?= $base_api ?>delete/${data.id}`;
     let html = `
     <a class="me-2" title="Edit" data-bs-toggle="modal" data-bs-target="#edit${data.id}">
@@ -138,6 +176,14 @@ function renderOpsi(data) {
                 <form id="form_${data.id}">
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label for="kategori" class="form-label">Kategori</label>
+                            <select class="form-select" id="kategori" name="kategori">
+                                <option value="">Pilih</option>
+                                ${kategori.map(item => `<option value="${item}" ${item == data.kategori ? 'selected' : ''}>${item}</option>`)}
+                            </select>
+                            <div class="invalid-feedback" id="invalid_kategori"></div>
+                        </div>
+                        <div class="mb-3">
                             <label for="judul" class="form-label">Judul</label>
                             <input type="text" class="form-control" id="judul" name="judul" value="${data.judul}" placeholder="Masukkan judul">
                             <div class="invalid-feedback" id="invalid_judul"></div>
@@ -146,6 +192,14 @@ function renderOpsi(data) {
                             <label for="tautan" class="form-label">Tautan</label>
                             <input type="text" class="form-control" id="tautan" name="tautan" value="${data.tautan}" placeholder="Masukkan tautan">
                             <div class="invalid-feedback" id="invalid_tautan"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dokumen" class="form-label">Dokumen</label>
+                            <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
+                            <div class="form-text">
+                                Maksimal 1 mb, pdf
+                            </div>
+                            <div class="invalid-feedback" id="invalid_dokumen"></div>
                         </div>
                     </div>
                     <div class="modal-footer">

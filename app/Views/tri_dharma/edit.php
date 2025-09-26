@@ -43,7 +43,7 @@
                         </div>
                         <hr>
                         <div class="mb-3">
-                            <label class="form-label">Anggota 1</label>
+                            <label class="form-label">Anggota 1 <span class="text-secondary">(Opsional)</span></label>
                             <input type="text" class="form-control" value="<?= $data['nomor_identitas_anggota_1'] ?> - <?= $data['nama_anggota_1'] ?> - <?= $data['nama_program_studi_anggota_1'] ?>" disabled>
                         </div>
                         <div class="mb-3">

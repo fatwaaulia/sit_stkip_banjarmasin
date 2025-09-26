@@ -107,7 +107,10 @@
                 <option value="<?= userSession('id_role') ?>" <?= (userSession('id_role') == userSession('id_role_aktif')) ? 'selected' : '' ?>><?= userSession('nama_role') ?></option>
                 <?php
                 $multi_role = userSession('multi_role');
-                $multi_role = !empty($multi_role) ? json_decode($multi_role, true) : [];
+                $multi_role = json_decode($multi_role ?? '[]', true);
+                if (!is_array($multi_role)) {
+                    $multi_role = [];
+                }
                 foreach ($multi_role as $k => $v) :
                     $selected = ($k == userSession('id_role_aktif')) ? 'selected' : '';
                 ?>
