@@ -87,7 +87,7 @@ class DokumenTemplate extends BaseController
         $rules = [
             'kategori' => 'required',
             'judul'  => 'required',
-            'dokumen' => 'max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'dokumen' => 'max_size[dokumen,10240]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tautan' => 'permit_empty|valid_url_strict',
         ];
         if (! $this->validate($rules)) {
@@ -134,7 +134,7 @@ class DokumenTemplate extends BaseController
         $rules = [
             'kategori'  => 'required',
             'judul'  => 'required',
-            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'dokumen' => 'permit_empty|max_size[dokumen,10240]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tautan' => 'permit_empty|valid_url_strict',
         ];
         if (! $this->validate($rules)) {

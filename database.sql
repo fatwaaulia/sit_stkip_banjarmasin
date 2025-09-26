@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 26, 2025 at 09:15 AM
+-- Generation Time: Sep 26, 2025 at 02:37 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.9
 
@@ -274,7 +274,9 @@ CREATE TABLE `keuangan` (
   `nominal` int NOT NULL,
   `id_sumber_dana` int NOT NULL,
   `nama_sumber_dana` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `catatan` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `catatan` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_bukti` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_saldo` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -286,10 +288,11 @@ CREATE TABLE `keuangan` (
 -- Dumping data for table `keuangan`
 --
 
-INSERT INTO `keuangan` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`, `nominal`, `id_sumber_dana`, `nama_sumber_dana`, `catatan`, `tanggal`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(9, 'Masuk', 1, 'Mahasiswa', 1000000, 1, 'SPP', 'Pembayaran SPP mahasiswa', '2025-08-02 13:59:00', '2025-09-16 14:01:04', '2025-09-16 14:01:04', 41, 0),
-(10, 'Masuk', 1, 'Mahasiswa', 200000, 3, 'Lain-lain', 'Pembayaran biaya PMB a.n Yully Yana Istikomah PGSD TA 2025/2026', '2025-08-08 14:03:00', '2025-09-16 14:04:39', '2025-09-16 14:04:39', 41, 0),
-(12, 'Masuk', 1, 'Mahasiswa', 5000000, 1, 'SPP', 'tunai spp', '2025-09-22 13:06:00', '2025-09-25 13:07:23', '2025-09-25 13:07:23', 41, 0);
+INSERT INTO `keuangan` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dana`, `nominal`, `id_sumber_dana`, `nama_sumber_dana`, `catatan`, `nomor_bukti`, `jenis_saldo`, `tanggal`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(9, 'Masuk', 1, 'Mahasiswa', 1000000, 1, 'SPP', 'Pembayaran SPP mahasiswa', '', '', '2025-08-02 13:59:00', '2025-09-16 14:01:04', '2025-09-16 14:01:04', 41, 0),
+(10, 'Masuk', 1, 'Mahasiswa', 200000, 3, 'Lain-lain', 'Pembayaran biaya PMB a.n Yully Yana Istikomah PGSD TA 2025/2026', 'SB/2025/ND9', 'Kas', '2025-08-08 14:03:00', '2025-09-16 14:04:39', '2025-09-26 20:18:32', 41, 1),
+(12, 'Masuk', 1, 'Mahasiswa', 5000000, 1, 'SPP', 'tunai spp', '', '', '2025-09-22 13:06:00', '2025-09-25 13:07:23', '2025-09-25 13:07:23', 41, 0),
+(13, 'Keluar', 11, 'Grup 1', -150000, 18, 'Dana Operasional Proses Pembelajaran', 'Pembelian ATK', '20/J90/RR2', 'Bank', '2025-09-26 20:19:00', '2025-09-26 20:20:16', '2025-09-26 20:20:16', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1095,7 +1098,9 @@ INSERT INTO `log_login` (`id`, `id_user`, `id_role`, `nama_user`, `username`, `i
 (740, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-26 13:44:50', '2025-09-26 13:44:50'),
 (741, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-26 13:45:44', '2025-09-26 13:45:44'),
 (742, 32, 4, 'Armin Fani', '1112098702', '::1', 'Success', '2025-09-26 13:46:03', '2025-09-26 13:46:03'),
-(743, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-26 16:14:50', '2025-09-26 16:14:50');
+(743, 1, 1, 'Superadmin', 'superadmin', '::1', 'Success', '2025-09-26 16:14:50', '2025-09-26 16:14:50'),
+(744, 37, 16, 'Muhammad Juanda', '63710104108310004', '::1', 'Success', '2025-09-26 21:12:58', '2025-09-26 21:12:58'),
+(745, 46, 4, 'Abdul Aziz', '1110079002', '::1', 'Success', '2025-09-26 21:13:22', '2025-09-26 21:13:22');
 
 -- --------------------------------------------------------
 
@@ -1183,14 +1188,14 @@ INSERT INTO `master_dana` (`id`, `jenis`, `id_kategori_dana`, `nama_kategori_dan
 (16, 'Masuk', 5, 'Dana Penelitian dan PKM', 'Dana Penelitian', '2025-08-30 06:02:30', '2025-08-30 05:52:58', 0, 0),
 (17, 'Masuk', 5, 'Dana Penelitian dan PKM', 'Dana PKM', '2025-08-30 06:02:34', '2025-08-30 05:53:10', 0, 0),
 (18, 'Keluar', 11, 'Grup 1', 'Dana Operasional Proses Pembelajaran', '2025-08-30 06:02:38', '2025-08-30 05:56:47', 0, 0),
-(19, 'Keluar', 11, 'Grup 1', 'Dana Penelitian', '2025-08-30 06:05:29', '2025-08-30 06:05:29', 3, 0),
-(20, 'Keluar', 11, 'Grup 1', 'Dana Pengabdian Kepada Masyarakat', '2025-08-30 06:05:56', '2025-08-30 06:05:56', 3, 0),
-(21, 'Keluar', 11, 'Grup 1', 'Investasi Prasarana', '2025-08-30 06:06:05', '2025-08-30 06:06:05', 3, 0),
-(22, 'Keluar', 11, 'Grup 1', 'Investasi Sarana', '2025-08-30 06:06:17', '2025-08-30 06:06:17', 3, 0),
-(23, 'Keluar', 11, 'Grup 1', 'Investasi SDM', '2025-08-30 06:06:26', '2025-08-30 06:06:26', 3, 0),
-(24, 'Keluar', 11, 'Grup 1', 'Lain-lain', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 3, 0),
-(25, 'Keluar', 12, 'Grup 2', 'Dana Penelitian', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 3, 0),
-(26, 'Keluar', 12, 'Grup 2', 'Dana PKM', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 3, 0);
+(19, 'Keluar', 11, 'Grup 1', 'Dana Penelitian', '2025-08-30 06:05:29', '2025-08-30 06:05:29', 0, 0),
+(20, 'Keluar', 11, 'Grup 1', 'Dana Pengabdian Kepada Masyarakat', '2025-08-30 06:05:56', '2025-08-30 06:05:56', 0, 0),
+(21, 'Keluar', 11, 'Grup 1', 'Investasi Prasarana', '2025-08-30 06:06:05', '2025-08-30 06:06:05', 0, 0),
+(22, 'Keluar', 11, 'Grup 1', 'Investasi Sarana', '2025-08-30 06:06:17', '2025-08-30 06:06:17', 0, 0),
+(23, 'Keluar', 11, 'Grup 1', 'Investasi SDM', '2025-08-30 06:06:26', '2025-08-30 06:06:26', 0, 0),
+(24, 'Keluar', 11, 'Grup 1', 'Lain-lain', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 0, 0),
+(25, 'Keluar', 12, 'Grup 2', 'Dana Penelitian', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 0, 0),
+(26, 'Keluar', 12, 'Grup 2', 'Dana PKM', '2025-08-30 06:06:37', '2025-08-30 06:06:37', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2148,13 +2153,13 @@ INSERT INTO `users` (`id`, `id_role`, `nama_role`, `slug_role`, `multi_role`, `i
 (34, 4, 'Dosen', 'dosen', '{\"3\":{\"nama_role\":\"Waka Akademik\",\"slug_role\":\"waka-akademik\"}}', 4, 'Dosen', 'dosen', 'Vebrianti Umar, M.Pd', '1108029104', 'umar@humasoftstudio.com', '$2y$10$zETDeNwp0czQDkmZPny2wO/6MHTD9UWrveQQDE63H4eqcgZqVkOm6', '1108029104', '', 'Perempuan', 'Jl. Subur Makmur 2, Landasan Ulin', '0895803196062', 'Asisten Ahli', 'Wakil Ketua Bidang Akademik', 'Niatkan untuk bekerja dengan penuh tanggung jawab, harus punya target dan harus selesai tepat waktu.', '1108029104', 'Bitung', '1991-02-08', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 12:59:56', '2025-09-26 08:58:39'),
 (35, 4, 'Dosen', 'dosen', '{\"9\":{\"nama_role\":\"Waka Kemahasiswaan dan Kerja Sama\",\"slug_role\":\"waka-kemahasiswaan-kerjasama\"},\"17\":{\"nama_role\":\"Admin Utama\",\"slug_role\":\"admin-utama\"}}', 9, 'Waka Kemahasiswaan dan Kerja Sama', 'waka-kemahasiswaan-kerjasama', 'Yuliana Nurhayati, M.Pd.', '1109079302', 'ana@stkipismbjm.ac.id', '$2y$10$yh5KJUWVvGC38EjXI6c02eKgBwid8nLD3z/mWFckPOy9uh7C3AQxO', '1109079302', '', 'Perempuan', 'Jl.Dharma Bakti 2 Komplek budair permai Blok B /66', '081258026807', 'Belum Ada', 'Wakil Ketua Bidang Kerjasama dan Kemahasiswaan', '\" Jika Lelah Menjalani Profesimu Maka Istirahatlah Sejenak dan Lanjutkan dengan Ide Barumu\"', '1109079302', 'Ponorogo', '1993-07-09', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-01 13:20:13', '2025-09-24 13:19:32'),
 (36, 17, 'Admin Utama', 'admin-utama', '', 0, '', '', 'Admin Utama', 'adminutama', '', '$2y$10$9DYUNHjLRKoy6MxfnjapUOPDG3KZa3QfBcoY2gE4N0Vws4fMWI6H6', '', '', 'Laki-laki', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-02 14:10:27', '2025-09-02 14:10:27'),
-(37, 16, 'Tendik', 'tendik', '{\"12\":{\"nama_role\":\"Staf Administrasi\",\"slug_role\":\"staf-administrasi\"},\"13\":{\"nama_role\":\"Pustakawan\",\"slug_role\":\"pustakawan\"}}', 12, 'Staf Administrasi', 'staf-administrasi', 'Muhammad Juanda', '63710104108310004', 'juandapustaka@gmail.com', '$2y$10$XQpOqiGVHpBZ5aTg03HDcO03J7Ckus4EWo9LGH7Y91OyPSkZaup7q', '63710104108310004', '1758023507_9927ba31262032ce898a.jpg', 'Laki-laki', 'Jl. Gerilya Komp.Bumi Handayani 2', '08194101983', 'Pustakawan', 'Kepala Perpustakaan', 'Semangat, kerja keras dan kebersamaan', '63710104108310004', 'HSS', '1983-10-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-03 14:05:04', '2025-09-24 11:25:17'),
+(37, 16, 'Tendik', 'tendik', '{\"13\":{\"nama_role\":\"Pustakawan\",\"slug_role\":\"pustakawan\"}}', 13, 'Pustakawan', 'pustakawan', 'Muhammad Juanda', '63710104108310004', 'juandapustaka@gmail.com', '$2y$10$XQpOqiGVHpBZ5aTg03HDcO03J7Ckus4EWo9LGH7Y91OyPSkZaup7q', '63710104108310004', '', 'Laki-laki', 'Jl. Gerilya Komp.Bumi Handayani 2', '08194101983', 'Pustakawan', 'Kepala Perpustakaan', 'Semangat, kerja keras dan kebersamaan', '63710104108310004', 'HSS', '1983-10-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-03 14:05:04', '2025-09-26 21:13:59'),
 (39, 16, 'Tendik', 'tendik', '', 0, '', '', 'Nurul Fitriyani, SE., MA.', '6371056409780006', 'nurulfitriyani241979@gmail.com', '$2y$10$lf5VWBi7vrjQ0/urDDZo0uie0DvgusUAgaudJt9Rtge6zfyFW9I4u', '6371056409780006', '1758025571_b6d6dbcaa485a111eb7f.jpg', 'Perempuan', 'Jl. Kacapiring II No.26 Rt.002 Rw.001 Kel. Kertak Baru Ilir Kec. Banjarmasin Tengah Banjarmasin 70111', '081251805567', '-', 'Kepala Administrasi Akademik dan Kemahasiswaan', 'Bekerja optimal, tampilkan sis yang terbaik dari diri', '6371056409780006', 'Bandung', '1978-09-24', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 12:58:24', '2025-09-16 19:26:11'),
 (40, 4, 'Dosen', 'dosen', '', 0, '', '', 'Muhammad Agus Safrian Nur', '0158768669130093', 'agus@stkipismbjm.ac.id', '$2y$10$w9KShDVMZd7uvN8eJG81OOIVgqIS9ZD/afLWm5YwX5IMah5McMdHC', '00000000', '1757903155_5888b0e0e7b289cd1c57.jpg', 'Laki-laki', 'Jalan Veteran Km. 5.5 Gang Mujahidin No. 74 Rt. 024, Kelurahan Sungai Lulut, Kecamatan Banjarmasin Timur.', '085390556813', '-', '-', '\" Fokus pada tujuan, capai kesuksesan \"', '0158768669130093', 'Banjarmasin', '1990-08-26', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 3, 'S1', 'Pendidikan Guru Pendidikan Anak Usia Dini', 'PG-PAUD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 13:57:57', '2025-09-15 09:25:55'),
 (41, 16, 'Tendik', 'tendik', '{\"2\":{\"nama_role\":\"Keuangan\",\"slug_role\":\"keuangan\"},\"18\":{\"nama_role\":\"Waka Administrasi dan Keuangan\",\"slug_role\":\"waka-administrasi-keuangan\"}}', 2, 'Keuangan', 'keuangan', 'Halima Chairia', '6371015011800013', 'halimachairia7@gmail.com', '$2y$10$qfxU9i2p65274dH4ihbz6.Ff2aoms2t8xhW7hXr30.dx4IL3tkfci', '6371015011800013', '', 'Perempuan', 'Komplek Banjar Indah Permai jl. Sintuk II No. 183 RT. 13 Banjarmasin', '085251626793', '', 'Kabag. Administrasi Umum dan Keuangan', 'Sesulit apa pun pekerjaanmu pasti ada penyelesaiannya', '6371015011800013', 'Banjarmasin', '1980-11-10', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 14:31:38', '2025-09-25 12:39:51'),
 (42, 17, 'Admin Utama', 'admin-utama', '', 0, '', '', 'Admin 2', 'adminvisioner', '', '$2y$10$/fsqlu/uCBgrdC9PuB4jlu5QbvShxNG1A7LpvvH0I6OdipVPkZSB.', 'senyumdulu', '', 'Perempuan', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 17:03:42', '2025-09-11 19:22:24'),
 (43, 4, 'Dosen', 'dosen', '', 0, '', '', 'Tati Akhbaryah, S.S., S.Pd., M.Pd.', '0', 'tatiahatta27@gmail.com', '$2y$10$vfM0PjUE9UFhyzXdcenqaOj/ccPHOR19oH776YF9Ukl9Ro3yZ5r3a', 'tatia2711', '', 'Perempuan', 'Kompleks Pembanginan I jl. Sebatung no 10 Banjarmasin', '081347693805', 'Dosen', '-', 'Diam, Amati, Kerjakan', '0', 'Jakarta', '1968-11-27', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2, 'S1', 'Pendidikan Guru Sekolah Dasar', 'PGSD', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-04 18:41:51', '2025-09-04 18:41:51'),
-(46, 4, 'Dosen', 'dosen', '', 4, 'Dosen', 'dosen', 'Abdul Aziz', '1110079002', 'aziz@stkipismbjm.ac.id', '$2y$10$jPB/8.a.qfFePjOayeNWiuxARGWUie12iVLG/34GsHjAtf5eBaZd.', '1110079002', '1757902115_b01898028ec94e9e6376.jpg', 'Laki-laki', 'Jalan AMD, Komplek Ar Raudah, no 44', '082250582011', 'tidak ada', 'tidak ada', 'Berani berimajinasi, berani berdedikasi', '1110079002', 'Sungai Pinang', '1990-09-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 12:04:50', '2025-09-26 13:41:02'),
+(46, 4, 'Dosen', 'dosen', '', 4, 'Dosen', 'dosen', 'Abdul Aziz', '1110079002', 'aziz@stkipismbjm.ac.id', '$2y$10$jPB/8.a.qfFePjOayeNWiuxARGWUie12iVLG/34GsHjAtf5eBaZd.', '1110079002', '1757902115_b01898028ec94e9e6376.jpg', 'Laki-laki', 'Jalan AMD, Komplek Ar Raudah, no 44', '082250582011', 'tidak ada', 'tidak ada', 'Berani berimajinasi, berani berdedikasi', '1110079002', 'Sungai Pinang', '1990-09-12', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 12:04:50', '2025-09-26 21:13:22'),
 (48, 4, 'Dosen', 'dosen', '', 0, '', '', 'Norhayati K', '1234', 'norhayati.dr25@gmail.com', '$2y$10$HY5oabGAUDeLW/FGgDs7JuH0Eotqq33QDjQmuGwTp9pjsBqwImgci', 'Lulusberkah25', '', 'Perempuan', 'Komplek Citra Persada Asri, Lestari 1 no 32 Sungai besar, Banjarbaru', '082154244276', '-', '-', 'Tetapkan tenang, senang dan sukses', '1234', 'Tumpung Laung', '1993-12-25', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'S1', 'Pendidikan Bahasa Inggris', 'PBI', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 14:21:58', '2025-09-20 20:52:22'),
 (49, 16, 'Tendik', 'tendik', '{\"21\":{\"nama_role\":\"Operator IT\",\"slug_role\":\"operator-it\"}}', 21, 'Operator IT', 'operator-it', 'Noor Ermiliyawati Nazemi., Amd.Kom.', '6371044111040002', 'nazemi6879@gmail.com', '$2y$10$pCidU2H51dMscv6ie7TOhu26g04DGs2ykvRfh1ZW/iZIdgRa.I0T2', 'Mili789?', '', 'Perempuan', 'Jl. Malkon temon Komp. Buana permai Rt. 10 Kota Banjarmasin, kalimantan selatan', '081250134883', '-', 'Operator IT', 'Bekerja adalah energi harapan dan musuh kegagalan', '6371044111040002', 'Banjarmasin', '2004-11-01', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-12 14:27:59', '2025-09-24 13:02:58'),
 (50, 16, 'Tendik', 'tendik', '', 0, '', '', 'Nurul Fitriyani, SE., MA.', 'Dyandra 1503', 'noufysabilal@yahoo.co.id', '$2y$10$wSZVj0nc6osDl5yiEcfVQumDwctzCw541OEGEff79bESRz34zv5hW', 'Dyandra1503', '', 'Perempuan', 'Jl KACAPIRING 2 NO.26 RT.002 RW.001 KEL. KERTAK BARU ILIR KEC.BANJARMASIN TENGAH BANJARMASIN 70111', '081251805567', '-', 'Kepala Administrasi Akademik dan Kemahasiswaan', 'Bekerja Optimal, lakukan yang terbaik', 'Dyandra 1503', 'Bandung', '1978-09-24', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', 0, '', '', 0, '', '', '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', NULL, NULL, NULL, NULL, 'ENABLE', '2025-09-15 14:58:30', '2025-09-15 14:58:30');
@@ -2477,7 +2482,7 @@ ALTER TABLE `kategori_penyusutan_inventaris`
 -- AUTO_INCREMENT for table `keuangan`
 --
 ALTER TABLE `keuangan`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `laporan_pertanggungjawaban`
@@ -2507,7 +2512,7 @@ ALTER TABLE `log_keuangan`
 -- AUTO_INCREMENT for table `log_login`
 --
 ALTER TABLE `log_login`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=744;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=746;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa_praktik_lapangan`

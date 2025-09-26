@@ -1,5 +1,8 @@
 <?php
-$is_access = true;
+$is_access = false;
+if (in_array(userSession('id_role'), [1, 17]) || in_array(userSession('id_role_aktif'), [13])) {
+    $is_access = true;
+}
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -46,9 +49,6 @@ $is_access = true;
                                                 <div class="mb-3">
                                                     <label for="dokumen" class="form-label">Dokumen</label>
                                                     <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                                                    <div class="form-text">
-                                                        Maksimal 1 mb, pdf
-                                                    </div>
                                                     <div class="invalid-feedback" id="invalid_dokumen"></div>
                                                 </div>
                                             </div>
@@ -160,9 +160,6 @@ function renderOpsi(data) {
                         <div class="mb-3">
                             <label for="dokumen" class="form-label">Dokumen</label>
                             <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                            <div class="form-text">
-                                Maksimal 1 mb, pdf
-                            </div>
                             <div class="invalid-feedback" id="invalid_dokumen"></div>
                         </div>
                     </div>

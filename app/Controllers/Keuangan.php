@@ -158,15 +158,37 @@ class Keuangan extends BaseController
         $data       = $base_query->findAll($limit, $offset);
 
         $total_nominal = 0;
+        $kas_masuk = 0;
+        $kas_keluar = 0;
+        $bank_masuk = 0;
+        $bank_keluar = 0;
         $created_by = model('Users')->select(['id', 'nama'])->findAll();
         $created_by_by_id = array_column($created_by, 'nama', 'id');
         foreach ($data as $key => $v) {
             $total_nominal += $v['nominal'];
+
+            if ($v['jenis'] == 'Masuk' && $v['jenis_saldo'] == 'Kas') {
+                $kas_masuk += $v['nominal'];
+            }
+            if ($v['jenis'] == 'Keluar' && $v['jenis_saldo'] == 'Kas') {
+                $kas_keluar += $v['nominal'];
+            }
+
+            if ($v['jenis'] == 'Masuk' && $v['jenis_saldo'] == 'Bank') {
+                $bank_masuk += $v['nominal'];
+            }
+            if ($v['jenis'] == 'Keluar' && $v['jenis_saldo'] == 'Bank') {
+                $bank_keluar += $v['nominal'];
+            }
+
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['nominal'] = formatRupiah($v['nominal']);
             $data[$key]['tanggal'] = date('d-m-Y H:i', strtotime(toUserTime($v['tanggal'])));
             $data[$key]['created_by'] = $created_by_by_id[$v['created_by']] ?? '-';
         }
+
+        $saldo_kas = $kas_masuk - $kas_keluar;
+        $saldo_bank = $bank_masuk - $bank_keluar;
 
         return $this->response->setStatusCode(200)->setJSON([
             'recordsTotal'    => $records_total,
@@ -178,6 +200,8 @@ class Keuangan extends BaseController
             'sumber_dana'     => $sumber_dana ? ($sumber_dana['jenis'] . ' - ' . $sumber_dana['nama']) : '',
             'pencarian'       => $search,
             'total_nominal'   => formatRupiah($total_nominal),
+            'saldo_kas'   => formatRupiah($saldo_kas),
+            'saldo_bank'   => formatRupiah($saldo_bank),
         ]);
     }
 
@@ -187,7 +211,7 @@ class Keuangan extends BaseController
             'jenis'       => 'required',
             'sumber_dana' => 'required',
             'nominal'     => 'required',
-            'catatan'     => 'max_length[255]',
+            'jenis_saldo'  => 'required',
             'tanggal'     => 'required',
         ];
         if (! $this->validate($rules)) {
@@ -217,6 +241,8 @@ class Keuangan extends BaseController
             'id_sumber_dana'   => $sumber_dana['id'],
             'nama_sumber_dana' => $sumber_dana['nama'],
             'catatan'          => $this->request->getVar('catatan'),
+            'nomor_bukti'     => $this->request->getVar('nomor_bukti'),
+            'jenis_saldo'     => $this->request->getVar('jenis_saldo'),
             'tanggal'          => $this->request->getVar('tanggal'),
             'created_by'      => userSession('id'),
         ];
@@ -236,7 +262,7 @@ class Keuangan extends BaseController
 
         $rules = [
             'nominal'     => 'required',
-            'catatan'     => 'required|max_length[255]',
+            'jenis_saldo'  => 'required',
             'tanggal'     => 'required',
         ];
         if (! $this->validate($rules)) {
@@ -272,6 +298,8 @@ class Keuangan extends BaseController
         $data = [
             'nominal'    => $nominal,
             'catatan'    => $this->request->getVar('catatan'),
+            'nomor_bukti'   => $this->request->getVar('nomor_bukti'),
+            'jenis_saldo'   => $this->request->getVar('jenis_saldo'),
             'tanggal'    => $this->request->getVar('tanggal'),
             'updated_by' => userSession('id'),
         ];
@@ -618,13 +646,15 @@ class Keuangan extends BaseController
         $sumber_dana = $response['sumber_dana'];
         $laporan_keuangan = $response['data'];
         $total_nominal = $response['total_nominal'];
+        $saldo_kas = $response['saldo_kas'];
+        $saldo_bank = $response['saldo_bank'];
 
         // Filtrasi
         $sheet->setCellValue('A1', 'Filtrasi');
         $sheet->setCellValue('A2', 'Tanggal Awal');
         $sheet->setCellValue('A3', 'Tanggal AKhir');
         $sheet->setCellValue('A4', 'Jenis');
-        $sheet->setCellValue('A5', 'Sumber Dana');
+        $sheet->setCellValue('A5', 'Dana');
         $sheet->setCellValue('A6', 'Pencarian');
         $sheet->getStyle('A1')->getFont()->setBold(true);
 
@@ -645,9 +675,11 @@ class Keuangan extends BaseController
         $header_row = 8;
         $sheet->setCellValue('A' . $header_row, 'No.');
         $sheet->setCellValue('B' . $header_row, 'Nominal');
-        $sheet->setCellValue('C' . $header_row, 'Sumber Dana');
+        $sheet->setCellValue('C' . $header_row, 'Dana');
         $sheet->setCellValue('D' . $header_row, 'Catatan');
-        $sheet->setCellValue('E' . $header_row, 'Tanggal');
+        $sheet->setCellValue('E' . $header_row, 'Nomor Bukti');
+        $sheet->setCellValue('F' . $header_row, 'Jenis Saldo');
+        $sheet->setCellValue('G' . $header_row, 'Tanggal');
         $sheet->getStyle("A$header_row:{$sheet->getHighestColumn()}$header_row")->getFont()->setBold(true);
 
         $sheet->getStyle('A' . $header_row)->getAlignment()->setHorizontal('center');
@@ -660,7 +692,9 @@ class Keuangan extends BaseController
             $sheet->setCellValue('B' . $data_row, $v['nominal']);
             $sheet->setCellValue('C' . $data_row, $v['nama_kategori_dana'] . ' - ' . $v['nama_sumber_dana']);
             $sheet->setCellValue('D' . $data_row, $v['catatan']);
-            $sheet->setCellValue('E' . $data_row, $v['tanggal']);
+            $sheet->setCellValue('E' . $data_row, $v['nomor_bukti']);
+            $sheet->setCellValue('F' . $data_row, $v['jenis_saldo']);
+            $sheet->setCellValue('G' . $data_row, $v['tanggal']);
 
             $sheet->getStyle('A' . $data_row)->getAlignment()->setHorizontal('center');
             if ($v['jenis'] == 'Masuk') {
@@ -673,6 +707,20 @@ class Keuangan extends BaseController
         $total_row = count($laporan_keuangan) + $first_row_data;
         $sheet->setCellValue('A' . $total_row, 'Total');
         $sheet->setCellValue('B' . $total_row, $total_nominal);
+
+        $sheet->getStyle('A' . $total_row)->getAlignment()->setHorizontal('center');
+        $sheet->getStyle("A$total_row:{$sheet->getHighestColumn()}$total_row")->getFont()->setBold(true);
+
+        $total_row = $total_row + 2;
+        $sheet->setCellValue('A' . $total_row, 'Saldo Kas');
+        $sheet->setCellValue('B' . $total_row, $saldo_kas);
+
+        $sheet->getStyle('A' . $total_row)->getAlignment()->setHorizontal('center');
+        $sheet->getStyle("A$total_row:{$sheet->getHighestColumn()}$total_row")->getFont()->setBold(true);
+
+        $total_row = $total_row + 1;
+        $sheet->setCellValue('A' . $total_row, 'Saldo Bank');
+        $sheet->setCellValue('B' . $total_row, $saldo_bank);
 
         $sheet->getStyle('A' . $total_row)->getAlignment()->setHorizontal('center');
         $sheet->getStyle("A$total_row:{$sheet->getHighestColumn()}$total_row")->getFont()->setBold(true);

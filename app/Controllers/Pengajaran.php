@@ -142,7 +142,7 @@ class Pengajaran extends BaseController
             'jam_selesai'  => 'required',
             'ruangan'  => 'required',
             'tautan' => 'permit_empty|valid_url_strict',
-            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'dokumen' => 'permit_empty|max_size[dokumen,10240]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());
@@ -208,7 +208,7 @@ class Pengajaran extends BaseController
             'jam_selesai'  => 'required',
             'ruangan'  => 'required',
             'tautan' => 'permit_empty|valid_url_strict',
-            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'dokumen' => 'permit_empty|max_size[dokumen,10240]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());

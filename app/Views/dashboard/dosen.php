@@ -117,26 +117,33 @@ table tr td { padding: 6px; }
 <?php
 if (in_array(userSession('id_role_aktif'), [2, 17, 18])) :
 
-$kas_bulan_ini = model('Keuangan')
+$kas_masuk = model('Keuangan')
     ->selectSum('nominal')
-    ->where("DATE_FORMAT(tanggal, '%Y-%m')", date('Y-m'))
-    ->first()['nominal'];
-
-$pemasukan_bulan_ini = model('Keuangan')
-    ->selectSum('nominal')
-    ->where("DATE_FORMAT(tanggal, '%Y-%m')", date('Y-m'))
     ->where('jenis', 'Masuk')
+    ->where('jenis_saldo', 'Kas')
     ->first()['nominal'];
 
-$pengeluaran_bulan_ini = model('Keuangan')
+$kas_keluar = model('Keuangan')
     ->selectSum('nominal')
-    ->where("DATE_FORMAT(tanggal, '%Y-%m')", date('Y-m'))
     ->where('jenis', 'Keluar')
+    ->where('jenis_saldo', 'Kas')
     ->first()['nominal'];
 
-$total_kas = model('Keuangan')
+$saldo_kas = $kas_masuk - $kas_keluar;
+
+$bank_masuk = model('Keuangan')
     ->selectSum('nominal')
+    ->where('jenis', 'Masuk')
+    ->where('jenis_saldo', 'Bank')
     ->first()['nominal'];
+
+$bank_keluar = model('Keuangan')
+    ->selectSum('nominal')
+    ->where('jenis', 'Keluar')
+    ->where('jenis_saldo', 'Bank')
+    ->first()['nominal'];
+
+$saldo_bank = $bank_masuk - $bank_keluar;
 ?>
 
 <script src="<?= base_url() ?>assets/js/chart.js"></script>
@@ -147,43 +154,21 @@ $total_kas = model('Keuangan')
             <div class="card flex-fill mb-0">
                 <div class="card-body text-center" style="border-bottom:4px solid rgba(75, 192, 192, 1); border-radius:var(--border-radius)">
                     <p class="fw-500 d-block mb-2">
-                        <i class="fa-solid fa-arrow-down me-1"></i>
-                        Pemasukan Bulan Ini
+                        <i class="fa-solid fa-wallet me-1"></i>
+                        Saldo Kas
                     </p>
-                    <h4 class="mb-0"><?= formatRupiah($pemasukan_bulan_ini) ?></h4>
+                    <h4 class="mb-0"><?= formatRupiah($saldo_kas) ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-12 col-sm-6 col-lg-4 col-xxl-3 d-flex">
             <div class="card flex-fill mb-0">
-                <div class="card-body text-center" style="border-bottom:4px solid rgba(255, 99, 132, 1); border-radius:var(--border-radius)">
-                    <p class="fw-500 d-block mb-2">
-                        <i class="fa-solid fa-arrow-up me-1"></i>
-                        Pengeluaran Bulan Ini
-                    </p>
-                    <h4 class="mb-0"><?= formatRupiah($pengeluaran_bulan_ini) ?></h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-4 col-xxl-3 d-flex">
-            <div class="card flex-fill mb-0">
-                <div class="card-body text-center" style="border-bottom:4px solid rgba(54, 162, 235, 1); border-radius:var(--border-radius)">
+                <div class="card-body text-center" style="border-bottom:4px solid rgba(75, 192, 192, 1); border-radius:var(--border-radius)">
                     <p class="fw-500 d-block mb-2">
                         <i class="fa-solid fa-wallet me-1"></i>
-                        Sisa Uang Bulan Ini
+                        Saldo Bank
                     </p>
-                    <h4 class="mb-0"><?= formatRupiah($kas_bulan_ini) ?></h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-4 col-xxl-3 d-flex">
-            <div class="card flex-fill mb-0">
-                <div class="card-body text-center" style="border-bottom:4px solid rgba(255, 205, 86, 1); border-radius:var(--border-radius)">
-                    <p class="fw-500 d-block mb-2">
-                        <i class="fa-solid fa-wallet me-1"></i>
-                        Total Kas
-                    </p>
-                    <h4 class="mb-0"><?= formatRupiah($total_kas) ?></h4>
+                    <h4 class="mb-0"><?= formatRupiah($saldo_bank) ?></h4>
                 </div>
             </div>
         </div>

@@ -28,6 +28,25 @@
                             <div class="invalid-feedback" id="invalid_catatan"></div>
                         </div>
                         <div class="mb-3">
+                            <label for="nomor_bukti" class="form-label">Nomor Bukti</label>
+                            <input type="text" class="form-control" id="nomor_bukti" name="nomor_bukti" value="<?= $data['nomor_bukti'] ?>" placeholder="Masukkan nomor bukti">
+                            <div class="invalid-feedback" id="invalid_nomor_bukti"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jenis_saldo" class="form-label">Jenis Saldo</label>
+                            <select class="form-select" id="jenis_saldo" name="jenis_saldo">
+                                <option value="">Pilih</option>
+                                <?php
+                                $jenis_saldo = ['Kas', 'Bank'];
+                                foreach ($jenis_saldo as $v) :
+                                    $selected = ($v == $data['jenis_saldo']) ? 'selected' : '';
+                                ?>
+                                <option value="<?= $v ?>" <?= $selected ?>><?= $v ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="invalid-feedback" id="invalid_jenis_saldo"></div>
+                        </div>
+                        <div class="mb-3">
                             <label for="tanggal" class="form-label">Tanggal</label>
                             <input type="datetime-local" class="form-control" id="tanggal" name="tanggal" value="<?= $data['tanggal'] ?? date('Y-m-d H:i') ?>">
                             <div class="invalid-feedback" id="invalid_tanggal"></div>

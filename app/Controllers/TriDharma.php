@@ -155,7 +155,7 @@ class TriDharma extends BaseController
             'judul'  => 'required',
             'tautan' => 'permit_empty|valid_url_strict',
             'tautan_gdrive' => 'permit_empty|valid_url_strict',
-            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'dokumen' => 'permit_empty|max_size[dokumen,10240]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tanggal_publikasi'  => 'required',
         ];
         if (! $this->validate($rules)) {
@@ -251,7 +251,7 @@ class TriDharma extends BaseController
             
             'tautan' => 'permit_empty|valid_url_strict',
             'tautan_gdrive' => 'permit_empty|valid_url_strict',
-            'dokumen' => 'permit_empty|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'dokumen' => 'permit_empty|max_size[dokumen,10240]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
             'tanggal_publikasi'  => 'required',
         ];
         if (!$this->validate($rules)) {

@@ -78,7 +78,7 @@ class LaporanPromosi extends BaseController
         $rules = [
             'tempat'  => 'required',
             'menemui_siapa'  => 'required',
-            'dokumen' => 'uploaded[dokumen]|max_size[dokumen,1024]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
+            'dokumen' => 'uploaded[dokumen]|max_size[dokumen,10240]|ext_in[dokumen,pdf]|mime_in[dokumen,application/pdf]',
         ];
         if (! $this->validate($rules)) {
             $errors = array_map(fn($error) => str_replace('_', ' ', $error), $this->validator->getErrors());

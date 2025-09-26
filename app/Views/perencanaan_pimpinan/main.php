@@ -62,9 +62,6 @@ $is_access = true;
                                                 <div class="mb-3">
                                                     <label for="dokumen" class="form-label">Dokumen</label>
                                                     <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                                                    <div class="form-text">
-                                                        Maksimal 1 mb, pdf
-                                                    </div>
                                                     <div class="invalid-feedback" id="invalid_dokumen"></div>
                                                 </div>
                                             </div>
@@ -189,9 +186,6 @@ function renderOpsi(data) {
                         <div class="mb-3">
                             <label for="dokumen" class="form-label">Dokumen</label>
                             <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                            <div class="form-text">
-                                Maksimal 1 mb, pdf
-                            </div>
                             <div class="invalid-feedback" id="invalid_dokumen"></div>
                         </div>
                     </div>

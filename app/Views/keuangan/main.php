@@ -4,6 +4,38 @@ $get_tanggal_akhir = $_GET['tanggal_akhir'] ?? '';
 $get_jenis = $_GET['jenis'] ?? '';
 $get_id_sumber_dana = $_GET['id_sumber_dana'] ?? '';
 $get_search = $_GET['search'] ?? '';
+
+$kas_masuk = model('Keuangan')->selectSum('nominal');
+$kas_masuk->where('jenis', 'Masuk');
+$kas_masuk->where('jenis_saldo', 'Kas');
+if ($get_tanggal_awal) $kas_masuk->where('DATE(tanggal) >=', $get_tanggal_awal);
+if ($get_tanggal_akhir) $kas_masuk->where('DATE(tanggal) <=', $get_tanggal_akhir);
+$kas_masuk = $kas_masuk->first()['nominal'];
+
+$kas_keluar = model('Keuangan')->selectSum('nominal');
+$kas_keluar->where('jenis', 'Keluar');
+$kas_keluar->where('jenis_saldo', 'Kas');
+if ($get_tanggal_awal) $kas_keluar->where('DATE(tanggal) >=', $get_tanggal_awal);
+if ($get_tanggal_akhir) $kas_keluar->where('DATE(tanggal) <=', $get_tanggal_akhir);
+$kas_keluar = $kas_keluar->first()['nominal'];
+
+$saldo_kas = $kas_masuk - $kas_keluar;
+
+$bank_masuk = model('Keuangan')->selectSum('nominal');
+$bank_masuk->where('jenis', 'Masuk');
+$bank_masuk->where('jenis_saldo', 'Bank');
+if ($get_tanggal_awal) $bank_masuk->where('DATE(tanggal) >=', $get_tanggal_awal);
+if ($get_tanggal_akhir) $bank_masuk->where('DATE(tanggal) <=', $get_tanggal_akhir);
+$bank_masuk = $bank_masuk->first()['nominal'];
+
+$bank_keluar = model('Keuangan')->selectSum('nominal');
+$bank_keluar->where('jenis', 'Keluar');
+$bank_keluar->where('jenis_saldo', 'Bank');
+if ($get_tanggal_awal) $bank_keluar->where('DATE(tanggal) >=', $get_tanggal_awal);
+if ($get_tanggal_akhir) $bank_keluar->where('DATE(tanggal) <=', $get_tanggal_akhir);
+$bank_keluar = $bank_keluar->first()['nominal'];
+
+$saldo_bank = $bank_masuk - $bank_keluar;
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -15,6 +47,30 @@ $get_search = $_GET['search'] ?? '';
     <div class="row">
         <div class="col-12">
             <h4 class="my-4"><?= isset($title) ? $title : '' ?></h4>
+        </div>
+    </div>
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-lg-4 col-xxl-3 d-flex">
+            <div class="card flex-fill mb-0">
+                <div class="card-body text-center" style="border-bottom:4px solid rgba(75, 192, 192, 1); border-radius:var(--border-radius)">
+                    <p class="fw-500 d-block mb-2">
+                        <i class="fa-solid fa-wallet me-1"></i>
+                        Saldo Kas
+                    </p>
+                    <h4 class="mb-0" id="saldo_kas"><?= formatRupiah($saldo_kas) ?></h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4 col-xxl-3 d-flex">
+            <div class="card flex-fill mb-0">
+                <div class="card-body text-center" style="border-bottom:4px solid rgba(75, 192, 192, 1); border-radius:var(--border-radius)">
+                    <p class="fw-500 d-block mb-2">
+                        <i class="fa-solid fa-wallet me-1"></i>
+                        Saldo Bank
+                    </p>
+                    <h4 class="mb-0" id="saldo_bank"><?= formatRupiah($saldo_bank) ?></h4>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -56,9 +112,9 @@ $get_search = $_GET['search'] ?? '';
                                     </select>
                                 </div>
                                 <div class="col-6 col-md-5 col-lg-4 col-xxl-3">
-                                    <label for="id_sumber_dana" class="form-label">Sumber Dana</label>
+                                    <label for="id_sumber_dana" class="form-label">Dana</label>
                                     <select class="form-select" id="id_sumber_dana" name="id_sumber_dana">
-                                        <option value="">Semua Sumber Dana</option>
+                                        <option value="">Semua Dana</option>
                                         <?php
                                         $sumber_dana = model('MasterDana')->find();
                                         foreach ($sumber_dana as $v) :
@@ -92,8 +148,10 @@ $get_search = $_GET['search'] ?? '';
                         <tr>
                             <th>No.</th>
                             <th>Nominal</th>
-                            <th>Sumber Dana</th>
+                            <th>Dana</th>
                             <th>Catatan</th>
+                            <th>Nomor Bukti</th>
+                            <th>Jenis Saldo</th>
                             <th>Tanggal</th>
                             <th>Created By</th>
                             <th>Opsi</th>
@@ -150,6 +208,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: 'catatan',
                 data: 'catatan',
             }, {
+                name: 'nomor_bukti',
+                data: 'nomor_bukti',
+            }, {
+                name: 'jenis_saldo',
+                data: 'jenis_saldo',
+            }, {
                 name: 'tanggal',
                 data: 'tanggal',
             }, {
@@ -184,12 +248,16 @@ function renderOpsi(data) {
 
 async function updateTfoot(url) {
     dom('#total_nominal').innerHTML = `<div class="spinner-border spinner-border-sm text-primary"></div>`;
+    dom('#saldo_kas').innerHTML = `<div class="spinner-border spinner-border-sm text-primary"></div>`;
+    dom('#saldo_bank').innerHTML = `<div class="spinner-border spinner-border-sm text-primary"></div>`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
 
         setTimeout(() => {
+            dom('#saldo_kas').innerHTML = data.saldo_kas;
+            dom('#saldo_bank').innerHTML = data.saldo_bank;
             dom('#total_nominal').innerHTML = data.total_nominal;
         }, 350);
     } catch (error) {

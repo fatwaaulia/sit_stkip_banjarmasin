@@ -66,9 +66,6 @@ if (in_array(userSession('id_role'), [1, 17]) || in_array(userSession('id_role_a
                                                 <div class="mb-3">
                                                     <label for="dokumen" class="form-label">Dokumen</label>
                                                     <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                                                    <div class="form-text">
-                                                        Maksimal 1 mb, pdf
-                                                    </div>
                                                     <div class="invalid-feedback" id="invalid_dokumen"></div>
                                                 </div>
                                             </div>
@@ -201,9 +198,6 @@ function renderOpsi(data) {
                         <div class="mb-3">
                             <label for="dokumen" class="form-label">Dokumen</label>
                             <input type="file" class="form-control" id="dokumen" name="dokumen" accept="application/pdf">
-                            <div class="form-text">
-                                Maksimal 1 mb, pdf
-                            </div>
                             <div class="invalid-feedback" id="invalid_dokumen"></div>
                         </div>
                     </div>
