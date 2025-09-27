@@ -128,6 +128,8 @@ function toUserTime($datetime, $format = '') {
         $date_format = $format;
     } elseif (strlen($datetime) == 19) {
         $date_format = 'Y-m-d H:i:s';
+    } elseif (strlen($datetime) == 16) {
+        $date_format = 'Y-m-d H:i';
     } elseif (strlen($datetime) == 10) {
         $date_format = 'Y-m-d';
     } elseif (strlen($datetime) == 8) {
@@ -148,6 +150,8 @@ function toSystemTime($datetime, $format = '') {
         $date_format = $format;
     } elseif (strlen($datetime) == 19) {
         $date_format = 'Y-m-d H:i:s';
+    } elseif (strlen($datetime) == 16) {
+        $date_format = 'Y-m-d H:i';
     } elseif (strlen($datetime) == 10) {
         $date_format = 'Y-m-d';
     } elseif (strlen($datetime) == 8) {

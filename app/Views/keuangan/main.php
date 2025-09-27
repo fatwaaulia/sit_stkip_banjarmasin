@@ -2,40 +2,9 @@
 $get_tanggal_awal = $_GET['tanggal_awal'] ?? '';
 $get_tanggal_akhir = $_GET['tanggal_akhir'] ?? '';
 $get_jenis = $_GET['jenis'] ?? '';
+$get_jenis_saldo = $_GET['jenis_saldo'] ?? '';
 $get_id_sumber_dana = $_GET['id_sumber_dana'] ?? '';
 $get_search = $_GET['search'] ?? '';
-
-$kas_masuk = model('Keuangan')->selectSum('nominal');
-$kas_masuk->where('jenis', 'Masuk');
-$kas_masuk->where('jenis_saldo', 'Kas');
-if ($get_tanggal_awal) $kas_masuk->where('DATE(tanggal) >=', $get_tanggal_awal);
-if ($get_tanggal_akhir) $kas_masuk->where('DATE(tanggal) <=', $get_tanggal_akhir);
-$kas_masuk = $kas_masuk->first()['nominal'];
-
-$kas_keluar = model('Keuangan')->selectSum('nominal');
-$kas_keluar->where('jenis', 'Keluar');
-$kas_keluar->where('jenis_saldo', 'Kas');
-if ($get_tanggal_awal) $kas_keluar->where('DATE(tanggal) >=', $get_tanggal_awal);
-if ($get_tanggal_akhir) $kas_keluar->where('DATE(tanggal) <=', $get_tanggal_akhir);
-$kas_keluar = $kas_keluar->first()['nominal'];
-
-$saldo_kas = $kas_masuk - $kas_keluar;
-
-$bank_masuk = model('Keuangan')->selectSum('nominal');
-$bank_masuk->where('jenis', 'Masuk');
-$bank_masuk->where('jenis_saldo', 'Bank');
-if ($get_tanggal_awal) $bank_masuk->where('DATE(tanggal) >=', $get_tanggal_awal);
-if ($get_tanggal_akhir) $bank_masuk->where('DATE(tanggal) <=', $get_tanggal_akhir);
-$bank_masuk = $bank_masuk->first()['nominal'];
-
-$bank_keluar = model('Keuangan')->selectSum('nominal');
-$bank_keluar->where('jenis', 'Keluar');
-$bank_keluar->where('jenis_saldo', 'Bank');
-if ($get_tanggal_awal) $bank_keluar->where('DATE(tanggal) >=', $get_tanggal_awal);
-if ($get_tanggal_akhir) $bank_keluar->where('DATE(tanggal) <=', $get_tanggal_akhir);
-$bank_keluar = $bank_keluar->first()['nominal'];
-
-$saldo_bank = $bank_masuk - $bank_keluar;
 ?>
 
 <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -57,7 +26,7 @@ $saldo_bank = $bank_masuk - $bank_keluar;
                         <i class="fa-solid fa-wallet me-1"></i>
                         Saldo Kas
                     </p>
-                    <h4 class="mb-0" id="saldo_kas"><?= formatRupiah($saldo_kas) ?></h4>
+                    <h4 class="mb-0" id="saldo_kas"><?= formatRupiah(0) ?></h4>
                 </div>
             </div>
         </div>
@@ -68,7 +37,18 @@ $saldo_bank = $bank_masuk - $bank_keluar;
                         <i class="fa-solid fa-wallet me-1"></i>
                         Saldo Bank
                     </p>
-                    <h4 class="mb-0" id="saldo_bank"><?= formatRupiah($saldo_bank) ?></h4>
+                    <h4 class="mb-0" id="saldo_bank"><?= formatRupiah(0) ?></h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4 col-xxl-3 d-flex">
+            <div class="card flex-fill mb-0">
+                <div class="card-body text-center" style="border-bottom:4px solid rgba(75, 192, 192, 1); border-radius:var(--border-radius)">
+                    <p class="fw-500 d-block mb-2">
+                        <i class="fa-solid fa-wallet me-1"></i>
+                        Total Saldo
+                    </p>
+                    <h4 class="mb-0" id="total_saldo"><?= formatRupiah(0) ?></h4>
                 </div>
             </div>
         </div>
@@ -112,6 +92,19 @@ $saldo_bank = $bank_masuk - $bank_keluar;
                                     </select>
                                 </div>
                                 <div class="col-6 col-md-5 col-lg-4 col-xxl-3">
+                                    <label for="jenis_saldo" class="form-label">Jenis Saldo</label>
+                                    <select class="form-select" id="jenis_saldo" name="jenis_saldo">
+                                        <option value="">Semua Jenis Saldo</option>
+                                        <?php
+                                        $jenis_saldo = ['Kas', 'Bank'];
+                                        foreach ($jenis_saldo as $v) :
+                                            $selected = ($get_jenis_saldo == $v) ? 'selected' : '';
+                                        ?>
+                                        <option value="<?= $v ?>" <?= $selected ?>><?= $v ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-md-5 col-lg-4 col-xxl-3">
                                     <label for="id_sumber_dana" class="form-label">Dana</label>
                                     <select class="form-select" id="id_sumber_dana" name="id_sumber_dana">
                                         <option value="">Semua Dana</option>
@@ -134,7 +127,7 @@ $saldo_bank = $bank_masuk - $bank_keluar;
                                         <span class="ms-1 d-md-none">Reset</span>
                                     </a>
                                 </div>
-                                <div class="col-12 col-md-12 col-lg-6 col-xxl-10 d-flex align-items-end">
+                                <div class="col-12 col-md-2 col-lg-2 col-xxl-2 d-flex align-items-end">
                                     <button class="btn btn-outline-success" id="btn_export_excel" onclick="unduhFile(this)">
                                         <i class="fa-solid fa-arrow-up fa-sm"></i> Export Excel
                                     </button>
@@ -147,23 +140,16 @@ $saldo_bank = $bank_masuk - $bank_keluar;
                     <thead class="bg-primary-subtle">
                         <tr>
                             <th>No.</th>
-                            <th>Nominal</th>
                             <th>Dana</th>
                             <th>Catatan</th>
                             <th>Nomor Bukti</th>
+                            <th>Nominal</th>
                             <th>Jenis Saldo</th>
                             <th>Tanggal</th>
                             <th>Created By</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <td class="fw-600">Total</td>
-                            <td id="total_nominal"></td>
-                            <td colspan="4"></td>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -199,17 +185,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }, {
                 name: '',
                 data: null,
-                render: data => `<span class="${data.jenis == 'Masuk' ? 'text-success' : 'text-danger'}">${data.nominal}</span>`,
-            }, {
-                name: '',
-                data: null,
-                render: data => `${data.nama_kategori_dana} - ${data.nama_sumber_dana}`,
+                render: data => `<div style="min-width: 200px;">${data.nama_kategori_dana} - ${data.nama_sumber_dana}</div>`,
+                className: 'text-wrap',
             }, {
                 name: 'catatan',
-                data: 'catatan',
+                data: null,
+                render: data => `<div style="min-width: 300px;">${data.catatan}</div>`,
+                className: 'text-wrap',
             }, {
                 name: 'nomor_bukti',
                 data: 'nomor_bukti',
+            }, {
+                name: '',
+                data: null,
+                render: data => `<span class="${data.jenis == 'Masuk' ? 'text-success' : 'text-danger'}">${data.nominal}</span>`,
             }, {
                 name: 'jenis_saldo',
                 data: 'jenis_saldo',
@@ -247,9 +236,9 @@ function renderOpsi(data) {
 }
 
 async function updateTfoot(url) {
-    dom('#total_nominal').innerHTML = `<div class="spinner-border spinner-border-sm text-primary"></div>`;
     dom('#saldo_kas').innerHTML = `<div class="spinner-border spinner-border-sm text-primary"></div>`;
     dom('#saldo_bank').innerHTML = `<div class="spinner-border spinner-border-sm text-primary"></div>`;
+    dom('#total_saldo').innerHTML = `<div class="spinner-border spinner-border-sm text-primary"></div>`;
 
     try {
         const response = await fetch(url);
@@ -258,7 +247,7 @@ async function updateTfoot(url) {
         setTimeout(() => {
             dom('#saldo_kas').innerHTML = data.saldo_kas;
             dom('#saldo_bank').innerHTML = data.saldo_bank;
-            dom('#total_nominal').innerHTML = data.total_nominal;
+            dom('#total_saldo').innerHTML = data.total_saldo;
         }, 350);
     } catch (error) {
         console.error('Error:', error);
