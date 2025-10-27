@@ -77,6 +77,9 @@ class Pertanyaan extends BaseController
     {
         $select          = ['*'];
         $base_query      = model($this->model_name)->select($select);
+        if (userSession('id_role') != 1) {
+            $base_query->where('created_at >', userSession('created_at'));
+        }
         $limit           = (int)$this->request->getVar('length');
         $offset          = (int)$this->request->getVar('start');
         $records_total   = $base_query->countAllResults(false);
@@ -107,8 +110,19 @@ class Pertanyaan extends BaseController
 
         foreach ($data as $key => $v) {
             $jumlah_responden = model('Responden')->where('id_pertanyaan', $v['id'])->countAllResults();
+            $responden = model('Responden')->where([
+                'id_pertanyaan' => $v['id'],
+                'id_user' => userSession('id'),
+            ])->first();
+            if ($responden) {
+                $status_responden = 'SELESAI';
+            } else {
+                $status_responden = 'BELUM MENGISI';
+            }
+
             $data[$key]['no_urut'] = $offset + $key + 1;
             $data[$key]['jumlah_responden'] = $jumlah_responden;
+            $data[$key]['status_responden'] = $status_responden;
             $data[$key]['created_at'] = date('d-m-Y H:i:s', strtotime(toUserTime($v['created_at'])));
         }
 

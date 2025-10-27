@@ -156,6 +156,8 @@ if (in_array($id_role, [1, 17, 4, 16])) {
 }
 
 if (in_array($id_role, [1, 17, 4, 16])) {
+    $routes->get('dosen/responden/new', 'Responden::new', ['filter' => 'EnsureLogin']);
+
     $routes->group("$slug_role/responden", ['filter' => 'EnsureLogin'], static function ($routes) {
         $routes->get('/', 'Responden::main');
         $routes->get('new', 'Responden::new');

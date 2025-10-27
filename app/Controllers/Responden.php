@@ -38,6 +38,26 @@ class Responden extends BaseController
     {
         $slug = $this->request->getVar('pertanyaan');
         $data_pertanyaan = model('Pertanyaan')->where('slug', $slug)->first();
+
+        $responden = model('Responden')->where([
+            'id_pertanyaan' => $data_pertanyaan['id'],
+            'id_user' => userSession('id'),
+        ])->first();
+        if ($responden) {
+            return redirect()
+            ->to(base_url(userSession('slug_role')) . '/pertanyaan')
+            ->with('message',
+            '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Anda sudah mengisi",
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+            });
+            </script>');
+        }
+
         $data = [
             'data' => $data_pertanyaan,
             'base_route' => $this->base_route,

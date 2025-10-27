@@ -28,7 +28,7 @@ $get_program_studi = $_GET['program_studi'] ?? '';
                             <th>No.</th>
                             <th>Foto</th>
                             <th>Nomor Identitas</th>
-                            <th>Nama Dosen</th>
+                            <th>Nama Tendik</th>
                             <th>Password Asli</th>
                             <th>Jabatan Fungsional</th>
                             <th>Jabatan Struktural</th>

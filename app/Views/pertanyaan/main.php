@@ -43,8 +43,10 @@ if (array_intersect(userSession('id_roles'), [1, 17])) {
                         <tr>
                             <th>No.</th>
                             <th>Judul</th>
+                            <?php if ($is_access) : ?>
                             <th>Responden</th>
-                            <th>Created At</th>
+                            <?php endif; ?>
+                            <th>Tanggal</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -78,12 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: 'no_urut',
             }, {
                 name: '',
-                data: 'judul',
-            }, {
+                data: null,
+                render: renderJudul,
+            }, <?php if ($is_access) : ?> {
                 name: '',
                 data: null,
                 render: data => `<a href="<?= base_url(userSession('slug_role')) ?>/responden?pertanyaan=${data.slug}">Lihat (${data.jumlah_responden})</a>`,
-            }, {
+            }, <?php endif; ?> {
                 name: '',
                 data: 'created_at',
             }, {
@@ -94,6 +97,12 @@ document.addEventListener('DOMContentLoaded', function() {
         ].map(col => ({ ...col, orderable: col.name !== '' })),
     });
 });
+
+function renderJudul(data) {
+    let html = `<a href="https://wa.me/?text=${data.judul}%0A<?= base_url() ?>dosen/responden/new?pertanyaan=${data.slug}" target="_blank">${data.judul}</a>`;
+
+    return html;
+}
 
 <?php if ($is_access) : ?>
 function renderOpsi(data) {
@@ -109,7 +118,10 @@ function renderOpsi(data) {
 }
 <?php else : ?>
 function renderOpsi(data) {
-    const html = `<a href="<?= base_url(userSession('slug_role')) ?>/responden/new?pertanyaan=${data.slug}">Jawab Sekarang</a>`;
+    let html = `<a href="<?= base_url(userSession('slug_role')) ?>/responden/new?pertanyaan=${data.slug}">Jawab Sekarang</a>`;
+    if (data.status_responden == 'SELESAI') {
+        html = `<span class="badge bg-success">Selesai</span>`;
+    }
 
     return html;
 }

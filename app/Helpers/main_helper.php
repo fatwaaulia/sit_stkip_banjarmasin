@@ -233,7 +233,7 @@ function menuSidebar()
 			'title'	=> 'Pertanyaan',
 			'icon'	=> 'fa-solid fa-question',
 			'url'	=> base_url(userSession('slug_role')) . '/pertanyaan',
-			'role'	=> [1, 17],
+			'role'	=> [1, 17, 4, 16],
 			'type'	=> 'no-collapse',
 		],
         [

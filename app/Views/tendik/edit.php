@@ -50,7 +50,7 @@
                             <div class="invalid-feedback" id="invalid_nomor_identitas"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="nama" class="form-label">Nama Dosen</label>
+                            <label for="nama" class="form-label">Nama Tendik</label>
                             <input type="text" class="form-control" id="nama" name="nama" value="<?= $data['nama'] ?>" placeholder="Masukkan nama dosen">
                             <div class="invalid-feedback" id="invalid_nama"></div>
                         </div>
