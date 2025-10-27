@@ -2,7 +2,7 @@
 $get_created_by = $_GET['created_by'] ?? '';
 
 $is_access = false;
-if (array_intersect(userSession('id_roles'), [1, 17])) {
+if (userSession('id_role') == 1 || userSession('id_role_aktif') == 17) {
     $is_access = true;
 }
 ?>
@@ -99,7 +99,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function renderJudul(data) {
-    let html = `<a href="https://wa.me/?text=${data.judul}%0A<?= base_url() ?>dosen/responden/new?pertanyaan=${data.slug}" target="_blank">${data.judul}</a>`;
+    let html;
+    <?php if ($is_access) : ?>
+    html = `<a href="https://wa.me/?text=${data.judul}%0A<?= base_url() ?>dosen/responden/new?pertanyaan=${data.slug}" target="_blank">${data.judul}</a>`;
+    <?php else : ?>
+    html = data.judul;
+    <?php endif ?>
 
     return html;
 }
